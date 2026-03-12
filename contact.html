@@ -6,34 +6,61 @@
 
 <style>
 
-body{font-family:Arial;margin:0;background:#f4f6fb;}
+body{
+font-family:Arial;
+margin:0;
+background:#f5f7fb;
+}
 
-header{background:#1a2a44;color:white;padding:20px;}
-
-nav{text-align:center;margin-top:10px;}
+header{
+background:#0f1f3d;
+color:white;
+padding:20px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
 nav a{
 color:white;
-margin:0 15px;
+margin-left:20px;
 text-decoration:none;
-font-weight:bold;
 }
 
 section{
 padding:80px;
 text-align:center;
+}
+
+form{
 background:white;
+padding:30px;
+max-width:400px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+background:#0f1f3d;
+color:white;
+padding:10px 20px;
+border:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <header>
 
-<h2>Hinoka Global</h2>
+<div>HINOKA GLOBAL</div>
 
 <nav>
 <a href="index.html">Home</a>
@@ -46,15 +73,19 @@ background:white;
 
 <section>
 
-<h1>Contact</h1>
+<h1>Contact Us</h1>
 
-<p>Email:</p>
+<form action="mailto:sun_hua@hinokaglobal.com" method="post">
 
-<p>
-<a href="mailto:sun_hua@hinokaglobal.com">
-sun_hua@hinokaglobal.com
-</a>
-</p>
+<input type="text" placeholder="Your Name" required>
+
+<input type="email" placeholder="Your Email" required>
+
+<textarea placeholder="Your Inquiry"></textarea>
+
+<button type="submit">Send</button>
+
+</form>
 
 </section>
 

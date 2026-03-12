@@ -7,41 +7,68 @@
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
-background:#f4f6fb;
+background:#f5f7fb;
 }
 
 header{
-background:#1a2a44;
+background:#0f1f3d;
 color:white;
-padding:20px;
+padding:20px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-nav{
-text-align:center;
-margin-top:10px;
+.logo{
+font-size:22px;
+font-weight:bold;
 }
 
 nav a{
 color:white;
-margin:0 15px;
+margin-left:20px;
 text-decoration:none;
-font-weight:bold;
+font-weight:500;
 }
 
 .hero{
-padding:80px;
-text-align:center;
 background:white;
+padding:120px 20px;
+text-align:center;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
+color:#555;
+}
+
+.section{
+padding:80px 20px;
+text-align:center;
+}
+
+.card{
+background:white;
+padding:30px;
+margin:20px;
+display:inline-block;
+width:250px;
+box-shadow:0 0 10px rgba(0,0,0,0.08);
+border-radius:6px;
 }
 
 footer{
-background:#1a2a44;
+background:#0f1f3d;
 color:white;
 text-align:center;
 padding:20px;
-margin-top:40px;
 }
 
 </style>
@@ -51,7 +78,7 @@ margin-top:40px;
 
 <header>
 
-<h2>Hinoka Global</h2>
+<div class="logo">HG | HINOKA GLOBAL</div>
 
 <nav>
 <a href="index.html">Home</a>
@@ -64,18 +91,39 @@ margin-top:40px;
 
 <div class="hero">
 
-<h1>International Trading Company</h1>
+<h1>Global Trading Partner</h1>
 
 <p>
-Hinoka Global specializes in global sourcing and distribution
-of industrial materials and products.
+Hinoka Global connects international markets through
+reliable sourcing and distribution of industrial materials.
 </p>
+
+</div>
+
+<div class="section">
+
+<h2>Our Business</h2>
+
+<div class="card">
+<h3>Global Sourcing</h3>
+<p>Connecting suppliers and buyers worldwide.</p>
+</div>
+
+<div class="card">
+<h3>Industrial Materials</h3>
+<p>Trading plastics, raw materials and industrial products.</p>
+</div>
+
+<div class="card">
+<h3>Reliable Partnership</h3>
+<p>Building long-term global business relationships.</p>
+</div>
 
 </div>
 
 <footer>
 
-<p>© 2026 Hinoka Global</p>
+© 2026 Hinoka Global
 
 </footer>
 

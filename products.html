@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>製品・サービス - 株式会社HINOKA</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 这里补充一段局部样式，确保卡片布局完美 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .product-card {
+            border: 1px solid #e2e8f0;
+            padding: 30px;
+            border-radius: 8px;
+            background: #ffffff;
+            transition: transform 0.3s ease;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,33 +34,27 @@
         </nav>
     </header>
 
-    <main class="section">
+    <main style="padding: 60px 10%;">
         <h1 style="border-left: 5px solid #0f1f3d; padding-left: 15px;">製品・サービス</h1>
-        <p>産業資材の安定供給と、付加価値の高いアパレル OEM/ODM サービスを提供しています。</p>
+        <p>産業資材のグローバル調達から、アパレル OEM/ODM まで幅広く対応しております。</p>
 
-        <div class="grid">
-            <div class="card">
-                <img src="images/materials.jpg" alt="工業用プラスチック">
-                <div class="card-content">
-                    <h3>工業用プラスチック樹脂</h3>
-                    <p>自動車・家電向けのエンジニアリングプラスチックを安定供給します。厳格な品質基準をクリアした素材のみを取り扱います。</p>
-                </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="images/materials.jpg" alt="工業用素材" style="width:100%; border-radius:4px; margin-bottom:15px;">
+                <h3>工業用プラスチック樹脂</h3>
+                <p>自動車部品、家電向けなど、高品質な汎用樹脂およびエンジニアリングプラスチックを安定供給します。</p>
             </div>
 
-            <div class="card">
-                <img src="images/IMG_9731.PNG" alt="アパレルOEM">
-                <div class="card-content">
-                    <h3>アパレル OEM・ODM</h3>
-                    <p>企画立案から素材選定、縫製、検品までの一貫体制。お客様のブランド価値を最大化する生産をご提案します。</p>
-                </div>
+            <div class="product-card">
+                <img src="images/apparel.jpg" alt="アパレルOEM" style="width:100%; border-radius:4px; margin-bottom:15px;">
+                <h3>アパレル OEM・ODM</h3>
+                <p>企画から生産まで一貫サポート。高品質な生地選定から徹底した品質管理・検品体制まで、ブランドのこだわりを形にします。</p>
             </div>
 
-            <div class="card">
-                <img src="images/logistics.jpg" alt="物流コンサル">
-                <div class="card-content">
-                    <h3>物流・貿易ソリューション</h3>
-                    <p>国際物流の最適化と通関サポート。複雑な輸入手続きを円滑に進め、コスト削減と納期短縮を実現します。</p>
-                </div>
+            <div class="product-card">
+                <img src="images/logistics.jpg" alt="物流コンサル" style="width:100%; border-radius:4px; margin-bottom:15px;">
+                <h3>物流コンサルティング</h3>
+                <p>国際貿易における物流最適化、サプライチェーンマネジメントのサポートをご提供します。</p>
             </div>
         </div>
     </main>

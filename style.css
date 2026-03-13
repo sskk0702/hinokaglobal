@@ -132,3 +132,12 @@ footer {
     height: 50px; /* 根据你的 Logo 实际比例调整高度 */
     width: auto;  /* 宽度自动适应，防止变形 */
 }
+/* 添加到 style.css */
+@media (max-width: 600px) {
+    .logo-group img {
+        height: 40px !important; /* 手机端缩小一点 */
+    }
+    .logo-group {
+        gap: 8px !important; /* 缩小间距 */
+    }
+}

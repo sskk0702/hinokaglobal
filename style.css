@@ -126,3 +126,9 @@ footer {
 .product-card:hover img {
     transform: scale(1.05); /* 悬停时图片轻微放大 */
 }
+/* 确保 Logo 图片不会撑破导航栏 */
+.logo img {
+    display: block;
+    height: 50px; /* 根据你的 Logo 实际比例调整高度 */
+    width: auto;  /* 宽度自动适应，防止变形 */
+}

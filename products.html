@@ -1,39 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<title>Products - Hinoka Global</title>
-<meta charset="UTF-8">
-<style>
-body{font-family:Arial;margin:0;background:#f4f6fb;}
-header{background:#1a2a44;color:white;padding:20px;}
-nav{text-align:center;margin-top:10px;}
-nav a{color:white;margin:0 15px;text-decoration:none;font-weight:bold;}
-section{padding:80px;text-align:center;}
-</style>
+    <meta charset="UTF-8">
+    <title>製品・サービス - 株式会社HINOKA</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .product-card {
+            border: 1px solid #e2e8f0;
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="logo">HINOKA GLOBAL</div>
+        <nav>
+            <a href="index.html">ホーム</a>
+            <a href="products.html">製品・サービス</a>
+            <a href="about.html">会社概要</a>
+            <a href="contact.html">お問い合わせ</a>
+        </nav>
+    </header>
 
-<h2>Hinoka Global</h2>
+    <main style="padding: 60px 10%;">
+        <h1 style="border-left: 5px solid #0f1f3d; padding-left: 15px;">製品・サービス</h1>
+        <p>産業資材のグローバル調達と安定供給を行っております。</p>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="products.html">Products</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-</nav>
+        <div class="product-grid">
+            <div class="product-card">
+                <h3>工業用プラスチック樹脂</h3>
+                <p>自動車部品、家電向けなど、高品質な汎用樹脂およびエンジニアリングプラスチックを安定供給します。</p>
+            </div>
+            <div class="product-card">
+                <h3>原材料・化学品</h3>
+                <p>製造工程に不可欠な原材料や化学添加物を、厳選されたサプライヤーから調達いたします。</p>
+            </div>
+            <div class="product-card">
+                <h3>物流コンサルティング</h3>
+                <p>国際貿易における物流最適化、サプライチェーンマネジメントのサポートをご提供します。</p>
+            </div>
+        </div>
+    </main>
 
-</header>
-
-<section>
-
-<h1>Products</h1>
-
-<p>Currently under development.</p>
-
-</section>
+    <footer>
+        <p>&copy; 2026 株式会社HINOKA All Rights Reserved.</p>
+    </footer>
 
 </body>
 </html>

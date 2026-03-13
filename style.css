@@ -100,3 +100,29 @@ footer {
     .hero { padding: 60px 5%; }
     .section { padding: 40px 5%; }
 }
+/* 添加这些样式到你的 style.css */
+
+.product-card {
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    /* 核心动画设置：0.3秒平滑过渡 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 鼠标悬停时的动态效果 */
+.product-card:hover {
+    transform: translateY(-10px); /* 向上浮动 10 像素 */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* 加深阴影 */
+    border-color: #0f1f3d; /* 边框颜色微变，更有质感 */
+}
+
+/* 图片也稍微加一点缩放效果，增加动感 */
+.product-card img {
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05); /* 悬停时图片轻微放大 */
+}

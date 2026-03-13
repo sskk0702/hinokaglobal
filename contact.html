@@ -1,93 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<title>Contact - Hinoka Global</title>
-<meta charset="UTF-8">
-
-<style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#f5f7fb;
-}
-
-header{
-background:#0f1f3d;
-color:white;
-padding:20px 60px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-nav a{
-color:white;
-margin-left:20px;
-text-decoration:none;
-}
-
-section{
-padding:80px;
-text-align:center;
-}
-
-form{
-background:white;
-padding:30px;
-max-width:400px;
-margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-input,textarea{
-width:100%;
-padding:10px;
-margin:10px 0;
-}
-
-button{
-background:#0f1f3d;
-color:white;
-padding:10px 20px;
-border:none;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <title>お問い合わせ - 株式会社HINOKA</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <header>
+        <div class="logo">HINOKA GLOBAL</div>
+        <nav>
+            <a href="index.html">ホーム</a>
+            <a href="about.html">会社概要</a>
+            <a href="contact.html">お問い合わせ</a>
+        </nav>
+    </header>
 
-<header>
+    <main style="padding:60px 10%; max-width:600px; margin:auto;">
+        <h1>お問い合わせ</h1>
+        <p>業務に関するご質問やご相談は、以下のフォームまたはメールにてお気軽にご連絡ください。</p>
+        
+        <form action="https://formspree.io/f/你的Formspree ID" method="POST" style="margin-top:30px;">
+            <div style="margin-bottom:15px;">
+                <label>お名前:</label><br>
+                <input type="text" name="name" style="width:100%; padding:10px; border:1px solid #ccc;">
+            </div>
+            <div style="margin-bottom:15px;">
+                <label>メールアドレス:</label><br>
+                <input type="email" name="email" style="width:100%; padding:10px; border:1px solid #ccc;">
+            </div>
+            <div style="margin-bottom:15px;">
+                <label>メッセージ:</label><br>
+                <textarea name="message" rows="5" style="width:100%; padding:10px; border:1px solid #ccc;"></textarea>
+            </div>
+            <button type="submit" style="padding:10px 20px; background:#0f1f3d; color:white; border:none; cursor:pointer;">送信する</button>
+        </form>
+    </main>
 
-<div>HINOKA GLOBAL</div>
-
-<nav>
-<a href="index.html">Home</a>
-<a href="products.html">Products</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-</nav>
-
-</header>
-
-<section>
-
-<h1>Contact Us</h1>
-
-<form action="mailto:sun_hua@hinokaglobal.com" method="post">
-
-<input type="text" placeholder="Your Name" required>
-
-<input type="email" placeholder="Your Email" required>
-
-<textarea placeholder="Your Inquiry"></textarea>
-
-<button type="submit">Send</button>
-
-</form>
-
-</section>
-
+    <footer>
+        <p>&copy; 2026 株式会社HINOKA All Rights Reserved.</p>
+    </footer>
 </body>
 </html>

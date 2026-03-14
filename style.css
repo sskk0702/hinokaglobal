@@ -55,3 +55,14 @@ header {
     width: auto;  /* 保持比例 */
     display: block;
 }
+/* Logo 强制锁定规则 - 请确保此段代码存在于 style.css 中 */
+.logo-area a {
+    display: block;
+    height: 40px !important; /* 这里控制 Logo 的实际显示高度 */
+}
+
+.logo-area img {
+    height: 100% !important; /* 强制填满容器 */
+    width: auto !important;  /* 自动保持长宽比 */
+    display: block;
+}

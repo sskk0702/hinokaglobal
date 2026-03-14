@@ -442,3 +442,46 @@ footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 30px;
         grid-template-columns: 1fr;
     }
 }
+/* --- 基础设置 --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; padding: 60px 5%; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+/* --- 产品网格 (强制三列排版) --- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 核心：强制三列等分 */
+    gap: 30px; /* 卡片间距 */
+    margin-top: 40px;
+}
+
+/* --- 产品卡片 --- */
+.product-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.3s ease;
+}
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.product-card img {
+    width: 100%;
+    height: 250px; /* 固定图片高度 */
+    object-fit: cover; /* 自动裁剪以填满容器，防止拉伸 */
+    display: block;
+}
+.card-content { padding: 20px; text-align: center; }
+
+/* --- 关于页网格 (左标签右内容) --- */
+.info-card { 
+    display: grid; 
+    grid-template-columns: 200px 1fr; 
+    padding: 20px 0; 
+    border-bottom: 1px solid #eee; 
+}
+
+/* --- 响应式 (手机端自动变一列) --- */
+@media (max-width: 768px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .info-card { grid-template-columns: 1fr; }
+}

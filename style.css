@@ -394,3 +394,37 @@ footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 30px;
     .main-nav { margin-top: 15px; }
     .main-nav a { margin: 0 10px; }
 }
+/* --- 全局重置 --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; flex-direction: column; min-height: 100vh; color: #334155; line-height: 1.6; }
+main { flex: 1; padding: 60px 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
+
+/* --- 导航栏 --- */
+header { height: 80px; background: #0f1f3d; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; }
+.logo-area img { height: 45px; width: auto; display: block; }
+.main-nav a { color: #fff; text-decoration: none; margin-left: 30px; font-size: 0.9rem; opacity: 0.8; transition: 0.3s; }
+.main-nav a:hover { opacity: 1; }
+
+/* --- 产品卡片 (动态效果) --- */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+.product-card { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #fff; transition: 0.3s; }
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px rgba(0,0,0,0.1); }
+.product-card img { width: 100%; height: 220px; object-fit: cover; display: block; transition: 0.5s; }
+.product-card:hover img { transform: scale(1.05); }
+.card-content { padding: 25px; }
+
+/* --- 关于页 (高级网格布局) --- */
+.info-card { display: grid; grid-template-columns: 180px 1fr; align-items: center; padding: 25px 0; border-bottom: 1px solid #f1f5f9; transition: 0.3s; }
+.info-card .label { font-size: 0.9rem; color: #64748b; font-weight: 500; }
+.info-card .value { font-size: 1.05rem; color: #0f172a; font-weight: 600; }
+.info-card:hover { background: #f8fafc; padding-left: 20px; border-left: 4px solid #0f1f3d; }
+
+/* --- 页脚 --- */
+footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 30px; font-size: 0.8rem; }
+
+/* --- 响应式适配 --- */
+@media (max-width: 768px) {
+    header { height: auto; flex-direction: column; padding: 20px; }
+    .main-nav { margin-top: 15px; }
+    .info-card { grid-template-columns: 1fr; gap: 5px; }
+}

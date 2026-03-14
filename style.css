@@ -422,3 +422,19 @@ footer {
     padding: 20px;
     margin-top: auto;
 }
+header {
+    height: 80px; /* 显式设置导航栏高度，比如 80px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 垂直居中 */
+    padding: 0 5%;
+    background: #0f1f3d;
+}
+
+.logo-area a img {
+    height: 60px; /* 这里设大一点，比如 60px */
+    width: auto;   /* 宽度根据比例自动缩放，不会失真 */
+    display: block;
+    /* 通过 margin 微调对齐 */
+    margin: 10px 0; 
+}

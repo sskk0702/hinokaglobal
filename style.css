@@ -198,3 +198,41 @@ footer {
 
 .card-content { padding: 25px; }
 .card-content h3 { margin-bottom: 10px; color: #0f1f3d; }
+/* --- 布局重置 --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; padding: 60px 5%; }
+
+/* --- 强制约束图片：这是解决图片过大的关键 --- */
+/* 作用于所有卡片内的图片，强制它们不能超过容器宽度，高度固定 */
+.product-card img {
+    width: 100%;        /* 宽度永远填满卡片 */
+    height: 200px;      /* 强制高度固定，解决图片大小不一的问题 */
+    object-fit: cover;  /* 像苹果官网那样，自动剪裁图片以填满区域，不拉伸变形 */
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* --- 网格布局：确保三个并排 --- */
+.product-grid {
+    display: grid;
+    /* 核心逻辑：自动适配宽度 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* --- 卡片样式 --- */
+.product-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden; /* 这一行非常重要，它会把溢出的图片部分“切掉”，保证圆角 */
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px rgba(0,0,0,0.1); }
+.product-card:hover img { transform: scale(1.05); }
+
+/* --- 页脚与导航栏 --- */
+header { background: #0f1f3d; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; }
+footer { background: #0f1f3d; color: #fff; text-align: center; padding: 20px; }

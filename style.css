@@ -323,3 +323,39 @@ h1 { margin-bottom: 40px; border-left: 5px solid #0f1f3d; padding-left: 15px; }
 
 /* --- 页脚 --- */
 footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 30px; font-size: 0.8rem; }
+/* 容器本身 */
+.info-row-wrapper {
+    display: flex;
+    flex-direction: column; /* 强制垂直排列 */
+    width: 100%;
+}
+
+/* 独立信息块的容器 */
+.info-card {
+    display: block; /* 确保它是一个独立的块级元素 */
+    padding: 25px 0;
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+/* 标签 (label) 和 内容 (p) */
+.info-card label {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+}
+
+.info-card p {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+/* 悬浮交互：让每一行作为一个整体“动起来” */
+.info-card:hover {
+    padding-left: 20px;
+    background-color: #f8fafc;
+    border-left: 4px solid #0f1f3d;
+}

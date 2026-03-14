@@ -206,3 +206,15 @@ footer {
     /* 核心：文字阴影，保证清晰度 */
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
 }
+/* 强制清除列表圆点 */
+ul, ol {
+    list-style: none !important;
+    padding: 0;
+    margin: 0;
+}
+
+/* 确保你的导航栏链接不是写在 <li> 标签里导致的圆点 */
+nav ul {
+    display: flex;
+    gap: 20px;
+}

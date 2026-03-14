@@ -48,3 +48,23 @@ header { height: 80px; background: #0f1f3d; display: flex; justify-content: spac
     .info-row { flex-direction: column; align-items: flex-start; }
     .value { padding-left: 0; margin-top: 5px; }
 }
+/* --- 页脚 (Footer) 优化 --- */
+footer { 
+    background-color: #0f1f3d; /* 统一的深蓝色底 */
+    color: #94a3b8;           /* 柔和的灰蓝色文字，不刺眼 */
+    text-align: center; 
+    padding: 40px 20px; 
+    font-size: 0.85rem; 
+    border-top: 1px solid #1e293b; /* 加一个细微的边框增加质感 */
+    margin-top: auto;          /* 确保页脚始终被推到页面最底部 */
+}
+
+/* 如果你的页脚里有链接，这样处理： */
+footer a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.3s;
+}
+footer a:hover {
+    color: #ffffff;
+}

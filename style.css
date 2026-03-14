@@ -129,3 +129,33 @@ footer {
     .hero-content h1 { font-size: 2rem; }
     .product-grid { grid-template-columns: 1fr; }
 }
+/* --- 产品卡片动态效果 (核心代码) --- */
+.product-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    /* 核心动画：平滑过渡，0.3秒完成 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 鼠标悬停时的动态交互 */
+.product-card:hover {
+    transform: translateY(-10px); /* 向上浮动 10px */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); /* 阴影加深，产生悬浮立体感 */
+    border-color: #0f1f3d; /* 边框颜色微变 */
+}
+
+/* 图片联动缩放 */
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    /* 给图片也加上过渡 */
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05); /* 鼠标悬停时图片轻微放大，动感更强 */
+}

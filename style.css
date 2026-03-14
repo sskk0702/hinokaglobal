@@ -18,3 +18,29 @@ main { flex: 1; padding: 40px 5%; }
 
 /* --- 页脚 --- */
 footer { background: #0f1f3d; color: #fff; text-align: center; padding: 20px; margin-top: auto; }
+/* --- 修复后的 Header 和 Logo --- */
+header { 
+    height: 80px; 
+    background: #0f1f3d; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 5%; 
+    overflow: hidden; /* 防止溢出 */
+}
+
+/* 锁定 Logo 区域 */
+.logo-area {
+    height: 60px; /* 限制区域高度 */
+}
+
+.logo-area a {
+    display: block;
+    height: 100%;
+}
+
+.logo-area img {
+    height: 100% !important; /* 强制图片高度等于父级容器 */
+    width: auto !important;  /* 自动根据高度缩放宽度 */
+    display: block;
+}

@@ -372,3 +372,53 @@ footer {
     width: 100%;
     margin-top: auto; /* 自动向下推 */
 }
+/* --- 基础布局 (粘性页脚) --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { display: flex; flex-direction: column; }
+main { flex: 1; }
+
+/* --- 导航栏与 Logo 修复 --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 8%;
+    background: #0f1f3d;
+}
+
+/* 核心：精确控制 Logo 大小并确保背景透明 */
+.logo-area a img {
+    height: 40px; /* 控制高度，自动缩放宽度 */
+    width: auto;
+    display: block;
+    /* 如果 Logo 有白色背景，此项可尝试设为 multiply 或其他值 */
+    /* mix-blend-mode: multiply; */ 
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 0.9rem;
+}
+
+/* --- Hero 区域 --- */
+.hero {
+    height: 60vh;
+    background: url('images/hero-bg.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+/* --- 页脚 --- */
+footer {
+    background: #0f1f3d;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}

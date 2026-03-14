@@ -28,3 +28,30 @@ header { height: 80px; background: #0f1f3d; display: flex; justify-content: spac
 .label { width: 120px; font-weight: bold; color: #64748b; }
 .value { flex: 1; color: #1e293b; }
 footer { background: #0f1f3d; color: #fff; text-align: center; padding: 20px; margin-top: 40px; font-size: 0.8rem; }
+/* --- 导航栏设置 --- */
+header { 
+    height: 80px; 
+    background: #0f1f3d; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; /* 确保内容垂直居中 */
+    padding: 0 5%; 
+}
+
+/* 强制限制 Logo 图片大小 */
+.logo-area {
+    display: flex;
+    align-items: center;
+    height: 100%; /* 占满导航栏高度 */
+}
+
+.logo-area a { 
+    display: block; 
+    height: 50px; /* 设定容器高度 */
+}
+
+.logo-area img { 
+    height: 100%; /* 图片自动填满容器 */
+    width: auto;  /* 保持比例 */
+    display: block;
+}

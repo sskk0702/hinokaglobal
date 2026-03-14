@@ -244,3 +244,44 @@ footer {
     padding: 20px;
     margin-top: auto; /* 关键：自动推到底部 */
 }
+/* 清除默认边距，防止布局错乱 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 导航栏排版 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    background: #0f1f3d;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 0.9rem;
+}
+
+/* Hero 区域：苹果风全屏布局 */
+.hero {
+    position: relative;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.hero-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.hero-content {
+    text-align: center;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}

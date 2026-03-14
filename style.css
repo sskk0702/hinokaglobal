@@ -104,3 +104,16 @@ footer {
     font-size: 0.8rem;
     margin-top: 50px; /* 给内容下方留一点空间 */
 }
+/* 确保联系页面的行间距与概要页一致 */
+.contact-box {
+    border-top: 1px solid #f1f5f9;
+}
+
+/* 如果后续需要增加输入框，添加这个样式 */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}

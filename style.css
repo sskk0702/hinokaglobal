@@ -270,3 +270,23 @@ footer { background: #0f1f3d; color: #fff; text-align: center; padding: 20px; }
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+/* 高级布局容器 */
+.about-container { padding: 80px 10%; max-width: 1000px; margin: 0 auto; }
+
+.about-hero { text-align: center; margin-bottom: 60px; }
+.about-hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: #0f1f3d; }
+
+/* 左右分栏布局 */
+.about-content { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
+
+/* 详细列表样式 */
+.info-row { display: flex; padding: 20px 0; border-bottom: 1px solid #e2e8f0; }
+.info-row span { width: 40%; font-weight: 600; color: #64748b; }
+.info-row p { width: 60%; color: #1e293b; }
+
+/* 响应式适配：手机上改为单列 */
+@media (max-width: 768px) {
+    .about-content { grid-template-columns: 1fr; gap: 30px; }
+    .info-row { flex-direction: column; }
+    .info-row span { width: 100%; margin-bottom: 5px; }
+}

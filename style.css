@@ -218,3 +218,29 @@ nav ul {
     display: flex;
     gap: 20px;
 }
+/* 1. 全局重置：彻底消灭白点和多余边距 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 2. 清除列表样式（解决导航栏白点） */
+.main-nav ul {
+    list-style: none; /* 这一行就是消灭白点的开关 */
+    display: flex;
+    gap: 30px;
+}
+
+/* 3. 页面布局：Footer 始终贴底 */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main { flex: 1; } /* 内容区自动撑开 */
+
+footer {
+    background: #0f1f3d;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* 关键：自动推到底部 */
+}

@@ -236,3 +236,37 @@ main { flex: 1; padding: 60px 5%; }
 /* --- 页脚与导航栏 --- */
 header { background: #0f1f3d; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; }
 footer { background: #0f1f3d; color: #fff; text-align: center; padding: 20px; }
+/* 容器居中与间距 */
+.simple-container { padding: 50px 10%; }
+
+/* 最简单的三列布局 */
+.simple-grid {
+    display: flex;
+    flex-wrap: wrap; /* 空间不够时自动换行，防止崩溃 */
+    gap: 20px;
+}
+
+/* 每个卡片占 30% 宽度 */
+.simple-card {
+    flex: 1 1 300px; /* 最小 300px，自动伸缩 */
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: center;
+}
+
+/* 图片限制：这是解决图片过大的核心 */
+.simple-card img {
+    max-width: 100%;    /* 图片宽度绝不超过卡片 */
+    height: auto;       /* 高度按比例自动缩放 */
+    display: block;
+    margin: 0 auto;     /* 图片居中 */
+}
+
+/* 简单的浮动效果 */
+.simple-card {
+    transition: transform 0.3s;
+}
+.simple-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

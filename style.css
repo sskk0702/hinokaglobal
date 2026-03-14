@@ -44,3 +44,26 @@ header {
     width: auto !important;  /* 自动根据高度缩放宽度 */
     display: block;
 }
+/* 确保内页信息的垂直间隔 */
+.info-container {
+    margin-top: 40px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.info-row { 
+    display: flex; 
+    padding: 20px 0; /* 这里的 20px 就是行与行之间的间隔 */
+    border-bottom: 1px solid #e2e8f0; /* 给每一行底部加线，增加层次感 */
+    align-items: flex-start;
+}
+
+.label { 
+    width: 150px; 
+    font-weight: bold; 
+    color: #64748b; 
+}
+
+.value { 
+    flex: 1; 
+    color: #1e293b; 
+}

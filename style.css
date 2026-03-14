@@ -178,3 +178,30 @@ footer { background: #0f1f3d; color: #fff; text-align: center; padding: 20px; fo
 .product-card { flex: 1 1 300px; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #fff; }
 .product-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
 .card-content { padding: 20px; text-align: center; }
+/* --- 主页 Hero 区美化 --- */
+.hero-section {
+    padding: 80px 0;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9; /* 加一条细线，增加层次 */
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    color: #0f172a;
+    letter-spacing: 0.05em; /* 字间距稍微放大，更高级 */
+    margin-bottom: 20px;
+}
+
+.hero-section .divider {
+    width: 60px;
+    height: 3px;
+    background: #0f1f3d; /* 使用和导航栏一样的深蓝色 */
+    margin: 0 auto 30px auto; /* 居中并在下方留白 */
+    border-radius: 2px;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    color: #64748b; /* 用灰色区分主标题 */
+    line-height: 1.8;
+}

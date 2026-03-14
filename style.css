@@ -428,3 +428,17 @@ footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 30px;
     .main-nav { margin-top: 15px; }
     .info-card { grid-template-columns: 1fr; gap: 5px; }
 }
+.product-grid {
+    display: grid;
+    /* 核心代码：强制分为三列，且自动适应宽度 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; /* 卡片之间的间距 */
+    margin-top: 40px;
+}
+
+/* 手机端适配：当屏幕小于 768px 时，改为一列显示 */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}

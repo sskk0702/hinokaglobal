@@ -141,3 +141,41 @@ footer {
         gap: 8px !important; /* 缩小间距 */
     }
 }
+/* 1. 强制 Footer 贴底的布局 */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 保证 body 至少占满屏幕高度 */
+    margin: 0;
+}
+
+main {
+    flex: 1; /* 自动填充中间空间，把 footer 挤到底部 */
+}
+
+footer {
+    background-color: #0f1f3d;
+    color: #94a3b8;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: auto; /* 关键：自动推到底部 */
+}
+
+/* 2. 苹果风 Hero 区域 (现代化背景图) */
+.hero {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 60vh; /* 占屏幕高度的 60% */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero h1 { font-size: 3.5rem; font-weight: 700; letter-spacing: -1px; }
+.hero p { font-size: 1.5rem; opacity: 0.9; }

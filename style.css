@@ -1,350 +1,6 @@
-/* 1. 基础全局配置 */
-body {
-    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-    line-height: 1.8;
-    color: #334155;
-    margin: 0;
-    background-color: #ffffff;
-}
-
-/* 2. 导航栏 (Header) */
-header {
-    background-color: #0f1f3d;
-    color: #ffffff;
-    padding: 25px 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-nav a {
-    color: #cbd5e1;
-    margin-left: 25px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #ffffff;
-}
-
-/* 3. 首屏展示区域 (Hero) */
-.hero {
-    padding: 100px 10%;
-    text-align: center;
-    background-color: #f8fafc;
-}
-
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #0f1f3d;
-}
-
-/* 4. 网格布局 (Grid) - 用于产品展示 */
-.section { padding: 80px 10%; }
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-}
-
-/* 5. 卡片样式 (Card) - 核心展示区 */
-.card {
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-}
-
-.card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
-
-.card-content {
-    padding: 25px;
-}
-
-.card h3 {
-    margin-top: 0;
-    color: #0f1f3d;
-}
-
-/* 6. 页脚 (Footer) */
-footer {
-    background-color: #0f1f3d;
-    color: #94a3b8;
-    padding: 50px 10%;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-/* 7. 响应式适配：手机屏幕下调整 */
-@media (max-width: 768px) {
-    header { flex-direction: column; gap: 20px; }
-    .hero { padding: 60px 5%; }
-    .section { padding: 40px 5%; }
-}
-/* 添加这些样式到你的 style.css */
-
-.product-card {
-    border: 1px solid #e2e8f0;
-    padding: 20px;
-    border-radius: 12px;
-    background: #ffffff;
-    /* 核心动画设置：0.3秒平滑过渡 */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 鼠标悬停时的动态效果 */
-.product-card:hover {
-    transform: translateY(-10px); /* 向上浮动 10 像素 */
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* 加深阴影 */
-    border-color: #0f1f3d; /* 边框颜色微变，更有质感 */
-}
-
-/* 图片也稍微加一点缩放效果，增加动感 */
-.product-card img {
-    transition: transform 0.5s ease;
-}
-
-.product-card:hover img {
-    transform: scale(1.05); /* 悬停时图片轻微放大 */
-}
-/* 确保 Logo 图片不会撑破导航栏 */
-.logo img {
-    display: block;
-    height: 50px; /* 根据你的 Logo 实际比例调整高度 */
-    width: auto;  /* 宽度自动适应，防止变形 */
-}
-/* 添加到 style.css */
-@media (max-width: 600px) {
-    .logo-group img {
-        height: 40px !important; /* 手机端缩小一点 */
-    }
-    .logo-group {
-        gap: 8px !important; /* 缩小间距 */
-    }
-}
-/* 1. 强制 Footer 贴底的布局 */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* 保证 body 至少占满屏幕高度 */
-    margin: 0;
-}
-
-main {
-    flex: 1; /* 自动填充中间空间，把 footer 挤到底部 */
-}
-
-footer {
-    background-color: #0f1f3d;
-    color: #94a3b8;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 0.8rem;
-    margin-top: auto; /* 关键：自动推到底部 */
-}
-
-/* 2. 苹果风 Hero 区域 (现代化背景图) */
-.hero {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 60vh; /* 占屏幕高度的 60% */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.hero h1 { font-size: 3.5rem; font-weight: 700; letter-spacing: -1px; }
-.hero p { font-size: 1.5rem; opacity: 0.9; }
-.hero {
-    position: relative;
-    height: 80vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 自动剪裁视频以充满区域 */
-    transform: translate(-50%, -50%);
-    z-index: -1;
-}
-
-.hero-content {
-    color: white;
-    text-align: center;
-    z-index: 1;
-    /* 核心：文字阴影，保证清晰度 */
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-}
-/* 强制清除列表圆点 */
-ul, ol {
-    list-style: none !important;
-    padding: 0;
-    margin: 0;
-}
-
-/* 确保你的导航栏链接不是写在 <li> 标签里导致的圆点 */
-nav ul {
-    display: flex;
-    gap: 20px;
-}
-/* 1. 全局重置：彻底消灭白点和多余边距 */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-/* 2. 清除列表样式（解决导航栏白点） */
-.main-nav ul {
-    list-style: none; /* 这一行就是消灭白点的开关 */
-    display: flex;
-    gap: 30px;
-}
-
-/* 3. 页面布局：Footer 始终贴底 */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main { flex: 1; } /* 内容区自动撑开 */
-
-footer {
-    background: #0f1f3d;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    margin-top: auto; /* 关键：自动推到底部 */
-}
-/* 清除默认边距，防止布局错乱 */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-/* 导航栏排版 */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 10%;
-    background: #0f1f3d;
-}
-
-.main-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 25px;
-    font-size: 0.9rem;
-}
-
-/* Hero 区域：苹果风全屏布局 */
-.hero {
-    position: relative;
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-.hero-video {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-}
-
-.hero-content {
-    text-align: center;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-}
-/* 导航栏布局 */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* 垂直居中对齐 */
-    padding: 15px 5%;
-    background: #0f1f3d;
-}
-
-/* Logo 容器：限制整体大小 */
-.logo-link {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* 图片间的间距 */
-    text-decoration: none;
-}
-
-/* 强制图片保持比例，且不会溢出 */
-.logo-main { height: 40px; width: auto; }
-.logo-sub { height: 25px; width: auto; }
-
-/* 导航文字：苹果风格的细体简洁感 */
-.main-nav a {
-    color: #ffffff;
-    text-decoration: none;
-    margin-left: 30px;
-    font-size: 14px;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    opacity: 0.8;
-    transition: opacity 0.3s;
-}
-
-.main-nav a:hover { opacity: 1; }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
-
-/* 导航栏样式 */
-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: #0f1f3d; }
-.logo-area img { height: 45px; width: auto; } /* 锁定 Logo 高度 */
-.main-nav a { color: white; text-decoration: none; margin-left: 30px; font-weight: 300; }
-
-/* 背景图片区域 (更换了背景模式) */
-.hero {
-    flex: 1;
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-}
-
-.hero-content h1 { font-size: 3rem; margin-bottom: 10px; }
-
-/* 页脚 */
-footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 20px; font-size: 0.8rem; }
-/* --- 布局核心：稳固全站页脚 --- */
+/* ==========================================================================
+   1. 全局重置与基础布局 (解决粘性页脚)
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -352,61 +8,61 @@ footer { background: #0f1f3d; color: #94a3b8; text-align: center; padding: 20px;
 }
 
 html, body {
-    height: 100%; /* 确保 HTML 和 Body 填满全屏 */
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    color: #334155;
+    background-color: #ffffff;
 }
 
 body {
     display: flex;
-    flex-direction: column; /* 垂直排列 */
+    flex-direction: column;
 }
 
 main {
-    flex: 1; /* 关键点：让中间内容区域自动填满剩余空间，把 Footer 推到底部 */
+    flex: 1; /* 核心：自动撑开内容高度 */
 }
 
-footer {
-    background: #0f1f3d; /* 统一的深蓝色底色 */
-    color: #ffffff;
-    text-align: center;
-    padding: 20px 0;
-    width: 100%;
-    margin-top: auto; /* 自动向下推 */
-}
-/* --- 基础布局 (粘性页脚) --- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-body { display: flex; flex-direction: column; }
-main { flex: 1; }
-
-/* --- 导航栏与 Logo 修复 --- */
+/* ==========================================================================
+   2. 导航栏 (Header)
+   ========================================================================== */
 header {
+    height: 80px;
+    background-color: #0f1f3d;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 8%;
-    background: #0f1f3d;
+    padding: 0 5%;
 }
 
-/* 核心：精确控制 Logo 大小并确保背景透明 */
 .logo-area a img {
-    height: 40px; /* 控制高度，自动缩放宽度 */
+    height: 60px; /* Logo 高度固定，随容器居中 */
     width: auto;
     display: block;
-    /* 如果 Logo 有白色背景，此项可尝试设为 multiply 或其他值 */
-    /* mix-blend-mode: multiply; */ 
 }
 
 .main-nav a {
-    color: white;
+    color: #ffffff;
     text-decoration: none;
-    margin-left: 25px;
-    font-size: 0.9rem;
+    margin-left: 30px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    opacity: 0.8;
+    transition: opacity 0.3s;
 }
 
-/* --- Hero 区域 --- */
+.main-nav a:hover {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   3. 首屏展示区域 (Hero)
+   ========================================================================== */
 .hero {
     height: 60vh;
-    background: url('images/hero-bg.jpg') no-repeat center center/cover;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -414,27 +70,33 @@ header {
     text-align: center;
 }
 
-/* --- 页脚 --- */
-footer {
-    background: #0f1f3d;
-    color: #ffffff;
-    text-align: center;
-    padding: 20px;
-    margin-top: auto;
-}
-header {
-    height: 80px; /* 显式设置导航栏高度，比如 80px */
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* 垂直居中 */
-    padding: 0 5%;
-    background: #0f1f3d;
+.hero-content {
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-.logo-area a img {
-    height: 60px; /* 这里设大一点，比如 60px */
-    width: auto;   /* 宽度根据比例自动缩放，不会失真 */
-    display: block;
-    /* 通过 margin 微调对齐 */
-    margin: 10px 0; 
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   4. 页脚 (Footer)
+   ========================================================================== */
+footer {
+    background-color: #0f1f3d;
+    color: #94a3b8;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+/* ==========================================================================
+   5. 响应式适配
+   ========================================================================== */
+@media (max-width: 768px) {
+    header { height: auto; flex-direction: column; padding: 20px; }
+    .main-nav { margin-top: 15px; }
+    .main-nav a { margin: 0 10px; }
+    .hero-content h1 { font-size: 2rem; }
 }

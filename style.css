@@ -929,3 +929,94 @@ footer {
 
   .stats-section { padding: 60px 24px; }
 }
+/* ==========================================================================
+   💻 电脑大屏幕端高级化重构（追加于文件底部）
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+  /* 1. 全局大屏容器约束：让内容居中，两边留白，瞬间变高级 */
+  .hero-content,
+  .section,
+  .section-sm,
+  .products-full,
+  .about-section,
+  .contact-section,
+  .stats-section,
+  .page-hero-inner,
+  .footer-top {
+    max-width: 1240px;      /* 严控大屏核心内容宽度 */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 64px !important;
+    padding-right: 64px !important;
+  }
+
+  /* 2. 导航栏大屏美化 */
+  header {
+    max-width: 100%;
+    padding: 0 calc((100vw - 1240px) / 2 + 64px) !important; /* 让导航与下方内容完美左对齐 */
+  }
+  /* 当屏幕没有达到1240px时，保持优雅内边距 */
+  @media (max-width: 1366px) {
+    header { padding: 0 64px !important; }
+  }
+
+  /* 3. 通栏板块布局重构（如公司简介条带） */
+  .company-strip {
+    max-width: 1240px;
+    margin: 40px auto;      /* 让整个条带居中，两边悬空，极具现代独立品牌感 */
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .company-strip-text {
+    padding: 80px 96px;     /* 扩大电脑端内边距，增加呼吸感 */
+  }
+
+  /* 4. 产品网格大屏调校：防止图片在宽屏上被拉得过高 */
+  .product-grid-full {
+    gap: 48px 40px;         /* 扩大商品之间的间理 */
+  }
+  .product-card-full img {
+    aspect-ratio: 16/11;    /* 电脑端采用更完美的黄金比例 */
+  }
+
+  /* 5. 数字统计板块重构：防止4列在宽屏上变成扁平的长条 */
+  .stat-item {
+    padding: 64px 40px;
+    transition: transform 0.3s;
+  }
+  .stat-item:hover {
+    transform: translateY(-4px); /* 增加微弱而高级的悬浮动效 */
+  }
+
+  /* 6. 联系我们页面：表单在大屏上太宽会极丑，必须限制最大宽度 */
+  .contact-grid {
+    grid-template-columns: 1fr 1.4fr; /* 完美的大屏黄金比例 */
+    gap: 120px;                       /* 极大地拉开信息栏与表单的距离 */
+  }
+  .contact-form {
+    max-width: 620px;                 /* 锁死表单最大宽度，防止输入框被拉得太长 */
+  }
+  .form-input, .form-select, .form-textarea {
+    padding: 16px 20px;               /* 电脑端输入框稍微加宽，更易点击 */
+  }
+
+  /* 7. 会社概要表格大屏优化 */
+  .company-table th {
+    width: 240px;                     /* 拓宽左侧项目列，防止日文字体折行 */
+    font-size: 11px;
+  }
+  .company-table td {
+    padding: 24px 0;                  /* 增加表格上下间距，更显大气 */
+  }
+
+  /* 8. 底部页脚大屏对齐 */
+  footer {
+    padding: 80px calc((100vw - 1240px) / 2 + 64px) 40px !important;
+  }
+  .footer-top {
+    padding-left: 0 !important;       /* 清除内边距以对齐边界 */
+    padding-right: 0 !important;
+    gap: 80px;                        /* 拉开列间距 */
+  }
+}

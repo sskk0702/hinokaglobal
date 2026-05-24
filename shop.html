@@ -346,14 +346,13 @@
 
 <script>
 // ── 商品データ ──
-// ── 商品データ（请确保这里的路径和文件名与您GitHub仓库里的一模一样） ──
 const PRODUCTS = [
   {
     id: 'pet-001', category: 'pet', badge: '人気商品',
     name: '猫用ふわふわベッド',
     desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
     price: 2980,
-    image: 'images/IMG_5169.jpg',
+    image: 'images/IMG_5113ペット.PNG',
   },
   {
     id: 'pet-002', category: 'pet', badge: null,
@@ -400,7 +399,7 @@ const PRODUCTS = [
   {
     id: 'goods-002', category: 'goods', badge: '人気商品',
     name: 'ステンレスランチボックス 2段',
-    desc: '電子レンジ対応・食洗機対応。おしゃれなシルバーデザインでオフィスでも使いやすい。',
+    desc: '電子レンジ対応・食洗机対応。おしゃれなシルバーデザインでオフィスでも使いやすい。',
     price: 2480,
     image: 'images/Photoroom_雑貨_162139.jpg',
   },
@@ -429,6 +428,7 @@ function openCart() {
 }
 
 function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('remove'); // 修正旧笔误
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('show');
 }
@@ -476,6 +476,7 @@ function renderCart() {
   footerContainer.style.pointerEvents = 'auto';
   
   let total = 0;
+  // 💡 这里已经移除多余的右括号，全面恢复高版本浏览器解析
   listContainer.innerHTML = cart.map(item => {
     total += item.price * item.qty;
     return `
@@ -485,20 +486,21 @@ function renderCart() {
           <div class="cart-item-name">${item.name}</div>
           <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
           <div class="cart-item-qty">
-            <button class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
+            <button class="qty-btn" type="button" onclick="updateQty('${item.id}', -1)">-</button>
             <span class="qty-val">${item.qty}</span>
-            <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
+            <button class="qty-btn" type="button" onclick="updateQty('${item.id}', 1)">+</button>
           </div>
         </div>
       </div>
     `;
-  ).join('');
+  }).join('');
   
   document.getElementById('cartTotalAmount').innerText = '¥' + total.toLocaleString();
 }
 
 function renderGrid(list) {
   const grid = document.getElementById('grid');
+  if (!grid) return;
   if (!list.length) {
     grid.innerHTML = '<div class="empty-state">商品が見つかりませんでした</div>';
     return;
@@ -515,7 +517,7 @@ function renderGrid(list) {
         <div class="p-card-desc">${p.desc}</div>
         <div class="p-card-bottom">
           <div class="p-card-price">¥${p.price.toLocaleString()}<small>税込</small></div>
-          <button class="atc-btn" onclick="addToCart('${p.id}','${p.name}',${p.price},'${p.image}')">
+          <button class="atc-btn" type="button" onclick="addToCart('${p.id}','${p.name}',${p.price},'${p.image}')">
             カートへ
           </button>
         </div>
@@ -532,12 +534,12 @@ function filter(cat, btn) {
 
 // Header scroll
 const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-  header.classList.toggle('scrolled', window.scrollY > 40);
-});
+if (header) {
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
 
 // Init
 renderGrid(PRODUCTS);
 </script>
-</body>
-</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご注文手続き - 株式会社HINOKA</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+  <header id="header">
+    <a href="index.html" class="logo-text">
+      HINOKA
+      <span>株式会社 · HINOKA Co., Ltd.</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">ホーム</a>
+      <a href="shop.html">ショップ</a>
+      <a href="about.html">会社概要</a>
+      <a href="contact.html" class="nav-contact">お問い合わせ</a>
+    </nav>
+  </header>
+
+  <div class="page-hero" style="min-height:0;">
+    <div class="page-hero-inner" style="padding-bottom:32px;">
+      <div class="page-hero-content">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a><span>/</span>
+          <a href="shop.html">ショップ</a><span>/</span>
+          ご注文手続き
+        </div>
+        <h1 class="page-title">ご注文手続き</h1>
+      </div>
+    </div>
+  </div>
+
+  <section class="checkout-section">
+    <div class="checkout-grid">
+
+      <!-- LEFT: Form -->
+      <div class="checkout-form-block">
+
+        <h3>お届け先情報</h3>
+        <div class="contact-form" style="margin-bottom:40px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div class="form-group">
+              <label class="form-label">姓 <span class="required">*</span></label>
+              <input type="text" class="form-input" id="last-name" placeholder="山田" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">名 <span class="required">*</span></label>
+              <input type="text" class="form-input" id="first-name" placeholder="太郎" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">メールアドレス <span class="required">*</span></label>
+            <input type="email" class="form-input" id="email" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">電話番号 <span class="required">*</span></label>
+            <input type="tel" class="form-input" id="phone" placeholder="090-0000-0000" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">郵便番号 <span class="required">*</span></label>
+            <input type="text" class="form-input" id="postal" placeholder="000-0000" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">都道府県 <span class="required">*</span></label>
+            <select class="form-select form-input" id="prefecture">
+              <option value="" disabled selected>選択してください</option>
+              <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
+              <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
+              <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
+              <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
+              <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+              <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
+              <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
+              <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
+              <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
+              <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
+              <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
+              <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">市区町村・番地 <span class="required">*</span></label>
+            <input type="text" class="form-input" id="address" placeholder="大阪市浪速区大国2丁目1番1号" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">建物名・部屋番号</label>
+            <input type="text" class="form-input" id="address2" placeholder="〇〇マンション 101号室">
+          </div>
+        </div>
+
+        <h3>お支払い情報</h3>
+        <div class="contact-form">
+          <!-- Stripe Card Element -->
+          <div class="form-group">
+            <label class="form-label">クレジットカード <span class="required">*</span></label>
+            <div id="card-element" style="
+              background:var(--off-white);
+              border:1px solid var(--border);
+              padding:14px 16px;
+              transition:border-color 0.2s;
+            "></div>
+            <div id="card-errors" style="color:#e53e3e;font-size:12px;margin-top:6px;"></div>
+          </div>
+
+          <div style="background:var(--off-white);padding:16px;font-size:12px;color:var(--text-mid);line-height:1.8;">
+            🔒 お支払い情報はStripeにより暗号化され、安全に処理されます。<br>
+            カード情報は当社サーバーには保存されません。
+          </div>
+
+          <button id="pay-btn" class="btn-solid" style="width:100%;justify-content:center;font-size:13px;padding:18px;" onclick="handlePayment()">
+            注文を確定する
+          </button>
+
+          <div id="pay-loading" style="display:none;text-align:center;padding:16px;font-size:13px;color:var(--text-mid);font-family:'Montserrat',sans-serif;letter-spacing:0.05em;">
+            処理中... しばらくお待ちください
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Order Summary -->
+      <div>
+        <div class="checkout-summary">
+          <h3>ご注文内容</h3>
+          <div id="checkout-items">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="summary-total">
+            <span>小計</span>
+            <span id="checkout-subtotal">¥0</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-mid);padding:8px 0;">
+            <span>送料</span>
+            <span>別途計算</span>
+          </div>
+          <div class="summary-total" style="border-top:1px solid var(--border);padding-top:16px;margin-top:8px;">
+            <span>合計（税込）</span>
+            <span id="checkout-total">¥0</span>
+          </div>
+          <div class="stripe-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            Stripe による安全な決済
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUCCESS MODAL -->
+  <div id="success-modal" style="
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+    z-index:9999;align-items:center;justify-content:center;
+  ">
+    <div style="
+      background:var(--white);padding:48px;max-width:480px;width:90%;
+      text-align:center;animation:fadeUp 0.4s ease;
+    ">
+      <div style="font-size:48px;margin-bottom:16px;">✅</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--accent);margin-bottom:16px;">
+        ご注文ありがとうございます
+      </div>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.8;margin-bottom:32px;">
+        ご登録のメールアドレスに確認メールをお送りしました。<br>
+        発送準備ができましたら改めてご連絡いたします。
+      </p>
+      <a href="shop.html" class="btn-solid" style="margin:0 auto;">ショップに戻る</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></div>
+        <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="shop.html">すべての商品</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">会社概要</a>
+        <a href="contact.html">お問い合わせ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:sun_hua@hinokaglobal.com">sun_hua@hinokaglobal.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <script src="shop.js"></script>
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── STRIPE SETUP ─────────────────────────────
+    // TODO: あなたのStripe公開キーに置き換えてください
+    // Stripeアカウント登録後 → ダッシュボード → 開発者 → APIキー から取得
+    const STRIPE_PUBLIC_KEY = 'pk_test_YOUR_STRIPE_PUBLIC_KEY_HERE';
+
+    let stripe, cardElement;
+
+    try {
+      stripe = Stripe(STRIPE_PUBLIC_KEY);
+      const elements = stripe.elements({
+        fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400&display=swap' }]
+      });
+      cardElement = elements.create('card', {
+        style: {
+          base: {
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: '14px',
+            color: '#2a2520',
+            '::placeholder': { color: '#9a9490' }
+          }
+        }
+      });
+      cardElement.mount('#card-element');
+      cardElement.on('change', e => {
+        document.getElementById('card-errors').textContent = e.error ? e.error.message : '';
+      });
+    } catch(e) {
+      document.getElementById('card-element').innerHTML =
+        '<div style="font-size:13px;color:#9a9490;padding:4px 0;">⚠️ Stripeキーを設定してください（checkout.html内のSTRIPE_PUBLIC_KEYを更新）</div>';
+    }
+
+    // ── RENDER ORDER SUMMARY ──────────────────────
+    function renderSummary() {
+      const cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
+      const items = document.getElementById('checkout-items');
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+      if (cart.length === 0) {
+        items.innerHTML = '<div style="font-size:13px;color:var(--text-light);padding:12px 0;">カートが空です</div>';
+      } else {
+        items.innerHTML = cart.map(i => `
+          <div class="summary-item">
+            <span class="summary-item-name">${i.name}</span>
+            <span class="summary-item-qty">×${i.qty}</span>
+            <span class="summary-item-price">¥${(i.price * i.qty).toLocaleString()}</span>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('checkout-subtotal').textContent = `¥${subtotal.toLocaleString()}`;
+      document.getElementById('checkout-total').textContent = `¥${subtotal.toLocaleString()}`;
+    }
+
+    renderSummary();
+
+    // ── PAYMENT HANDLER ───────────────────────────
+    async function handlePayment() {
+      const btn = document.getElementById('pay-btn');
+      const loading = document.getElementById('pay-loading');
+
+      // Validate fields
+      const required = ['last-name', 'first-name', 'email', 'phone', 'postal', 'address'];
+      for (const id of required) {
+        if (!document.getElementById(id).value.trim()) {
+          alert('必須項目をすべてご入力ください。');
+          document.getElementById(id).focus();
+          return;
+        }
+      }
+
+      if (!stripe || !cardElement) {
+        // Demo mode (Stripe key not set)
+        btn.style.display = 'none';
+        loading.style.display = 'block';
+        setTimeout(() => {
+          loading.style.display = 'none';
+          localStorage.removeItem('hinoka_cart');
+          document.getElementById('success-modal').style.display = 'flex';
+        }, 1500);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '処理中...';
+      loading.style.display = 'block';
+
+      // In production: call your backend to create PaymentIntent
+      // const res = await fetch('/api/create-payment-intent', { method:'POST', ... });
+      // const { clientSecret } = await res.json();
+      // const result = await stripe.confirmCardPayment(clientSecret, { ... });
+
+      // Demo: simulate success
+      setTimeout(() => {
+        loading.style.display = 'none';
+        localStorage.removeItem('hinoka_cart');
+        document.getElementById('success-modal').style.display = 'flex';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

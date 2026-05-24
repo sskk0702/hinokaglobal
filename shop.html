@@ -5,219 +5,538 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ショップ - 株式会社HINOKA</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── SHOP PAGE SPECIFIC & RESET VARIABLES ── */
+    :root {
+      --hinoka-dark: #1a2530;
+      --hinoka-gold: #c5a880;
+      --hinoka-border: #e5e9ec;
+      --hinoka-bg: #f8fafb;
+    }
+
+    .shop-wrap {
+      padding-top: 100px; /* 固定的顶部距离，防止被导航栏遮挡 */
+      min-height: 100vh;
+      background-color: var(--hinoka-bg);
+    }
+    .shop-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 48px 80px;
+    }
+    .shop-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--hinoka-border);
+    }
+    .shop-heading-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 44px;
+      font-weight: 300;
+      color: var(--hinoka-dark);
+      line-height: 1;
+    }
+    .shop-heading-ja {
+      font-size: 13px;
+      color: #707a84;
+      letter-spacing: 0.15em;
+    }
+    
+    /* Filter Buttons */
+    .shop-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--hinoka-border);
+      padding-bottom: 1px;
+    }
+    .filter-btn {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: #707a84;
+      background: none;
+      border: none;
+      padding: 12px 24px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { color: var(--hinoka-gold); }
+    .filter-btn.active { color: var(--hinoka-dark); border-bottom-color: var(--hinoka-gold); font-weight: 700; }
+
+    /* Grid Layout */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+    @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px)  { 
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } 
+      .shop-inner { padding: 30px 20px 60px; }
+      .shop-filters { overflow-x: auto; white-space: nowrap; }
+    }
+    @media (max-width: 480px)  { .products-grid { grid-template-columns: 1fr; } }
+
+    /* Product Card */
+    .p-card {
+      background: #ffffff;
+      border: 1px solid var(--hinoka-border);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s, box-shadow 0.25s;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .p-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+    .p-card-img {
+      position: relative;
+      overflow: hidden;
+      background: #f0f2f4;
+      aspect-ratio: 1 / 1;
+    }
+    .p-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .p-card:hover .p-card-img img { transform: scale(1.04); }
+    .p-card-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      background: var(--hinoka-gold);
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .p-card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .p-card-cat {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--hinoka-gold);
+      margin-bottom: 6px;
+    }
+    .p-card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--hinoka-dark);
+      line-height: 1.4;
+      margin-bottom: 8px;
+      min-height: 42px; /* 保持高度对齐 */
+    }
+    .p-card-desc {
+      font-size: 12px;
+      color: #606a74;
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    .p-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 15px;
+      border-top: 1px dashed var(--hinoka-border);
+    }
+    .p-card-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--hinoka-dark);
+    }
+    .p-card-price small {
+      font-size: 11px;
+      color: #808a94;
+      margin-left: 3px;
+      font-weight: normal;
+    }
+    .atc-btn {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      background: var(--hinoka-dark);
+      border: none;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-radius: 2px;
+    }
+    .atc-btn:hover { background: var(--hinoka-gold); }
+
+    /* ── SIDE CART PANEL (滑出式购物车) ── */
+    .cart-drawer {
+      position: fixed;
+      top: 0; right: -400px;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+      z-index: 9999;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 9998;
+      display: none;
+    }
+    .cart-overlay.show { display: block; }
+    
+    .cart-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--hinoka-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--hinoka-dark);
+      color: #ffffff;
+    }
+    .cart-header h3 { margin: 0; font-size: 18px; font-weight: 500; }
+    .close-cart-btn {
+      background: none; border: none; color: #ffffff; font-size: 24px; cursor: pointer;
+    }
+    
+    .cart-items-list {
+      flex: 1; padding: 24px; overflow-y: auto;
+    }
+    .cart-item {
+      display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px;
+      border-bottom: 1px solid var(--hinoka-border);
+      align-items: center;
+    }
+    .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+    .cart-item-detail { flex: 1; }
+    .cart-item-name { font-size: 13px; font-weight: 600; color: var(--hinoka-dark); margin-bottom: 4px; }
+    .cart-item-price { font-size: 13px; color: #505a64; }
+    .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .qty-btn { 
+      background: #f0f2f4; border: none; width: 24px; height: 24px; 
+      cursor: pointer; font-size: 14px; font-weight: bold; border-radius: 3px;
+    }
+    .qty-val { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
+
+    .cart-footer {
+      padding: 24px; border-top: 1px solid var(--hinoka-border); background: #f8fafb;
+    }
+    .cart-total-row {
+      display: flex; justify-content: space-between; font-size: 16px; font-weight: 700;
+      color: var(--hinoka-dark); margin-bottom: 20px;
+    }
+    .checkout-btn {
+      display: block; width: 100%; background: var(--hinoka-gold); color: #ffffff;
+      text-align: center; padding: 15px; border: none; font-size: 14px; font-weight: 700;
+      letter-spacing: 0.1em; text-decoration: none; border-radius: 4px; transition: background 0.2s;
+    }
+    .checkout-btn:hover { background: var(--hinoka-dark); }
+    .empty-cart-msg { text-align: center; color: #808a94; padding-top: 40px; font-size: 14px; }
+
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 80px 20px; color: #808a94; font-size: 14px; }
+  </style>
 </head>
 <body>
 
-  <header id="header">
-    <a href="index.html" class="logo-text">
-      HINOKA
-      <span>株式会社 · HINOKA Co., Ltd.</span>
-    </a>
-    <nav class="main-nav">
-      <a href="index.html">ホーム</a>
-      <a href="shop.html" class="active">ショップ</a>
-      <a href="about.html">会社概要</a>
-      <a href="contact.html" class="nav-contact">お問い合わせ</a>
-    </nav>
-  </header>
+<header id="header">
+  <a href="index.html" class="logo-text">
+    HINOKA
+    <span>株式会社 · HINOKA Co., Ltd.</span>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html">ホーム</a>
+    <a href="shop.html" class="active">ショップ</a>
+    <a href="about.html">会社概要</a>
+    <a href="contact.html" class="nav-contact">お問い合わせ</a>
+  </nav>
+</header>
 
-  <div class="page-hero">
-    <div class="page-hero-inner">
-      <div class="page-hero-en">Shop</div>
-      <div class="page-hero-content">
-        <div class="breadcrumb">
-          <a href="index.html">Home</a><span>/</span>ショップ
-        </div>
-        <h1 class="page-title">ショップ</h1>
-        <div class="page-subtitle">すべての商品</div>
-      </div>
+<div class="shop-wrap">
+  <div class="shop-inner">
+
+    <div class="shop-heading">
+      <div class="shop-heading-en">Shop</div>
+      <div class="shop-heading-ja">すべての商品</div>
+    </div>
+
+    <div class="shop-filters">
+      <button class="filter-btn active" onclick="filter('all',this)">すべて</button>
+      <button class="filter-btn" onclick="filter('pet',this)">ペット用品</button>
+      <button class="filter-btn" onclick="filter('fashion',this)">ファッション</button>
+      <button class="filter-btn" onclick="filter('goods',this)">生活雑貨</button>
+    </div>
+
+    <div class="products-grid" id="grid"></div>
+
+  </div>
+</div>
+
+<!-- ── 🛒 购物车的 HTML 侧边栏面板结构 ── -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>ショッピングカート (购物车)</h3>
+    <button class="close-cart-btn" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-items-list" id="cartItemsList">
+    <!-- 购物车商品由 JS 动态渲染 -->
+  </div>
+  <div class="cart-footer" id="cartFooter">
+    <div class="cart-total-row">
+      <span>合計 (税込):</span>
+      <span id="cartTotalAmount">¥0</span>
+    </div>
+    <a href="checkout.html" class="checkout-btn">レジに進む (前往结账)</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></div>
+      <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="shop.html">すべての商品</a>
+      <a href="shop.html">ペット用品</a>
+      <a href="shop.html">ファッション</a>
+      <a href="shop.html">生活雑貨</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="about.html">会社概要</a>
+      <a href="contact.html">お問い合わせ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:sun_hua@hinokaglobal.com">sun_hua@hinoglobal.com</a>
+      <a href="#">〒556-0014 大阪市浪速区</a>
+      <a href="tel:08088552114">080-8855-2114</a>
     </div>
   </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</div>
+  </div>
+</footer>
 
-  <section class="shop-section">
+<script>
+// ── 商品データ ──
+const PRODUCTS = [
+  {
+    id: 'pet-001', category: 'pet', badge: '人気商品',
+    name: '猫用ふわふわベッド',
+    desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
+    price: 2980,
+    image: 'images/IMG_5113ペット.PNG',
+  },
+  {
+    id: 'pet-002', category: 'pet', badge: null,
+    name: '猫じゃらしセット（5本）',
+    desc: '羽根・鈴・ボール付きの5本セット。毎日の遊び時間が充実します。',
+    price: 1480,
+    image: 'images/IMG_5113ペット.PNG',
+  },
+  {
+    id: 'pet-003', category: 'pet', badge: '新入荷',
+    name: 'ペット用スリッカーブラシ',
+    desc: '抜け毛をしっかりキャッチ。猫・犬どちらにも使えるソフトピン仕様。',
+    price: 1980,
+    image: 'images/IMG_5113ペット.PNG',
+  },
+  {
+    id: 'fashion-001', category: 'fashion', badge: '人気商品',
+    name: 'パールチェーンネックレス',
+    desc: 'シンプルなパールモチーフが上品な印象に。普段使いからお出かけまで。',
+    price: 1680,
+    image: 'images/Photoroom_アパレル_162100.jpg',
+  },
+  {
+    id: 'fashion-002', category: 'fashion', badge: null,
+    name: 'リボンヘアクリップ（2個セット）',
+    desc: 'どんなスタイルにも合わせやすいシンプルリボン。カラーは3色展開。',
+    price: 980,
+    image: 'images/Photoroom_アパレル_162100.jpg',
+  },
+  {
+    id: 'fashion-003', category: 'fashion', badge: '新入荷',
+    name: 'ゴールドフープピアス',
+    desc: '軽量で耳への負担が少ない。シンプルなゴールドカラーがどんな服にも合う。',
+    price: 1280,
+    image: 'images/Photoroom_アパレル_162100.jpg',
+  },
+  {
+    id: 'goods-001', category: 'goods', badge: null,
+    name: 'シリコン仕切り収納トレー',
+    desc: '引き出しの中をすっきり整理。柔軟なシリコン素材でどんな引き出しにもフィット。',
+    price: 1580,
+    image: 'images/Photoroom_雑貨_162139.jpg',
+  },
+  {
+    id: 'goods-002', category: 'goods', badge: '人気商品',
+    name: 'ステンレスランチボックス 2段',
+    desc: '電子レンジ対応・食洗機対応。おしゃれなシルバーデザインでオフィスでも使いやすい。',
+    price: 2480,
+    image: 'images/Photoroom_雑貨_162139.jpg',
+  },
+  {
+    id: 'goods-003', category: 'goods', badge: '新入荷',
+    name: 'アロマディフューザー USB式',
+    desc: 'USBで給電できるコンパクトデザイン。静音設計でオフィスや寝室でも快適。',
+    price: 3280,
+    image: 'images/Photoroom_雑貨_162139.jpg',
+  },
+];
 
-    <!-- Filter Tabs -->
-    <div class="shop-filters">
-      <button class="filter-tab active" onclick="filterProducts('all', this)">すべて</button>
-      <button class="filter-tab" onclick="filterProducts('pet', this)">ペット用品</button>
-      <button class="filter-tab" onclick="filterProducts('fashion', this)">ファッション</button>
-      <button class="filter-tab" onclick="filterProducts('goods', this)">生活雑貨</button>
-    </div>
+const CAT_LABEL = {
+  pet: 'ペット用品',
+  fashion: 'ファッション・アクセサリー',
+  goods: '生活雑貨'
+};
 
-    <!-- Products Grid -->
-    <div class="shop-grid" id="products-grid">
-      <!-- Products injected by JS -->
-    </div>
+// ── 🛒 购物车的核心 JS 交互逻辑运行机制 ──
+let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-  </section>
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('show');
+  renderCart();
+}
 
-  <footer>
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></div>
-        <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
-      </div>
-      <div class="footer-col">
-        <h4>Shop</h4>
-        <a href="shop.html">すべての商品</a>
-        <a href="shop.html">ペット用品</a>
-        <a href="shop.html">ファッション</a>
-        <a href="shop.html">生活雑貨</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="about.html">会社概要</a>
-        <a href="contact.html">お問い合わせ</a>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <a href="mailto:sun_hua@hinokaglobal.com">sun_hua@hinokaglobal.com</a>
-        <a href="#">〒556-0014 大阪市浪速区</a>
-        <a href="tel:08088552114">080-8855-2114</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</div>
-    </div>
-  </footer>
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('show');
+}
 
-  <script src="shop.js"></script>
-  <script>
-    // ── PRODUCT DATA ─────────────────────────────
-    // 商品を追加するときはここに追記するだけでOK
-    const PRODUCTS = [
-      {
-        id: 'pet-001',
-        category: 'pet',
-        name: '猫用ふわふわベッド',
-        desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
-        price: 2980,
-        image: 'images/IMG_9765.PNG',
-        badge: '人気商品',
-      },
-      {
-        id: 'pet-002',
-        category: 'pet',
-        name: '猫じゃらしセット（5本）',
-        desc: '羽根・鈴・ボール付きの5本セット。毎日の遊び時間が充実します。',
-        price: 1480,
-        image: 'images/IMG_9765.PNG',
-        badge: null,
-      },
-      {
-        id: 'pet-003',
-        category: 'pet',
-        name: 'ペット用スリッカーブラシ',
-        desc: '抜け毛をしっかりキャッチ。猫・犬どちらにも使えるソフトピン仕様。',
-        price: 1980,
-        image: 'images/IMG_9765.PNG',
-        badge: '新入荷',
-      },
-      {
-        id: 'fashion-001',
-        category: 'fashion',
-        name: 'パールチェーンネックレス',
-        desc: 'シンプルなパールモチーフが上品な印象に。普段使いからお出かけまで。',
-        price: 1680,
-        image: 'images/IMG_9731.PNG',
-        badge: '人気商品',
-      },
-      {
-        id: 'fashion-002',
-        category: 'fashion',
-        name: 'リボンヘアクリップ（2個セット）',
-        desc: 'どんなスタイルにも合わせやすいシンプルリボン。カラーは3色展開。',
-        price: 980,
-        image: 'images/IMG_9731.PNG',
-        badge: null,
-      },
-      {
-        id: 'fashion-003',
-        category: 'fashion',
-        name: 'ゴールドフープピアス',
-        desc: '軽量で耳への負担が少ない。シンプルなゴールドカラーがどんな服にも合う。',
-        price: 1280,
-        image: 'images/IMG_9731.PNG',
-        badge: '新入荷',
-      },
-      {
-        id: 'goods-001',
-        category: 'goods',
-        name: 'シリコン仕切り収納トレー',
-        desc: '引き出しの中をすっきり整理。柔軟なシリコン素材でどんな引き出しにもフィット。',
-        price: 1580,
-        image: 'images/IMG_9766.PNG',
-        badge: null,
-      },
-      {
-        id: 'goods-002',
-        category: 'goods',
-        name: 'ステンレスランチボックス 2段',
-        desc: '電子レンジ対応・食洗機対応。おしゃれなシルバーデザインでオフィスでも使いやすい。',
-        price: 2480,
-        image: 'images/IMG_9766.PNG',
-        badge: '人気商品',
-      },
-      {
-        id: 'goods-003',
-        category: 'goods',
-        name: 'アロマディフューザー USB式',
-        desc: 'USBで給電できるコンパクトデザイン。静音設計でオフィスや寝室でも快適に使用可能。',
-        price: 3280,
-        image: 'images/IMG_9766.PNG',
-        badge: '新入荷',
-      },
-    ];
+function addToCart(id, name, price, image) {
+  const existingItem = cart.find(item => item.id === id);
+  if (existingItem) {
+    existingItem.qty += 1;
+  } else {
+    cart.push({ id, name, price, image, qty: 1 });
+  }
+  saveCart();
+  openCart();
+}
 
-    // ── RENDER PRODUCTS ───────────────────────────
-    function renderProducts(products) {
-      const grid = document.getElementById('products-grid');
-      grid.innerHTML = products.map(p => `
-        <div class="shop-card fade-in" data-category="${p.category}">
-          <div class="shop-card-img">
-            <img src="${p.image}" alt="${p.name}" loading="lazy">
-            ${p.badge ? `<div class="shop-card-badge">${p.badge}</div>` : ''}
-          </div>
-          <div class="shop-card-body">
-            <div class="shop-card-cat">${categoryLabel(p.category)}</div>
-            <div class="shop-card-name">${p.name}</div>
-            <div class="shop-card-desc">${p.desc}</div>
-            <div class="shop-card-bottom">
-              <div class="shop-card-price">¥${p.price.toLocaleString()}<span>税込</span></div>
-              <button class="add-to-cart-btn" onclick="addToCart('${p.id}','${p.name}',${p.price},'${p.image}')">
-                カートへ
-              </button>
-            </div>
+function updateQty(id, change) {
+  const item = cart.find(item => item.id === id);
+  if (item) {
+    item.qty += change;
+    if (item.qty <= 0) {
+      cart = cart.filter(i => i.id !== id);
+    }
+    saveCart();
+    renderCart();
+  }
+}
+
+function saveCart() {
+  localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+}
+
+function renderCart() {
+  const listContainer = document.getElementById('cartItemsList');
+  const footerContainer = document.getElementById('cartFooter');
+  
+  if (cart.length === 0) {
+    listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
+    document.getElementById('cartTotalAmount').innerText = '¥0';
+    footerContainer.style.opacity = '0.5';
+    footerContainer.style.pointerEvents = 'none';
+    return;
+  }
+  
+  footerContainer.style.opacity = '1';
+  footerContainer.style.pointerEvents = 'auto';
+  
+  let total = 0;
+  listContainer.innerHTML = cart.map(item => {
+    total += item.price * item.qty;
+    return `
+      <div class="cart-item">
+        <img src="${item.image}" class="cart-item-img" alt="${item.name}">
+        <div class="cart-item-detail">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
           </div>
         </div>
-      `).join('');
+      </div>
+    `;
+  ).join('');
+  
+  document.getElementById('cartTotalAmount').innerText = '¥' + total.toLocaleString();
+}
 
-      // Re-observe fade-in
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-      }, { threshold: 0.05 });
-      document.querySelectorAll('.shop-card.fade-in').forEach(el => observer.observe(el));
-    }
+function renderGrid(list) {
+  const grid = document.getElementById('grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state">商品が見つかりませんでした</div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="p-card">
+      <div class="p-card-img">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        ${p.badge ? `<div class="p-card-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="p-card-body">
+        <div class="p-card-cat">${CAT_LABEL[p.category]}</div>
+        <div class="p-card-name">${p.name}</div>
+        <div class="p-card-desc">${p.desc}</div>
+        <div class="p-card-bottom">
+          <div class="p-card-price">¥${p.price.toLocaleString()}<small>税込</small></div>
+          <button class="atc-btn" onclick="addToCart('${p.id}','${p.name}',${p.price},'${p.image}')">
+            カートへ
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
 
-    function categoryLabel(cat) {
-      return { pet: 'ペット用品', fashion: 'ファッション・アクセサリー', goods: '生活雑貨' }[cat] || '';
-    }
+function filter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid(cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === cat));
+}
 
-    function filterProducts(cat, btn) {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      const filtered = cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === cat);
-      renderProducts(filtered);
-    }
+// Header scroll
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+});
 
-    // Header scroll
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
-    });
-
-    // Init
-    renderProducts(PRODUCTS);
-  </script>
+// Init
+renderGrid(PRODUCTS);
+</script>
 </body>
 </html>

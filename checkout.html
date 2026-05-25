@@ -118,19 +118,21 @@
       <div>
         <div class="checkout-summary" style="position: sticky; top: 120px;">
           <h3>ご注文内容</h3>
-          <div id="checkout-items">
-            </div>
+          <div id="checkout-items"></div>
+          
           <div class="summary-total">
-            <span>小計</span>
+            <span>商品小計</span>
             <span id="checkout-subtotal">¥0</span>
           </div>
+          
           <div style="display:flex;justify-content:space-between;font-size:13px;color:#707a84;padding:8px 0;">
-            <span>送料</span>
-            <span>別途計算</span>
+            <span>送料合計</span>
+            <span id="checkout-shipping" style="font-weight: 600;">無料</span>
           </div>
+          
           <div class="summary-total" style="border-top:1px solid #e5e9ec;padding-top:16px;margin-top:8px;">
-            <span>合計（税込）</span>
-            <span id="checkout-total">¥0</span>
+            <span>総合計（税込）</span>
+            <span id="checkout-total" style="color:#bf0000; font-size:18px;">¥0</span>
           </div>
           
           <input type="hidden" name="cart_items_invoice" id="hidden-invoice-data">
@@ -216,44 +218,72 @@
         '<div style="font-size:13px;color:#9a9490;padding:4px 0;">⚠️ Stripeキーを設定してください（测试模式正常运行中）</div>';
     }
 
-    // ── RENDER ORDER SUMMARY & BUILD INVOICE TEXT ──────────────────────
+    // ── 🛠️ 核心修改：重新重构计算逻辑，将运费拉入账目模型 ──────────────────────
     function renderSummary() {
       const cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
       const items = document.getElementById('checkout-items');
-      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      
+      let totalGoodsPrice = 0;
+      let totalShippingPrice = 0;
 
       if (cart.length === 0) {
         items.innerHTML = '<div style="font-size:13px;color:#808a94;padding:12px 0;">カートが空です</div>';
         return;
       }
       
-      // 动态渲染右侧商品清单
-      items.innerHTML = cart.map(i => `
-        <div style="display:flex; justify-content:space-between; font-size:13px; color:#1a2530; margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed #e5e9ec;">
-          <span style="font-weight:600;">${i.name} <span style="color:#707a84; font-weight:normal;">(x${i.qty})</span></span>
-          <span>¥${(i.price * i.qty).toLocaleString()}</span>
-        </div>
-      `).join('');
+      // 1. 循环累计商品总价与各规格单独绑定的运费总和
+      items.innerHTML = cart.map(i => {
+        totalGoodsPrice += i.price * i.qty;
+        
+        // 兼容处理：确保以前老缓存中如果没有 shipping 字段时默认为 0，防止报错数额变成 NaN
+        const itemShipping = i.shipping ? Number(i.shipping) : 0;
+        totalShippingPrice += itemShipping * i.qty;
 
-      document.getElementById('checkout-subtotal').textContent = `¥${subtotal.toLocaleString()}`;
-      document.getElementById('checkout-total').textContent = `¥${subtotal.toLocaleString()}`;
+        return `
+          <div style="display:flex; justify-content:space-between; font-size:13px; color:#1a2530; margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed #e5e9ec;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font-weight:600;">${i.name} <span style="color:#707a84; font-weight:normal;">(x${i.qty})</span></span>
+              ${itemShipping > 0 ? `<span style="font-size:11px; color:#ea580c;">📍 離島配送料含む</span>` : ''}
+            </div>
+            <span>¥${(i.price * i.qty).toLocaleString()}</span>
+          </div>
+        `;
+      }).join('');
 
-      // 💡 智能技术点：把购物车数据编译成人类完全看得懂的文字报告，塞入隐藏输入框
+      // 2. 算总账
+      const grandTotal = totalGoodsPrice + totalShippingPrice;
+
+      // 3. 动态渲染右侧数值
+      document.getElementById('checkout-subtotal').textContent = `¥${totalGoodsPrice.toLocaleString()}`;
+      
+      if (totalShippingPrice > 0) {
+        document.getElementById('checkout-shipping').innerHTML = `<span style="color:#ea580c;">¥${totalShippingPrice.toLocaleString()}</span>`;
+      } else {
+        document.getElementById('checkout-shipping').innerHTML = `<span style="color:#00875a;">送料無料</span>`;
+      }
+      
+      document.getElementById('checkout-total').textContent = `¥${grandTotal.toLocaleString()}`;
+
+      // 4. 同步升级发送给 Formspree（邮件通知）的文本结构，确保留档无误
       let invoiceText = "===== 注文商品明細 =====\n";
       cart.forEach((item, index) => {
-        invoiceText += `${index + 1}. 商品名: ${item.name} | 数量: ${item.qty} | 单价: ¥${item.price.toLocaleString()} | 小计: ¥${(item.price * item.qty).toLocaleString()}\n`;
+        const sCost = item.shipping ? item.shipping * item.qty : 0;
+        invoiceText += `${index + 1}. 商品名: ${item.name}\n   数量: ${item.qty} | 単価: ¥${item.price.toLocaleString()} | 商品小計: ¥${(item.price * item.qty).toLocaleString()} | 運費内訳: ¥${sCost.toLocaleString()}\n`;
       });
-      invoiceText += `======================\n【注文合計金額】: ¥${subtotal.toLocaleString()} (税込)`;
+      invoiceText += `======================\n`;
+      invoiceText += `【商品小計】: ¥${totalGoodsPrice.toLocaleString()} (税込)\n`;
+      invoiceText += `【送料合計】: ¥${totalShippingPrice > 0 ? totalShippingPrice.toLocaleString() : '0 (送料無料)'}\n`;
+      invoiceText += `【総合計金額】: ¥${grandTotal.toLocaleString()} (税込)`;
       
       document.getElementById('hidden-invoice-data').value = invoiceText;
     }
 
     renderSummary();
 
-    // ── INTERCEPT FORM SUBMISSION (通过AJAX异步发送Formspree并弹出成功窗) ───────────────────────────
+    // ── INTERCEPT FORM SUBMISSION ───────────────────────────
     const form = document.getElementById('hinoka-checkout-form');
     form.addEventListener('submit', function(e) {
-      e.preventDefault(); // 拦截原生跳转
+      e.preventDefault();
 
       const btn = document.getElementById('pay-btn');
       const loading = document.getElementById('pay-loading');
@@ -261,7 +291,6 @@
       btn.style.display = 'none';
       loading.style.display = 'block';
 
-      // 将表单数据通过异步 Fetch 发送给 Formspree
       fetch(form.action, {
         method: form.method,
         body: new FormData(form),
@@ -269,9 +298,7 @@
       }).then(response => {
         loading.style.display = 'none';
         if (response.ok) {
-          // 清空浏览器购物车
           localStorage.removeItem('hinoka_cart');
-          // 优雅弹出您做好的成功提示框
           document.getElementById('success-modal').style.display = 'flex';
         } else {
           alert('送信にエラーが発生しました。お手数ですが、もう一度お試しいただくか、直接メールにてご連絡ください。');

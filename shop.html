@@ -9,77 +9,47 @@
     /* ── 🛒 SHOP CONTAINER ── */
     .shop-container { max-width: 1200px; margin: 0 auto; padding: 120px 20px 80px; }
     
-    /* ── 📌 核心优化 1：分类与购物车吸顶固定栏 ── */
+    /* ── 📌 分类与购物车吸顶固定栏 ── */
     .shop-sticky-bar {
       position: sticky;
-      top: 70px; /* 避开主导航栏的高度，请根据 index.html 的 header 高度微调 */
-      background: rgba(255, 255, 255, 0.96); /* 略带高级透明感 */
-      backdrop-filter: blur(5px); /* 毛玻璃效果 */
-      z-index: 900; /* 确保在商品流上方，在弹窗下方 */
+      top: 70px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(5px);
+      z-index: 900;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #e5e9ec;
       margin-bottom: 40px;
       padding: 15px 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02); /* 滚动时有一层淡淡的阴影 */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
     }
     
-    /* 分类按钮组：手机端单行横向滚动 */
-    .shop-filters {
-      display: flex;
-      gap: 5px;
-      overflow-x: auto;
-      white-space: nowrap;
-      width: calc(100% - 60px);
-      -webkit-overflow-scrolling: touch;
-    }
+    .shop-filters { display: flex; gap: 5px; overflow-x: auto; white-space: nowrap; width: calc(100% - 60px); -webkit-overflow-scrolling: touch; }
     .shop-filters::-webkit-scrollbar { display: none; }
-    
     .filter-btn { background: none; border: none; padding: 8px 12px; font-size: 14px; color: #606a74; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
     .filter-btn.active, .filter-btn:hover { color: #c5a880; font-weight: 600; }
     
-    /* 右侧固定购物车按钮 */
-    .menu-cart-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: #1a2530;
-      color: #fff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
+    .menu-cart-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: #1a2530; color: #fff; border: none; padding: 8px 12px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
     .menu-cart-btn:hover { background: #c5a880; }
     .menu-cart-count { background: #bf0000; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
 
-    /* 📱 手机端响应式吸顶细节调整 */
     @media (max-width: 500px) {
       .shop-container { padding-top: 80px; }
-      .shop-sticky-bar { top: 60px; padding: 10px 5px; } /* 手机端紧凑化 */
+      .shop-sticky-bar { top: 60px; padding: 10px 5px; }
       .menu-cart-btn span:not(.menu-cart-icon):not(.menu-cart-count) { display: none; }
       .menu-cart-btn { padding: 8px 10px; }
       .shop-filters { width: calc(100% - 45px); }
     }
 
-    /* ── 🖼️ 核心优化 2：图片防裁剪、完整展示 ── */
+    /* ── 🖼️ 图片防裁剪、完整展示 ── */
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     .p-card { background: #fff; border: 1px solid #e5e9ec; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
     .p-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    
-    /* 核心修改：使用 contain 确保照片完美全量显示 */
     .p-card-img { width: 100%; aspect-ratio: 1; background: #f8fafb; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .p-card-img img { width: 100%; height: 100%; object-fit: contain; padding: 10px; box-sizing: border-box; }
-    
     .p-card-badge { position: absolute; top: 12px; left: 12px; background: #1a2530; color: #fff; padding: 4px 8px; font-size: 11px; letter-spacing: 0.05em; z-index: 2; }
     .p-card-shipping-tag { position: absolute; bottom: 12px; right: 12px; background: #bf0000; color: #fff; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 2px; z-index: 2; }
-    
     .p-card-body { padding: 20px; }
     .p-card-cat { font-size: 11px; color: #808a94; text-transform: uppercase; margin-bottom: 6px; }
     .p-card-name { font-size: 16px; font-weight: 500; color: #1a2530; margin-bottom: 8px; }
@@ -91,14 +61,13 @@
     .atc-btn:hover { background: #1a2530; }
     .atc-btn:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
 
-    /* ── 🌟 详情弹窗与区域运费选择 ── */
+    /* ── 🌟 详情弹窗 ── */
     .p-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
     .p-modal-overlay.show { display: flex; }
     .p-modal-window { background: #fff; width: 100%; max-width: 960px; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; position: relative; border-radius: 4px; animation: modalUp 0.4s ease; }
     @media (max-width: 768px) { .p-modal-window { grid-template-columns: 1fr; } }
     .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 32px; background: none; border: none; color: #1a2530; cursor: pointer; z-index: 10; }
     
-    /* 弹窗图片同样防裁剪 */
     .modal-gallery { padding: 30px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid #e5e9ec; }
     @media (max-width: 768px) { .modal-gallery { border-right: none; border-bottom: 1px solid #e5e9ec; } }
     .modal-main-img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; padding: 15px; box-sizing: border-box; }
@@ -110,7 +79,7 @@
     .modal-title { font-size: 22px; font-weight: 500; color: #1a2530; margin: 0 0 10px; }
     .modal-price { font-size: 22px; font-weight: 700; color: #1a2530; margin-bottom: 15px; }
     
-    /* ── 🚚 核心优化 3：透明化运费计算板 ── */
+    /* ── 🚚 实时运费计算面板 ── */
     .rakuten-delivery-box { background: #f8fafb; border: 1px solid #e5e9ec; padding: 15px; margin-bottom: 20px; border-radius: 4px; font-size: 13px; }
     .rt-row { display: flex; margin-bottom: 8px; align-items: center; }
     .rt-row:last-child { margin-bottom: 0; }
@@ -130,7 +99,7 @@
     .modal-atc-btn { background: #c5a880; color: #fff; border: none; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; margin-top: auto; }
     .modal-atc-btn:hover { background: #1a2530; }
 
-    /* 侧边购物车栏 */
+    /* ── 🛒 侧边购物车栏 ── */
     .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 11000; }
     .cart-overlay.show { display: block; }
     .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 12000; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -10px 0 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
@@ -138,15 +107,18 @@
     .cart-header { padding: 24px; border-bottom: 1px solid #e5e9ec; display: flex; justify-content: space-between; align-items: center; }
     .cart-header h3 { margin: 0; font-size: 16px; font-weight: 600; color: #1a2530; }
     .close-cart-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #1a2530; }
+    
     #cartItemsList { flex: 1; overflow-y: auto; padding: 24px; }
     .cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f5f7f8; align-items: center; }
     .cart-item-img { width: 65px; height: 65px; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; }
     .cart-item-detail { flex: 1; }
     .cart-item-name { font-size: 13px; font-weight: 600; color: #1a2530; margin-bottom: 4px; }
-    .cart-item-price { font-size: 12px; color: #606a74; margin-bottom: 8px; }
+    .cart-item-price { font-size: 12px; color: #606a74; margin-bottom: 4px; }
+    .cart-item-shipping { font-size: 11px; margin-bottom: 8px; }
     .cart-item-qty { display: flex; align-items: center; gap: 10px; }
     .qty-btn { width: 24px; height: 24px; background: #fff; border: 1px solid #e5e9ec; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-val { font-size: 13px; min-width: 20px; text-align: center; }
+    
     .cart-footer { padding: 24px; border-top: 1px solid #e5e9ec; background: #f8fafb; }
     .checkout-btn { display: block; width: 100%; background: #c5a880; color: #fff; text-align: center; padding: 14px; font-size: 13px; font-weight: 700; text-decoration: none; transition: background 0.2s; box-sizing: border-box; }
     .checkout-btn:hover { background: #1a2530; }
@@ -168,8 +140,6 @@
   </header>
 
   <div class="shop-container">
-    
-    <!-- ── 📌 更改点：这一整栏被赋予了 .shop-sticky-bar 样式，实现完美上下滚动吸顶固定 ── -->
     <div class="shop-sticky-bar">
       <div class="shop-filters">
         <button class="filter-btn active" onclick="filter('all', this)">すべての商品</button>
@@ -185,11 +155,10 @@
       </button>
     </div>
 
-    <!-- 网格 -->
     <div class="product-grid" id="grid"></div>
   </div>
 
-  <!-- 商品详情弹窗（加入智能运费选择） -->
+  <!-- 商品详情弹窗 -->
   <div class="p-modal-overlay" id="productModal" onclick="closeProductModal(event)">
     <div class="p-modal-window">
       <button class="close-modal-btn" onclick="doCloseModal()">×</button>
@@ -204,12 +173,12 @@
         <h2 class="modal-title" id="modalTitle">商品名</h2>
         <div class="modal-price" id="modalPrice">¥0</div>
         
-        <!-- ── 🚚 优化后的实时运费计算交互板块 ── -->
+        <!-- 🚚 实时区域运费选择板 -->
         <div class="rakuten-delivery-box">
           <div class="rt-row">
             <div class="rt-label">配送先地域</div>
             <div class="rt-value">
-              <select class="shipping-select" id="modalShippingRegion" onchange="updateModalShippingInfo()">
+              <select class="shipping-select" id="modalShippingRegion" onchange="updateModalPriceAndShipping()">
                 <option value="mainland" selected>本州・四国・九州（送料無料）</option>
                 <option value="remote">北海道・沖縄・離島（+¥1,500）</option>
               </select>
@@ -252,29 +221,43 @@
     </div>
     <div id="cartItemsList"></div>
     <div class="cart-footer" id="cartFooter">
-      <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
-        <span>商品合計:</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
+        <span>商品合計 (个税込):</span>
         <span id="cartSubtotalAmount">¥0</span>
       </div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:13px; color:#606a74;">
-        <span>送料 (※地域により異なる):</span>
-        <span id="cartShippingNote">レジにて確定</span>
+      <!-- ── 🛠️ 更改点：这里原本是固定的“レジにて確定”，现在会动态把所有人总运费加总显示 ── -->
+      <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px;">
+        <span>送料合計:</span>
+        <span id="cartShippingTotalAmount" style="font-weight: 700;">¥0</span>
+      </div>
+      <hr style="border:none; border-top:1px solid #e5e9ec; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:16px; font-weight:700; color:#bf0000;">
+        <span>総合計 (含运费总额):</span>
+        <span id="cartGrandTotalAmount">¥0</span>
       </div>
       <a href="checkout.html" class="checkout-btn">レジに進む</a>
     </div>
   </div>
 
 <script>
+// ── 🛠️ 核心修改：在数据结构里加入针对尺寸、颜色的加价机制 (priceModifier) ──
 const PRODUCTS = [
   {
     id: 'pet-001', category: 'pet', badge: '人気商品',
     name: 'PET用ふわふわベッド',
     desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
-    price: 2980,
+    price: 2980, // M码基础价
     image: 'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
     images: ['images/IMG_5113ペット.PNG'], 
-    colors: ['ライトグレー', 'アプリコット', 'ミルクティー'],
-    sizes: ['Mサイズ (径50cm)', 'Lサイズ (径60cm)'],
+    colors: [
+      { name: 'ライトグレー', priceModifier: 0 },
+      { name: 'アプリコット', priceModifier: 0 },
+      { name: 'ミルクティー', priceModifier: 0 }
+    ],
+    sizes: [
+      { name: 'Mサイズ (径50cm)', priceModifier: 0 },
+      { name: 'Lサイズ (径60cm)', priceModifier: 1000 } // L码比基础价贵1000日元
+    ],
     longDesc: '毎日の睡眠は大切な家族の健康に直结します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
     stock: 5,               
     shipsFrom: '大阪府',    
@@ -287,9 +270,9 @@ const PRODUCTS = [
     price: 1680,
     image: 'images/Photoroom_アパレル_162100.jpg',
     images: ['images/Photoroom_アパレル_162100.jpg'],
-    colors: ['ゴールド', 'シルバー'],
-    sizes: ['フリーサイズ'],
-    longDesc: 'トレンド感のある上品な淡水パール風ネックレス。リーズナブルな価格でお手軽に大人の輝きをプラスします。',
+    colors: [{ name: 'ゴールド', priceModifier: 0 }, { name: 'シルバー', priceModifier: 0 }],
+    sizes: [{ name: 'フリーサイズ', priceModifier: 0 }],
+    longDesc: 'トレンド感のある上品な淡水パール风ネックレス。リーズナブルな価格でお手軽に大人の輝きをプラスします。',
     stock: 25,
     shipsFrom: '大阪府',
     leadTime: '1〜2営業日以内に発送'
@@ -301,8 +284,8 @@ const PRODUCTS = [
     price: 1580,
     image: 'images/Photoroom_雑貨_162139.jpg',
     images: ['images/Photoroom_雑貨_162139.jpg'],
-    colors: ['ホワイト', 'グレー'],
-    sizes: ['Sサイズ', 'Mサイズ'],
+    colors: [{ name: 'ホワイト', priceModifier: 0 }, { name: 'グレー', priceModifier: 0 }],
+    sizes: [{ name: 'Sサイズ', priceModifier: 0 }, { name: 'Mサイズ', priceModifier: 300 }], // M号大一点贵300日元
     longDesc: '引き出しの中をすっきり美しく整理整頓。柔軟性のあるシリコン素材のため傷がつきにくく、丸洗いも簡単。',
     stock: 0, 
     shipsFrom: '大阪府',
@@ -313,8 +296,8 @@ const PRODUCTS = [
 const CAT_LABEL = { pet: 'ペット用品', fashion: 'ファッション・アクセサリー', goods: '生活雑貨' };
 let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 let currentModalProductId = '';
-let selectedColor = '';
-let selectedSize = '';
+let selectedColorObj = null;
+let selectedSizeObj = null;
 
 function openCart() {
   document.getElementById('cartDrawer').classList.add('open');
@@ -343,9 +326,9 @@ function renderGrid(items) {
           <div class="p-card-name">${p.name}</div>
           <div class="p-card-desc">${p.desc}</div>
           <div class="p-card-bottom" onclick="event.stopPropagation()">
-            <div class="p-card-price">¥${p.price.toLocaleString()}<small>(税込)</small></div>
-            <button class="atc-btn" ${isOut ? 'disabled' : ''} onclick="addToCart('${p.id}', '${p.name}', ${p.price}, '${p.image}')">
-              ${isOut ? '売り切れ' : 'カートへ'}
+            <div class="p-card-price">¥${p.price.toLocaleString()}<small>~ (税込)</small></div>
+            <button class="atc-btn" ${isOut ? 'disabled' : ''} onclick="openProductModal('${p.id}')">
+              ${isOut ? '売り切れ' : '選択する'}
             </button>
           </div>
         </div>
@@ -365,9 +348,36 @@ function openProductModal(id) {
   document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
   document.getElementById('modalDispatchTime').innerText = `${p.leadTime}（${p.shipsFrom}より出荷）`;
   
-  // 重置选择框为本岛默认
+  // 初始化默认规格选择
+  selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
+  selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
+
+  // 重置区域选择为本岛免费
   document.getElementById('modalShippingRegion').value = 'mainland';
-  updateModalShippingInfo();
+  
+  // 渲染规格按钮组
+  const colorOptions = document.getElementById('modalColorOptions');
+  if (p.colors && p.colors.length) {
+    document.getElementById('modalColorGroup').style.display = 'block';
+    colorOptions.innerHTML = p.colors.map((c, idx) => `
+      <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('color', '${c.name}', this)">${c.name}</button>
+    `).join('');
+  } else {
+    document.getElementById('modalColorGroup').style.display = 'none';
+  }
+  
+  const sizeOptions = document.getElementById('modalSizeOptions');
+  if (p.sizes && p.sizes.length) {
+    document.getElementById('modalSizeGroup').style.display = 'block';
+    sizeOptions.innerHTML = p.sizes.map((s, idx) => `
+      <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('size', '${s.name}', this)">${s.name}</button>
+    `).join('');
+  } else {
+    document.getElementById('modalSizeGroup').style.display = 'none';
+  }
+
+  // 刷新计算单价和运费
+  updateModalPriceAndShipping();
 
   const atcBtnEl = document.getElementById('modalAtcBtn');
   if (p.stock <= 0) {
@@ -384,51 +394,48 @@ function openProductModal(id) {
     <img src="${img}" class="modal-thumb ${idx === 0 ? 'active' : ''}" onclick="switchModalImage('${img}', this)">
   `).join('');
   
-  const colorOptions = document.getElementById('modalColorOptions');
-  if (p.colors && p.colors.length) {
-    document.getElementById('modalColorGroup').style.display = 'block';
-    selectedColor = p.colors[0];
-    colorOptions.innerHTML = p.colors.map((c, idx) => `
-      <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('color', '${c}', this)">${c}</button>
-    `).join('');
-  } else {
-    selectedColor = '';
-    document.getElementById('modalColorGroup').style.display = 'none';
-  }
-  
-  const sizeOptions = document.getElementById('modalSizeOptions');
-  if (p.sizes && p.sizes.length) {
-    document.getElementById('modalSizeGroup').style.display = 'block';
-    selectedSize = p.sizes[0];
-    sizeOptions.innerHTML = p.sizes.map((s, idx) => `
-      <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('size', '${s}', this)">${s}</button>
-    `).join('');
-  } else {
-    selectedSize = '';
-    document.getElementById('modalSizeGroup').style.display = 'none';
-  }
-  
   document.getElementById('productModal').classList.add('show');
 }
 
-// ── 💡 运费切换动态更新逻辑 ──
-function updateModalShippingInfo() {
+// ── 🛠️ 核心修改：综合计算“商品底价 + 尺寸加价 + 离岛运费”的实时联动逻辑 ──
+function updateModalPriceAndShipping() {
   const p = PRODUCTS.find(item => item.id === currentModalProductId);
   if (!p) return;
   
+  // 1. 计算商品实际价格 (加上规格带来的溢价)
+  let currentProductPrice = p.price;
+  if (selectedColorObj) currentProductPrice += selectedColorObj.priceModifier;
+  if (selectedSizeObj) currentProductPrice += selectedSizeObj.priceModifier;
+  
+  // 2. 检测运费
   const region = document.getElementById('modalShippingRegion').value;
   const priceEl = document.getElementById('modalPrice');
   const shippingStatusEl = document.getElementById('modalShippingStatus');
   
   if (region === 'remote') {
-    // 针对离岛北海道客户：实时展示总价和追加运费金额，打消疑虑
-    priceEl.innerHTML = `¥${p.price.toLocaleString()} <span style="font-size:14px; color:#bf0000; font-weight:normal;">+ 送料 ¥1,500</span>`;
+    priceEl.innerHTML = `¥${currentProductPrice.toLocaleString()} <span style="font-size:14px; color:#bf0000; font-weight:normal;">(规格价) + 送料 ¥1,500</span>`;
     shippingStatusEl.innerHTML = '<span style="color:#ea580c; font-weight:bold;">¥1,500 (北海道・沖縄・離島)</span>';
   } else {
-    // 正常本岛：直接免费
-    priceEl.innerText = `¥${p.price.toLocaleString()} (税込)`;
+    priceEl.innerText = `¥${currentProductPrice.toLocaleString()} (税込)`;
     shippingStatusEl.innerHTML = '<span class="text-free">送料無料</span>';
   }
+}
+
+function selectModalSpec(type, name, el) {
+  const p = PRODUCTS.find(item => item.id === currentModalProductId);
+  if (!p) return;
+
+  if (type === 'color') {
+    selectedColorObj = p.colors.find(c => c.name === name);
+    document.getElementById('modalColorOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
+  } else {
+    selectedSizeObj = p.sizes.find(s => s.name === name);
+    document.getElementById('modalSizeOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
+  }
+  el.classList.add('active');
+  
+  // 每次切换规格（比如从50cm到60cm），重新算一次钱
+  updateModalPriceAndShipping();
 }
 
 function doCloseModal() { document.getElementById('productModal').classList.remove('show'); }
@@ -438,53 +445,54 @@ function switchModalImage(src, el) {
   document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
 }
-function selectModalSpec(type, val, el) {
-  if (type === 'color') {
-    selectedColor = val;
-    document.getElementById('modalColorOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
-  } else {
-    selectedSize = val;
-    document.getElementById('modalSizeOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
-  }
-  el.classList.add('active');
-}
 
+// ── 🛠️ 核心修改：将计算好的规格变动价格与运费独立打包，注入购物车缓存 ──
 function addModalProductToCart() {
   const p = PRODUCTS.find(item => item.id === currentModalProductId);
   if (!p) return;
-  let specName = p.name;
-  let specId = p.id;
-  if (selectedColor || selectedSize) {
-    const specs = [];
-    if (selectedColor) specs.push(selectedColor);
-    if (selectedSize) specs.push(selectedSize);
-    specName += ` (${specs.join(' / ')})`;
-    specId += `-${selectedColor}-${selectedSize}`;
+
+  // 1. 最终单品价
+  let finalItemPrice = p.price;
+  const specTextArray = [];
+  if (selectedColorObj) {
+    finalItemPrice += selectedColorObj.priceModifier;
+    specTextArray.push(selectedColorObj.name);
   }
+  if (selectedSizeObj) {
+    finalItemPrice += selectedSizeObj.priceModifier;
+    specTextArray.push(selectedSizeObj.name);
+  }
+  
+  let finalName = p.name;
+  if (specTextArray.length > 0) {
+    finalName += ` (${specTextArray.join(' / ')})`;
+  }
+
+  // 2. 最终判定单件运费
+  const region = document.getElementById('modalShippingRegion').value;
+  const finalShippingCost = (region === 'remote') ? 1500 : 0;
+  const shippingLabel = (region === 'remote') ? '北海道・沖縄・離島配送' : '本島配送(送料無料)';
+
+  // 为购物车生成唯一Key（防止规格不同或配送地不同的商品在购物车里被错误合并）
+  const specId = `${p.id}-${selectedColorObj?.name || ''}-${selectedSizeObj?.name || ''}-${region}`;
+
   const existingItem = cart.find(item => item.id === specId);
-  if (existingItem) { existingItem.qty += 1; } else { cart.push({ id: specId, name: specName, price: p.price, image: p.image, qty: 1 }); }
+  if (existingItem) {
+    existingItem.qty += 1;
+  } else {
+    cart.push({
+      id: specId,
+      name: finalName,
+      price: finalItemPrice,
+      shipping: finalShippingCost,
+      shippingLabel: shippingLabel,
+      image: p.image,
+      qty: 1
+    });
+  }
+
   localStorage.setItem('hinoka_cart', JSON.stringify(cart));
   doCloseModal();
-  openCart();
-}
-
-function addToCart(id, name, price, image) {
-  const p = PRODUCTS.find(item => item.id === id);
-  if (p && p.stock <= 0) return; 
-  const defColor = p && p.colors ? p.colors[0] : '';
-  const defSize = p && p.sizes ? p.sizes[0] : '';
-  let finalId = id;
-  let finalName = name;
-  if (defColor || defSize) {
-    const specs = [];
-    if (defColor) specs.push(defColor);
-    if (defSize) specs.push(defSize);
-    finalName += ` (${specs.join(' / ')})`;
-    finalId += `-${defColor}-${defSize}`;
-  }
-  const existingItem = cart.find(item => item.id === finalId);
-  if (existingItem) { existingItem.qty += 1; } else { cart.push({ id: finalId, name: finalName, price, image, qty: 1 }); }
-  localStorage.setItem('hinoka_cart', JSON.stringify(cart));
   openCart();
 }
 
@@ -498,6 +506,7 @@ function updateQty(id, change) {
   }
 }
 
+// ── 🛠️ 核心修改：购物车底座重构，消除送料另算，算出明明白白的综合计 ──
 function renderCart() {
   const listContainer = document.getElementById('cartItemsList');
   const footerContainer = document.getElementById('cartFooter');
@@ -508,6 +517,8 @@ function renderCart() {
   if (cart.length === 0) {
     listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
     document.getElementById('cartSubtotalAmount').innerText = '¥0';
+    document.getElementById('cartShippingTotalAmount').innerText = '¥0';
+    document.getElementById('cartGrandTotalAmount').innerText = '¥0';
     footerContainer.style.opacity = '0.5';
     footerContainer.style.pointerEvents = 'none';
     return;
@@ -516,15 +527,23 @@ function renderCart() {
   footerContainer.style.opacity = '1';
   footerContainer.style.pointerEvents = 'auto';
   
-  let total = 0;
+  let totalGoodsPrice = 0;
+  let totalShippingPrice = 0;
+
   listContainer.innerHTML = cart.map(item => {
-    total += item.price * item.qty;
+    totalGoodsPrice += item.price * item.qty;
+    // 运费同样乘上对应的商品件数计数（如果是按单计算可以后面再微调，商用标准一般按件或包裹叠加）
+    totalShippingPrice += item.shipping * item.qty; 
+    
     return `
       <div class="cart-item">
         <img src="${item.image}" class="cart-item-img" alt="${item.name}">
         <div class="cart-item-detail">
           <div class="cart-item-name">${item.name}</div>
           <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
+          <div class="cart-item-shipping" style="color: ${item.shipping > 0 ? '#ea580c' : '#00875a'}">
+            📍 ${item.shippingLabel} ${item.shipping > 0 ? `(¥${(item.shipping * item.qty).toLocaleString()})` : ''}
+          </div>
           <div class="cart-item-qty">
             <button class="qty-btn" type="button" onclick="updateQty('${item.id}', -1)">-</button>
             <span class="qty-val">${item.qty}</span>
@@ -534,7 +553,13 @@ function renderCart() {
       </div>
     `;
   }).join('');
-  document.getElementById('cartSubtotalAmount').innerText = '¥' + total.toLocaleString();
+
+  // 最终总和计算
+  const grandTotal = totalGoodsPrice + totalShippingPrice;
+
+  document.getElementById('cartSubtotalAmount').innerText = '¥' + totalGoodsPrice.toLocaleString();
+  document.getElementById('cartShippingTotalAmount').innerText = totalShippingPrice > 0 ? `¥${totalShippingPrice.toLocaleString()}` : '無料';
+  document.getElementById('cartGrandTotalAmount').innerText = '¥' + grandTotal.toLocaleString();
 }
 
 function filter(cat, btn) {

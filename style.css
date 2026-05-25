@@ -1364,3 +1364,50 @@ footer {
   font-size: 13px;
   padding: 40px 0;
 }
+/* ── 🛒 右下角乐天风悬浮购物车 ── */
+.floating-cart-badge {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: #1a2530; /* 深色高级质感，和HINOKA的主色调呼应 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  transition: all 0.3s ease;
+}
+
+.floating-cart-badge:hover {
+  transform: scale(1.1);
+  background: #c5a880; /* 悬渡变金色 */
+}
+
+/* 购物车Emoji图标大小 */
+.floating-cart-badge .cart-icon {
+  font-size: 24px;
+}
+
+/* 红色数字提示小圆点 */
+.cart-count-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #bf0000; /* 乐天红 */
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+}

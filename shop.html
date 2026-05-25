@@ -9,7 +9,7 @@
     /* ── 🛒 SHOP & RAKUTEN-STYLE EXTENSION ── */
     .shop-container { max-width: 1200px; margin: 0 auto; padding: 120px 20px 80px; }
     
-    /* 分类栏容器：使用 flex 布局，让分类按钮在左，购物车在右 */
+    /* 🌟 分类导航外包裹框：解决手机端遮挡的核心 🌟 */
     .shop-filters-wrapper {
       display: flex;
       justify-content: space-between;
@@ -17,47 +17,72 @@
       border-bottom: 1px solid #e5e9ec;
       margin-bottom: 40px;
       padding-bottom: 15px;
-      gap: 20px;
+      position: relative;
     }
     
-    .shop-filters { display: flex; gap: 15px; overflow-x: auto; white-space: nowrap; }
-    .filter-btn { background: none; border: none; padding: 8px 16px; font-size: 14px; color: #606a74; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+    /* 分类按钮组：手机端单行横向滚动，隐藏滚动条 */
+    .shop-filters {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: calc(100% - 60px); /* 给右侧购物车留出固定空间 */
+      -webkit-overflow-scrolling: touch; /* 让手机端滑动更丝滑 */
+    }
+    /* 隐藏手机端烦人的横向滚动条 */
+    .shop-filters::-webkit-scrollbar { display: none; }
+    
+    .filter-btn { background: none; border: none; padding: 8px 12px; font-size: 14px; color: #606a74; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
     .filter-btn.active, .filter-btn:hover { color: #c5a880; font-weight: 600; }
     
-    /* ── 🛒 内嵌到菜单栏右侧的购物车按钮 ── */
+    /* ── 🛒 精致的固定购物车按钮（完美适配PC与手机） ── */
     .menu-cart-btn {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      gap: 6px;
       background: #1a2530; /* HINOKA经典深色 */
       color: #fff;
       border: none;
-      padding: 8px 18px;
+      padding: 8px 12px;
       border-radius: 4px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      flex-shrink: 0; /* 防止被挤压变形 */
+      flex-shrink: 0; /* 绝对不准被挤压 */
     }
-    .menu-cart-btn:hover {
-      background: #c5a880; /* 悬渡变金色 */
-    }
+    .menu-cart-btn:hover { background: #c5a880; }
     .menu-cart-icon { font-size: 16px; }
+    
     /* 购物车内的数字小红点 */
     .menu-cart-count {
       background: #bf0000; /* 乐天红 */
       color: #fff;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 5px;
-      border-radius: 9px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
+    }
+
+    /* 📱 手机端响应式细节优化 */
+    @media (max-width: 500px) {
+      .shop-container { padding-top: 90px; } /* 缩减顶部留白 */
+      .menu-cart-btn span:not(.menu-cart-icon):not(.menu-cart-count) {
+        display: none; /* 在手机端隐藏“カートを見る”六个字，只留图标红点，极其精致 */
+      }
+      .menu-cart-btn {
+        padding: 8px 10px; /* 缩减手机端按钮宽度 */
+      }
+      .shop-filters {
+        width: calc(100% - 45px); /* 手机端重新计算黄金比例宽度 */
+      }
     }
 
     /* 商品网格与卡片 */
@@ -162,7 +187,7 @@
   </header>
 
   <div class="shop-container">
-    <!-- ── 🌟 新的分类与购物车并排组合栏 ── -->
+    <!-- ── 🌟 优化后的自适应并排导航组合栏 ── -->
     <div class="shop-filters-wrapper">
       <div class="shop-filters">
         <button class="filter-btn active" onclick="filter('all', this)">すべての商品</button>
@@ -171,10 +196,10 @@
         <button class="filter-btn" onclick="filter('goods', this)">生活雑貨</button>
       </div>
       
-      <!-- 🛒 紧跟在分类右侧的购物车查看按钮 -->
+      <!-- 🛒 固定在极右侧、绝不遮挡的智能购物车按钮 -->
       <button class="menu-cart-btn" onclick="openCart()">
         <span class="menu-cart-icon">🛒</span>
-        <span>カートを見る (查看购物车)</span>
+        <span>カートを見る</span>
         <span class="menu-cart-count" id="globalCartCount">0</span>
       </button>
     </div>
@@ -198,15 +223,15 @@
         <h2 class="modal-title" id="modalTitle">商品名</h2>
         <div class="modal-price" id="modalPrice">¥0</div>
         
-        <!-- ── 📦 乐天风核心物流与库存卡片 ── -->
+        <!-- 物流与库存卡片 -->
         <div class="rakuten-delivery-box">
           <div class="rt-row">
             <div class="rt-label">送料</div>
-            <div class="rt-value" id="modalShippingFee"><span class="text-free">送料無料</span>（※一部離島・沖縄県を除く）</div>
+            <div class="rt-value" id="modalShippingFee"><span class="text-free">送料無料</span></div>
           </div>
           <div class="rt-row">
             <div class="rt-label">出荷目安</div>
-            <div class="rt-value" id="modalDispatchTime">1〜2営業日以内に発送（大阪府より出荷）</div>
+            <div class="rt-value" id="modalDispatchTime">1〜2営業日以内に発送</div>
           </div>
           <div class="rt-row">
             <div class="rt-label">在庫状況</div>
@@ -227,7 +252,7 @@
 
         <div class="modal-long-desc" id="modalLongDesc"></div>
         
-        <button class="modal-atc-btn" id="modalAtcBtn" onclick="addModalProductToCart()">カートに追加する (加入购物车)</button>
+        <button class="modal-atc-btn" id="modalAtcBtn" onclick="addModalProductToCart()">カートに追加する</button>
       </div>
     </div>
   </div>
@@ -245,12 +270,12 @@
         <span>合計金額:</span>
         <span id="cartTotalAmount">¥0</span>
       </div>
-      <a href="checkout.html" class="checkout-btn">レジに進む (前往结算)</a>
+      <a href="checkout.html" class="checkout-btn">レジに進む</a>
     </div>
   </div>
 
 <script>
-// ── 💡 乐天风商业中心数据库 ──
+// ── 💡 乐天风中心数据库 ──
 const PRODUCTS = [
   {
     id: 'pet-001', category: 'pet', badge: '人気商品',
@@ -261,7 +286,7 @@ const PRODUCTS = [
     images: ['images/IMG_5113ペット.PNG'], 
     colors: ['ライトグレー', 'アプリコット', 'ミルクティー'],
     sizes: ['Mサイズ (径50cm)', 'Lサイズ (径60cm)'],
-    longDesc: '毎日の睡眠は大切な家族的健康に直结します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
+    longDesc: '毎日の睡眠は大切な家族の健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
     stock: 5,               
     shipsFrom: '大阪府',    
     leadTime: '即日〜2営業日以内に発送', 
@@ -315,7 +340,6 @@ function closeCart() {
   document.getElementById('cartOverlay').classList.remove('show');
 }
 
-// ── 🌟 渲染商品列表 ──
 function renderGrid(items) {
   const grid = document.getElementById('grid');
   if (!grid) return;
@@ -344,7 +368,6 @@ function renderGrid(items) {
   }).join('');
 }
 
-// ── 🌟 乐天式详情弹窗实时渲染 ──
 function openProductModal(id) {
   const p = PRODUCTS.find(item => item.id === id);
   if (!p) return;
@@ -363,16 +386,16 @@ function openProductModal(id) {
   const atcBtnEl = document.getElementById('modalAtcBtn');
   
   if (p.stock <= 0) {
-    stockEl.innerHTML = '<span class="text-stock-out">❌ 売り切れ (完売御礼)</span>';
-    atcBtnEl.innerText = '売り切れました (暂无库存)';
+    stockEl.innerHTML = '<span class="text-stock-out">❌ 売り切れ</span>';
+    atcBtnEl.innerText = '売り切れました';
     atcBtnEl.disabled = true;
   } else if (p.stock < 10) {
     stockEl.innerHTML = `<span class="text-stock-warn">🔥 残りわずか（あと ${p.stock} 個）</span>`;
-    atcBtnEl.innerText = 'カートに追加する (加入购物车)';
+    atcBtnEl.innerText = 'カートに追加する';
     atcBtnEl.disabled = false;
   } else {
-    stockEl.innerHTML = '<span class="text-stock-ok">〇 在庫あり (大容量ストック)</span>';
-    atcBtnEl.innerText = 'カートに追加する (加入购物车)';
+    stockEl.innerHTML = '<span class="text-stock-ok">〇 在庫あり</span>';
+    atcBtnEl.innerText = 'カートに追加する';
     atcBtnEl.disabled = false;
   }
   
@@ -528,7 +551,6 @@ function filter(cat, btn) {
   }
 }
 
-// 初始化执行
 renderGrid(PRODUCTS);
 renderCart();
 </script>

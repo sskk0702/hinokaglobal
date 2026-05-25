@@ -400,6 +400,12 @@ function updateQty(id, change) {
 function renderCart() {
   const listContainer = document.getElementById('cartItemsList');
   const footerContainer = document.getElementById('cartFooter');
+  const globalBadge = document.getElementById('globalCartCount');
+  
+  // 计算当前购物车里的“总件数”
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+  globalBadge.innerText = totalQty;
+  
   if (cart.length === 0) {
     listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
     document.getElementById('cartTotalAmount').innerText = '¥0';
@@ -407,8 +413,10 @@ function renderCart() {
     footerContainer.style.pointerEvents = 'none';
     return;
   }
+  
   footerContainer.style.opacity = '1';
   footerContainer.style.pointerEvents = 'auto';
+  
   let total = 0;
   listContainer.innerHTML = cart.map(item => {
     total += item.price * item.qty;
@@ -430,46 +438,19 @@ function renderCart() {
   document.getElementById('cartTotalAmount').innerText = '¥' + total.toLocaleString();
 }
 
-function renderGrid(list) {
-  const grid = document.getElementById('grid');
-  if (!grid) return;
-  grid.innerHTML = list.map(p => {
-    const isOut = p.stock <= 0;
-    return `
-      <div class="p-card" onclick="openProductModal('${p.id}')">
-        <div class="p-card-img">
-          <img src="${p.image}" alt="${p.name}" loading="lazy" style="${isOut ? 'opacity:0.5;' : ''}">
-          ${p.badge ? `<div class="p-card-badge">${p.badge}</div>` : ''}
-          <div class="p-card-shipping-tag">送料無料</div>
-        </div>
-        <div class="p-card-body">
-          <div class="p-card-cat">${CAT_LABEL[p.category]}</div>
-          <div class="p-card-name">${p.name}</div>
-          <div class="p-card-desc">${p.desc}</div>
-          <div class="p-card-bottom">
-            <div class="p-card-price">¥${p.price.toLocaleString()}<small>税込</small></div>
-            <button class="atc-btn" type="button" ${isOut ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart('${p.id}','${p.name}',${p.price},'${p.image}')">
-              ${isOut ? '完売' : 'カートへ'}
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function filter(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGrid(cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === cat));
-}
-
-window.addEventListener('scroll', () => {
-  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 40);
-});
-
 // 初始化
 renderGrid(PRODUCTS);
 </script>
+  <!-- 这里是网页原本的其他内容... -->
+  </div>
+
+  <!-- 🛒 放在这里！正好在斜杠 body 的正上方 -->
+  <div class="floating-cart-badge" id="floatingCart" onclick="openCart()">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-count-badge" id="globalCartCount">0</span>
+  </div>
+
+</body> <!-- 👈 这就是结束标签，它通常在文件的最下面 -->
+</html>
 </body>
 </html>

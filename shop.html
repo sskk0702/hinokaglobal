@@ -6,42 +6,46 @@
   <title>オンラインショップ - 株式会社HINOKA</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ── 🛒 SHOP & RAKUTEN-STYLE EXTENSION ── */
+    /* ── 🛒 SHOP CONTAINER ── */
     .shop-container { max-width: 1200px; margin: 0 auto; padding: 120px 20px 80px; }
     
-    /* 🌟 分类导航外包裹框：解决手机端遮挡的核心 🌟 */
-    .shop-filters-wrapper {
+    /* ── 📌 核心优化 1：分类与购物车吸顶固定栏 ── */
+    .shop-sticky-bar {
+      position: sticky;
+      top: 70px; /* 避开主导航栏的高度，请根据 index.html 的 header 高度微调 */
+      background: rgba(255, 255, 255, 0.96); /* 略带高级透明感 */
+      backdrop-filter: blur(5px); /* 毛玻璃效果 */
+      z-index: 900; /* 确保在商品流上方，在弹窗下方 */
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #e5e9ec;
       margin-bottom: 40px;
-      padding-bottom: 15px;
-      position: relative;
+      padding: 15px 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02); /* 滚动时有一层淡淡的阴影 */
     }
     
-    /* 分类按钮组：手机端单行横向滚动，隐藏滚动条 */
+    /* 分类按钮组：手机端单行横向滚动 */
     .shop-filters {
       display: flex;
       gap: 5px;
       overflow-x: auto;
       white-space: nowrap;
-      width: calc(100% - 60px); /* 给右侧购物车留出固定空间 */
-      -webkit-overflow-scrolling: touch; /* 让手机端滑动更丝滑 */
+      width: calc(100% - 60px);
+      -webkit-overflow-scrolling: touch;
     }
-    /* 隐藏手机端烦人的横向滚动条 */
     .shop-filters::-webkit-scrollbar { display: none; }
     
     .filter-btn { background: none; border: none; padding: 8px 12px; font-size: 14px; color: #606a74; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
     .filter-btn.active, .filter-btn:hover { color: #c5a880; font-weight: 600; }
     
-    /* ── 🛒 精致的固定购物车按钮（完美适配PC与手机） ── */
+    /* 右侧固定购物车按钮 */
     .menu-cart-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      background: #1a2530; /* HINOKA经典深色 */
+      background: #1a2530;
       color: #fff;
       border: none;
       padding: 8px 12px;
@@ -50,51 +54,32 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      flex-shrink: 0; /* 绝对不准被挤压 */
+      flex-shrink: 0;
     }
     .menu-cart-btn:hover { background: #c5a880; }
-    .menu-cart-icon { font-size: 16px; }
-    
-    /* 购物车内的数字小红点 */
-    .menu-cart-count {
-      background: #bf0000; /* 乐天红 */
-      color: #fff;
-      font-size: 10px;
-      font-weight: 700;
-      min-width: 16px;
-      height: 16px;
-      padding: 0 4px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-    }
+    .menu-cart-count { background: #bf0000; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
 
-    /* 📱 手机端响应式细节优化 */
+    /* 📱 手机端响应式吸顶细节调整 */
     @media (max-width: 500px) {
-      .shop-container { padding-top: 90px; } /* 缩减顶部留白 */
-      .menu-cart-btn span:not(.menu-cart-icon):not(.menu-cart-count) {
-        display: none; /* 在手机端隐藏“カートを見る”六个字，只留图标红点，极其精致 */
-      }
-      .menu-cart-btn {
-        padding: 8px 10px; /* 缩减手机端按钮宽度 */
-      }
-      .shop-filters {
-        width: calc(100% - 45px); /* 手机端重新计算黄金比例宽度 */
-      }
+      .shop-container { padding-top: 80px; }
+      .shop-sticky-bar { top: 60px; padding: 10px 5px; } /* 手机端紧凑化 */
+      .menu-cart-btn span:not(.menu-cart-icon):not(.menu-cart-count) { display: none; }
+      .menu-cart-btn { padding: 8px 10px; }
+      .shop-filters { width: calc(100% - 45px); }
     }
 
-    /* 商品网格与卡片 */
+    /* ── 🖼️ 核心优化 2：图片防裁剪、完整展示 ── */
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     .p-card { background: #fff; border: 1px solid #e5e9ec; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
     .p-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    .p-card-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #f8fafb; position: relative; }
-    .p-card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .p-card-badge { position: absolute; top: 12px; left: 12px; background: #1a2530; color: #fff; padding: 4px 8px; font-size: 11px; letter-spacing: 0.05em; }
     
-    /* 乐天风卡片内嵌标签 */
-    .p-card-shipping-tag { position: absolute; bottom: 12px; right: 12px; background: #bf0000; color: #fff; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 2px; }
+    /* 核心修改：使用 contain 确保照片完美全量显示 */
+    .p-card-img { width: 100%; aspect-ratio: 1; background: #f8fafb; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .p-card-img img { width: 100%; height: 100%; object-fit: contain; padding: 10px; box-sizing: border-box; }
+    
+    .p-card-badge { position: absolute; top: 12px; left: 12px; background: #1a2530; color: #fff; padding: 4px 8px; font-size: 11px; letter-spacing: 0.05em; z-index: 2; }
+    .p-card-shipping-tag { position: absolute; bottom: 12px; right: 12px; background: #bf0000; color: #fff; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 2px; z-index: 2; }
+    
     .p-card-body { padding: 20px; }
     .p-card-cat { font-size: 11px; color: #808a94; text-transform: uppercase; margin-bottom: 6px; }
     .p-card-name { font-size: 16px; font-weight: 500; color: #1a2530; margin-bottom: 8px; }
@@ -106,38 +91,35 @@
     .atc-btn:hover { background: #1a2530; }
     .atc-btn:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
 
-    /* ── 🌟 乐天风格商品详情弹窗 ── */
+    /* ── 🌟 详情弹窗与区域运费选择 ── */
     .p-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
     .p-modal-overlay.show { display: flex; }
     .p-modal-window { background: #fff; width: 100%; max-width: 960px; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; position: relative; border-radius: 4px; animation: modalUp 0.4s ease; }
     @media (max-width: 768px) { .p-modal-window { grid-template-columns: 1fr; } }
     .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 32px; background: none; border: none; color: #1a2530; cursor: pointer; z-index: 10; }
     
-    /* 弹窗左媒体区 */
+    /* 弹窗图片同样防裁剪 */
     .modal-gallery { padding: 30px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid #e5e9ec; }
     @media (max-width: 768px) { .modal-gallery { border-right: none; border-bottom: 1px solid #e5e9ec; } }
-    .modal-main-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #f8fafb; border: 1px solid #e5e9ec; }
+    .modal-main-img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; padding: 15px; box-sizing: border-box; }
     .modal-thumb-list { display: flex; gap: 10px; overflow-x: auto; }
-    .modal-thumb { width: 60px; height: 60px; object-fit: cover; border: 1px solid #e5e9ec; cursor: pointer; }
+    .modal-thumb { width: 60px; height: 60px; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; cursor: pointer; padding: 2px; }
     .modal-thumb.active { border-color: #c5a880; }
 
-    /* 弹窗右信息区 */
     .modal-info { padding: 30px; display: flex; flex-direction: column; }
     .modal-title { font-size: 22px; font-weight: 500; color: #1a2530; margin: 0 0 10px; }
-    .modal-price { font-size: 22px; font-weight: 700; color: #bf0000; margin-bottom: 15px; }
+    .modal-price { font-size: 22px; font-weight: 700; color: #1a2530; margin-bottom: 15px; }
     
-    /* ── 🚀 乐天核心：物流与库存展示板块 ── */
-    .rakuten-delivery-box { background: #fff6f6; border: 1px solid #fbcfe8; padding: 12px 15px; margin-bottom: 20px; border-radius: 3px; font-size: 13px; line-height: 1.6; }
-    .rt-row { display: flex; margin-bottom: 6px; align-items: flex-start; }
+    /* ── 🚚 核心优化 3：透明化运费计算板 ── */
+    .rakuten-delivery-box { background: #f8fafb; border: 1px solid #e5e9ec; padding: 15px; margin-bottom: 20px; border-radius: 4px; font-size: 13px; }
+    .rt-row { display: flex; margin-bottom: 8px; align-items: center; }
     .rt-row:last-child { margin-bottom: 0; }
     .rt-label { font-weight: bold; width: 90px; color: #606a74; flex-shrink: 0; }
     .rt-value { color: #1a2530; flex: 1; }
     .text-free { color: #00875a; font-weight: bold; }
-    .text-stock-ok { color: #00875a; font-weight: bold; }
-    .text-stock-warn { color: #ea580c; font-weight: bold; }
-    .text-stock-out { color: #94a3b8; font-weight: bold; text-decoration: line-through; }
+    .shipping-select { width: 100%; padding: 6px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; background-color: #fff; margin-top: 4px; cursor: pointer; }
     
-    /* 规格按钮组 */
+    /* 规格组 */
     .spec-group { margin-bottom: 15px; }
     .spec-label { display: block; font-size: 12px; font-weight: 600; color: #1a2530; margin-bottom: 6px; }
     .spec-options { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -147,9 +129,8 @@
     .modal-long-desc { font-size: 13px; color: #606a74; line-height: 1.8; margin: 15px 0; background: #f8fafb; padding: 15px; border-left: 2px solid #c5a880; }
     .modal-atc-btn { background: #c5a880; color: #fff; border: none; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; margin-top: auto; }
     .modal-atc-btn:hover { background: #1a2530; }
-    .modal-atc-btn:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
 
-    /* 购物车栏 */
+    /* 侧边购物车栏 */
     .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 11000; }
     .cart-overlay.show { display: block; }
     .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 12000; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -10px 0 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
@@ -159,7 +140,7 @@
     .close-cart-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #1a2530; }
     #cartItemsList { flex: 1; overflow-y: auto; padding: 24px; }
     .cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f5f7f8; align-items: center; }
-    .cart-item-img { width: 65px; height: 65px; object-fit: cover; background: #f8fafb; }
+    .cart-item-img { width: 65px; height: 65px; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; }
     .cart-item-detail { flex: 1; }
     .cart-item-name { font-size: 13px; font-weight: 600; color: #1a2530; margin-bottom: 4px; }
     .cart-item-price { font-size: 12px; color: #606a74; margin-bottom: 8px; }
@@ -187,8 +168,9 @@
   </header>
 
   <div class="shop-container">
-    <!-- ── 🌟 优化后的自适应并排导航组合栏 ── -->
-    <div class="shop-filters-wrapper">
+    
+    <!-- ── 📌 更改点：这一整栏被赋予了 .shop-sticky-bar 样式，实现完美上下滚动吸顶固定 ── -->
+    <div class="shop-sticky-bar">
       <div class="shop-filters">
         <button class="filter-btn active" onclick="filter('all', this)">すべての商品</button>
         <button class="filter-btn" onclick="filter('pet', this)">ペット用品</button>
@@ -196,7 +178,6 @@
         <button class="filter-btn" onclick="filter('goods', this)">生活雑貨</button>
       </div>
       
-      <!-- 🛒 固定在极右侧、绝不遮挡的智能购物车按钮 -->
       <button class="menu-cart-btn" onclick="openCart()">
         <span class="menu-cart-icon">🛒</span>
         <span>カートを見る</span>
@@ -208,7 +189,7 @@
     <div class="product-grid" id="grid"></div>
   </div>
 
-  <!-- ── 🌟 乐天级智能电商弹窗 ── -->
+  <!-- 商品详情弹窗（加入智能运费选择） -->
   <div class="p-modal-overlay" id="productModal" onclick="closeProductModal(event)">
     <div class="p-modal-window">
       <button class="close-modal-btn" onclick="doCloseModal()">×</button>
@@ -223,19 +204,24 @@
         <h2 class="modal-title" id="modalTitle">商品名</h2>
         <div class="modal-price" id="modalPrice">¥0</div>
         
-        <!-- 物流与库存卡片 -->
+        <!-- ── 🚚 优化后的实时运费计算交互板块 ── -->
         <div class="rakuten-delivery-box">
           <div class="rt-row">
+            <div class="rt-label">配送先地域</div>
+            <div class="rt-value">
+              <select class="shipping-select" id="modalShippingRegion" onchange="updateModalShippingInfo()">
+                <option value="mainland" selected>本州・四国・九州（送料無料）</option>
+                <option value="remote">北海道・沖縄・離島（+¥1,500）</option>
+              </select>
+            </div>
+          </div>
+          <div class="rt-row" style="margin-top: 10px;">
             <div class="rt-label">送料</div>
-            <div class="rt-value" id="modalShippingFee"><span class="text-free">送料無料</span></div>
+            <div class="rt-value" id="modalShippingStatus"><span class="text-free">送料無料</span></div>
           </div>
           <div class="rt-row">
             <div class="rt-label">出荷目安</div>
             <div class="rt-value" id="modalDispatchTime">1〜2営業日以内に発送</div>
-          </div>
-          <div class="rt-row">
-            <div class="rt-label">在庫状況</div>
-            <div class="rt-value" id="modalStockStatus">〇 在庫あり</div>
           </div>
         </div>
         
@@ -257,7 +243,7 @@
     </div>
   </div>
 
-  <!-- 购物车栏 -->
+  <!-- 侧边购物车栏 -->
   <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
   <div class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
@@ -266,31 +252,33 @@
     </div>
     <div id="cartItemsList"></div>
     <div class="cart-footer" id="cartFooter">
-      <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:700;">
-        <span>合計金額:</span>
-        <span id="cartTotalAmount">¥0</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+        <span>商品合計:</span>
+        <span id="cartSubtotalAmount">¥0</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:13px; color:#606a74;">
+        <span>送料 (※地域により異なる):</span>
+        <span id="cartShippingNote">レジにて確定</span>
       </div>
       <a href="checkout.html" class="checkout-btn">レジに進む</a>
     </div>
   </div>
 
 <script>
-// ── 💡 乐天风中心数据库 ──
 const PRODUCTS = [
   {
     id: 'pet-001', category: 'pet', badge: '人気商品',
     name: 'PET用ふわふわベッド',
-    desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大喜欢的ドーム型デザイン。',
+    desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
     price: 2980,
     image: 'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
     images: ['images/IMG_5113ペット.PNG'], 
     colors: ['ライトグレー', 'アプリコット', 'ミルクティー'],
     sizes: ['Mサイズ (径50cm)', 'Lサイズ (径60cm)'],
-    longDesc: '毎日の睡眠は大切な家族の健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
+    longDesc: '毎日の睡眠は大切な家族の健康に直结します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
     stock: 5,               
     shipsFrom: '大阪府',    
-    leadTime: '即日〜2営業日以内に発送', 
-    shippingText: '<span class="text-free">送料無料</span>（※北海道・沖縄・離島は別途送料が発生する場合があります）'
+    leadTime: '即日〜2営業日以内に発送'
   },
   {
     id: 'fashion-001', category: 'fashion', badge: '人気商品',
@@ -301,11 +289,10 @@ const PRODUCTS = [
     images: ['images/Photoroom_アパレル_162100.jpg'],
     colors: ['ゴールド', 'シルバー'],
     sizes: ['フリーサイズ'],
-    longDesc: 'トレンド感のある上品な淡水パール风ネックレス。リーズナブルな価格でお手軽に大人の輝きをプラスします。',
+    longDesc: 'トレンド感のある上品な淡水パール風ネックレス。リーズナブルな価格でお手軽に大人の輝きをプラスします。',
     stock: 25,
     shipsFrom: '大阪府',
-    leadTime: '1〜2営業日以内に発送',
-    shippingText: '<span class="text-free">送料無料</span>'
+    leadTime: '1〜2営業日以内に発送'
   },
   {
     id: 'goods-001', category: 'goods', badge: '残りわずか',
@@ -319,8 +306,7 @@ const PRODUCTS = [
     longDesc: '引き出しの中をすっきり美しく整理整頓。柔軟性のあるシリコン素材のため傷がつきにくく、丸洗いも簡単。',
     stock: 0, 
     shipsFrom: '大阪府',
-    leadTime: '3〜5営業日以内に発送',
-    shippingText: '<span class="text-free">送料無料</span>'
+    leadTime: '3〜5営業日以内に発送'
   }
 ];
 
@@ -375,26 +361,19 @@ function openProductModal(id) {
   currentModalProductId = id;
   document.getElementById('modalCategory').innerText = CAT_LABEL[p.category];
   document.getElementById('modalTitle').innerText = p.name;
-  document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()} (税込)`;
-  document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
   document.getElementById('modalMainImage').src = p.image;
-  
-  document.getElementById('modalShippingFee').innerHTML = p.shippingText || '<span class="text-free">送料無料</span>';
+  document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
   document.getElementById('modalDispatchTime').innerText = `${p.leadTime}（${p.shipsFrom}より出荷）`;
   
-  const stockEl = document.getElementById('modalStockStatus');
+  // 重置选择框为本岛默认
+  document.getElementById('modalShippingRegion').value = 'mainland';
+  updateModalShippingInfo();
+
   const atcBtnEl = document.getElementById('modalAtcBtn');
-  
   if (p.stock <= 0) {
-    stockEl.innerHTML = '<span class="text-stock-out">❌ 売り切れ</span>';
     atcBtnEl.innerText = '売り切れました';
     atcBtnEl.disabled = true;
-  } else if (p.stock < 10) {
-    stockEl.innerHTML = `<span class="text-stock-warn">🔥 残りわずか（あと ${p.stock} 個）</span>`;
-    atcBtnEl.innerText = 'カートに追加する';
-    atcBtnEl.disabled = false;
   } else {
-    stockEl.innerHTML = '<span class="text-stock-ok">〇 在庫あり</span>';
     atcBtnEl.innerText = 'カートに追加する';
     atcBtnEl.disabled = false;
   }
@@ -430,6 +409,26 @@ function openProductModal(id) {
   }
   
   document.getElementById('productModal').classList.add('show');
+}
+
+// ── 💡 运费切换动态更新逻辑 ──
+function updateModalShippingInfo() {
+  const p = PRODUCTS.find(item => item.id === currentModalProductId);
+  if (!p) return;
+  
+  const region = document.getElementById('modalShippingRegion').value;
+  const priceEl = document.getElementById('modalPrice');
+  const shippingStatusEl = document.getElementById('modalShippingStatus');
+  
+  if (region === 'remote') {
+    // 针对离岛北海道客户：实时展示总价和追加运费金额，打消疑虑
+    priceEl.innerHTML = `¥${p.price.toLocaleString()} <span style="font-size:14px; color:#bf0000; font-weight:normal;">+ 送料 ¥1,500</span>`;
+    shippingStatusEl.innerHTML = '<span style="color:#ea580c; font-weight:bold;">¥1,500 (北海道・沖縄・離島)</span>';
+  } else {
+    // 正常本岛：直接免费
+    priceEl.innerText = `¥${p.price.toLocaleString()} (税込)`;
+    shippingStatusEl.innerHTML = '<span class="text-free">送料無料</span>';
+  }
 }
 
 function doCloseModal() { document.getElementById('productModal').classList.remove('show'); }
@@ -472,7 +471,6 @@ function addModalProductToCart() {
 function addToCart(id, name, price, image) {
   const p = PRODUCTS.find(item => item.id === id);
   if (p && p.stock <= 0) return; 
-  
   const defColor = p && p.colors ? p.colors[0] : '';
   const defSize = p && p.sizes ? p.sizes[0] : '';
   let finalId = id;
@@ -504,13 +502,12 @@ function renderCart() {
   const listContainer = document.getElementById('cartItemsList');
   const footerContainer = document.getElementById('cartFooter');
   const globalBadge = document.getElementById('globalCartCount');
-  
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   if (globalBadge) globalBadge.innerText = totalQty;
   
   if (cart.length === 0) {
     listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
-    document.getElementById('cartTotalAmount').innerText = '¥0';
+    document.getElementById('cartSubtotalAmount').innerText = '¥0';
     footerContainer.style.opacity = '0.5';
     footerContainer.style.pointerEvents = 'none';
     return;
@@ -537,7 +534,7 @@ function renderCart() {
       </div>
     `;
   }).join('');
-  document.getElementById('cartTotalAmount').innerText = '¥' + total.toLocaleString();
+  document.getElementById('cartSubtotalAmount').innerText = '¥' + total.toLocaleString();
 }
 
 function filter(cat, btn) {

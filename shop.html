@@ -51,7 +51,7 @@
     /* 弹窗右信息区 */
     .modal-info { padding: 30px; display: flex; flex-direction: column; }
     .modal-title { font-size: 22px; font-weight: 500; color: #1a2530; margin: 0 0 10px; }
-    .modal-price { font-size: 22px; font-weight: 700; color: #bf0000; margin-bottom: 15px; } /* 乐天常用深红金价格 */
+    .modal-price { font-size: 22px; font-weight: 700; color: #bf0000; margin-bottom: 15px; }
     
     /* ── 🚀 乐天核心：物流与库存展示板块 ── */
     .rakuten-delivery-box { background: #fff6f6; border: 1px solid #fbcfe8; padding: 12px 15px; margin-bottom: 20px; border-radius: 3px; font-size: 13px; line-height: 1.6; }
@@ -59,7 +59,7 @@
     .rt-row:last-child { margin-bottom: 0; }
     .rt-label { font-weight: bold; width: 90px; color: #606a74; flex-shrink: 0; }
     .rt-value { color: #1a2530; flex: 1; }
-    .text-free { color: #00875a; font-weight: bold; } /* 绿色包邮 */
+    .text-free { color: #00875a; font-weight: bold; }
     .text-stock-ok { color: #00875a; font-weight: bold; }
     .text-stock-warn { color: #ea580c; font-weight: bold; }
     .text-stock-out { color: #94a3b8; font-weight: bold; text-decoration: line-through; }
@@ -191,23 +191,28 @@
     </div>
   </div>
 
+  <!-- 🛒 右下角常驻悬浮购物车入口 -->
+  <div class="floating-cart-badge" id="floatingCart" onclick="openCart()">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-count-badge" id="globalCartCount">0</span>
+  </div>
+
 <script>
 // ── 💡 乐天风商业中心数据库（内置库存、时效与发货地配置） ──
 const PRODUCTS = [
   {
     id: 'pet-001', category: 'pet', badge: '人気商品',
     name: 'PET用ふわふわベッド',
-    desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
+    desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大喜欢的ドーム型デザイン。',
     price: 2980,
     image: 'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
     images: ['images/IMG_5113ペット.PNG'], 
     colors: ['ライトグレー', 'アプリコット', 'ミルクティー'],
     sizes: ['Mサイズ (径50cm)', 'Lサイズ (径60cm)'],
     longDesc: '毎日の睡眠は大切な家族の健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
-    // ── 🚀 乐天定制字段 ──
-    stock: 5,               // 当前真实可用库存（小于10会自动触发紧张标）
-    shipsFrom: '大阪府',    // 发货省份
-    leadTime: '即日〜2営業日以内に発送', // 发货时效说明
+    stock: 5,               
+    shipsFrom: '大阪府',    
+    leadTime: '即日〜2営業日以内に発送', 
     shippingText: '<span class="text-free">送料無料</span>（※北海道・沖縄・離島は別途送料が発生する場合があります）'
   },
   {
@@ -235,7 +240,7 @@ const PRODUCTS = [
     colors: ['ホワイト', 'グレー'],
     sizes: ['Sサイズ', 'Mサイズ'],
     longDesc: '引き出しの中をすっきり美しく整理整頓。柔軟性のあるシリコン素材のため傷がつきにくく、丸洗いも簡単。',
-    stock: 0, // 💡 测试售罄状态
+    stock: 0, 
     shipsFrom: '大阪府',
     leadTime: '3〜5営業日以内に発送',
     shippingText: '<span class="text-free">送料無料</span>'
@@ -256,6 +261,35 @@ function openCart() {
 function closeCart() {
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('show');
+}
+
+// ── 🌟 渲染商品列表 ──
+function renderGrid(items) {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+  grid.innerHTML = items.map(p => {
+    const isOut = p.stock <= 0;
+    return `
+      <div class="p-card" onclick="openProductModal('${p.id}')">
+        <div class="p-card-img">
+          <img src="${p.image}" alt="${p.name}">
+          ${p.badge ? `<div class="p-card-badge">${p.badge}</div>` : ''}
+          <div class="p-card-shipping-tag">送料無料</div>
+        </div>
+        <div class="p-card-body">
+          <div class="p-card-cat">${CAT_LABEL[p.category]}</div>
+          <div class="p-card-name">${p.name}</div>
+          <div class="p-card-desc">${p.desc}</div>
+          <div class="p-card-bottom" onclick="event.stopPropagation()">
+            <div class="p-card-price">¥${p.price.toLocaleString()}<small>(税込)</small></div>
+            <button class="atc-btn" ${isOut ? 'disabled' : ''} onclick="addToCart('${p.id}', '${p.name}', ${p.price}, '${p.image}')">
+              ${isOut ? '売り切れ' : 'カートへ'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // ── 🌟 乐天式详情弹窗实时渲染 ──
@@ -368,7 +402,7 @@ function addModalProductToCart() {
 
 function addToCart(id, name, price, image) {
   const p = PRODUCTS.find(item => item.id === id);
-  if (p && p.stock <= 0) return; // 拦截售罄加购
+  if (p && p.stock <= 0) return; 
   
   const defColor = p && p.colors ? p.colors[0] : '';
   const defSize = p && p.sizes ? p.sizes[0] : '';
@@ -402,9 +436,8 @@ function renderCart() {
   const footerContainer = document.getElementById('cartFooter');
   const globalBadge = document.getElementById('globalCartCount');
   
-  // 计算当前购物车里的“总件数”
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-  globalBadge.innerText = totalQty;
+  if (globalBadge) globalBadge.innerText = totalQty;
   
   if (cart.length === 0) {
     listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
@@ -438,19 +471,20 @@ function renderCart() {
   document.getElementById('cartTotalAmount').innerText = '¥' + total.toLocaleString();
 }
 
-// 初始化
+function filter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (cat === 'all') {
+    renderGrid(PRODUCTS);
+  } else {
+    const filtered = PRODUCTS.filter(p => p.category === cat);
+    renderGrid(filtered);
+  }
+}
+
+// 初始化执行
 renderGrid(PRODUCTS);
+renderCart();
 </script>
-  <!-- 这里是网页原本的其他内容... -->
-  </div>
-
-  <!-- 🛒 放在这里！正好在斜杠 body 的正上方 -->
-  <div class="floating-cart-badge" id="floatingCart" onclick="openCart()">
-    <span class="cart-icon">🛒</span>
-    <span class="cart-count-badge" id="globalCartCount">0</span>
-  </div>
-
-</body> <!-- 👈 这就是结束标签，它通常在文件的最下面 -->
-</html>
 </body>
 </html>

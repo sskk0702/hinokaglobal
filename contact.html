@@ -64,18 +64,19 @@
         </div>
       </div>
 
-      <!-- 💡 核心改动：移除了原来的onsubmit，并配置好真正的Formspree网关 -->
       <form id="native-contact-form" action="https://formspree.io/f/mqejbkdn" method="POST" class="contact-form fade-in">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-          <div class="form-group">
+        
+        <div class="form-row-split" style="display: flex; flex-wrap: wrap; gap: 24px;">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
             <label class="form-label">お名前 <span class="required">*</span></label>
             <input type="text" name="name" class="form-input" placeholder="山田 太郎" required>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
             <label class="form-label">会社名</label>
             <input type="text" name="company" class="form-input" placeholder="株式会社〇〇">
           </div>
         </div>
+
         <div class="form-group">
           <label class="form-label">メールアドレス <span class="required">*</span></label>
           <input type="email" name="email" class="form-input" placeholder="example@company.com" required>
@@ -99,13 +100,14 @@
           <label class="form-label">お問い合わせ内容 <span class="required">*</span></label>
           <textarea name="message" class="form-textarea" placeholder="ご質問・ご要望をご記入ください" required></textarea>
         </div>
-        <div class="form-submit">
-          <button type="submit" id="submit-btn" class="btn-solid">送信する</button>
+        <div class="form-submit" style="margin-top: 12px;">
+          <button type="submit" id="submit-btn" class="nav-contact" style="width: 100%; border: none; padding: 16px; font-size: 12px; cursor: pointer; text-align: center; display: block;">送信する</button>
         </div>
-        <div id="form-success" style="display:none;padding:16px;background:#eaf3de;color:#27500a;font-size:13px;line-height:1.7;border-left:3px solid #3ecf8e;">
+        
+        <div id="form-success" style="display:none;padding:16px;background:#eaf3de;color:#27500a;font-size:13px;line-height:1.7;border-left:3px solid #3ecf8e;margin-top:20px;">
           お問い合わせを受け付けました。2営業日以内に <a href="mailto:sun_hua@hinokaglobal.com" style="color:#27500a;">sun_hua@hinokaglobal.com</a> よりご返信いたします。
         </div>
-        <div id="form-error" style="display:none;padding:16px;background:#fcebea;color:#6e211a;font-size:13px;line-height:1.7;border-left:3px solid #ef4444;margin-top:10px;">
+        <div id="form-error" style="display:none;padding:16px;background:#fcebea;color:#6e211a;font-size:13px;line-height:1.7;border-left:3px solid #ef4444;margin-top:20px;">
           送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、直接メールにてご連絡ください。
         </div>
       </form>
@@ -117,7 +119,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <div class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></div>
-        <div class="footer-tagline">世界をつなぐ、<br>確かな信頼の絆へ</div>
+        <div class="footer-tagline">グローバルをつなぐ、<br>確かな信頼的絆へ</div>
       </div>
       <div class="footer-col">
         <h4>Services</h4>
@@ -154,7 +156,7 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // 💡 顺滑无刷新的后台邮件异步发送技术机制
+    // Formspree 异步无刷新提交脚本
     const form = document.getElementById('native-contact-form');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -175,14 +177,12 @@
         if (response.ok) {
           successBox.style.display = 'block';
           form.reset();
-          button.style.display = 'none'; // 发送成功后隐藏按钮防止重复提交
+          button.style.display = 'none';
           window.scrollTo({ top: successBox.offsetTop - 120, behavior: 'smooth' });
         } else {
-          response.json().then(data => {
-            errorBox.style.display = 'block';
-            button.innerText = "送信する";
-            button.disabled = false;
-          });
+          errorBox.style.display = 'block';
+          button.innerText = "送信する";
+          button.disabled = false;
         }
       }).catch(error => {
         errorBox.style.display = 'block';
@@ -191,7 +191,5 @@
       });
     });
   </script>
-</body>
-</html>
 </body>
 </html>

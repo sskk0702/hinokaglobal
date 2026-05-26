@@ -12,7 +12,7 @@
   --gold: #b8a882;
   --gold-light: #d4c9aa;
   --nav-h: 80px;
-  /* 🛒 2026.05 扩展变量统一归纳 */
+  /* 🛒 2026.05 扩展变量 */
   --hinoka-dark: #1a2530;
   --hinoka-gold: #c5a880;
   --hinoka-border: #e5e9ec;
@@ -20,7 +20,6 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -29,11 +28,12 @@ body {
   background: var(--white);
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* 防止PC端横向出现滚动条 */
 }
 
-/* ── HEADER (PC端默认大牌格调布局) ──────────────── */
+/* ── HEADER (PC端自然滚动大牌格调) ──────────────── */
 header {
-  position: relative; /* 🎯 默认不置顶固定，随页面顺滑滚动 */
+  position: relative;
   height: var(--nav-h);
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(8px);
@@ -48,12 +48,6 @@ header {
 
 header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 
-.logo-area img {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-}
-
 .logo-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 22px;
@@ -62,7 +56,6 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   color: var(--accent);
   text-decoration: none;
 }
-
 .logo-text span {
   display: block;
   font-family: 'Noto Sans JP', sans-serif;
@@ -78,7 +71,6 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   align-items: center;
   gap: 40px;
 }
-
 .main-nav a {
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
@@ -91,7 +83,6 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   padding-bottom: 4px;
   transition: color 0.2s;
 }
-
 .main-nav a::after {
   content: '';
   position: absolute;
@@ -100,11 +91,10 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   background: var(--gold);
   transition: width 0.3s ease;
 }
-
 .main-nav a:hover { color: var(--accent); }
 .main-nav a:hover::after { width: 100%; }
 .main-nav a.active { color: var(--hinoka-gold) !important; font-weight: 700; }
-.main-nav a.active::after { width: 100%; }
+.main-nav a.active::after { width: 100%; background: var(--hinoka-gold); }
 
 .nav-contact {
   font-family: 'Montserrat', sans-serif;
@@ -119,49 +109,39 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   text-decoration: none;
   transition: background 0.2s !important;
 }
-
 .nav-contact:hover { background: var(--gold) !important; }
 .nav-contact::after { display: none !important; }
 
 /* ── HERO ────────────────────────────────────── */
 .hero {
-  height: 100vh;
-  min-height: 640px;
+  height: calc(100vh - var(--nav-h)); /* 🎯 修正PC端撑满屏幕高度的比例 */
+  min-height: 600px;
   position: relative;
   display: flex;
   align-items: center;
   overflow: hidden;
   background: var(--off-white);
 }
-
 .hero-bg {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #f8f7f5 0%, #ede9e2 50%, #e6dfd5 100%);
 }
-
 .hero-pattern {
   position: absolute;
   inset: 0;
   opacity: 0.04;
-  background-image: repeating-linear-gradient(
-    45deg,
-    var(--accent) 0,
-    var(--accent) 1px,
-    transparent 0,
-    transparent 50%
-  );
+  background-image: repeating-linear-gradient(45deg, var(--accent) 0, var(--accent) 1px, transparent 0, transparent 50%);
   background-size: 20px 20px;
 }
-
 .hero-content {
   position: relative;
   z-index: 1;
   padding: 0 48px;
   max-width: 720px;
+  width: 100%;
   animation: fadeUp 1s ease both;
 }
-
 .hero-eyebrow {
   font-family: 'Montserrat', sans-serif;
   font-size: 10px;
@@ -174,228 +154,63 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   align-items: center;
   gap: 16px;
 }
-
-.hero-eyebrow::before {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 1px;
-  background: var(--gold);
-}
-
+.hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(48px, 6vw, 80px);
+  font-size: clamp(44px, 5vw, 72px);
   font-weight: 300;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--accent);
   margin-bottom: 24px;
   letter-spacing: -0.01em;
 }
-
-.hero h1 em {
-  font-style: italic;
-  color: var(--gold);
-}
-
-.hero p {
-  font-size: 14px;
-  line-height: 2;
-  color: var(--text-mid);
-  max-width: 480px;
-  margin-bottom: 40px;
-  letter-spacing: 0.02em;
-}
-
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero p { font-size: 14px; line-height: 2; color: var(--text-mid); max-width: 480px; margin-bottom: 40px; letter-spacing: 0.02em; }
 .hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid var(--gold);
-  padding-bottom: 8px;
-  transition: gap 0.3s, color 0.2s;
+  display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 8px; transition: gap 0.3s, color 0.2s;
 }
-
 .hero-cta:hover { gap: 20px; color: var(--gold); }
 .hero-cta::after { content: '→'; font-size: 14px; }
 
 .hero-scroll {
-  position: absolute;
-  bottom: 40px;
-  left: 48px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--text-light);
+  position: absolute; bottom: 40px; left: 48px; display: flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-light);
 }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
 
-.scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
+/* ── SECTIONS 通用布局 ────────────────────────── */
+.section { padding: 100px 48px; width: 100%; box-sizing: border-box; }
+.section-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 64px; }
+.section-en { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
+.section-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
+.section-line { flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-/* ── SECTIONS ────────────────────────────────── */
-.section { padding: 100px 48px; }
-.section-sm { padding: 60px 48px; }
-
-.section-header {
-  display: flex;
-  align-items: baseline;
-  gap: 24px;
-  margin-bottom: 64px;
-}
-
-.section-en {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
-  font-weight: 300;
-  color: var(--accent);
-  letter-spacing: -0.01em;
-}
-
-.section-ja {
-  font-size: 12px;
-  color: var(--text-light);
-  letter-spacing: 0.15em;
-}
-
-.section-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-  margin-left: 24px;
-}
-
-/* ── NEWS ────────────────────────────────────── */
+/* ── NEWS ── */
 .news-section { background: var(--white); }
-.news-list { display: flex; flex-direction: column; gap: 0; }
-.news-item {
-  display: flex;
-  align-items: baseline;
-  gap: 32px;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
-  transition: background 0.2s;
-}
+.news-list { display: flex; flex-direction: column; }
+.news-item { display: flex; align-items: baseline; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.2s; }
 .news-item:first-child { border-top: 1px solid var(--border); }
-.news-date {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  color: var(--text-light);
-  letter-spacing: 0.1em;
-  white-space: nowrap;
-  min-width: 100px;
-}
-.news-tag {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold-light);
-  padding: 3px 10px;
-  white-space: nowrap;
-}
-.news-title {
-  font-size: 14px;
-  color: var(--text-dark);
-  line-height: 1.6;
-  flex: 1;
-  transition: color 0.2s;
-}
+.news-date { font-family: 'Montserrat', sans-serif; font-size: 11px; color: var(--text-light); letter-spacing: 0.1em; white-space: nowrap; min-width: 100px; }
+.news-tag { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-light); padding: 3px 10px; white-space: nowrap; }
+.news-title { font-size: 14px; color: var(--text-dark); line-height: 1.6; flex: 1; transition: color 0.2s; }
 .news-item:hover .news-title { color: var(--gold); }
-.news-arrow {
-  font-size: 12px;
-  color: var(--text-light);
-  transition: transform 0.2s, color 0.2s;
-}
+.news-arrow { font-size: 12px; color: var(--text-light); transition: transform 0.2s, color 0.2s; }
 .news-item:hover .news-arrow { transform: translateX(4px); color: var(--gold); }
 
-/* ── PRODUCTS GRID ───────────────────────────── */
+/* ── PRODUCTS GRID ── */
 .products-section { background: var(--off-white); }
-.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.product-card { position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--light); cursor: pointer; }
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; } /* 🎯 修正PC端卡片间距 */
+.product-card { position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--light); border-radius: 4px; }
 .product-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .product-card:hover img { transform: scale(1.05); }
-.product-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(26,26,24,0.7) 0%, transparent 50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 32px;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.product-card:hover .product-overlay { opacity: 1; }
-.product-card-label {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 28px 28px 24px;
-  background: linear-gradient(to top, rgba(26,26,24,0.75), transparent);
-}
-.product-card-en {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: 6px;
-}
+.product-card-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 28px 24px; background: linear-gradient(to top, rgba(26,26,24,0.85), transparent); z-index: 2; }
+.product-card-en { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 6px; }
 .product-card-ja { font-size: 16px; font-weight: 400; color: var(--white); letter-spacing: 0.05em; }
-.product-overlay-btn {
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--white);
-  border: 1px solid rgba(255,255,255,0.5);
-  padding: 10px 20px;
-  margin-top: 16px;
-  transition: background 0.2s, border-color 0.2s;
-  text-decoration: none;
-}
-.product-overlay-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--white); }
+.product-overlay { position: absolute; inset: 0; background: rgba(26,26,24,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; z-index: 3; }
+.product-card:hover .product-overlay { opacity: 1; }
+.product-overlay-btn { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid var(--white); padding: 12px 28px; transition: background 0.2s; text-decoration: none; background: rgba(0,0,0,0.2); }
+.product-overlay-btn:hover { background: var(--white); color: var(--accent); }
 
-/* ── COMPANY STRIP ───────────────────────────── */
-.company-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 500px; }
-.company-strip-text { background: var(--accent); padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
-.company-strip-text .section-en { color: var(--white); }
-.company-strip-text .section-ja { color: var(--gold-light); }
-.company-strip-text p { font-size: 14px; line-height: 2.2; color: rgba(255,255,255,0.7); margin: 32px 0 40px; max-width: 400px; }
-.btn-outline {
-  display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,0.4); padding: 14px 28px; text-decoration: none; transition: background 0.2s, border-color 0.2s; width: fit-content;
-}
-.btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
-.btn-outline::after { content: '→'; }
-.btn-solid {
-  display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s; width: fit-content; border: none; cursor: pointer;
-}
-.btn-solid:hover { background: var(--gold); }
-.btn-solid::after { content: '→'; }
-.company-strip-img { position: relative; overflow: hidden; }
-.company-strip-img img { width: 100%; height: 100%; object-fit: cover; }
-
-/* ── STATS ───────────────────────────────────── */
+/* ── STATS ── */
 .stats-section { background: var(--white); padding: 80px 48px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
 .stat-item { background: var(--white); padding: 48px 40px; text-align: center; }
@@ -403,61 +218,20 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .stat-num span { font-size: 24px; color: var(--gold); }
 .stat-label { font-size: 11px; color: var(--text-light); letter-spacing: 0.15em; }
 
-/* ── PAGE HERO (inner pages) ─────────────────── */
-.page-hero { padding-top: var(--nav-h); background: var(--off-white); padding-bottom: 0; border-bottom: 1px solid var(--border); overflow: hidden; }
-.page-hero-inner { padding: 64px 48px 48px; position: relative; }
-.page-hero-en { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 7vw, 96px); font-weight: 300; color: var(--accent); line-height: 1; opacity: 0.08; position: absolute; top: 32px; left: 32px; pointer-events: none; letter-spacing: -0.02em; }
-.page-hero-content { position: relative; z-index: 1; }
-.breadcrumb { display: flex; align-items: center; gap: 8px; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); margin-bottom: 20px; }
-.breadcrumb a { color: var(--text-light); text-decoration: none; }
-.breadcrumb a:hover { color: var(--gold); }
-.breadcrumb span { color: var(--border); }
-.page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
-.page-subtitle { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; margin-top: 8px; }
+/* ── COMPANY STRIP ── */
+.company-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; width: 100%; }
+.company-strip-text { background: var(--accent); padding: 64px; display: flex; flex-direction: column; justify-content: center; }
+.company-strip-text .section-en { color: var(--white); }
+.company-strip-text .section-ja { color: var(--gold-light); }
+.company-strip-text p { font-size: 14px; line-height: 2.2; color: rgba(255,255,255,0.7); margin: 24px 0 32px; max-width: 460px; }
+.btn-outline { display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,0.4); padding: 14px 28px; text-decoration: none; transition: background 0.2s, border-color 0.2s; width: fit-content; }
+.btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
+.btn-outline::after { content: '→'; }
+.company-strip-img { position: relative; overflow: hidden; }
+.company-strip-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 
-/* ── PRODUCTS PAGE ───────────────────────────── */
-.products-full { padding: 80px 48px; background: var(--white); }
-.product-grid-full { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.product-card-full { background: var(--off-white); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
-.product-card-full:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-.product-card-full img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform 0.5s; }
-.product-card-full:hover img { transform: scale(1.04); }
-.product-card-body { padding: 28px 28px 32px; }
-.product-card-body .product-card-en { color: var(--gold); }
-.product-card-body .product-card-ja { font-size: 18px; color: var(--accent); margin-bottom: 12px; }
-.product-card-desc { font-size: 13px; line-height: 1.9; color: var(--text-mid); }
-
-/* ── ABOUT PAGE ──────────────────────────────── */
-.about-section { padding: 80px 48px; background: var(--white); }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.about-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-.about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--accent); line-height: 1.4; margin-bottom: 24px; }
-.about-text p { font-size: 14px; line-height: 2.1; color: var(--text-mid); margin-bottom: 16px; }
-.company-table { width: 100%; border-collapse: collapse; margin-top: 48px; }
-.company-table tr { border-bottom: 1px solid var(--border); }
-.company-table th { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-align: left; padding: 20px 0; width: 200px; vertical-align: top; }
-.company-table td { font-size: 14px; color: var(--text-dark); padding: 20px 0; line-height: 1.8; }
-
-/* ── CONTACT PAGE ────────────────────────────── */
-.contact-section { padding: 80px 48px; background: var(--white); }
-.contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; }
-.contact-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--accent); margin-bottom: 20px; }
-.contact-info p { font-size: 13px; line-height: 2; color: var(--text-mid); margin-bottom: 32px; }
-.contact-detail { display: flex; flex-direction: column; gap: 16px; }
-.contact-detail-item { display: flex; gap: 16px; align-items: baseline; }
-.contact-detail-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); min-width: 60px; }
-.contact-detail-value { font-size: 14px; color: var(--text-dark); line-height: 1.7; }
-.contact-form { display: flex; flex-direction: column; gap: 24px; }
-.form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mid); }
-.form-label .required { color: var(--gold); margin-left: 4px; }
-.form-input, .form-select, .form-textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 300; color: var(--text-dark); background: var(--off-white); border: 1px solid var(--border); padding: 14px 16px; outline: none; transition: border-color 0.2s, background 0.2s; width: 100%; appearance: none; }
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); background: var(--white); }
-.form-textarea { resize: vertical; min-height: 140px; }
-.form-submit { align-self: flex-start; }
-
-/* ── FOOTER ──────────────────────────────────── */
-footer { background: var(--accent); padding: 64px 48px 32px; }
+/* ── FOOTER ── */
+footer { background: var(--accent); padding: 80px 48px 40px; }
 .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
 .footer-brand .logo-text { color: var(--white); }
 .footer-brand .logo-text span { color: rgba(255,255,255,0.4); }
@@ -468,208 +242,101 @@ footer { background: var(--accent); padding: 64px 48px 32px; }
 .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
 .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
 
-/* ── ANIMATIONS ──────────────────────────────── */
+/* ── ANIMATIONS ── */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* ── SHOP / CART ─────────────────────────────── */
-.cart-btn { position: relative; background: none; border: none; cursor: pointer; color: var(--text-mid); padding: 4px; display: flex; align-items: center; transition: color 0.2s; }
-.cart-btn:hover { color: var(--accent); }
-.cart-count { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: var(--gold); color: var(--white); border-radius: 50%; font-size: 10px; font-weight: 700; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center; }
 
-/* 🛒 统一合并：侧边购物车基础容器及乐天风融合样式 */
-.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 11000; backdrop-filter: blur(2px); transition: opacity 0.3s; }
-.cart-overlay.show, .cart-overlay.active { display: block; opacity: 1; }
+/* ==========================================================================
+   💻 电脑大屏幕端高级化重构（🎯 彻底解决PC端排版混乱错位）
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* 🎯 核心解法：将所有主体内容区域最大宽度锁定 1200px 并且完美水平居中 */
+  .hero-content,
+  .section,
+  .stats-section,
+  footer {
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 
-.cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100vh; background: var(--white); z-index: 12000; display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -10px 0 30px rgba(0,0,0,0.08); }
-.cart-drawer.open { right: 0; }
+  /* 🎯 导航栏满屏延伸，但内部文字精准对齐 1200px 主轴线 */
+  header {
+    max-width: 100% !important;
+    padding: 0 calc((100vw - 1200px) / 2) !important;
+  }
 
-.cart-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.cart-header h3 { margin: 0; font-size: 16px; font-weight: 600; color: var(--hinoka-dark); }
-.close-cart-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--hinoka-dark); line-height: 1; }
+  /* 🎯 解决横幅板块在电脑端过大的问题，使其具有圆角和高级感 */
+  .company-strip {
+    max-width: 1200px !important;
+    margin: 60px auto !important;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .company-strip-text { padding: 80px 80px; }
 
-#cartItemsList { flex: 1; overflow-y: auto; padding: 24px; }
-.cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f5f7f8; align-items: center; }
-.cart-item-img { width: 65px; height: 65px; object-fit: cover; background: #f8fafb; border-radius: 2px; }
-.cart-item-detail { flex: 1; }
-.cart-item-name { font-size: 13px; font-weight: 600; color: #1a2530; margin-bottom: 4px; line-height: 1.4; }
-.cart-item-price { font-size: 12px; color: #bf0000; font-weight: bold; margin-bottom: 8px; }
-.cart-item-qty { display: flex; align-items: center; gap: 10px; }
-.qty-btn { width: 24px; height: 24px; background: #fff; border: 1px solid #e5e9ec; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  /* 🎯 修正页脚在大屏电脑上的内边距 */
+  footer {
+    padding-top: 80px !important;
+    padding-bottom: 40px !important;
+  }
+}
 
-.cart-drawer-footer { padding: 20px 24px; border-top: 1px solid var(--border); flex-shrink: 0; }
-.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 14px; font-weight: 500; color: var(--accent); }
-
-/* ── SHOP PAGE ───────────────────────────────────── */
-.shop-section { padding: 80px 48px; background: var(--white); }
-.shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.shop-card { background: var(--off-white); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
-.shop-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-.shop-card-img { position: relative; overflow: hidden; }
-.shop-card-img img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; transition: transform 0.5s; }
-.shop-card:hover .shop-card-img img { transform: scale(1.04); }
-.shop-card-badge { position: absolute; top: 12px; left: 12px; font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; background: var(--gold); color: var(--white); padding: 4px 10px; }
-.shop-card-body { padding: 20px; }
-.shop-card-cat { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-.shop-card-name { font-size: 15px; font-weight: 500; color: var(--accent); margin-bottom: 8px; line-height: 1.4; }
-.shop-card-desc { font-size: 12px; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; }
-.shop-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.shop-card-price { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; color: var(--accent); }
-.shop-card-price span { font-size: 11px; color: var(--text-light); margin-left: 2px; }
-.add-to-cart-btn { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); background: var(--accent); border: none; padding: 10px 18px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
-.add-to-cart-btn:hover { background: var(--gold); }
-
-.shop-filters { display: flex; gap: 0; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
-.filter-tab { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); background: none; border: none; padding: 14px 24px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; }
-.filter-tab:hover { color: var(--accent); }
-.filter-tab.active { color: var(--accent); border-bottom-color: var(--gold); }
-
-/* ── CHECKOUT PAGE ───────────────────────────────── */
-.checkout-section { padding: 80px 48px; background: var(--white); }
-.checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: start; }
-.checkout-form-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--accent); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.checkout-summary { background: var(--off-white); padding: 32px; position: sticky; top: 100px; }
-.checkout-summary h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--accent); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.summary-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 13px; color: var(--text-mid); border-bottom: 1px solid var(--border); gap: 12px; }
-.summary-item-name { flex: 1; }
-.summary-item-qty { color: var(--text-light); }
-.summary-item-price { font-family: 'Montserrat', sans-serif; color: var(--accent); }
-.summary-total { display: flex; justify-content: space-between; font-size: 16px; font-weight: 500; color: var(--accent); margin-top: 16px; padding-top: 16px; }
-.summary-total span:last-child { font-family: 'Montserrat', sans-serif; color: var(--gold); }
-.stripe-note { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-light); margin-top: 16px; font-family: 'Montserrat', sans-serif; letter-spacing: 0.05em; }
-
-/* ── 📱 MOBILE (屏幕小于等于 768px 触发) ────────── */
+/* ==========================================================================
+   📱 MOBILE (移动端适配，保持之前完美的流式排版)
+   ========================================================================== */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
 
-  /* 🎯 终极解法：手机顶栏强制回归自然不固定滚动 + 两侧轻量留白 */
   header { 
     position: relative !important; 
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
     height: var(--nav-h) !important;
     padding: 0 16px !important; 
     display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
   }
 
-  /* 🎯 强力纠正手机横排：彻底解决 display:none 导致菜单失踪的隐患 */
   .main-nav { 
     display: flex !important; 
     flex-direction: row !important;
-    align-items: center !important;
-    gap: 12px !important; 
+    gap: 16px !important; 
   }
-  
-  .main-nav a {
-    font-size: 11px !important;
-    padding-bottom: 2px !important;
-    white-space: nowrap !important; /* 核心：强制文字横排，死不折行 */
-  }
-
-  /* 🎯 减法精髓：隐藏最占地方的黑色“お問い合わせ”按钮，释放马路空间 */
-  .main-nav a.nav-contact {
-    display: none !important; 
-  }
+  .main-nav a { font-size: 11px !important; white-space: nowrap !important; }
+  .main-nav a.nav-contact { display: none !important; }
 
   .logo-text { font-size: 16px !important; }
   .logo-text span { font-size: 8px !important; white-space: nowrap !important; }
 
-  .shop-filters { -webkit-overflow-scrolling: touch; padding-left: 5px; padding-right: 5px; }
-  .shop-filters::-webkit-scrollbar { display: none; }
-
+  .hero { height: auto; min-height: 500px; padding: 80px 0; }
   .hero-content { padding: 0 24px; }
-  .hero-scroll { left: 24px; }
+  .hero h1 { font-size: 36px; }
+  .hero-scroll { display: none; }
 
-  .section { padding: 64px 24px; }
-  .section-sm { padding: 40px 24px; }
+  .section { padding: 60px 24px; }
+  .section-header { margin-bottom: 40px; }
+  .section-en { font-size: 32px; }
 
-  .product-grid { grid-template-columns: 1fr; }
-  .product-grid-full { grid-template-columns: 1fr; }
+  .news-item { gap: 16px; flex-direction: column; padding: 16px 0; }
+  .news-date { min-width: auto; }
+
+  .product-grid { grid-template-columns: 1fr; gap: 16px; }
+  .product-card { aspect-ratio: 4/3; }
 
   .company-strip { grid-template-columns: 1fr; }
-  .company-strip-img { height: 280px; }
-  .company-strip-text { padding: 48px 32px; }
+  .company-strip-img { height: 240px; }
+  .company-strip-img img { position: relative; height: 100%; }
+  .company-strip-text { padding: 40px 24px; }
 
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { padding: 32px 20px; }
+  .stat-num { font-size: 36px; }
 
-  .about-grid { grid-template-columns: 1fr; gap: 40px; }
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-
-  .footer-top { grid-template-columns: 1fr 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-
-  .page-hero-inner { padding: 48px 24px 32px; }
-  .products-full, .about-section, .contact-section { padding: 60px 24px; }
-  .stats-section { padding: 60px 24px; }
-
-  .shop-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-  .shop-section { padding: 48px 16px; }
-  .checkout-grid { grid-template-columns: 1fr; }
-  .checkout-section { padding: 48px 20px; }
-  .cart-drawer { width: 100vw; }
-}
-
-@media (max-width: 480px) {
-  .shop-grid { grid-template-columns: 1fr; }
-}
-
-/* ==========================================================================
-   💻 电脑大屏幕端高级化重构（100% 互不污染隔离）
-   ========================================================================== */
-@media (min-width: 1024px) {
-  .hero-content,
-  .section,
-  .section-sm,
-  .products-full,
-  .about-section,
-  .contact-section,
-  .stats-section,
-  .page-hero-inner,
-  .footer-top {
-    max-width: 1240px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 64px !important;
-    padding-right: 64px !important;
-  }
-
-  header {
-    max-width: 100%;
-    padding: 0 calc((100vw - 1240px) / 2 + 64px) !important;
-  }
-  @media (max-width: 1366px) {
-    header { padding: 0 64px !important; }
-  }
-
-  .company-strip {
-    max-width: 1240px;
-    margin: 40px auto;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .company-strip-text { padding: 80px 96px; }
-
-  .product-grid-full { gap: 48px 40px; }
-  .product-card-full img { aspect-ratio: 16/11; }
-
-  .stat-item { padding: 64px 40px; transition: transform 0.3s; }
-  .stat-item:hover { transform: translateY(-4px); }
-
-  .contact-grid { grid-template-columns: 1fr 1.4fr; gap: 120px; }
-  .contact-form { max-width: 620px; }
-  .form-input, .form-select, .form-textarea { padding: 16px 20px; }
-
-  .company-table th { width: 240px; font-size: 11px; }
-  .company-table td { padding: 24px 0; }
-
-  footer { padding: 80px calc((100vw - 1240px) / 2 + 64px) 40px !important; }
-  .footer-top { padding-left: 0 !important; padding-right: 0 !important; gap: 80px; }
 }

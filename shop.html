@@ -68,13 +68,11 @@
     @media (max-width: 768px) { .p-modal-window { grid-template-columns: 1fr; } }
     .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 32px; background: none; border: none; color: #1a2530; cursor: pointer; z-index: 10; }
     
-    /* 🛠️ 轮播图容器优化：加入左右切换箭头按钮 */
     .modal-gallery { padding: 30px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid #e5e9ec; }
     @media (max-width: 768px) { .modal-gallery { border-right: none; border-bottom: 1px solid #e5e9ec; } }
     .modal-main-img-wrap { width: 100%; aspect-ratio: 1; position: relative; background: #f8fafb; border: 1px solid #e5e9ec; }
     .modal-main-img { width: 100%; height: 100%; object-fit: contain; padding: 15px; box-sizing: border-box; }
     
-    /* 左右翻页小箭头按钮样式 */
     .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,37,48,0.7); color: #fff; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border-radius: 50%; transition: background 0.2s; user-select: none; }
     .nav-arrow:hover { background: rgba(197,168,128,0.9); }
     .prev-arrow { left: 10px; }
@@ -88,15 +86,6 @@
     .modal-title { font-size: 22px; font-weight: 500; color: #1a2530; margin: 0 0 10px; }
     .modal-price { font-size: 22px; font-weight: 700; color: #1a2530; margin-bottom: 15px; }
     
-    /* ── 🚚 实时运费计算面板 ── */
-    .rakuten-delivery-box { background: #f8fafb; border: 1px solid #e5e9ec; padding: 15px; margin-bottom: 20px; border-radius: 4px; font-size: 13px; }
-    .rt-row { display: flex; margin-bottom: 8px; align-items: center; }
-    .rt-row:last-child { margin-bottom: 0; }
-    .rt-label { font-weight: bold; width: 90px; color: #606a74; flex-shrink: 0; }
-    .rt-value { color: #1a2530; flex: 1; }
-    .text-free { color: #00875a; font-weight: bold; }
-    .shipping-select { width: 100%; padding: 6px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; background-color: #fff; margin-top: 4px; cursor: pointer; }
-    
     /* 规格组 */
     .spec-group { margin-bottom: 15px; }
     .spec-label { display: block; font-size: 12px; font-weight: 600; color: #1a2530; margin-bottom: 6px; }
@@ -108,30 +97,126 @@
     .modal-atc-btn { background: #c5a880; color: #fff; border: none; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; margin-top: auto; }
     .modal-atc-btn:hover { background: #1a2530; }
 
-    /* ── 🛒 侧边购物车栏 ── */
-    .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 11000; }
-    .cart-overlay.show { display: block; }
-    .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 12000; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -10px 0 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-    .cart-drawer.open { right: 0; }
-    .cart-header { padding: 24px; border-bottom: 1px solid #e5e9ec; display: flex; justify-content: space-between; align-items: center; }
-    .cart-header h3 { margin: 0; font-size: 16px; font-weight: 600; color: #1a2530; }
-    .close-cart-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #1a2530; }
+
+    /* ==========================================================================
+       🛒 【全新重构】HINOKA MODERN CART DRAWER (高奢抽屉式购物车样式)
+       ========================================================================== */
+    .hinoka-cart-drawer-wrapper {
+      position: fixed !important;
+      top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+      z-index: 11000 !important;
+      display: none;
+    }
+    .hinoka-cart-drawer-wrapper.show {
+      display: block !important;
+    }
+
+    /* 现代高斯模糊背景遮罩 */
+    .cart-drawer-overlay {
+      position: absolute !important;
+      top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important;
+      background: rgba(26, 26, 24, 0.4) !important;
+      backdrop-filter: blur(4px) !important;
+    }
+
+    /* 抽屉容器 */
+    .cart-drawer-container {
+      position: absolute !important;
+      top: 0 !important; right: -420px !important;
+      width: 88vw !important;
+      max-width: 400px !important;
+      height: 100% !important;
+      background: #ffffff !important;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.08) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .hinoka-cart-drawer-wrapper.show .cart-drawer-container {
+      right: 0 !important;
+    }
+
+    /* 头部区域 */
+    .cart-drawer-header {
+      padding: 24px 20px 16px 20px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      border-bottom: 1px solid #f5f5f2 !important;
+    }
+    .cart-drawer-title h3 {
+      font-size: 18px !important; font-weight: 400 !important; color: #1a2530 !important; letter-spacing: 0.05em !important; margin: 0 !important;
+    }
+    .cart-drawer-title span {
+      font-size: 9px !important; color: #808a94 !important; letter-spacing: 0.08em !important; display: block; margin-top: 2px;
+    }
+    .cart-drawer-close-btn {
+      background: none !important; border: none !important; font-size: 20px !important; color: #606a74 !important; cursor: pointer !important; padding: 4px !important;
+    }
+
+    /* SSL 安全盾标志线 */
+    .cart-drawer-ssl-bar {
+      background: #fafaf7 !important; padding: 8px 20px !important; border-bottom: 1px solid #eeeee9 !important; text-align: center !important;
+    }
+    .cart-drawer-ssl-bar span {
+      font-size: 10.5px !important; color: #c5a880 !important; letter-spacing: 0.03em !important;
+    }
+
+    /* 中间动态滚动区 */
+    .cart-drawer-scroll-content {
+      flex: 1 !important; overflow-y: auto !important; padding: 20px !important; -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* 高奢单个商品卡片 */
+    .drawer-item-card {
+      display: flex !important; position: relative !important; background: #fcfcfc !important; border: 1px solid #f2f2f0 !important; border-radius: 6px !important; padding: 12px !important; margin-bottom: 14px !important; align-items: center;
+    }
+    .drawer-item-img {
+      width: 64px !important; height: 64px !important; border-radius: 4px !important; overflow: hidden !important; margin-right: 12px !important; background: #ffffff !important; flex-shrink: 0;
+    }
+    .drawer-item-img img { width: 100%; height: 100%; object-fit: contain; }
+    .drawer-item-details { flex: 1 !important; }
+    .drawer-item-name { font-size: 13px !important; font-weight: 500 !important; color: #1a2530 !important; margin: 0 0 4px 0 !important; line-height: 1.4 !important; }
+    .drawer-item-price { font-size: 13px !important; font-weight: 600 !important; color: #1a2530 !important; margin-bottom: 6px !important; }
     
-    #cartItemsList { flex: 1; overflow-y: auto; padding: 24px; }
-    .cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f5f7f8; align-items: center; }
-    .cart-item-img { width: 65px; height: 65px; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; }
-    .cart-item-detail { flex: 1; }
-    .cart-item-name { font-size: 13px; font-weight: 600; color: #1a2530; margin-bottom: 4px; }
-    .cart-item-price { font-size: 12px; color: #606a74; margin-bottom: 4px; }
-    .cart-item-shipping { font-size: 11px; margin-bottom: 8px; }
-    .cart-item-qty { display: flex; align-items: center; gap: 10px; }
-    .qty-btn { width: 24px; height: 24px; background: #fff; border: 1px solid #e5e9ec; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .qty-val { font-size: 13px; min-width: 20px; text-align: center; }
+    .drawer-item-qty-actions { display: flex !important; align-items: center !important; gap: 10px !important; }
+    .drawer-qty-btn { width: 24px !important; height: 24px !important; background: #fff !important; border: 1px solid #e5e9ec !important; font-size: 14px !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+    .drawer-qty-val { font-size: 13px !important; min-width: 20px !important; text-align: center !important; }
+
+    /* 🚚 购物车内的地域选择器美化 */
+    .cart-shipping-selector {
+      background: #fafafa !important; border: 1px solid #f0f0ed !important; border-radius: 6px !important; padding: 16px !important; margin: 24px 0 12px 0 !important;
+    }
+    .shipping-selector-title { display: block !important; font-size: 11px !important; color: #c5a880 !important; font-weight: 600 !important; margin-bottom: 12px !important; letter-spacing: 0.05em !important; }
+    .shipping-options-group { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+    .shipping-option-item { display: flex !important; align-items: center !important; position: relative !important; cursor: pointer !important; }
+    .shipping-option-item input { position: absolute !important; opacity: 0 !important; }
     
-    .cart-footer { padding: 24px; border-top: 1px solid #e5e9ec; background: #f8fafb; }
-    .checkout-btn { display: block; width: 100%; background: #c5a880; color: #fff; text-align: center; padding: 14px; font-size: 13px; font-weight: 700; text-decoration: none; transition: background 0.2s; box-sizing: border-box; }
-    .checkout-btn:hover { background: #1a2530; }
-    .empty-cart-msg { text-align: center; color: #808a94; font-size: 13px; padding-top: 4px; }
+    .option-custom-box { width: 16px !important; height: 16px !important; border: 1px solid #cbd5e1 !important; border-radius: 50% !important; margin-right: 10px !important; display: inline-block !important; position: relative !important; background: #ffffff !important; }
+    .shipping-option-item input:checked + .option-custom-box { border-color: #c5a880 !important; }
+    .shipping-option-item input:checked + .option-custom-box::after { content: "" !important; position: absolute !important; top: 4px !important; left: 4px !important; width: 6px !important; height: 6px !important; background: #c5a880 !important; border-radius: 50% !important; }
+    .option-text { font-size: 12.5px !important; color: #1a2530 !important; }
+    .option-text span { font-size: 11px !important; color: #606a74 !important; margin-left: 4px !important; }
+    
+    #cart-island-warn { display: none; font-size: 11px !important; line-height: 1.5 !important; color: #bf0000 !important; margin: 12px 0 0 0 !important; border-top: 1px dashed rgba(191, 0, 0, 0.15) !important; padding-top: 8px !important; }
+
+    /* 底层固定结算面板 */
+    .cart-drawer-footer {
+      background: #ffffff !important; border-top: 1px solid #f5f5f2 !important; padding: 20px 20px 32px 20px !important; box-shadow: 0 -6px 20px rgba(0,0,0,0.02) !important;
+    }
+    .cart-drawer-summary-row {
+      display: flex !important; justify-content: space-between !important; font-size: 13.5px !important; color: #606a74 !important; margin-bottom: 10px !important;
+    }
+    .cart-drawer-summary-row.total {
+      margin-top: 14px !important; padding-top: 14px !important; border-top: 1px dashed #e5e9ec !important; font-size: 15px !important; color: #1a2530 !important; font-weight: 600 !important; margin-bottom: 20px !important;
+    }
+    .cart-drawer-summary-row.total .value { font-size: 19px !important; color: #bf0000 !important; }
+
+    .btn-drawer-checkout {
+      display: flex !important; align-items: center !important; justify-content: space-between !important; width: 100% !important; padding: 16px 20px !important; background: #1a2530 !important; color: #ffffff !important; font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.15em !important; border-radius: 4px !important; box-shadow: 0 4px 16px rgba(26,37,48,0.15) !important; text-decoration: none !important; box-sizing: border-box;
+    }
+    .btn-drawer-checkout:hover { background: #c5a880 !important; }
     
     @keyframes modalUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -167,13 +252,11 @@
     <div class="product-grid" id="grid"></div>
   </div>
 
-  <!-- 商品详情弹窗（已加入轮播图切页结构） -->
   <div class="p-modal-overlay" id="productModal" onclick="closeProductModal(event)">
     <div class="p-modal-window">
       <button class="close-modal-btn" onclick="doCloseModal()">×</button>
       
       <div class="modal-gallery">
-        <!-- 🛠️ 轮播主图区域：加了左右切换箭头 -->
         <div class="modal-main-img-wrap">
           <button class="nav-arrow prev-arrow" onclick="navModalImage(-1)">‹</button>
           <img src="" id="modalMainImage" class="modal-main-img" alt="メイン画像">
@@ -187,28 +270,6 @@
         <h2 class="modal-title" id="modalTitle">商品名</h2>
         <div class="modal-price" id="modalPrice">¥0</div>
         
-        <!-- 🚚 实时区域运费选择板 -->
-        <div class="rakuten-delivery-box">
-          <div class="rt-row">
-            <div class="rt-label">配送先地域</div>
-            <div class="rt-value">
-              <select class="shipping-select" id="modalShippingRegion" onchange="updateModalPriceAndShipping()">
-                <option value="mainland" selected>本州・四国・九州（送料無料）</option>
-                <option value="remote">北海道・沖縄・離島（+¥1,500）</option>
-              </select>
-            </div>
-          </div>
-          <div class="rt-row" style="margin-top: 10px;">
-            <div class="rt-label">送料</div>
-            <div class="rt-value" id="modalShippingStatus"><span class="text-free">送料無料</span></div>
-          </div>
-          <div class="rt-row">
-            <div class="rt-label">出荷目安</div>
-            <div class="rt-value" id="modalDispatchTime">1〜2営業日以内に発送</div>
-          </div>
-        </div>
-        
-        <!-- 规格 -->
         <div class="spec-group" id="modalColorGroup">
           <span class="spec-label">カラー (颜色)</span>
           <div class="spec-options" id="modalColorOptions"></div>
@@ -226,34 +287,67 @@
     </div>
   </div>
 
-  <!-- 侧边购物车栏 -->
-  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-  <div class="cart-drawer" id="cartDrawer">
-    <div class="cart-header">
-      <h3>ショッピングカート</h3>
-      <button class="close-cart-btn" onclick="closeCart()">×</button>
-    </div>
-    <div id="cartItemsList"></div>
-    <div class="cart-footer" id="cartFooter">
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
-        <span>商品合計 (税込):</span>
-        <span id="cartSubtotalAmount">¥0</span>
+
+  <div class="hinoka-cart-drawer-wrapper" id="hinokaCartWrapper">
+    <div class="cart-drawer-overlay" onclick="closeCart()"></div>
+    
+    <div class="cart-drawer-container">
+      <div class="cart-drawer-header">
+        <div class="cart-drawer-title">
+          <h3>Shopping Bag</h3>
+          <span>ショッピングバッグ</span>
+        </div>
+        <button class="cart-drawer-close-btn" onclick="closeCart()">✕</button>
       </div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px;">
-        <span>送料合計:</span>
-        <span id="cartShippingTotalAmount" style="font-weight: 700;">¥0</span>
+      
+      <div class="cart-drawer-ssl-bar">
+        <span>🔒 個人情報と決済内容は安全に保護されます</span>
       </div>
-      <hr style="border:none; border-top:1px solid #e5e9ec; margin-bottom:12px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:16px; font-weight:700; color:#bf0000;">
-        <span>総合計 (税込):</span>
-        <span id="cartGrandTotalAmount">¥0</span>
+
+      <div class="cart-drawer-scroll-content">
+        <div id="cartItemsList"></div>
+
+        <div class="cart-shipping-selector" id="cartShippingSelectorZone">
+          <label class="shipping-selector-title">お届け先の地域をお選びください</label>
+          <div class="shipping-options-group">
+            <label class="shipping-option-item">
+              <input type="radio" name="cart_region" value="mainland" id="regionMainland" checked onchange="changeCartRegion('mainland')">
+              <span class="option-custom-box"></span>
+              <span class="option-text">本州・四国・九州 <span>(送料込み)</span></span>
+            </label>
+            <label class="shipping-option-item">
+              <input type="radio" name="cart_region" value="island" id="regionIsland" onchange="changeCartRegion('island')">
+              <span class="option-custom-box"></span>
+              <span class="option-text">北海道・沖縄・離島地域 <span>(+¥1,500)</span></span>
+            </label>
+          </div>
+          <p id="cart-island-warn">※ 同一住所へのお届けの場合、複数の商品をご注文でも離島中継料は一律1,500円のみとなります。重複請求はございません。</p>
+        </div>
       </div>
-      <a href="checkout.html" class="checkout-btn">レジに進む</a>
+
+      <div class="cart-drawer-footer" id="cartFooter">
+        <div class="cart-drawer-summary-row">
+          <span>商品小計 (税込)</span>
+          <span id="cartSubtotalAmount">¥0</span>
+        </div>
+        <div class="cart-drawer-summary-row">
+          <span>離島中継料</span>
+          <span id="cartShippingTotalAmount">送料込み</span>
+        </div>
+        <div class="cart-drawer-summary-row total">
+          <span>合計金額</span>
+          <span id="cartGrandTotalAmount" class="value">¥0</span>
+        </div>
+        
+        <a href="checkout.html" class="btn-drawer-checkout">
+          <span>ご注文手続きへ進む</span>
+          <span>→</span>
+        </a>
+      </div>
     </div>
   </div>
 
 <script>
-// ── 🛠️ 核心修正：修复了 images 数组写错导致覆盖的问题 ──
 const PRODUCTS = [
   {
     id: 'pet-001', category: 'pet', badge: '人気商品',
@@ -261,7 +355,6 @@ const PRODUCTS = [
     desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
     price: 2980, 
     image: 'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
-    // 💡 修复点：多张图必须整齐地用逗号隔开，统一写在一个中括号里
     images: [
       'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
       'images/IMG_5274.JPG',
@@ -278,8 +371,8 @@ const PRODUCTS = [
       { name: 'Mサイズ (径50cm)', priceModifier: 0 },
       { name: 'Lサイズ (径60cm)', priceModifier: 1000 } 
     ],
-    longDesc: '毎日の睡眠は大切な家族の健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
-    stock: 5,               
+    longDesc: '毎日の睡眠は大切な家族的健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
+    stock: 5,                
     shipsFrom: '大阪府',    
     leadTime: '即日〜2営業日以内に発送'
   },
@@ -319,18 +412,25 @@ let currentModalProductId = '';
 let selectedColorObj = null;
 let selectedSizeObj = null;
 
-// 🛠️ 新增变量：用来追踪当前弹窗正在看第几张图
 let currentImageIndex = 0;
 let currentProductImagesArray = [];
 
+// 🌟 新引入的全局运费地域控制状态（默认本岛为 mainland，离岛为 island）
+let currentShippingRegion = sessionStorage.getItem('hinoka_selected_region') || 'mainland';
+
 function openCart() {
-  document.getElementById('cartDrawer').classList.add('open');
-  document.getElementById('cartOverlay').classList.add('show');
+  document.getElementById('hinokaCartWrapper').classList.add('show');
+  // 同步读取之前选过的地域选项
+  if (currentShippingRegion === 'island') {
+    document.getElementById('regionIsland').checked = true;
+  } else {
+    document.getElementById('regionMainland').checked = true;
+  }
   renderCart();
 }
+
 function closeCart() {
-  document.getElementById('cartDrawer').classList.remove('open');
-  document.getElementById('cartOverlay').classList.remove('show');
+  document.getElementById('hinokaCartWrapper').classList.remove('show');
 }
 
 function renderGrid(items) {
@@ -369,21 +469,14 @@ function openProductModal(id) {
   document.getElementById('modalCategory').innerText = CAT_LABEL[p.category];
   document.getElementById('modalTitle').innerText = p.name;
   document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
-  document.getElementById('modalDispatchTime').innerText = `${p.leadTime}（${p.shipsFrom}より出荷）`;
   
-  // 🛠️ 初始化轮播图组件数据
   currentProductImagesArray = p.images && p.images.length ? p.images : [p.image];
   currentImageIndex = 0;
   document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
 
-  // 初始化默认规格选择
   selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
   selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
-
-  // 重置区域选择为本岛免费
-  document.getElementById('modalShippingRegion').value = 'mainland';
   
-  // 渲染规格按钮组
   const colorOptions = document.getElementById('modalColorOptions');
   if (p.colors && p.colors.length) {
     document.getElementById('modalColorGroup').style.display = 'block';
@@ -404,7 +497,6 @@ function openProductModal(id) {
     document.getElementById('modalSizeGroup').style.display = 'none';
   }
 
-  // 刷新计算单价和运费
   updateModalPriceAndShipping();
 
   const atcBtnEl = document.getElementById('modalAtcBtn');
@@ -416,13 +508,10 @@ function openProductModal(id) {
     atcBtnEl.disabled = false;
   }
   
-  // 渲染下方小缩略图
   renderThumbnails();
-  
   document.getElementById('productModal').classList.add('show');
 }
 
-// 🛠️ 新增函数：渲染缩略图并给当前选中的高亮
 function renderThumbnails() {
   const thumbContainer = document.getElementById('modalThumbList');
   thumbContainer.innerHTML = currentProductImagesArray.map((img, idx) => `
@@ -430,20 +519,15 @@ function renderThumbnails() {
   `).join('');
 }
 
-// 🛠️ 新增函数：点击左右箭头前后移动切换图片
 function navModalImage(direction) {
   if (currentProductImagesArray.length <= 1) return;
-  
   currentImageIndex += direction;
-  // 环形处理：如果点到最后一张再往后，就回到第一张；第一张往前点就去到最后一张
   if (currentImageIndex >= currentProductImagesArray.length) currentImageIndex = 0;
   if (currentImageIndex < 0) currentImageIndex = currentProductImagesArray.length - 1;
-  
   document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
   renderThumbnails();
 }
 
-// 🛠️ 新增函数：直接点击下方某个小图跳转
 function jumpToModalImage(index) {
   currentImageIndex = index;
   document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
@@ -458,17 +542,8 @@ function updateModalPriceAndShipping() {
   if (selectedColorObj) currentProductPrice += selectedColorObj.priceModifier;
   if (selectedSizeObj) currentProductPrice += selectedSizeObj.priceModifier;
   
-  const region = document.getElementById('modalShippingRegion').value;
   const priceEl = document.getElementById('modalPrice');
-  const shippingStatusEl = document.getElementById('modalShippingStatus');
-  
-  if (region === 'remote') {
-    priceEl.innerHTML = `¥${currentProductPrice.toLocaleString()} <span style="font-size:14px; color:#bf0000; font-weight:normal;">(規格価) + 送料 ¥1,500</span>`;
-    shippingStatusEl.innerHTML = '<span style="color:#ea580c; font-weight:bold;">¥1,500 (北海道・沖縄・離島)</span>';
-  } else {
-    priceEl.innerText = `¥${currentProductPrice.toLocaleString()} (税込)`;
-    shippingStatusEl.innerHTML = '<span class="text-free">送料無料</span>';
-  }
+  priceEl.innerText = `¥${currentProductPrice.toLocaleString()} (税込)`;
 }
 
 function selectModalSpec(type, name, el) {
@@ -483,7 +558,6 @@ function selectModalSpec(type, name, el) {
     document.getElementById('modalSizeOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
   }
   el.classList.add('active');
-  
   updateModalPriceAndShipping();
 }
 
@@ -510,11 +584,8 @@ function addModalProductToCart() {
     finalName += ` (${specTextArray.join(' / ')})`;
   }
 
-  const region = document.getElementById('modalShippingRegion').value;
-  const finalShippingCost = (region === 'remote') ? 1500 : 0;
-  const shippingLabel = (region === 'remote') ? '北海道・沖縄・離島配送' : '本島配送(送料無料)';
-
-  const specId = `${p.id}-${selectedColorObj?.name || ''}-${selectedSizeObj?.name || ''}-${region}`;
+  // 🌟 取消商品单体绑定运费，统一划归购物车整单结算
+  const specId = `${p.id}-${selectedColorObj?.name || ''}-${selectedSizeObj?.name || ''}`;
 
   const existingItem = cart.find(item => item.id === specId);
   if (existingItem) {
@@ -524,8 +595,6 @@ function addModalProductToCart() {
       id: specId,
       name: finalName,
       price: finalItemPrice,
-      shipping: finalShippingCost,
-      shippingLabel: shippingLabel,
       image: p.image,
       qty: 1
     });
@@ -546,56 +615,78 @@ function updateQty(id, change) {
   }
 }
 
+// 🌟 当用户切换购物车里的地区单选框时调用的变价引擎
+function changeCartRegion(regionValue) {
+  currentShippingRegion = regionValue;
+  sessionStorage.setItem('hinoka_selected_region', regionValue);
+  renderCart();
+}
+
 function renderCart() {
   const listContainer = document.getElementById('cartItemsList');
   const footerContainer = document.getElementById('cartFooter');
+  const selectorZone = document.getElementById('cartShippingSelectorZone');
+  const warnNotice = document.getElementById('cart-island-warn');
   const globalBadge = document.getElementById('globalCartCount');
+  
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   if (globalBadge) globalBadge.innerText = totalQty;
   
   if (cart.length === 0) {
     listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
     document.getElementById('cartSubtotalAmount').innerText = '¥0';
-    document.getElementById('cartShippingTotalAmount').innerText = '¥0';
+    document.getElementById('cartShippingTotalAmount').innerText = '送料込み';
     document.getElementById('cartGrandTotalAmount').innerText = '¥0';
     footerContainer.style.opacity = '0.5';
     footerContainer.style.pointerEvents = 'none';
+    if(selectorZone) selectorZone.style.display = 'none';
     return;
   }
   
   footerContainer.style.opacity = '1';
   footerContainer.style.pointerEvents = 'auto';
+  if(selectorZone) selectorZone.style.display = 'block';
   
+  // 1. 累加纯商品小计金额
   let totalGoodsPrice = 0;
-  let totalShippingPrice = 0;
-
   listContainer.innerHTML = cart.map(item => {
     totalGoodsPrice += item.price * item.qty;
-    totalShippingPrice += item.shipping * item.qty; 
     
     return `
-      <div class="cart-item">
-        <img src="${item.image}" class="cart-item-img" alt="${item.name}">
-        <div class="cart-item-detail">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
-          <div class="cart-item-shipping" style="color: ${item.shipping > 0 ? '#ea580c' : '#00875a'}">
-            📍 ${item.shippingLabel} ${item.shipping > 0 ? `(¥${(item.shipping * item.qty).toLocaleString()})` : ''}
-          </div>
-          <div class="cart-item-qty">
-            <button class="qty-btn" type="button" onclick="updateQty('${item.id}', -1)">-</button>
-            <span class="qty-val">${item.qty}</span>
-            <button class="qty-btn" type="button" onclick="updateQty('${item.id}', 1)">+</button>
+      <div class="drawer-item-card">
+        <div class="drawer-item-img">
+          <img src="${item.image}" alt="${item.name}">
+        </div>
+        <div class="drawer-item-details">
+          <div class="drawer-item-name">${item.name}</div>
+          <div class="drawer-item-price">¥${item.price.toLocaleString()}</div>
+          <div class="drawer-item-qty-actions">
+            <button class="drawer-qty-btn" type="button" onclick="updateQty('${item.id}', -1)">-</button>
+            <span class="drawer-qty-val">${item.qty}</span>
+            <button class="drawer-qty-btn" type="button" onclick="updateQty('${item.id}', 1)">+</button>
           </div>
         </div>
       </div>
     `;
   }).join('');
 
-  const grandTotal = totalGoodsPrice + totalShippingPrice;
+  // 2. 🌟 核心商业判断：根据购物车单选框状态计算整单附加费（死锁 1500，绝不重复叠加）
+  let islandShippingFee = 0;
+  if (currentShippingRegion === 'island') {
+    islandShippingFee = 1500;
+    if(warnNotice) warnNotice.style.display = 'block';
+    document.getElementById('cartShippingTotalAmount').innerText = '¥1,500';
+    document.getElementById('cartShippingTotalAmount').style.color = '#bf0000';
+  } else {
+    islandShippingFee = 0;
+    if(warnNotice) warnNotice.style.display = 'none';
+    document.getElementById('cartShippingTotalAmount').innerText = '送料込み';
+    document.getElementById('cartShippingTotalAmount').style.color = '#606a74';
+  }
 
+  // 3. 计算最终总花费并渲染
+  const grandTotal = totalGoodsPrice + islandShippingFee;
   document.getElementById('cartSubtotalAmount').innerText = '¥' + totalGoodsPrice.toLocaleString();
-  document.getElementById('cartShippingTotalAmount').innerText = totalShippingPrice > 0 ? `¥${totalShippingPrice.toLocaleString()}` : '無料';
   document.getElementById('cartGrandTotalAmount').innerText = '¥' + grandTotal.toLocaleString();
 }
 
@@ -610,6 +701,7 @@ function filter(cat, btn) {
   }
 }
 
+// 页面加载自动运行
 renderGrid(PRODUCTS);
 renderCart();
 </script>

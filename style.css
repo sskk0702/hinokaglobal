@@ -1653,3 +1653,23 @@ footer {
         position: static; /* 手机端取消吸顶 */
     }
 }
+/* 导航栏 logo 外层链接的对齐设置 */
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%; /* 继承导航栏的高度 */
+}
+
+/* Logo 图片本身的尺寸控制 */
+.brand-logo {
+    height: 40px;      /* 推荐高度在 35px - 45px 之间，您可以根据实际视觉效果微调 */
+    width: auto;        /* 宽度自动按比例缩放，防止图片变形 */
+    display: block;
+    transition: opacity 0.3s ease; /* 鼠标悬停时的渐变过渡 */
+}
+
+/* 鼠标悬停在 Logo 上时的互动反馈（轻微变淡，提示用户这是可以点击的） */
+.logo-link:hover .brand-logo {
+    opacity: 0.85;
+}

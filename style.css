@@ -1840,3 +1840,63 @@ footer {
         white-space: nowrap !important;
     }
 }
+/* ==========================================================================
+   📱 移动端自适应完美适配（当屏幕小于 768px 时强制执行）
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* 1. 强行压缩手机端导航栏的高度和上下内边距 */
+    #header {
+        padding: 0 12px !important;
+        height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    /* 2. 缩小左侧文字 Logo，限制最大宽度，防止推挤菜单 */
+    #header .logo-text {
+        font-size: 15px !important; /* HINOKA 稍微缩小 */
+        font-weight: 800 !important;
+        display: flex !important;
+        flex-direction: column !important; /* 强制手机端上下分行 */
+        align-items: flex-start !important;
+        gap: 0px !important;
+        max-width: 50% !important; /* 严格限制左侧只占一半屏幕 */
+        margin: 0 !important;
+    }
+
+    /* 3. 手机端的“株式会社 · HINOKA Co., Ltd.”小字 */
+    #header .logo-text span {
+        font-size: 9px !important; /* 变成精致小字 */
+        margin-top: 1px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; /* 超出自动变省略号，绝不撑破 */
+    }
+
+    /* 4. 右侧菜单重新紧凑布局 */
+    #header .main-nav {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important; /* 菜单之间的间距缩减到 8px */
+        max-width: 50% !important;
+        margin: 0 !important;
+    }
+
+    /* 5. 手机端三个普通菜单文字大小 */
+    #header .main-nav a {
+        font-size: 11px !important;
+        padding: 4px 2px !important;
+        white-space: nowrap !important;
+    }
+
+    /* 6. 强行把“お問い合わせ”黑色按钮变精致，完美塞进手机屏幕 */
+    #header .main-nav a.nav-contact {
+        padding: 5px 8px !important; /* 极致缩减按钮四周的留白 */
+        font-size: 11px !important;   /* 字号 */
+        border-radius: 4px !important;
+        background-color: #333333 !important;
+        color: #ffffff !important;
+        white-space: nowrap !important;
+    }
+}

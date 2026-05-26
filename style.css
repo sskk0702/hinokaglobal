@@ -1790,92 +1790,41 @@ footer {
     color: #ffffff !important;
 }
 /* ==========================================================================
-   📱 移动端自适应完美适配（仅在屏幕小于 768px 的手机设备上生效）
+   📱 移动端自适应完美舒展布局（彻底解决手机端竖版、难看的问题）
    ========================================================================== */
 @media screen and (max-width: 768px) {
-    /* 1. 压缩手机端导航栏的高度和上下间距，腾出首屏空间 */
-    #header {
-        padding: 10px 3% !important;
-        height: 65px !important;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-    }
-
-    /* 2. 强行控制左侧纯文字 Logo：缩小字号，防止挤压菜单 */
-    #header .logo-text {
-        font-size: 16px !important; /* 手机端 HINOKA 四个字缩小一点 */
-        line-height: 1.2 !important;
-        gap: 2px !important;
-        max-width: 55% !important; /* 限制左侧最大宽度 */
-    }
-
-    /* 3. 手机端的“株式会社 · HINOKA Co., Ltd.”小字调整 */
-    #header .logo-text span {
-        font-size: 10px !important; /* 英文和株式会社缩成精致小字 */
-        letter-spacing: 0px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; /* 万一太长自动变省略号 */
-    }
-
-    /* 4. 右侧菜单重新布局：缩小字号和间距，确保不换行 */
-    #header .main-nav {
-        gap: 10px !important; /* 菜单之间的间距从 32px 缩减到 10px */
-        max-width: 45% !important;
-    }
-
-    /* 5. 手机端普通菜单文字大小 */
-    #header .main-nav a {
-        font-size: 12px !important;
-        padding: 4px 2px !important;
-    }
-
-    /* 6. 特殊优化“お問い合わせ”黑色按钮：在手机上变小、变精致 */
-    #header .main-nav a.nav-contact {
-        padding: 6px 10px !important; /* 缩减按钮内边距 */
-        font-size: 11px !important;  /* 稍微缩小字号，确保塞得下 */
-        border-radius: 4px !important;
-        white-space: nowrap !important;
-    }
-}
-/* ==========================================================================
-   📱 移动端自适应完美适配（当屏幕小于 768px 时强制执行）
-   ========================================================================== */
-@media screen and (max-width: 768px) {
-    /* 1. 优化导航栏整体高度和内边距，两边留出刚好合适的间距 */
+    /* 1. 强行把整个顶栏的上下高度和内边距缩减，确保横向绝对是一行 */
     #header {
         padding: 0 16px !important;
         height: 65px !important;
         display: flex !important;
-        flex-direction: row !important; /* 确保整体绝不换行 */
+        flex-direction: row !important; /* 强制横向排列，绝不换行 */
         align-items: center !important;
         justify-content: space-between !important;
     }
 
-    /* 2. 左侧 Logo 区域：放宽最大限制，允许横向伸展 */
+    /* 2. 左侧 Logo 纯文字：限制宽度，强制不换行 */
     #header .logo-text {
         font-size: 16px !important; 
         font-weight: bold !important;
-        display: block !important; /* 恢复为单行块级 */
+        display: block !important;
         max-width: 40% !important; 
         margin: 0 !important;
-        white-space: nowrap !important; /* 强制 HINOKA 绝对不竖排 */
+        white-space: nowrap !important; /* 强制 HINOKA 这几个字绝对横着排 */
     }
 
-    /* 🎯 核心大招：在手机端直接隐藏掉冗长的小字副标题，彻底腾出横向空间 */
+    /* 🎯 核心绝招：在手机端直接隐藏掉冗长的小字副标题，彻底给右侧腾出横向空间 */
     #header .logo-text span {
-        display: none !important; /* 手机端不显示这一长串英文和株式会社 */
+        display: none !important; /* 手机窄屏上隐藏这串英文和株式会社，电脑端保留 */
     }
 
-    /* 3. 右侧导航菜单：给予 60% 的充足黄金空间，让文字彻底横向躺平 */
+    /* 3. 右侧导航菜单：给予 60% 的充足空间，让四个菜单彻底横向躺平 */
     #header .main-nav {
         display: flex !important;
-        flex-direction: row !important; /* 强行确保菜单绝对是横着排 */
+        flex-direction: row !important; /* 强制菜单绝对并排横着走 */
         align-items: center !important;
         justify-content: flex-end !important;
-        gap: 12px !important; /* 每个菜单之间的舒服间距 */
+        gap: 10px !important; /* 每个菜单之间的舒服间距 */
         max-width: 60% !important;
         flex-shrink: 0 !important;
         margin: 0 !important;
@@ -1883,20 +1832,20 @@ footer {
 
     /* 4. 手机端三个普通菜单：字号适中，强制不换行 */
     #header .main-nav a {
-        font-size: 13px !important; /* 恢复到清晰的 13 像素 */
+        font-size: 13px !important; 
         padding: 4px 0 !important;
         white-space: nowrap !important; /* 核心：强制文字在一行内横向显示，绝不竖排 */
         display: inline-block !important;
     }
 
-    /* 5. “お問い合わせ” 黑色按钮：保持扁平、精致的横向胶囊形状 */
+    /* 5. “お問い合わせ” 黑色按钮：保持扁平、精致的横向胶囊形状，绝不竖着掉下来 */
     #header .main-nav a.nav-contact {
-        padding: 6px 12px !important; /* 恰到好处的按钮包裹感 */
+        padding: 6px 10px !important; /* 极致缩减按钮四周的留白 */
         font-size: 12px !important;
         background-color: #333333 !important;
         color: #ffffff !important;
         border-radius: 4px !important;
-        white-space: nowrap !important; /* 核心：确保お問い合わせ五个字绝对横着排 */
+        white-space: nowrap !important; /* 确保お問い合わせ五个字绝对横着排 */
         display: inline-block !important;
     }
 }

@@ -1,13 +1,13 @@
 /* ==========================================================================
-   📌 HINOKA 官方全站统一自适应样式表 (手机端精简优化版)
+   📌 株式会社HINOKA - 全站统一标准样式表（PC完美恢复 + 手机完美自适应）
    ========================================================================== */
 
 :root {
-  --primary: #b89c7d;
+  --gold: #b89c7d;
   --text-dark: #222222;
   --text-mid: #555555;
   --text-light: #888888;
-  --bg-light: #fbfbfa;
+  --off-white: #fbfbfa;
   --border: #e8e5e0;
   --white: #ffffff;
 }
@@ -19,25 +19,24 @@
 }
 
 body {
-  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
   color: var(--text-dark);
   background-color: var(--white);
-  line-height: 1.7;
+  line-height: 1.8;
   -webkit-font-smoothing: antialiased;
 }
 
 /* ==========================================================================
-   💻 电脑端布局 (保持原本的大气、干练、无置顶固定)
+   💻 电脑端：100% 完美恢复原本的高端排版（绝对不固定、绝不崩溃）
    ========================================================================== */
 #header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 4%;
-  height: 90px;
-  background-color: var(--white);
+  padding: 24px 4%;
+  background: var(--white);
   border-bottom: 1px solid var(--border);
-  position: relative; /* 🎯 彻底取消置顶固定定位 */
+  position: relative; /* 🎯 已经彻底取消了置顶固定，随页面自然滚动 */
   z-index: 1000;
   width: 100%;
 }
@@ -46,21 +45,22 @@ body {
   text-decoration: none;
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 #header .logo-text {
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 700;
   color: var(--text-dark);
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
 }
 
 #header .logo-text span {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
   color: var(--text-light);
-  margin-top: 4px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
+  display: block;
 }
 
 #header .main-nav {
@@ -71,7 +71,7 @@ body {
 
 #header .main-nav a {
   text-decoration: none;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-dark);
   font-weight: 500;
   transition: color 0.3s ease;
@@ -79,66 +79,319 @@ body {
 
 #header .main-nav a:hover,
 #header .main-nav a.active {
-  color: var(--primary);
+  color: var(--gold);
 }
 
 #header .main-nav a.nav-contact {
-  background-color: var(--text-dark);
+  background: var(--text-dark);
   color: var(--white);
   padding: 10px 24px;
-  border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
 #header .main-nav a.nav-contact:hover {
-  background-color: var(--primary);
+  background: var(--gold);
+}
+
+/* ==========================================================================
+   📄 会社概要页面 - 专属版面样式（100% 完美恢复，不影响排版）
+   ========================================================================== */
+.page-hero {
+  background: var(--off-white);
+  padding: 80px 4% 60px 4%;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.page-hero-en {
+  position: absolute;
+  right: 0;
+  top: -20px;
+  font-size: 120px;
+  font-weight: 900;
+  color: #f3effa;
+  line-height: 1;
+  font-family: 'Cormorant Garamond', serif;
+  pointer-events: none;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.breadcrumb a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+.breadcrumb span {
+  margin: 0 8px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+.about-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 4%;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.about-text h2 {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 32px;
+  letter-spacing: 0.05em;
+}
+
+.about-text p {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-bottom: 24px;
+  line-height: 2;
+  text-align: justify;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.section-en {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.section-ja {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+.section-line {
+  flex-grow: 1;
+  height: 1px;
+  background: var(--border);
+  margin-left: 40px;
+  margin-bottom: 8px;
+}
+
+.company-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.company-table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.company-table th {
+  width: 20%;
+  text-align: left;
+  padding: 24px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  vertical-align: top;
+}
+
+.company-table td {
+  padding: 24px 0;
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.8;
+}
+
+/* ==========================================================================
+   👣 页脚样式 (100% 恢复原本的大牌格调)
+   ========================================================================== */
+footer {
+  background: var(--text-dark);
+  color: var(--white);
+  padding: 80px 4% 40px 4%;
+}
+
+.footer-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.footer-brand .logo-text {
+  color: var(--white);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.footer-brand .logo-text span {
+  font-size: 11px;
+  color: #888888;
+  display: block;
+  margin-top: 4px;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: #aaaaaa;
+  line-height: 1.8;
+}
+
+.footer-col h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+
+.footer-col a {
+  display: block;
+  color: #aaaaaa;
+  text-decoration: none;
+  font-size: 13px;
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.footer-col a:hover {
+  color: var(--white);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid #333333;
+  padding-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: #666666;
+}
+
+/* 动效基础控制 */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
 /* ==========================================================================
-   📱 移动端自适应完美舒展布局 (手机端隐藏“お問い合わせ”，空间拉满)
+   📱 移动端自适应完美舒展布局（专治手机端，绝不污染电脑端）
    ========================================================================== */
 @media screen and (max-width: 768px) {
-  /* 1. 手机端基础设置，不固定定位，自然随网页滚走 */
+  /* 1. 手机顶栏不固定定位，随页面顺滑滚走 */
   #header {
     position: relative !important; 
     top: auto !important;
     left: auto !important;
     height: 70px !important;
     padding: 0 16px !important;
-    border-bottom: 1px solid var(--border) !important;
   }
 
-  /* 2. 左上角 Logo 文字：因为右边空间变大了，我们在手机端可以完美保留两行全称！ */
+  /* 2. 隐藏“お問い合わせ”，解放右侧极其宝贵的横向大马路 */
+  #header .main-nav a.nav-contact {
+    display: none !important; 
+  }
+
+  /* 3. 释放宽度，允许两行全称完美横展 */
   #header .logo-text {
-    font-size: 16px !important; /* HINOKA 主标题大小 */
-    max-width: 55% !important;  /* 允许稍微伸展 */
+    font-size: 16px !important; 
+    max-width: 55% !important;  
   }
   
   #header .logo-text span {
-    font-size: 9px !important;  /* 株式会社 · HINOKA Co., Ltd. 变成精致小字 */
-    display: block !important;  /* 手机端允许优雅换到第二行显示 */
+    font-size: 9px !important;  
+    display: block !important;  
     white-space: nowrap !important;
   }
 
-  /* 3. 右侧导航菜单：保留 45% 的空间 */
+  /* 4. 右侧剩余的三个菜单完美并排横躺，绝不变成竖版 */
   #header .main-nav {
     display: flex !important;
-    flex-direction: row !important; /* 强制绝对横着并排 */
+    flex-direction: row !important; 
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: 12px !important; /* 菜单之间的间距 */
+    gap: 12px !important; 
     max-width: 45% !important;
+    width: auto !important;
   }
 
-  /* 4. 手机端菜单字号与横排控制 */
   #header .main-nav a {
     font-size: 12px !important; 
-    white-space: nowrap !important; /* 核心：强制横向显示，死不换行 */
+    white-space: nowrap !important; /* 强制横向，死不换行 */
     padding: 4px 0 !important;
   }
 
-  /* 🎯 核心大招：在手机窄屏上直接隐藏掉黑色的“お問い合わせ”按钮 */
-  #header .main-nav a.nav-contact {
-    display: none !important; /* 手机端直接不展示，彻底腾出地方 */
+  /* 5. 顺手修复会社概要页面在手机端的两列堆叠 */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .company-table th {
+    width: 30% !important;
+    font-size: 13px !important;
+  }
+  .company-table td {
+    font-size: 13px !important;
+  }
+  .footer-top {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+  .page-hero-en {
+    font-size: 60px !important;
+    top: 10px !important;
   }
 }

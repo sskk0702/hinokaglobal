@@ -1411,3 +1411,245 @@ footer {
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   box-sizing: border-box;
 }
+/* --- 猫壱风格布局核心样式 --- */
+.neco-detail-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
+/* 上部左右分栏 */
+.neco-main-row {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+/* 左侧图片区域 */
+.neco-gallery-col {
+    flex: 1;
+    max-width: 650px;
+}
+
+.neco-main-image-wrap {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.neco-main-image-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* 缩略图并排 */
+.neco-thumb-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.neco-thumb-item {
+    width: 80px;
+    height: 80px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    background: #f9f9f9;
+    transition: all 0.2s ease;
+}
+
+.neco-thumb-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.neco-thumb-item.active, .neco-thumb-item:hover {
+    border-color: #ff9f43; /* 活力橙高亮 */
+}
+
+/* 右侧购买看板 - 核心吸顶(Sticky) */
+.neco-order-col {
+    width: 400px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 40px; /* 滚动到距离顶部40px时固定 */
+}
+
+.neco-order-panel {
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+/* 标签与标题 */
+.neco-badge {
+    background: #ff4d4d;
+    color: #fff;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.neco-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.4;
+    margin: 0 0 15px 0;
+}
+
+.neco-price-box {
+    margin-bottom: 20px;
+}
+
+.neco-price {
+    font-size: 28px;
+    font-weight: 1000;
+    color: #d93838;
+}
+
+.neco-tax {
+    font-size: 14px;
+    color: #666;
+}
+
+.neco-divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* 选项按钮化（Radio变漂亮方块） */
+.neco-option-group {
+    margin-bottom: 20px;
+}
+
+.neco-label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.neco-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.neco-radio-label {
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.neco-radio-label:hover {
+    border-color: #ff9f43;
+    color: #ff9f43;
+}
+
+/* 选中状态（这里配合后面JS使用） */
+.neco-radio-label.selected {
+    border-color: #ff9f43;
+    background-color: #fffaf5;
+    color: #ff9f43;
+    font-weight: bold;
+}
+
+.neco-shipping-info {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    background: #f1f2f6;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+/* 购物车大按钮 */
+.neco-btn-cart {
+    width: 100%;
+    background: linear-gradient(135deg, #ff9f43, #ff7675);
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 118, 117, 0.3);
+    transition: all 0.3s ease;
+}
+
+.neco-btn-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 118, 117, 0.4);
+}
+
+/* 下方长图文详情 */
+.neco-description-row {
+    margin-top: 60px;
+    border-top: 2px solid #f1f2f6;
+    padding-top: 40px;
+}
+
+.neco-section-title {
+    font-size: 20px;
+    border-left: 4px solid #ff9f43;
+    padding-left: 12px;
+    margin-bottom: 25px;
+}
+
+.neco-long-desc-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 40px;
+    max-width: 800px;
+}
+
+.neco-detail-images-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.neco-detail-images-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
+}
+
+/* 响应式：手机端自动变成单栏 */
+@media (max-width: 992px) {
+    .neco-main-row {
+        flex-direction: column;
+    }
+    .neco-gallery-col, .neco-order-col {
+        width: 100%;
+        max-width: 100%;
+    }
+    .neco-order-col {
+        position: static; /* 手机端取消吸顶 */
+    }
+}

@@ -408,42 +408,119 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .products-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ── MOBILE ──────────────────────────────────── */
+/* ── 📱 MOBILE (彻底检测重构手机端美观度) ──────────────────────────────────── */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
-  header { position: relative !important; height: var(--nav-h) !important; padding: 0 16px !important; display: flex !important; justify-content: space-between !important; width: 100% !important; }
+  
+  header { 
+    position: relative !important; 
+    height: var(--nav-h) !important; 
+    padding: 0 16px !important; 
+    display: flex !important; 
+    justify-content: space-between !important; 
+    width: 100% !important; 
+  }
+  
   .main-nav { display: flex !important; flex-direction: row !important; gap: 12px !important; }
   .main-nav a { font-size: 10px !important; white-space: nowrap !important; }
   .main-nav a.nav-contact { display: none !important; }
+  
   .logo-text { font-size: 16px !important; }
   .logo-text span { font-size: 8px !important; white-space: nowrap !important; }
+  
   .hero { height: auto; min-height: 500px; padding: 80px 0; }
   .hero-content { padding: 0 24px; }
   .hero h1 { font-size: 36px; }
   .hero-scroll { display: none; }
+  
   .section { padding: 60px 24px; }
   .section-sm { padding: 40px 24px; }
   .section-header { margin-bottom: 40px; }
   .section-en { font-size: 32px; }
+  
   .news-item { gap: 16px; flex-direction: column; padding: 16px 0; }
   .news-date { min-width: auto; }
-  .product-grid { grid-template-columns: 1fr; gap: 16px; }
-  .product-card { aspect-ratio: 4/3; }
+
+  /* 📦 首页商品卡片手机版防丢、美化逻辑 */
+  .product-grid { display: flex !important; flex-direction: column !important; gap: 24px !important; }
+  .product-card { position: relative !important; width: 100% !important; aspect-ratio: 3/4 !important; overflow: hidden !important; }
+  .product-card img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  
+  /* 强制把文字标签定在渐变层最上方，给足对比度，永不丢失 */
+  .product-card-label { 
+    position: absolute !important; 
+    bottom: 0 !important; left: 0 !important; right: 0 !important; 
+    padding: 40px 20px 20px !important; 
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important; 
+    z-index: 5 !important;
+  }
+  .product-card-en { color: var(--gold-light) !important; font-size: 10px !important; }
+  .product-card-ja { color: var(--white) !important; font-size: 15px !important; font-weight: 400 !important; }
+  .product-overlay { display: none !important; } /* 移动端取消PC悬浮遮罩 */
+
   .product-grid-full { grid-template-columns: 1fr; }
   .company-strip { grid-template-columns: 1fr; }
   .company-strip-img { height: 240px; position: relative; }
   .company-strip-img img { position: relative; height: 100%; }
   .company-strip-text { padding: 40px 24px; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat-item { padding: 32px 20px; }
-  .stat-num { font-size: 36px; }
-  .about-grid { grid-template-columns: 1fr; gap: 40px; padding: 60px 0; }
+
+  /* 📊 【重雕】手机版数据看板——告别纯数字介绍 */
+  .stats-section { padding: 50px 16px !important; background: var(--off-white) !important; }
+  .stats-grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 12px !important; 
+    background: transparent !important; 
+    border: none !important; 
+  }
+  .stat-item { 
+    background: var(--white) !important; 
+    padding: 24px 12px !important; 
+    border: 1px solid var(--border) !important; 
+    border-radius: 2px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+    transform: none !important;
+  }
+  .stat-num { 
+    font-size: 38px !important; 
+    font-weight: 400 !important; 
+    color: var(--hinoka-gold) !important; 
+    margin-bottom: 4px !important;
+    letter-spacing: -0.02em !important;
+  }
+  .stat-num span { font-size: 16px !important; margin-left: 2px !important; font-weight: 400 !important; }
+  .stat-label { font-size: 10px !important; color: var(--text-light) !important; letter-spacing: 0.05em !important; }
+
+  /* 🏢 【重雕】手机版会社概要——呈现高级杂志感排版 */
+  .about-section { padding: 60px 24px; }
+  .about-grid { gap: 32px; padding: 30px 0; }
+  .about-text h2 { font-size: 26px !important; padding-bottom: 12px !important; margin-bottom: 20px !important; color: var(--accent) !important; }
+  .about-text p { font-size: 13.5px !important; line-height: 2.0 !important; color: var(--text-mid) !important; text-align: justify !important; }
+  
+  /* 优化概要表格（Table）在手机上的局促感 */
+  .company-table { margin-top: 30px !important; border-top: 1px solid var(--accent) !important; }
+  .company-table th { 
+    font-size: 11px !important; 
+    padding: 16px 0 4px 0 !important; 
+    display: block !important; /* 调整为块级，防止文字挤压 */
+    width: 100% !important; 
+    color: var(--gold) !important;
+  }
+  .company-table td { 
+    font-size: 13.5px !important; 
+    padding: 4px 0 16px 0 !important; 
+    display: block !important; 
+    width: 100% !important; 
+    color: var(--text-dark) !important;
+    border-bottom: 1px solid var(--light) !important;
+  }
+  .company-table tr { border-bottom: none !important; }
+
   .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-top { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
   .page-hero-inner { padding: 48px 24px 32px; }
   .products-full { padding: 60px 24px; }
-  .about-section { padding: 60px 24px; }
   .contact-section { padding: 60px 24px; }
   .stats-section { padding: 60px 24px; }
   .checkout-grid { grid-template-columns: 1fr; }

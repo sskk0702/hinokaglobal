@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header id="header">
-    <a href="index.html" class="logo-link">
-      <img src="images/20260522041113HINOKA.PNG" alt="HINOKA Logo" class="brand-logo">
+<header id="header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4%; height: 70px; box-sizing: border-box;">
+    
+    <!-- 🎯 彻底解决：直接在图片上写死高度 42 像素，哪怕原图有几千像素也会变乖 -->
+    <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+      <img src="images/20260522041113HINOKA.PNG" alt="HINOKA Logo" style="height: 42px; width: auto; display: block; object-fit: contain;">
     </a>
-    <nav class="main-nav">
+    
+    <nav class="main-nav" style="display: flex; align-items: center; gap: 20px;">
       <a href="index.html" class="active">ホーム</a>
       <a href="shop.html">オンラインショップ</a>
       <a href="about.html">会社概要</a>
       <a href="contact.html" class="nav-contact">お問い合わせ</a>
     </nav>
+    
   </header>
   <section class="hero">
     <div class="hero-bg"></div>

@@ -1763,3 +1763,29 @@ footer {
     gap: 20px !important;       /* 菜单项之间的间距 */
     margin-left: auto !important; /* 确保将菜单推向最右侧 */
 }
+/* 确保分层后的菜单文字颜色优雅，带有 HINOKA 品牌的温润感 */
+#header .main-nav a {
+    color: #333333 !important;
+    position: relative;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+/* 鼠标悬停在菜单上的效果 */
+#header .main-nav a:hover, 
+#header .main-nav a.active {
+    color: #b89c7d !important; /* 温柔的金色/暖沙色调，呼应品牌 */
+}
+
+/* 特殊处理：如果 お問い合わせ 原本是带背景的按钮，这里让它更精致 */
+#header .main-nav a.nav-contact {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+    border-radius: 4px;
+    padding: 6px 15px !important;
+}
+
+#header .main-nav a.nav-contact:hover {
+    background-color: #b89c7d !important;
+    color: #ffffff !important;
+}

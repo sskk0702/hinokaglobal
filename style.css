@@ -1849,3 +1849,66 @@ footer {
         display: inline-block !important;
     }
 }
+/* ==========================================================================
+   📱 移动端自适应终极修复（彻底打破固定定位导致的竖版魔咒）
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* 1. 强行重置手机端顶栏：缩短高度，两边留出刚好合适的间距，确保绝对横向一字排开 */
+    #header {
+        position: fixed !important; /* 保持固定在顶部，但格式化内部空间 */
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 60px !important;    /* 强行缩短到 60px 紧凑高度 */
+        padding: 0 12px !important; /* 缩减两边留白 */
+        display: flex !important;
+        flex-direction: row !important; /* 核心：强制整行绝对横向，不准换行 */
+        align-items: center !important;
+        justify-content: space-between !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 2. 左侧 Logo 区域：在手机窄屏上直接隐藏掉累赘的英文小字副标题，彻底释放横向空间 */
+    #header .logo-text {
+        font-size: 16px !important; 
+        font-weight: bold !important;
+        max-width: 30% !important; /* 严格限制左侧只占 30% 的地方 */
+        white-space: nowrap !important;
+        margin: 0 !important;
+    }
+    #header .logo-text span {
+        display: none !important; /* 🎯 核心绝招：手机端隐藏英文长字，不让它把菜单挤成竖版 */
+    }
+
+    /* 3. 右侧菜单：给予 70% 的宽裕黄金空间，让四个菜单彻底横向躺平 */
+    #header .main-nav {
+        display: flex !important;
+        flex-direction: row !important; /* 强行确保菜单绝对是横着并排排开 */
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 8px !important; /* 精简每个菜单之间的横向间距 */
+        max-width: 70% !important;
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 4. 手机端普通菜单文字：适当缩小字号，强制绝对不换行 */
+    #header .main-nav a {
+        font-size: 12px !important; 
+        white-space: nowrap !important; /* 核心：强制文字在一行内横向显示，绝不竖排 */
+        display: inline-block !important;
+        padding: 4px 2px !important;
+    }
+
+    /* 5. “お問い合わせ” 黑色按钮：极致缩减四周留白，保持精致的横向胶囊形状 */
+    #header .main-nav a.nav-contact {
+        padding: 5px 8px !important; 
+        font-size: 11px !important;
+        background-color: #333333 !important;
+        color: #ffffff !important;
+        border-radius: 4px !important;
+        white-space: nowrap !important; /* 核心：确保お問い合わせ五个字绝对横着排，绝不掉下来 */
+        display: inline-block !important;
+    }
+}

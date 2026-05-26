@@ -6,14 +6,13 @@
   <title>取扱商品 - 株式会社HINOKA</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ── 华哥专属：隔离型商品列表独立网格 ── */
+    /* ── 隔離型商品リスト独立グリッド ── */
     .hinoka-products-section {
       max-width: 1200px;
       margin: 0 auto;
       padding: 80px 24px;
     }
     
-    /* 彻底避开 .product-grid 冲突，改用全新独立命名的网格 */
     .hinoka-isolated-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -26,7 +25,7 @@
       }
     }
 
-    /* 商品大卡片微调：增加优雅平滑的反震动悬停感 */
+    /* 商品カードのホバーエフェクト微調整 */
     .product-card-full {
       cursor: pointer;
       background: var(--white);
@@ -73,7 +72,7 @@
       padding-bottom: 2px;
     }
 
-    /* ── 🌟 猫壱风格：单品详情页独立样式 ── */
+    /* ── 🛟 商品詳細エリア独立スタイル ── */
     #detail-section {
       max-width: 1200px;
       margin: 40px auto 80px;
@@ -133,7 +132,7 @@
       border-width: 2px;
     }
 
-    /* 右侧固定看板的核心：完美适配 PC 顶栏 80px */
+    /* 右側注文パネルの吸着固定 */
     .neco-order-col {
       width: 100%;
     }
@@ -142,7 +141,7 @@
         width: 380px !important;
         position: -webkit-sticky !important;
         position: sticky !important;
-        top: 120px !important; /* 80px导航栏 + 40px留白，优雅吸顶 */
+        top: 120px !important; /* 80pxナビ欄 + 40px余白でエレガントに固定 */
       }
     }
     
@@ -154,7 +153,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.02);
     }
     .neco-badge {
-      background: var(--hinoka-dark);
+      background: var(--text-dark);
       color: var(--white);
       padding: 4px 10px;
       font-size: 11px;
@@ -193,7 +192,7 @@
       background: var(--hinoka-gold);
     }
 
-    /* 下方长图文大图流 */
+    /* 商品仕様・詳細エリア */
     .neco-description-row {
       margin-top: 60px;
       border-top: 1px solid var(--border);
@@ -213,11 +212,11 @@
   <header id="header">
     <a href="index.html" class="logo-text">
       HINOKA
-      <span>株式会社 · HINOKA Co., Ltd.</span>
+      <span>株式会社 &middot; HINOKA Co., Ltd.</span>
     </a>
     <nav class="main-nav">
       <a href="index.html">ホーム</a>
-      <a href="products.html" class="active">取扱商品</a>
+      <a href="shop.html" class="active">オンラインショップ</a>
       <a href="about.html">会社概要</a>
       <a href="contact.html" class="nav-contact">お問い合わせ</a>
     </nav>
@@ -244,7 +243,7 @@
         <div class="product-card-body">
           <div class="product-card-en">Pet Supplies</div>
           <div class="product-card-ja">ペット用品</div>
-          <p class="product-card-desc">猫・犬向けのおもちゃ、ベッド、爪とぎ、お洋服など、日常使い的ペット用品を幅広く取り扱っています。自ら検品した商品のみを厳選し、大切な家族の一員であるペットに安心してお使いいただける商品をご提供します。</p>
+          <p class="product-card-desc">猫・犬向けのおもちゃ、ベッド、爪とぎ、お洋服など、日常使いのペット用品を幅広く取り扱っています。自ら検品した商品のみを厳選し、大切な家族の一員であるペットに安心してお使いいただける商品をご提供します。</p>
           <span class="view-more-hint">おすすめ商品を見る ↓</span>
         </div>
       </div>
@@ -299,22 +298,22 @@
     </div>
   </section>
 
-  <section class="section-sm fade-in" style="background:var(--off-white); text-align:center; border-top:1px solid var(--border);">
-    <div style="max-width:560px; margin:0 auto;">
+  <section class="section fade-in" style="background:var(--off-white); text-align:center; border-top:1px solid var(--border); padding-top:60px; padding-bottom:60px;">
+    <div style="max-width:560px; margin:0 auto; padding:0 16px;">
       <div style="font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--accent); margin-bottom:16px;">
         商品に関するお問い合わせ
       </div>
       <p style="font-size:14px; color:var(--text-mid); line-height:2; margin-bottom:32px;">
         在庫・価格・仕入れのご相談など、お気軽にご連絡ください。日本語・中国語・英語で対応いたします。
       </p>
-      <a href="contact.html" class="nav-contact" style="display:inline-block; padding:12px 32px;">お問い合わせはこちら</a>
+      <a href="contact.html" class="btn-outline" style="display:inline-block; padding:12px 32px;">お問い合わせはこちら</a>
     </div>
   </section>
 
   <footer>
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></div>
+        <div class="logo-text">HINOKA<span>株式会社 &middot; HINOKA Co., Ltd.</span></div>
         <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
       </div>
       <div class="footer-col">
@@ -337,12 +336,12 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</div>
+      <div class="footer-copy">&copy; 2026 株式会社HINOKA All Rights Reserved.</div>
     </div>
   </footer>
 
   <script>
-    // 1. 基础视效
+    // 1. 基礎視効
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 40);
@@ -352,10 +351,10 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // 2. 商品数据库
+    // 2. 商品データベース
     const MOCK_PRODUCTS = {
       pet: {
-        badge: "おすすめ · 自社検品済",
+        badge: "おすすめ・自社検品済",
         name: "プレミアム 猫用爪とぎベッド (抗菌仕様)",
         price: 3480,
         desc: "厳選された高密度ダンボールを使用した、ベッドとしても使える高品質な爪とぎです。自社で1点ずつ丁寧に検品し、目の詰まりや型崩れがないことを確認したものだけをお届けします。愛猫が安心してくつろげる空間を提供します。",
@@ -363,7 +362,7 @@
         images: ["images/IMG_5113ペット.PNG", "images/Photoroom_アパレル_162100.jpg"]
       },
       fashion: {
-        badge: "NEW · 高品質直輸入",
+        badge: "NEW・高品質直輸入",
         name: "海陽厳選 ハイゲージ 高品質ニットセーター",
         price: 5980,
         desc: "私の故郷である中国海陽市の提携工場から直接買い付けた、肌触り抜群のプレミアムニットです。アパレル製品のプロとして仕立て・縫製を徹底チェック。リーズナブルでありながら、日本の市場でも十分通用する上質なクオリティを保証します。",
@@ -372,15 +371,15 @@
       },
       goods: {
         badge: "人気商品",
-        name: "北欧風 多功能インテリア収納バスケット",
+        name: "北欧風 多機能インテリア収納バスケット",
         price: 2180,
-        desc: "「使いやすさ・かわいい・お手頃」を形にした、どんなお部屋にも馴染む収納グッズです。キッチン小物からリビングの雑貨整理までマルチに活跃。毎日の暮らしを少しだけ便利でおしゃれに変えるアイテムです。",
+        desc: "「使いやすさ・かわいい・お手頃」を形にした、どんなお部屋にも馴染む収納グッズです。キッチン小物からリビングの雑貨整理までマルチに活躍。毎日の暮らしを少しだけ便利でおしゃれに変えるアイテムです。",
         mainImage: "images/Photoroom_雑貨_162139.jpg",
         images: ["images/Photoroom_雑貨_162139.jpg", "images/IMG_5113ペット.PNG"]
       }
     };
 
-    // 3. 动态渲染函数
+    // 3. 动态渲染関数
     function selectCategory(catKey) {
       const data = MOCK_PRODUCTS[catKey];
       if (!data) return;
@@ -419,7 +418,7 @@
         imgGrid.appendChild(img);
       });
 
-      // 考虑到PC端固定导航栏的80px高度，做平滑滚动偏置偏移
+      // 固定ナビゲーションの80pxを考慮したスムーズスクロール
       const yOffset = -100; 
       const y = detailSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });

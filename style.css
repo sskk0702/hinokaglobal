@@ -479,3 +479,61 @@ img {
     font-size: 56px !important; /* 大标题更具视觉冲击力 */
   }
 }
+/* 页眉区域 - 高级留白设计 */
+.page-header {
+  padding: 120px 48px 80px; /* 上下留白，透气感 */
+  text-align: center;
+  background: var(--off-white);
+  border-bottom: 1px solid var(--border);
+}
+
+.breadcrumb {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; /* 字体适度大，体现稳重 */
+  font-weight: 300;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.page-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em; /* 字间距拉开，高级感的秘诀 */
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* 会社概要正文的网格布局修正 */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1000px; /* 锁定核心阅读宽度 */
+  margin: 0 auto;
+  padding: 100px 48px;
+  align-items: center;
+}
+
+.about-text h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+.about-text p {
+  font-size: 14px;
+  line-height: 2.2; /* 增大行高，文字看起来不那么挤 */
+  color: var(--text-mid);
+  margin-bottom: 24px;
+}

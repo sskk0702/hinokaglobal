@@ -5,6 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>取扱商品 - 株式会社HINOKA</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── 样式微调：让产品大卡片鼠标悬停时有精美的点击回馈感 ── */
+    .product-card-full {
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .product-card-full:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+    /* 给卡片右下角加一个优雅的“查看商品列表”小暗示 */
+    .product-card-body {
+      position: relative;
+    }
+    .view-more-hint {
+      display: inline-block;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #c5a880; /* 标志性的香槟金/有色调的辅助色 */
+      font-weight: 600;
+    }
+    .product-card-full:hover .view-more-hint {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
@@ -37,36 +62,33 @@
   <section class="products-full">
     <div class="product-grid-full">
 
-      <!-- 1. ペット用品 -->
-      <div class="product-card-full fade-in">
-        <!-- srcの前に images/ を追加し、alt属性を正しく記述 -->
+      <div class="product-card-full fade-in" onclick="navigateToShop('pet')">
         <img src="images/IMG_5113ペット.PNG" alt="ペット用品">
         <div class="product-card-body">
           <div class="product-card-en">Pet Supplies</div>
           <div class="product-card-ja">ペット用品</div>
-          <p class="product-card-desc">猫・犬向けのおもちゃ、ベッド、爪とぎ、お洋服など、日常使いのペット用品を幅広く取り扱っています。自ら検品した商品のみを厳選し、大切な家族の一員であるペットに安心してお使いいただける商品をご提供します。</p>
+          <p class="product-card-desc">猫・犬向けのおもちゃ、ベッド、爪とぎ、お洋服など、日常使い的ペット用品を幅広く取り扱っています。自ら検品した商品のみを厳選し、大切な家族の一員であるペットに安心してお使いいただける商品をご提供します。</p>
+          <span class="view-more-hint">商品一覧を見る →</span>
         </div>
       </div>
 
-      <!-- 2. ファッション・アクセサリー -->
-      <div class="product-card-full fade-in">
-        <!-- srcの前に images/ を追加 -->
+      <div class="product-card-full fade-in" onclick="navigateToShop('fashion')">
         <img src="images/Photoroom_アパレル_162100.jpg" alt="ファッション・アクセサリー">
         <div class="product-card-body">
           <div class="product-card-en">Fashion &amp; Accessories</div>
           <div class="product-card-ja">ファッション・アクセサリー</div>
           <p class="product-card-desc">トレンド感のあるアクセサリー、ヘアアクセ、カジュアルウェアを取り揃えています。毎日のコーディネートに取り入れやすく、リーズナブルな価格で気軽にファッションを楽しんでいただけるアイテムをセレクトしています。</p>
+          <span class="view-more-hint">商品一覧を見る →</span>
         </div>
       </div>
 
-      <!-- 3. 生活雑貨 -->
-      <div class="product-card-full fade-in">
-        <!-- srcの前に images/ を追加 -->
+      <div class="product-card-full fade-in" onclick="navigateToShop('goods')">
         <img src="images/Photoroom_雑貨_162139.jpg" alt="生活雑貨">
         <div class="product-card-body">
           <div class="product-card-en">Daily Goods</div>
           <div class="product-card-ja">生活雑貨</div>
           <p class="product-card-desc">収納グッズ、キッチン小物、インテリア雑貨など、毎日の暮らしをちょっと便利・おしゃれにするアイテムをセレクト。「使いやすい・かわいい・お手頃」の三拍子が揃った商品だけをお届けします。</p>
+          <span class="view-more-hint">商品一覧を見る →</span>
         </div>
       </div>
 
@@ -79,7 +101,7 @@
         商品に関するお問い合わせ
       </div>
       <p style="font-size:14px;color:var(--text-mid);line-height:2;margin-bottom:32px;">
-        在庫・価格・仕入れのご相談など、お気軽にご連絡ください。日本語・中国語・英語で対応いたします。
+        在庫・価格・仕入れのご相談など、お気軽にご連絡ください。日本語・中国语・英语で対応いたします。
       </p>
       <a href="contact.html" class="btn-solid" style="margin:0 auto;">お問い合わせはこちら</a>
     </div>
@@ -93,9 +115,9 @@
       </div>
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="products.html">ペット用品</a>
-        <a href="products.html">ファッション・アクセサリー</a>
-        <a href="products.html">生活雑貨</a>
+        <a href="#" onclick="navigateToShop('pet')">ペット用品</a>
+        <a href="#" onclick="navigateToShop('fashion')">ファッション・アクセサリー</a>
+        <a href="#" onclick="navigateToShop('goods')">生活雑貨</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -116,14 +138,22 @@
   </footer>
 
   <script>
+    // ── 滚动和渐现逻辑 ──
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 40);
     });
+    
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── 🎯 核心新增：点击分类后带参数跳转到商城页面 ──
+    function navigateToShop(category) {
+      // 点击后会跳转到 shop.html 并带上参数，比如 shop.html?cat=pet
+      window.location.href = `shop.html?cat=${category}`;
+    }
   </script>
 </body>
 </html>

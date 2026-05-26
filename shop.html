@@ -261,7 +261,6 @@ const PRODUCTS = [
     desc: '洗濯機で洗えるふかふか素材。猫・ワンちゃんが大好きなドーム型デザイン。',
     price: 2980, 
     image: 'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
-    // 💡 修复点：多张图必须整齐地用逗号隔开，统一写在一个中括号里
     images: [
       'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
       'images/IMG_5274.JPG',
@@ -278,36 +277,34 @@ const PRODUCTS = [
       { name: 'Mサイズ (径50cm)', priceModifier: 0 },
       { name: 'Lサイズ (径60cm)', priceModifier: 1000 } 
     ],
-    longDesc: '毎日の睡眠は大切な家族の健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
-    stock: 5,               
+    longDesc: '毎日の睡眠は大切な家族の健康に直结します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
+    stock: 5,                
     shipsFrom: '大阪府',    
     leadTime: '即日〜2営業日以内に発送'
   },
   {
-    id: 'pet-002', // 唯一ID绝对不能和别人重复，按顺序叫 pet-002
-    category: 'pet', // 这一行死死锁住 'pet'，它就会自动乖乖地呆在“宠物用品”分类栏里！
+    id: 'pet-002', 
+    category: 'pet', 
     badge: 'NEW',
     name: '高密度ダンボール猫爪とぎ',
     desc: '家具の破壊防止に！カスが出にくい高密度なエコ強化ダンボール採用。',
     price: 1980, 
-    image: 'images/scratcher-main.jpg', // 列表页首图
+    image: 'images/scratcher-main.jpg', 
     images: [
-      'images/scratcher-main.jpg',   // 详情页轮播图1
-      'images/scratcher-detail1.jpg', // 详情页轮播图2（细节）
-      'images/scratcher-detail2.jpg'  // 详情页轮播图3（尺寸说明）
+      'images/scratcher-main.jpg',   
+      'images/scratcher-detail1.jpg', 
+      'images/scratcher-detail2.jpg'  
     ],
-    colors: [{ name: '木目調', priceModifier: 0 }, { name: '大理石風', priceModifier: 200 }], // 大理石纹加200日元
+    colors: [{ name: '木目調', priceModifier: 0 }, { name: '大理石風', priceModifier: 200 }], 
     sizes: [{ name: 'レギュラー', priceModifier: 0 }],
     longDesc: '愛猫のストレス解消と運動不足に最適なソファー型デザイン。耐久性抜群で、お部屋のインテリアにも馴染みます。',
     stock: 20, 
     shipsFrom: '大阪府', 
     leadTime: '1〜2営業日以内に発送'
-  }, // <--- 💡 后面还要加货，所以这里也要打逗号！
-
-  // 3. 🎯 这是新加的第三个宠物商品：智能自动喂食机
+  }, 
   {
-    id: 'pet-003', // 唯一ID叫 pet-003
-    category: 'pet', // 同样归属于宠物栏
+    id: 'pet-003', 
+    category: 'pet', 
     badge: 'イチオシ',
     name: '自動給餌器 スマートタイマー',
     desc: '留守番も安心！スマホ連動不要で、誰でも簡単にタイマー設定ができる自動給餌器。',
@@ -318,14 +315,12 @@ const PRODUCTS = [
       'images/feeder-detail.jpg'
     ],
     colors: [{ name: 'ホワイト', priceModifier: 0 }, { name: 'ブラック', priceModifier: 0 }],
-    sizes: [{ name: '3.5L (通常盤)', priceModifier: 0 }, { name: '5L (大容量盤)', priceModifier: 1500 }], // 大容量加1500日元
+    sizes: [{ name: '3.5L (通常盤)', priceModifier: 0 }, { name: '5L (大容量盤)', priceModifier: 1500 }], 
     longDesc: '2WAY給電（コンセント＆乾電池）対応で、万が一の停電時も安心。録音機能付きで、飼い主さんの声でご飯を知らせます。',
     stock: 12, 
     shipsFrom: '大阪府', 
     leadTime: '2〜3営業日以内に発送'
-  } // <--- 💡 如果这是最后一件商品了，这个大括号后面就不需要加逗号了
-
-]; // 整个大数组结束的右中括号
+  }, // 💡 华哥注意：这里原本被写成了 ]; 导致队伍断掉了。现在改回了逗号，后面就能无缝连接了！
   {
     id: 'fashion-001', category: 'fashion', badge: '人気商品',
     name: 'パールチェーンネックレス',
@@ -333,10 +328,10 @@ const PRODUCTS = [
     price: 1680,
     image: 'images/Photoroom_アパレル_162100.jpg',
     images: [
-      'images/knit-main.jpg',     // 第一张放主图
-      'images/knit-detail1.jpg',   // 第二张放领口细节
-      'images/knit-detail2.jpg',   // 第三张放材质说明
-      'images/knit-size-table.jpg' // 第四张放尺码对照表（这样客户看图就能自助下单）
+      'images/knit-main.jpg',     
+      'images/knit-detail1.jpg',   
+      'images/knit-detail2.jpg',   
+      'images/knit-size-table.jpg' 
     ],
     colors: [{ name: 'ゴールド', priceModifier: 0 }, { name: 'シルバー', priceModifier: 0 }],
     sizes: [{ name: 'フリーサイズ', priceModifier: 0 }],
@@ -351,11 +346,11 @@ const PRODUCTS = [
     desc: '引き出しの中をすっきり整理。柔軟なシリコン素材でどんな引き出しにもフィット。',
     price: 1580,
     image: 'images/Photoroom_雑貨_162139.jpg',
-   images: [
-      'images/knit-main.jpg',     // 第一张放主图
-      'images/knit-detail1.jpg',   // 第二张放领口细节
-      'images/knit-detail2.jpg',   // 第三张放材质说明
-      'images/knit-size-table.jpg' // 第四张放尺码对照表（这样客户看图就能自助下单）
+    images: [
+      'images/knit-main.jpg',     
+      'images/knit-detail1.jpg',   
+      'images/knit-detail2.jpg',   
+      'images/knit-size-table.jpg' 
     ],
     colors: [{ name: 'ホワイト', priceModifier: 0 }, { name: 'グレー', priceModifier: 0 }],
     sizes: [{ name: 'Sサイズ', priceModifier: 0 }, { name: 'Mサイズ', priceModifier: 300 }], 
@@ -364,7 +359,7 @@ const PRODUCTS = [
     shipsFrom: '大阪府',
     leadTime: '3〜5営業日以内に発送'
   }
-];
+]; // 💡 只有在所有商品的最后，才用这个中括号加分号结束！
 
 const CAT_LABEL = { pet: 'ペット用品', fashion: 'ファッション・アクセサリー', goods: '生活雑貨' };
 let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];

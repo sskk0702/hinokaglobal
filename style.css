@@ -21,7 +21,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: 'Noto Sans JP', sans-serif;
   color: var(--text-dark);
-  background: var(--white);
+  background: #FBF8F3;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }

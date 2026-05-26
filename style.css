@@ -21,7 +21,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: 'Noto Sans JP', sans-serif;
   color: var(--text-dark);
-  background: #FBF8F3;
+  background: var(--white);
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }
@@ -929,98 +929,10 @@ footer {
 
   .stats-section { padding: 60px 24px; }
 }
-/* ==========================================================================
-   💻 电脑大屏幕端高级化重构（追加于文件底部）
-   ========================================================================== */
 
-@media (min-width: 1024px) {
-  /* 1. 全局大屏容器约束：让内容居中，两边留白，瞬间变高级 */
-  .hero-content,
-  .section,
-  .section-sm,
-  .products-full,
-  .about-section,
-  .contact-section,
-  .stats-section,
-  .page-hero-inner,
-  .footer-top {
-    max-width: 1240px;      /* 严控大屏核心内容宽度 */
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 64px !important;
-    padding-right: 64px !important;
-  }
-
-  /* 2. 导航栏大屏美化 */
-  header {
-    max-width: 100%;
-    padding: 0 calc((100vw - 1240px) / 2 + 64px) !important; /* 让导航与下方内容完美左对齐 */
-  }
-  /* 当屏幕没有达到1240px时，保持优雅内边距 */
-  @media (max-width: 1366px) {
-    header { padding: 0 64px !important; }
-  }
-
-  /* 3. 通栏板块布局重构（如公司简介条带） */
-  .company-strip {
-    max-width: 1240px;
-    margin: 40px auto;      /* 让整个条带居中，两边悬空，极具现代独立品牌感 */
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .company-strip-text {
-    padding: 80px 96px;     /* 扩大电脑端内边距，增加呼吸感 */
-  }
-
-  /* 4. 产品网格大屏调校：防止图片在宽屏上被拉得过高 */
-  .product-grid-full {
-    gap: 48px 40px;         /* 扩大商品之间的间理 */
-  }
-  .product-card-full img {
-    aspect-ratio: 16/11;    /* 电脑端采用更完美的黄金比例 */
-  }
-
-  /* 5. 数字统计板块重构：防止4列在宽屏上变成扁平的长条 */
-  .stat-item {
-    padding: 64px 40px;
-    transition: transform 0.3s;
-  }
-  .stat-item:hover {
-    transform: translateY(-4px); /* 增加微弱而高级的悬浮动效 */
-  }
-
-  /* 6. 联系我们页面：表单在大屏上太宽会极丑，必须限制最大宽度 */
-  .contact-grid {
-    grid-template-columns: 1fr 1.4fr; /* 完美的大屏黄金比例 */
-    gap: 120px;                       /* 极大地拉开信息栏与表单的距离 */
-  }
-  .contact-form {
-    max-width: 620px;                 /* 锁死表单最大宽度，防止输入框被拉得太长 */
-  }
-  .form-input, .form-select, .form-textarea {
-    padding: 16px 20px;               /* 电脑端输入框稍微加宽，更易点击 */
-  }
-
-  /* 7. 会社概要表格大屏优化 */
-  .company-table th {
-    width: 240px;                     /* 拓宽左侧项目列，防止日文字体折行 */
-    font-size: 11px;
-  }
-  .company-table td {
-    padding: 24px 0;                  /* 增加表格上下间距，更显大气 */
-  }
-
-  /* 8. 底部页脚大屏对齐 */
-  footer {
-    padding: 80px calc((100vw - 1240px) / 2 + 64px) 40px !important;
-  }
-  .footer-top {
-    padding-left: 0 !important;       /* 清除内边距以对齐边界 */
-    padding-right: 0 !important;
-    gap: 80px;                        /* 拉开列间距 */
-  }
-}
 /* ── SHOP / CART ─────────────────────────────────── */
+
+/* Cart button in nav */
 .cart-btn {
   position: relative;
   background: none;
@@ -1049,6 +961,7 @@ footer {
   justify-content: center;
 }
 
+/* Overlay */
 #cart-overlay {
   position: fixed;
   inset: 0;
@@ -1058,8 +971,12 @@ footer {
   pointer-events: none;
   transition: opacity 0.3s;
 }
-#cart-overlay.active { opacity: 1; pointer-events: all; }
+#cart-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
 
+/* Cart Drawer */
 #cart-drawer {
   position: fixed;
   top: 0; right: 0;
@@ -1084,6 +1001,7 @@ footer {
   justify-content: space-between;
   flex-shrink: 0;
 }
+
 .cart-drawer-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 12px;
@@ -1095,72 +1013,343 @@ footer {
   align-items: center;
   gap: 10px;
 }
-.cart-drawer-title .cart-count { position: static; background: var(--gold); }
+
+.cart-drawer-title .cart-count {
+  position: static;
+  background: var(--gold);
+}
+
 .cart-close {
-  background: none; border: none;
-  font-size: 22px; cursor: pointer;
-  color: var(--text-light); line-height: 1;
-  padding: 0; transition: color 0.2s;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text-light);
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s;
 }
 .cart-close:hover { color: var(--accent); }
-.cart-drawer-body { flex: 1; overflow-y: auto; padding: 16px; }
-.cart-drawer-footer { padding: 20px 24px; border-top: 1px solid var(--border); flex-shrink: 0; }
+
+.cart-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.cart-drawer-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
 
 .cart-item {
-  display: flex; gap: 14px;
+  display: flex;
+  gap: 14px;
   padding: 16px 0;
   border-bottom: 1px solid var(--border);
   align-items: flex-start;
 }
-.cart-item img { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+
+.cart-item img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
 .cart-item-info { flex: 1; }
-.cart-item-name { font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 4px; line-height: 1.4; }
-.cart-item-price { font-family: 'Montserrat', sans-serif; font-size: 13px; color: var(--gold); margin-bottom: 10px; }
-.cart-item-qty { display: flex; align-items: center; border: 1px solid var(--border); width: fit-content; }
-.cart-item-qty button { width: 28px; height: 28px; background: none; border: none; cursor: pointer; font-size: 14px; color: var(--text-mid); display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+
+.cart-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.cart-item-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.cart-item-qty button {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
 .cart-item-qty button:hover { background: var(--off-white); }
-.cart-item-qty span { width: 32px; text-align: center; font-size: 13px; color: var(--accent); border-left: 1px solid var(--border); border-right: 1px solid var(--border); line-height: 28px; }
-.cart-item-remove { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-light); padding: 0; line-height: 1; transition: color 0.2s; flex-shrink: 0; }
+
+.cart-item-qty span {
+  width: 32px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--accent);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  line-height: 28px;
+}
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-light);
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
 .cart-item-remove:hover { color: #e53e3e; }
-.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 14px; font-weight: 500; color: var(--accent); }
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+}
 
 /* ── SHOP PAGE ───────────────────────────────────── */
 .shop-section { padding: 80px 48px; background: var(--white); }
-.shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.shop-card { background: var(--off-white); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
-.shop-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-.shop-card-img { position: relative; overflow: hidden; }
-.shop-card-img img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; transition: transform 0.5s; }
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.shop-card {
+  background: var(--off-white);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+.shop-card-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-card-img img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s;
+}
+
 .shop-card:hover .shop-card-img img { transform: scale(1.04); }
-.shop-card-badge { position: absolute; top: 12px; left: 12px; font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; background: var(--gold); color: var(--white); padding: 4px 10px; }
-.shop-card-body { padding: 20px; }
-.shop-card-cat { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-.shop-card-name { font-size: 15px; font-weight: 500; color: var(--accent); margin-bottom: 8px; line-height: 1.4; }
-.shop-card-desc { font-size: 12px; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; }
-.shop-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.shop-card-price { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; color: var(--accent); }
-.shop-card-price span { font-size: 11px; color: var(--text-light); margin-left: 2px; }
-.add-to-cart-btn { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); background: var(--accent); border: none; padding: 10px 18px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+
+.shop-card-badge {
+  position: absolute;
+  top: 12px; left: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--white);
+  padding: 4px 10px;
+}
+
+.shop-card-body {
+  padding: 20px;
+}
+
+.shop-card-cat {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.shop-card-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.shop-card-desc {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.shop-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shop-card-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.shop-card-price span {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-left: 2px;
+}
+
+.add-to-cart-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--accent);
+  border: none;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
 .add-to-cart-btn:hover { background: var(--gold); }
 
-.shop-filters { display: flex; gap: 0; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
-.filter-tab { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); background: none; border: none; padding: 14px 24px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; }
+/* Filter tabs */
+.shop-filters {
+  display: flex;
+  gap: 0;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-tab {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  padding: 14px 24px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
 .filter-tab:hover { color: var(--accent); }
 .filter-tab.active { color: var(--accent); border-bottom-color: var(--gold); }
 
 /* ── CHECKOUT PAGE ───────────────────────────────── */
 .checkout-section { padding: 80px 48px; background: var(--white); }
-.checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: start; }
-.checkout-form-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--accent); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.checkout-summary { background: var(--off-white); padding: 32px; position: sticky; top: 100px; }
-.checkout-summary h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--accent); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.summary-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 13px; color: var(--text-mid); border-bottom: 1px solid var(--border); gap: 12px; }
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.checkout-form-block h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--accent);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.checkout-summary {
+  background: var(--off-white);
+  padding: 32px;
+  position: sticky;
+  top: 100px;
+}
+
+.checkout-summary h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--accent);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--text-mid);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+
 .summary-item-name { flex: 1; }
 .summary-item-qty { color: var(--text-light); }
 .summary-item-price { font-family: 'Montserrat', sans-serif; color: var(--accent); }
-.summary-total { display: flex; justify-content: space-between; font-size: 16px; font-weight: 500; color: var(--accent); margin-top: 16px; padding-top: 16px; }
-.summary-total span:last-child { font-family: 'Montserrat', sans-serif; color: var(--gold); }
-.stripe-note { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-light); margin-top: 16px; font-family: 'Montserrat', sans-serif; letter-spacing: 0.05em; }
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.summary-total span:last-child {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--gold);
+}
+
+.stripe-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 16px;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+}
 
 @media (max-width: 768px) {
   .shop-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -1169,687 +1358,7 @@ footer {
   .checkout-section { padding: 48px 20px; }
   #cart-drawer { width: 100vw; }
 }
+
 @media (max-width: 480px) {
   .shop-grid { grid-template-columns: 1fr; }
-}
-/* ── 🛒 SHOP & CHECKOUT GLOBAL EXTENSION (2026.05) ── */
-:root {
-  --hinoka-dark: #1a2530;
-  --hinoka-gold: #c5a880;
-  --hinoka-border: #e5e9ec;
-  --hinoka-bg: #f8fafb;
-}
-
-/* 导航栏激活状态微调 */
-.main-nav a.active {
-  color: var(--hinoka-gold) !important;
-  font-weight: 700;
-}
-
-/* 确保移动端商城顶部的横向滚动条平滑 */
-@media (max-width: 768px) {
-  .shop-filters {
-    -webkit-overflow-scrolling: touch;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-  .shop-filters::-webkit-scrollbar {
-    display: none; /* 隐藏手机端难看的滚动条 */
-  }
-}
-
-/* 渐入动画 */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-/* ── 🛒 乐天风侧边购物车滑出样式 ── */
-
-/* 1. 遮罩层：打开购物车时，背景变暗，点击背景可以关闭购物车 */
-.cart-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 11000;
-  backdrop-filter: blur(2px); /* 轻微模糊背景，高级感 */
-}
-.cart-overlay.show {
-  display: block;
-}
-
-/* 2. 购物车侧边栏主体：默认隐藏在屏幕右侧 (-400px) */
-.cart-drawer {
-  position: fixed;
-  top: 0;
-  right: -400px; 
-  width: 100%;
-  max-width: 400px;
-  height: 100%;
-  background: #fff;
-  z-index: 12000;
-  /* 使用贝塞尔曲线，让滑出效果像丝绸一样顺滑 */
-  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-}
-
-/* 当加上 .open 类名时，向左滑入屏幕 */
-.cart-drawer.open {
-  right: 0;
-}
-
-/* 3. 购物车内部精细布局 */
-.cart-header {
-  padding: 24px;
-  border-bottom: 1px solid #e5e9ec;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.cart-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #1a2530;
-}
-.close-cart-btn {
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: #1a2530;
-  line-height: 1;
-}
-
-#cartItemsList {
-  flex: 1;
-  overflow-y: auto; /* 商品多了以后可以内部滚动 */
-  padding: 24px;
-}
-
-/* 4. 单个商品行布局 */
-.cart-item {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f5f7f8;
-  align-items: center;
-}
-.cart-item-img {
-  width: 65px;
-  height: 65px;
-  object-fit: cover;
-  background: #f8fafb;
-  border-radius: 2px;
-}
-.cart-item-detail {
-  flex: 1;
-}
-.cart-item-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a2530;
-  margin-bottom: 4px;
-  line-height: 1.4;
-}
-.cart-item-price {
-  font-size: 12px;
-  color: #bf0000; /* 延续乐天红价格 */
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-/* 5. 数量加减按钮 */
-.cart-item-qty {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.qty-btn {
-  width: 24px;
-  height: 24px;
-  background: #fff;
-  border: 1px solid #e5e9ec;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-.qty-btn:hover {
-  background: #1a2530;
-  color: #fff;
-  border-color: #1a2530;
-}
-.qty-val {
-  font-size: 13px;
-  min-width: 20px;
-  text-align: center;
-}
-
-/* 6. 底部结算区域 */
-.cart-footer {
-  padding: 24px;
-  border-top: 1px solid #e5e9ec;
-  background: #f8fafb;
-}
-.checkout-btn {
-  display: block;
-  width: 100%;
-  background: #c5a880;
-  color: #fff;
-  text-align: center;
-  padding: 14px;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: background 0.2s;
-  box-sizing: border-box;
-}
-.checkout-btn:hover {
-  background: #1a2530;
-}
-.empty-cart-msg {
-  text-align: center;
-  color: #808a94;
-  font-size: 13px;
-  padding: 40px 0;
-}
-/* ── 🛒 右下角乐天风悬浮购物车 ── */
-.floating-cart-badge {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 60px;
-  height: 60px;
-  background: #1a2530; /* 深色高级质感，和HINOKA的主色调呼应 */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
-  transition: all 0.3s ease;
-}
-
-.floating-cart-badge:hover {
-  transform: scale(1.1);
-  background: #c5a880; /* 悬渡变金色 */
-}
-
-/* 购物车Emoji图标大小 */
-.floating-cart-badge .cart-icon {
-  font-size: 24px;
-}
-
-/* 红色数字提示小圆点 */
-.cart-count-badge {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  background: #bf0000; /* 乐天红 */
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 4px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  box-sizing: border-box;
-}
-/* --- 猫壱风格布局核心样式 --- */
-.neco-detail-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
-}
-
-/* 上部左右分栏 */
-.neco-main-row {
-    display: flex;
-    gap: 50px;
-    align-items: flex-start;
-}
-
-/* 左侧图片区域 */
-.neco-gallery-col {
-    flex: 1;
-    max-width: 650px;
-}
-
-.neco-main-image-wrap {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.neco-main-image-wrap img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-}
-
-/* 缩略图并排 */
-.neco-thumb-list {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.neco-thumb-item {
-    width: 80px;
-    height: 80px;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    overflow: hidden;
-    background: #f9f9f9;
-    transition: all 0.2s ease;
-}
-
-.neco-thumb-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.neco-thumb-item.active, .neco-thumb-item:hover {
-    border-color: #ff9f43; /* 活力橙高亮 */
-}
-
-/* 右侧购买看板 - 核心吸顶(Sticky) */
-.neco-order-col {
-    width: 400px;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 40px; /* 滚动到距离顶部40px时固定 */
-}
-
-.neco-order-panel {
-    background: #ffffff;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-}
-
-/* 标签与标题 */
-.neco-badge {
-    background: #ff4d4d;
-    color: #fff;
-    padding: 3px 8px;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 3px;
-    display: inline-block;
-    margin-bottom: 12px;
-}
-
-.neco-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    line-height: 1.4;
-    margin: 0 0 15px 0;
-}
-
-.neco-price-box {
-    margin-bottom: 20px;
-}
-
-.neco-price {
-    font-size: 28px;
-    font-weight: 1000;
-    color: #d93838;
-}
-
-.neco-tax {
-    font-size: 14px;
-    color: #666;
-}
-
-.neco-divider {
-    border: 0;
-    border-top: 1px solid #eee;
-    margin: 20px 0;
-}
-
-/* 选项按钮化（Radio变漂亮方块） */
-.neco-option-group {
-    margin-bottom: 20px;
-}
-
-.neco-label {
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 8px;
-}
-
-.neco-radio-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.neco-radio-label {
-    border: 1px solid #ccc;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.neco-radio-label:hover {
-    border-color: #ff9f43;
-    color: #ff9f43;
-}
-
-/* 选中状态（这里配合后面JS使用） */
-.neco-radio-label.selected {
-    border-color: #ff9f43;
-    background-color: #fffaf5;
-    color: #ff9f43;
-    font-weight: bold;
-}
-
-.neco-shipping-info {
-    font-size: 13px;
-    color: #777;
-    line-height: 1.6;
-    margin-bottom: 25px;
-    background: #f1f2f6;
-    padding: 10px 15px;
-    border-radius: 6px;
-}
-
-/* 购物车大按钮 */
-.neco-btn-cart {
-    width: 100%;
-    background: linear-gradient(135deg, #ff9f43, #ff7675);
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 118, 117, 0.3);
-    transition: all 0.3s ease;
-}
-
-.neco-btn-cart:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 118, 117, 0.4);
-}
-
-/* 下方长图文详情 */
-.neco-description-row {
-    margin-top: 60px;
-    border-top: 2px solid #f1f2f6;
-    padding-top: 40px;
-}
-
-.neco-section-title {
-    font-size: 20px;
-    border-left: 4px solid #ff9f43;
-    padding-left: 12px;
-    margin-bottom: 25px;
-}
-
-.neco-long-desc-text {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #444;
-    margin-bottom: 40px;
-    max-width: 800px;
-}
-
-.neco-detail-images-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.neco-detail-images-grid img {
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
-    display: block;
-}
-
-/* 响应式：手机端自动变成单栏 */
-@media (max-width: 992px) {
-    .neco-main-row {
-        flex-direction: column;
-    }
-    .neco-gallery-col, .neco-order-col {
-        width: 100%;
-        max-width: 100%;
-    }
-    .neco-order-col {
-        position: static; /* 手机端取消吸顶 */
-    }
-}
-/* 导航栏 logo 外层链接的对齐设置 */
-.logo-link {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    height: 100%; /* 继承导航栏的高度 */
-}
-
-/* Logo 图片本身的尺寸控制 */
-.brand-logo {
-    height: 40px;      /* 推荐高度在 35px - 45px 之间，您可以根据实际视觉效果微调 */
-    width: auto;        /* 宽度自动按比例缩放，防止图片变形 */
-    display: block;
-    transition: opacity 0.3s ease; /* 鼠标悬停时的渐变过渡 */
-}
-
-/* 鼠标悬停在 Logo 上时的互动反馈（轻微变淡，提示用户这是可以点击的） */
-.logo-link:hover .brand-logo {
-    opacity: 0.85;
-}
-/* ==========================================================================
-   ヘッダーとロゴのレイアウト調整
-   ========================================================================== */
-
-/* ヘッダー全体の横並び・垂直中央揃え */
-#header {
-    display: flex;
-    align-items: center;       /* 中の要素を縦方向の真ん中に揃える */
-    justify-content: space-between; /* ロゴとメニューを左右の端に振り分ける */
-    padding: 15px 4%;          /* 上下の余白を適度に、左右に程よい隙間を作る */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-sizing: border-box;    /* パディングによる幅の広がりを防止 */
-}
-
-/* ロゴのリンクエリアの調整 */
-.logo-link {
-    display: flex;
-    align-items: center;       /* 画像をリンクエリアの縦中央に配置 */
-    text-decoration: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* ロゴ画像自体のサイズ・位置コントロール */
-.brand-logo {
-    height: 45px;              /* ロゴの大きさを適正サイズに指定（好みに合わせて40px〜50pxで微調整してください） */
-    width: auto;               /* 横幅は比率を維持して自動縮小 */
-    display: block;
-    object-fit: contain;       /* 枠内にきれいに収める */
-    transition: opacity 0.3s ease;
-}
-
-/* マウスを乗せたときに少し透明にして「クリックできる」ことを伝える */
-.logo-link:hover .brand-logo {
-    opacity: 0.85;
-}
-
-/* ナビゲーションメニューも縦中央に揃える */
-.main-nav {
-    display: flex;
-    align-items: center;       /* メニュー文字もロゴと高さを揃えて中央に */
-    gap: 20px;                 /* メニュー間の横の隙間 */
-}
-/* ==========================================
-   强效修复：头部导航栏与Logo精准对齐样式
-   ========================================== */
-
-/* 1. 强制重置 Header 容器布局 */
-#header {
-    display: flex !important;
-    flex-direction: row !important;   /* 确保横向排列，绝不换行 */
-    align-items: center !important;    /* 强行上下居中对齐 */
-    justify-content: space-between !important; /* 核心：Logo在左，菜单在右 */
-    padding: 10px 5% !important;       /* 缩减上下内边距，防止整体过大 */
-    box-sizing: border-box !important;
-    height: 70px !important;           /* 固定整个导航栏高度为 70px */
-}
-
-/* 2. 强行将 Logo 链接区域限制在左侧 */
-#header .logo-link {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important; /* 靠左对齐 */
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    flex-shrink: 0 !important;             /* 防止 Logo 被右侧菜单挤压变形 */
-}
-
-/* 3. 强效控制 Logo 图片大小（彻底解决“很大”的问题） */
-#header .brand-logo {
-    height: 45px !important;   /* 强行将图片高度限制在 45px（根据需要可改为 40px 或 50px） */
-    width: auto !important;    /* 宽度按比例自适应，绝不拉伸 */
-    max-height: 100% !important;
-    display: block !important;
-    object-fit: contain !important;
-}
-
-/* 4. 确保右侧导航菜单乖乖待在右边 */
-#header .main-nav {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 20px !important;       /* 菜单项之间的间距 */
-    margin-left: auto !important; /* 确保将菜单推向最右侧 */
-}
-/* 确保分层后的菜单文字颜色优雅，带有 HINOKA 品牌的温润感 */
-#header .main-nav a {
-    color: #333333 !important;
-    position: relative;
-    padding: 5px 10px;
-    transition: color 0.3s ease;
-}
-
-/* 鼠标悬停在菜单上的效果 */
-#header .main-nav a:hover, 
-#header .main-nav a.active {
-    color: #b89c7d !important; /* 温柔的金色/暖沙色调，呼应品牌 */
-}
-
-/* 特殊处理：如果 お問い合わせ 原本是带背景的按钮，这里让它更精致 */
-#header .main-nav a.nav-contact {
-    background-color: #333333 !important;
-    color: #ffffff !important;
-    border-radius: 4px;
-    padding: 6px 15px !important;
-}
-
-#header .main-nav a.nav-contact:hover {
-    background-color: #b89c7d !important;
-    color: #ffffff !important;
-}
-/* ==========================================================================
-   📱 移动端自适应（彻底取消固定定位，回归自然滚动 + 完美横排）
-   ========================================================================== */
-@media screen and (max-width: 768px) {
-    /* 1. 🎯 核心修改：彻底废除固定定位，让导航栏随着页面往下滑动自然滚走 */
-    #header {
-        position: relative !important; /* 强行改为普通定位，绝不固定在顶部 */
-        top: auto !important;
-        left: auto !important;
-        width: 100% !important;
-        height: 65px !important;    /* 紧凑高度 */
-        padding: 0 12px !important; /* 缩减两边留白 */
-        display: flex !important;
-        flex-direction: row !important; /* 强制整行绝对横向，不准换行 */
-        align-items: center !important;
-        justify-content: space-between !important;
-        box-sizing: border-box !important;
-        background-color: #ffffff !important;
-    }
-
-    /* 2. 左侧 Logo 区域：在手机窄屏上隐藏英文小字，给右侧菜单留出充足的横向大马路 */
-    #header .logo-text {
-        font-size: 16px !important; 
-        font-weight: bold !important;
-        max-width: 30% !important; /* 严格限制左侧宽度 */
-        white-space: nowrap !important;
-        margin: 0 !important;
-    }
-    #header .logo-text span {
-        display: none !important; /* 手机端隐藏长字，彻底释放横向空间，绝不引发竖排 */
-    }
-
-    /* 3. 右侧菜单：给予 70% 的宽裕空间，横向躺平一字排开 */
-    #header .main-nav {
-        display: flex !important;
-        flex-direction: row !important; /* 强行确保菜单绝对是横着并排 */
-        align-items: center !important;
-        justify-content: flex-end !important;
-        gap: 8px !important; /* 菜单文字之间的横向间距 */
-        max-width: 70% !important;
-        flex-shrink: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* 4. 手机端普通菜单文字：强制绝对不换行 */
-    #header .main-nav a {
-        font-size: 12px !important; 
-        white-space: nowrap !important; /* 强制文字在一行内横向显示，绝不竖排 */
-        display: inline-block !important;
-        padding: 4px 2px !important;
-    }
-
-    /* 5. “お問い合わせ” 黑色胶囊按钮：保持精致，绝对横排 */
-    #header .main-nav a.nav-contact {
-        padding: 5px 8px !important; 
-        font-size: 11px !important;
-        background-color: #333333 !important;
-        color: #ffffff !important;
-        border-radius: 4px !important;
-        white-space: nowrap !important; /* 确保お問い合わせ绝对不掉下来换行 */
-        display: inline-block !important;
-    }
 }

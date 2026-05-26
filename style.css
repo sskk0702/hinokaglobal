@@ -381,3 +381,101 @@ img {
   height: auto;
   display: block;
 }
+/* ==========================================================================
+   ✨ 企业级官网高级化排版（针对PC大屏优化）
+   ========================================================================== */
+
+/* 1. 会社概要页面：极致的阅读体验 */
+.about-section {
+  max-width: 900px !important; /* 限制阅读宽度，避免字行过长导致疲劳 */
+  margin: 0 auto !important;
+  padding: 120px 48px !important;
+}
+
+.about-text h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px; /* 标题更从容 */
+  font-weight: 300;
+  color: var(--accent);
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.company-table {
+  margin-top: 60px;
+  border-top: 2px solid var(--accent); /* 顶部深色线，体现高级稳重 */
+}
+
+.company-table th {
+  padding: 24px 0;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border);
+}
+
+.company-table td {
+  padding: 24px 20px;
+  color: var(--text-mid);
+  border-bottom: 1px solid var(--border);
+}
+
+/* 2. 产品页面：网格的对称与悬浮效果 */
+.products-full {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 100px 48px !important;
+}
+
+.product-grid-full {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 保持三列，非常工整 */
+  gap: 60px 40px; /* 大间距带来高级感 */
+}
+
+.product-card-full {
+  background: transparent !important; /* 去掉底色，突出产品本身 */
+  box-shadow: none !important;
+  transition: transform 0.4s ease;
+}
+
+.product-card-full img {
+  border-radius: 2px;
+  filter: grayscale(10%); /* 微微的灰度感，更显质感 */
+  transition: filter 0.4s;
+}
+
+.product-card-full:hover img {
+  filter: grayscale(0%);
+  transform: translateY(-8px);
+}
+
+.product-card-body {
+  padding: 24px 0 !important;
+}
+
+.product-card-body .product-card-ja {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.product-card-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-mid);
+  opacity: 0.8;
+}
+
+/* 3. 增强 PC 端的整体呼吸感 */
+@media (min-width: 1024px) {
+  /* 统一大标题的呼吸感 */
+  .section-header {
+    margin-bottom: 80px !important;
+  }
+  
+  .section-en {
+    font-size: 56px !important; /* 大标题更具视觉冲击力 */
+  }
+}

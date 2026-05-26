@@ -2,14 +2,14 @@
 
 :root {
   --white: #ffffff;
-  --off-white: #fbfbfa; /* より透明感のある洗練されたオフホワイトへ */
+  --off-white: #fbfbfa;
   --light: #f5f2ed;
-  --border: #e8e3dc;   /* 線をより繊細で上品なニュアンスカラーへ */
+  --border: #e8e3dc;
   --text-light: #a39c97;
-  --text-mid: #5a544f;   /* 文字の視認性を上げつつ、高級感のある墨色へ */
-  --text-dark: #1c1a18;  /* 完全な黒を避け、上質なリッチブラックへ */
+  --text-mid: #5a544f;
+  --text-dark: #1c1a18;
   --accent: #111110;
-  --gold: #bdab80;     /* 彩度を少し抑えた、アンティーク調のゴールド */
+  --gold: #bdab80;
   --gold-light: #dfd6be;
   --nav-h: 80px;
   --hinoka-gold: #c5a880;
@@ -39,7 +39,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ==========================================================================
-   📱 スマートフォン端：ラグジュアリー・ミニマルデザイン（美観重視）
+   📱 スマートフォン端：基本・共通スタイル
    ========================================================================== */
 header {
   position: relative;
@@ -85,7 +85,7 @@ header {
 .main-nav a.active { color: var(--hinoka-gold); font-weight: 600; }
 .nav-contact { display: none; }
 
-/* ヒーローエリアの文字組み最適化 */
+/* ヒーローエリア */
 .hero {
   position: relative;
   background: var(--off-white);
@@ -113,7 +113,7 @@ header {
 .page-title { font-size: 26px; font-weight: 400; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.05em; }
 .page-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; }
 
-/* セクションタイトルデザインの洗練化 */
+/* セクション共通 */
 .section { padding: 70px 24px; width: 100%; }
 .section-header { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 36px; }
 .section-en { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: var(--accent); letter-spacing: 0.05em; line-height: 1.1; }
@@ -128,18 +128,74 @@ header {
 .news-title { font-size: 14px; color: var(--text-dark); line-height: 1.6; padding-right: 24px; text-align: justify; }
 .news-arrow { position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 14px; }
 
-/* トップページ商品カード */
-.product-grid { display: flex; flex-direction: column; gap: 24px; }
-.product-card { position: relative; aspect-ratio: 3/4; width: 100%; overflow: hidden; background: var(--off-white); }
-.product-card img { width: 100%; height: 100%; object-fit: cover; }
-.product-card-label { position: absolute; bottom: 24px; left: 24px; z-index: 2; color: var(--white); }
-.product-card-en { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; letter-spacing: 0.05em; }
-.product-card-ja { font-size: 11px; opacity: 0.9; letter-spacing: 0.1em; margin-top: 2px; }
-.product-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(17,17,16,0.5) 0%, rgba(17,17,16,0.1) 100%); display: flex; align-items: center; justify-content: center; }
-.product-overlay-btn { display: none; } /* スマホではオーバーレイ上のボタンを隠しカード全体をタップ可能に */
+/* ==========================================================================
+   📦 【完全復活＆修正】スマホ版 商品グリッド（PRODUCTS）
+   ========================================================================== */
+.product-grid { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 32px; /* カード同士の間隔を広げて美しく */
+}
+
+.product-card { 
+  position: relative; 
+  width: 100%; 
+  background: var(--off-white);
+  display: block;
+  text-decoration: none;
+}
+
+/* 画像表示の最適化 */
+.product-card img { 
+  width: 100%; 
+  height: auto; 
+  aspect-ratio: 3/4;
+  object-fit: cover; 
+  display: block;
+}
+
+/* スマホ版での文字情報をグラデーションの上に正しく配置 */
+.product-card-label { 
+  position: absolute; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5; /* 最前面に配置 */
+  padding: 30px 24px 24px; /* グラデーション内に収まるよう余白調整 */
+  color: var(--white) !important; /* 文字色を強制的に白に固定 */
+}
+
+.product-card-en { 
+  font-family: 'Cormorant Garamond', serif; 
+  font-size: 24px; 
+  font-weight: 300; 
+  letter-spacing: 0.05em;
+  color: var(--white) !important;
+  line-height: 1.2;
+}
+
+.product-card-ja { 
+  font-size: 11px; 
+  opacity: 0.9; 
+  letter-spacing: 0.1em; 
+  margin-top: 4px;
+  color: var(--white) !important;
+}
+
+/* 文字を読ませるための下部黒グラデーション（スマホで必須） */
+.product-overlay { 
+  position: absolute; 
+  inset: 0; 
+  background: linear-gradient(to top, rgba(17,17,16,0.7) 0%, rgba(17,17,16,0.2) 50%, rgba(17,17,16,0) 100%); 
+  z-index: 2;
+  pointer-events: none; /* タップの邪魔をしない */
+}
+
+.product-overlay-btn { display: none; } /* スマホでは不要なボタンを非表示 */
+
 
 /* ==========================================
-   📊 【劇的改善】スマホ版データ看板セクション
+   📊 数字看板セクション
    ========================================== */
 .stats-section { padding: 60px 24px; background: var(--off-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -149,7 +205,6 @@ header {
   text-align: center; 
   border: 1px solid var(--border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  position: relative;
 }
 .stat-num { 
   font-family: 'Cormorant Garamond', serif; 
@@ -175,7 +230,7 @@ header {
 }
 
 /* ==========================================
-   🏢 【劇的改善】スマホ版会社概要（ABOUT）
+   🏢 会社概要（ABOUT）
    ========================================== */
 .about-section { padding: 70px 24px; }
 .about-text h2 { 
@@ -185,15 +240,15 @@ header {
   color: var(--accent); 
   margin-bottom: 20px; 
   padding-bottom: 16px; 
-  border-bottom: 1px solid var(--accent); /* より引き締まった黒線へ */
+  border-bottom: 1px solid var(--accent);
   letter-spacing: 0.05em;
 }
 .about-text p { 
   font-size: 14px; 
-  line-height: 2.2; /* 行間を広げて美しく */
+  line-height: 2.2; 
   color: var(--text-mid); 
   margin-bottom: 24px; 
-  text-align: justify; /* 両端を綺麗に揃える */
+  text-align: justify; 
 }
 .company-strip { display: flex; flex-direction: column; gap: 36px; }
 .company-strip-text { text-align: left; }
@@ -211,13 +266,12 @@ header {
   letter-spacing: 0.15em; 
   text-align: center; 
   text-transform: uppercase;
-  width: 100%; /* スマホではボタンをワイドにして押しやすく、美しく */
+  width: 100%; 
   background: transparent;
   transition: all 0.3s;
 }
 .company-strip-img img { width: 100%; border-radius: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
 
-/* 会社情報のテーブル（表）の美観向上 */
 .company-table { 
   width: 100%; 
   border-collapse: collapse; 
@@ -257,16 +311,12 @@ footer { background: var(--accent); padding: 60px 24px 40px; }
 
 
 /* ==========================================================================
-   💻 💻 【PC端】高級カスタマイズ・レスポンシブ（min-width: 769px）
+   💻 【PC端】高級カスタマイズ・レスポンシブ（min-width: 769px）
    ========================================================================== */
 @media (min-width: 769px) {
-  
   header {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--nav-h);
+    top: 0; left: 0; width: 100%; height: var(--nav-h);
     padding: 0 calc((100vw - 1200px) / 2);
     background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(8px);
@@ -275,10 +325,7 @@ footer { background: var(--accent); padding: 60px 24px 40px; }
 
   body { padding-top: var(--nav-h); }
 
-  .news-section, 
-  .products-section, 
-  .about-section,
-  .section:first-of-type {
+  .news-section, .products-section, .about-section, .section:first-of-type {
     padding-top: 36px !important;  
     padding-bottom: 60px !important;
   }
@@ -286,7 +333,6 @@ footer { background: var(--accent); padding: 60px 24px 40px; }
   .page-hero { padding: 60px 0; }
   .page-hero-en { font-size: 64px; margin-bottom: -16px; }
   .page-title { font-size: 32px; }
-
   .logo-text { font-size: 22px; }
   .logo-text span { font-size: 9px; margin-top: 2px; }
 
@@ -320,14 +366,13 @@ footer { background: var(--accent); padding: 60px 24px 40px; }
   .news-arrow { margin-left: 16px; transition: transform 0.2s; }
   .news-item:hover .news-arrow { transform: translateX(6px); }
 
+  /* PC版 商品グリッド */
   .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .product-card img { transition: transform 0.6s ease; }
   .product-card:hover img { transform: scale(1.05); }
-  .product-card-label { bottom: 24px; left: 24px; }
-  .product-card-en { font-size: 24px; }
-  .product-overlay { opacity: 0; transition: opacity 0.3s; background: rgba(26,37,48,0.4); }
+  .product-overlay { opacity: 0; transition: opacity 0.3s; background: rgba(0,0,0,0.4); pointer-events: auto; }
   .product-card:hover .product-overlay { opacity: 1; }
-  .product-overlay-btn { display: inline-block; padding: 12px 28px; font-size: 12px; }
+  .product-overlay-btn { display: inline-block; padding: 12px 28px; font-size: 12px; color: var(--white); border: 1px solid var(--white); text-decoration: none; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
 
   .stats-section { padding: 60px 0; width: 100%; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0; max-width: 1200px; margin: 0 auto; }
@@ -339,7 +384,7 @@ footer { background: var(--accent); padding: 60px 24px 40px; }
   .company-strip { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: center; padding: 40px 0; }
   .company-strip-text p { font-size: 14px; line-height: 2.2; margin: 20px 0; text-align: justify; }
   .btn-outline { width: auto; }
-  .btn-outline:hover { background: var(--accent); color: var(--white); transition: all 0.3s; }
+  .btn-outline:hover { background: var(--accent); color: var(--white); }
   .company-strip-img img { max-height: 380px; object-fit: cover; box-shadow: 0 12px 40px rgba(0,0,0,0.05); }
 
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }

@@ -1673,3 +1673,50 @@ footer {
 .logo-link:hover .brand-logo {
     opacity: 0.85;
 }
+/* ==========================================================================
+   ヘッダーとロゴのレイアウト調整
+   ========================================================================== */
+
+/* ヘッダー全体の横並び・垂直中央揃え */
+#header {
+    display: flex;
+    align-items: center;       /* 中の要素を縦方向の真ん中に揃える */
+    justify-content: space-between; /* ロゴとメニューを左右の端に振り分ける */
+    padding: 15px 4%;          /* 上下の余白を適度に、左右に程よい隙間を作る */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;    /* パディングによる幅の広がりを防止 */
+}
+
+/* ロゴのリンクエリアの調整 */
+.logo-link {
+    display: flex;
+    align-items: center;       /* 画像をリンクエリアの縦中央に配置 */
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ロゴ画像自体のサイズ・位置コントロール */
+.brand-logo {
+    height: 45px;              /* ロゴの大きさを適正サイズに指定（好みに合わせて40px〜50pxで微調整してください） */
+    width: auto;               /* 横幅は比率を維持して自動縮小 */
+    display: block;
+    object-fit: contain;       /* 枠内にきれいに収める */
+    transition: opacity 0.3s ease;
+}
+
+/* マウスを乗せたときに少し透明にして「クリックできる」ことを伝える */
+.logo-link:hover .brand-logo {
+    opacity: 0.85;
+}
+
+/* ナビゲーションメニューも縦中央に揃える */
+.main-nav {
+    display: flex;
+    align-items: center;       /* メニュー文字もロゴと高さを揃えて中央に */
+    gap: 20px;                 /* メニュー間の横の隙間 */
+}

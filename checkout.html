@@ -219,62 +219,60 @@
     }
 
     // ── 🛠️ 核心修改：重新重构计算逻辑，将运费拉入账目模型 ──────────────────────
-   // ── 🛠️ 华哥专属升级：按单次合并计算运费（同地址不重复累加） ──────────────────────
     function renderSummary() {
       const cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
       const items = document.getElementById('checkout-items');
       
       let totalGoodsPrice = 0;
-      let hasRemoteShipping = false; // 核心哨兵：标记这笔订单里有没有包含离岛商品
+      let totalShippingPrice = 0;
 
       if (cart.length === 0) {
         items.innerHTML = '<div style="font-size:13px;color:#808a94;padding:12px 0;">カートが空です</div>';
         return;
       }
       
-      // 1. 循环渲染单品清单，并统计纯商品总价
+      // 1. 循环累计商品总价与各规格单独绑定的运费总和
       items.innerHTML = cart.map(i => {
         totalGoodsPrice += i.price * i.qty;
         
-        // 只要有一件商品的规格运费大于0，说明客户选择了离岛配送
-        if (i.shipping && Number(i.shipping) > 0) {
-          hasRemoteShipping = true;
-        }
+        // 兼容处理：确保以前老缓存中如果没有 shipping 字段时默认为 0，防止报错数额变成 NaN
+        const itemShipping = i.shipping ? Number(i.shipping) : 0;
+        totalShippingPrice += itemShipping * i.qty;
 
         return `
           <div style="display:flex; justify-content:space-between; font-size:13px; color:#1a2530; margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed #e5e9ec;">
             <div style="display:flex; flex-direction:column; gap:2px;">
               <span style="font-weight:600;">${i.name} <span style="color:#707a84; font-weight:normal;">(x${i.qty})</span></span>
-              ${(i.shipping && Number(i.shipping) > 0) ? `<span style="font-size:11px; color:#ea580c;">📍 離島配送指定</span>` : ''}
+              ${itemShipping > 0 ? `<span style="font-size:11px; color:#ea580c;">📍 離島配送料含む</span>` : ''}
             </div>
             <span>¥${(i.price * i.qty).toLocaleString()}</span>
           </div>
         `;
       }).join('');
 
-      // 2. 运费封顶计算：只要有离岛商品，运费雷打不动就是 ¥1,500，没有就是 0
-      const finalShippingPrice = hasRemoteShipping ? 1500 : 0;
-      const grandTotal = totalGoodsPrice + finalShippingPrice;
+      // 2. 算总账
+      const grandTotal = totalGoodsPrice + totalShippingPrice;
 
-      // 3. 动态渲染右侧价格看板
+      // 3. 动态渲染右侧数值
       document.getElementById('checkout-subtotal').textContent = `¥${totalGoodsPrice.toLocaleString()}`;
       
-      if (finalShippingPrice > 0) {
-        document.getElementById('checkout-shipping').innerHTML = `<span style="color:#ea580c;">¥${finalShippingPrice.toLocaleString()} (同梱一律)</span>`;
+      if (totalShippingPrice > 0) {
+        document.getElementById('checkout-shipping').innerHTML = `<span style="color:#ea580c;">¥${totalShippingPrice.toLocaleString()}</span>`;
       } else {
         document.getElementById('checkout-shipping').innerHTML = `<span style="color:#00875a;">送料無料</span>`;
       }
       
       document.getElementById('checkout-total').textContent = `¥${grandTotal.toLocaleString()}`;
 
-      // 4. 同步升级发送给 Formspree（您的后台邮件）的账目明细文本
+      // 4. 同步升级发送给 Formspree（邮件通知）的文本结构，确保留档无误
       let invoiceText = "===== 注文商品明細 =====\n";
       cart.forEach((item, index) => {
-        invoiceText += `${index + 1}. 商品名: ${item.name}\n   数量: ${item.qty} | 単価: ¥${item.price.toLocaleString()} | 商品小計: ¥${(item.price * item.qty).toLocaleString()}\n`;
+        const sCost = item.shipping ? item.shipping * item.qty : 0;
+        invoiceText += `${index + 1}. 商品名: ${item.name}\n   数量: ${item.qty} | 単価: ¥${item.price.toLocaleString()} | 商品小計: ¥${(item.price * item.qty).toLocaleString()} | 運費内訳: ¥${sCost.toLocaleString()}\n`;
       });
       invoiceText += `======================\n`;
       invoiceText += `【商品小計】: ¥${totalGoodsPrice.toLocaleString()} (税込)\n`;
-      invoiceText += `【送料合計】: ¥${finalShippingPrice > 0 ? finalShippingPrice.toLocaleString() + ' (離島同梱割引適用)' : '0 (送料無料)'}\n`;
+      invoiceText += `【送料合計】: ¥${totalShippingPrice > 0 ? totalShippingPrice.toLocaleString() : '0 (送料無料)'}\n`;
       invoiceText += `【総合計金額】: ¥${grandTotal.toLocaleString()} (税込)`;
       
       document.getElementById('hidden-invoice-data').value = invoiceText;

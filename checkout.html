@@ -84,7 +84,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">市区町村・番地 <span class="required">*</span></label>
-            <input type="text" class="form-input" name="address_line1" id="address" placeholder="大阪市浪速区大国2丁目1番1号" required>
+            <input type="text" class="form-input" name="address_line1" id="address" placeholder="大阪市浪速区O番O号" required>
           </div>
           <div class="form-group">
             <label class="form-label">建物名・部屋番号</label>
@@ -310,6 +310,75 @@
         btn.style.display = 'block';
       });
     });
+  </script><!-- 📦 独立离岛运费精算系统：直接粘贴在原本所有 script 的下方，避免冲突 -->
+  <script>
+    (function() {
+      // 1. 核心精算函数
+      function doIslandShippingCalc() {
+        // 自动去网页里抓取省份下拉框和具体地址输入框
+        // 🌟 兼容性适配：不管你的ID是 prefecture 还是 address，都能自动抓到
+        const prefInput = document.getElementById('prefecture') || document.querySelector('select[name*="pref"]') || document.querySelector('input[name*="pref"]');
+        const addrInput = document.getElementById('address') || document.querySelector('input[name*="addr"]') || document.querySelector('textarea[name*="addr"]');
+        
+        const prefectureValue = prefInput ? prefInput.value : '';
+        const addressValue = addrInput ? addrInput.value : '';
+        
+        let islandFee = 0;
+        
+        // 判定是否发往冲绳或带有“离岛”字样的住所
+        if (prefectureValue.includes('沖縄') || addressValue.includes('離島') || addressValue.includes('利島') || addressValue.includes('小笠原')) {
+          // 🔒 无论商品多少件，同一住所运费死锁 1500，绝不重复叠加
+          islandFee = 1500;
+        }
+
+        // 2. 抓取网页上显示【运费】和【总价】的数字区域
+        // 🌟 自动匹配你网页里可能出现的各种常见高奢电商类名或ID
+        const shippingRow = document.getElementById('summary-shipping') || document.querySelector('.summary-row.shipping .price') || document.querySelector('.shipping-cost');
+        const totalRow = document.getElementById('summary-total') || document.querySelector('.summary-row.total .price') || document.querySelector('.total-amount');
+        const noticeBox = document.getElementById('island-notice');
+
+        // 3. 动态计算（这里假设商品本身的小计金额，系统会自动获取或默认）
+        let baseSubtotal = 0;
+        if (totalRow) {
+          // 从当前总价反推，或者默认一个基础小计，确保数字逻辑完美
+          const currentTotalText = totalRow.innerText.replace(/[^0-9]/g, '');
+          baseSubtotal = parseInt(currentTotalText, 10) || 0;
+        }
+
+        // 渲染界面
+        if (shippingRow) {
+          shippingRow.innerText = `¥${islandFee.toLocaleString()}`;
+        }
+        
+        // 4. 动态弹出安心温馨提示
+        if (noticeBox) {
+          if (islandFee > 0) {
+            noticeBox.innerHTML = `<span>配送注意:</span> 離島地域への配送のため、離島中継料 ¥1,500 が追加されています（同一住所への同梱のため、重複請求はございません）。`;
+            noticeBox.style.display = 'block';
+          } else {
+            noticeBox.style.display = 'none';
+          }
+        }
+      }
+
+      // 🔄 绑定监听事件：只要用户动了地址，立刻重新计算
+      document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
+        body.addEventListener('change', (e) => {
+          if (e.target.matches('#prefecture') || e.target.matches('select[name*="pref"]')) {
+            doIslandShippingCalc();
+          }
+        });
+        body.addEventListener('input', (e) => {
+          if (e.target.matches('#address') || e.target.matches('input[name*="addr"]') || e.target.matches('textarea[name*="addr"]')) {
+            doIslandShippingCalc();
+          }
+        });
+        
+        // 页面刚打开时先静默跑一次
+        setTimeout(doIslandShippingCalc, 300);
+      });
+    })();
   </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   📌 华哥的 HINOKA 官方全站统一自适应样式表 (精修无冲突版)
+   📌 HINOKA 官方全站统一自适应样式表 (手机端精简优化版)
    ========================================================================== */
 
 :root {
@@ -27,7 +27,7 @@ body {
 }
 
 /* ==========================================================================
-   💻 电脑端：顶部导航栏布局 (保持原本的大气、纯文字干练)
+   💻 电脑端布局 (保持原本的大气、干练、无置顶固定)
    ========================================================================== */
 #header {
   display: flex;
@@ -37,7 +37,7 @@ body {
   height: 90px;
   background-color: var(--white);
   border-bottom: 1px solid var(--border);
-  position: relative; /* 🎯 已经彻底取消了置顶固定定位 */
+  position: relative; /* 🎯 彻底取消置顶固定定位 */
   z-index: 1000;
   width: 100%;
 }
@@ -95,55 +95,50 @@ body {
 
 
 /* ==========================================================================
-   📱 移动端自适应完美舒展布局 (屏幕小于 768px 时自动完美触发)
+   📱 移动端自适应完美舒展布局 (手机端隐藏“お問い合わせ”，空间拉满)
    ========================================================================== */
 @media screen and (max-width: 768px) {
-  /* 1. 压缩手机端高度，确保不固定定位，随页面自然滚走 */
+  /* 1. 手机端基础设置，不固定定位，自然随网页滚走 */
   #header {
     position: relative !important; 
     top: auto !important;
     left: auto !important;
     height: 70px !important;
-    padding: 0 12px !important;
+    padding: 0 16px !important;
     border-bottom: 1px solid var(--border) !important;
   }
 
-  /* 2. 彻底解决竖排的核心：在手机端隐藏掉那串大长英文字，给菜单让出黄金空间 */
+  /* 2. 左上角 Logo 文字：因为右边空间变大了，我们在手机端可以完美保留两行全称！ */
   #header .logo-text {
-    font-size: 16px !important; /* HINOKA 四个字在手机上稍微小一点点，非常精致 */
-    max-width: 25% !important;  /* 严格控流 */
-    white-space: nowrap !important;
+    font-size: 16px !important; /* HINOKA 主标题大小 */
+    max-width: 55% !important;  /* 允许稍微伸展 */
   }
   
   #header .logo-text span {
-    display: none !important; /* 🎯 砍掉这串长字！在手机上它太占地方了，是导致换行变竖排的罪魁祸首 */
+    font-size: 9px !important;  /* 株式会社 · HINOKA Co., Ltd. 变成精致小字 */
+    display: block !important;  /* 手机端允许优雅换到第二行显示 */
+    white-space: nowrap !important;
   }
 
-  /* 3. 给右侧菜单腾出 75% 的超宽马路，让片假名彻底横向躺平 */
+  /* 3. 右侧导航菜单：保留 45% 的空间 */
   #header .main-nav {
     display: flex !important;
     flex-direction: row !important; /* 强制绝对横着并排 */
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: 8px !important; /* 缩小菜单之间的横向间距 */
-    max-width: 75% !important;
-    width: auto !important;
+    gap: 12px !important; /* 菜单之间的间距 */
+    max-width: 45% !important;
   }
 
-  /* 4. 优化三个文字菜单（ホーム、オンラインショップ、会社概要） */
+  /* 4. 手机端菜单字号与横排控制 */
   #header .main-nav a {
-    font-size: 11px !important; /* 稍微缩小字号，防止撑破 */
-    white-space: nowrap !important; /* 核心：强制文字在一行内横向显示，绝不竖排 */
+    font-size: 12px !important; 
+    white-space: nowrap !important; /* 核心：强制横向显示，死不换行 */
     padding: 4px 0 !important;
   }
 
-  /* 5. 优化“お問い合わせ”黑色小按钮，在手机上变成精致的横向小胶囊 */
+  /* 🎯 核心大招：在手机窄屏上直接隐藏掉黑色的“お問い合わせ”按钮 */
   #header .main-nav a.nav-contact {
-    padding: 6px 10px !important; /* 极致缩减按钮四周的留白 */
-    font-size: 11px !important;
-    background-color: #222222 !important;
-    color: #ffffff !important;
-    border-radius: 4px !important;
-    white-space: nowrap !important; /* 确保お問い合わせ绝对是一行，死不换行 */
+    display: none !important; /* 手机端直接不展示，彻底腾出地方 */
   }
 }

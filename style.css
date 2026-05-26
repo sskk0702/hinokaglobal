@@ -1789,3 +1789,54 @@ footer {
     background-color: #b89c7d !important;
     color: #ffffff !important;
 }
+/* ==========================================================================
+   📱 移动端自适应完美适配（仅在屏幕小于 768px 的手机设备上生效）
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* 1. 压缩手机端导航栏的高度和上下间距，腾出首屏空间 */
+    #header {
+        padding: 10px 3% !important;
+        height: 65px !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 2. 强行控制左侧纯文字 Logo：缩小字号，防止挤压菜单 */
+    #header .logo-text {
+        font-size: 16px !important; /* 手机端 HINOKA 四个字缩小一点 */
+        line-height: 1.2 !important;
+        gap: 2px !important;
+        max-width: 55% !important; /* 限制左侧最大宽度 */
+    }
+
+    /* 3. 手机端的“株式会社 · HINOKA Co., Ltd.”小字调整 */
+    #header .logo-text span {
+        font-size: 10px !important; /* 英文和株式会社缩成精致小字 */
+        letter-spacing: 0px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; /* 万一太长自动变省略号 */
+    }
+
+    /* 4. 右侧菜单重新布局：缩小字号和间距，确保不换行 */
+    #header .main-nav {
+        gap: 10px !important; /* 菜单之间的间距从 32px 缩减到 10px */
+        max-width: 45% !important;
+    }
+
+    /* 5. 手机端普通菜单文字大小 */
+    #header .main-nav a {
+        font-size: 12px !important;
+        padding: 4px 2px !important;
+    }
+
+    /* 6. 特殊优化“お問い合わせ”黑色按钮：在手机上变小、变精致 */
+    #header .main-nav a.nav-contact {
+        padding: 6px 10px !important; /* 缩减按钮内边距 */
+        font-size: 11px !important;  /* 稍微缩小字号，确保塞得下 */
+        border-radius: 4px !important;
+        white-space: nowrap !important;
+    }
+}

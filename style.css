@@ -340,3 +340,44 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .footer-top { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
 }
+/* ==========================================================================
+   🎯 PC 端强制视觉约束（解决所有页面错位问题）
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* 锁定所有大板块的最大宽度 */
+  .hero-content,
+  .section,
+  .stats-section,
+  .company-strip,
+  footer {
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* 让 Header 与主内容区保持一致的宽度基准 */
+  header {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+  }
+
+  /* 修复产品网格在大屏下的间距 */
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 32px !important;
+  }
+
+  /* 修正 stats 统计栏在大屏下的比例 */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+/* 修正图片在任何分辨率下的自适应溢出问题 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

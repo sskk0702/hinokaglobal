@@ -126,8 +126,11 @@
           </div>
           
           <div style="display:flex;justify-content:space-between;font-size:13px;color:#707a84;padding:8px 0;">
-            <span>送料合計</span>
-            <span id="checkout-shipping" style="font-weight: 600;">無料</span>
+            <span>送料合计</span>
+            <span id="checkout-shipping" style="font-weight: 600; color:#00875a;">無料</span>
+          </div>
+
+          <div id="island-notice" style="display:none; background:#fff7ed; border:1px solid #ffedd5; color:#ea580c; padding:12px; font-size:12px; line-height:1.6; margin-top:10px; border-radius:4px;">
           </div>
           
           <div class="summary-total" style="border-top:1px solid #e5e9ec;padding-top:16px;margin-top:8px;">
@@ -215,70 +218,99 @@
       });
     } catch(e) {
       document.getElementById('card-element').innerHTML =
-        '<div style="font-size:13px;color:#9a9490;padding:4px 0;">⚠️ Stripeキーを設定してください（测试模式正常运行中）</div>';
+        '<div style="font-size:13px;color:#9a9490;padding:4px 0;">⚠️ Stripeキーを設定してください（テストモード正常运行中）</div>';
     }
 
-    // ── 🛠️ 核心修改：重新重构计算逻辑，将运费拉入账目模型 ──────────────────────
+    // ── 🛠️ 统一且唯一的计算逻辑 ──────────────────────
     function renderSummary() {
       const cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
       const items = document.getElementById('checkout-items');
       
+      // 1. 获取用户在购物车中选择的区域状态，如果没有选，默认是普通地区(mainland)
+      let selectedRegion = sessionStorage.getItem('hinoka_selected_region') || 'mainland';
+
+      // 2. 双重智能安全防线：检测当前结账表单里的输入内容
+      const prefInput = document.getElementById('prefecture');
+      const addrInput = document.getElementById('address');
+      const prefValue = prefInput ? prefInput.value : '';
+      const addrValue = addrInput ? addrInput.value : '';
+
+      // 如果用户在当前页面选了冲绳，或者写了离岛字样，自动强制变更为 island 状态
+      if (prefValue.includes('沖縄') || addrValue.includes('離島') || addrValue.includes('利島') || addrValue.includes('小笠原')) {
+        selectedRegion = 'island';
+      }
+      
       let totalGoodsPrice = 0;
-      let totalShippingPrice = 0;
 
       if (cart.length === 0) {
         items.innerHTML = '<div style="font-size:13px;color:#808a94;padding:12px 0;">カートが空です</div>';
+        document.getElementById('checkout-subtotal').textContent = '¥0';
+        document.getElementById('checkout-shipping').innerHTML = '無料';
+        document.getElementById('checkout-total').textContent = '¥0';
         return;
       }
       
-      // 1. 循环累计商品总价与各规格单独绑定的运费总和
+      // 3. 渲染商品明细，并纯粹叠加商品总价
       items.innerHTML = cart.map(i => {
         totalGoodsPrice += i.price * i.qty;
-        
-        // 兼容处理：确保以前老缓存中如果没有 shipping 字段时默认为 0，防止报错数额变成 NaN
-        const itemShipping = i.shipping ? Number(i.shipping) : 0;
-        totalShippingPrice += itemShipping * i.qty;
 
         return `
           <div style="display:flex; justify-content:space-between; font-size:13px; color:#1a2530; margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed #e5e9ec;">
             <div style="display:flex; flex-direction:column; gap:2px;">
               <span style="font-weight:600;">${i.name} <span style="color:#707a84; font-weight:normal;">(x${i.qty})</span></span>
-              ${itemShipping > 0 ? `<span style="font-size:11px; color:#ea580c;">📍 離島配送料含む</span>` : ''}
             </div>
             <span>¥${(i.price * i.qty).toLocaleString()}</span>
           </div>
         `;
       }).join('');
 
-      // 2. 算总账
-      const grandTotal = totalGoodsPrice + totalShippingPrice;
+      // 4. 固定全单精算运费模型：离岛 1500，普通地区 0
+      const finalShippingFee = (selectedRegion === 'island') ? 1500 : 0;
+      const grandTotal = totalGoodsPrice + finalShippingFee;
 
-      // 3. 动态渲染右侧数值
+      // 5. 动态渲染右侧数值与温馨提示
       document.getElementById('checkout-subtotal').textContent = `¥${totalGoodsPrice.toLocaleString()}`;
       
-      if (totalShippingPrice > 0) {
-        document.getElementById('checkout-shipping').innerHTML = `<span style="color:#ea580c;">¥${totalShippingPrice.toLocaleString()}</span>`;
+      const shippingDisplay = document.getElementById('checkout-shipping');
+      const noticeBox = document.getElementById('island-notice');
+
+      if (finalShippingFee > 0) {
+        shippingDisplay.innerHTML = `<span style="color:#ea580c;">¥${finalShippingFee.toLocaleString()}</span>`;
+        if (noticeBox) {
+          noticeBox.innerHTML = `📍 <strong>配送注意:</strong> 離島地域（または沖縄県）への配送のため、離島中継料 ¥1,500 が一律で追加されています。同一住所への同梱のため、重複して請求されることはありません。`;
+          noticeBox.style.display = 'block';
+        }
       } else {
-        document.getElementById('checkout-shipping').innerHTML = `<span style="color:#00875a;">送料無料</span>`;
+        shippingDisplay.innerHTML = `<span style="color:#00875a;">送料無料</span>`;
+        if (noticeBox) noticeBox.style.display = 'none';
       }
       
       document.getElementById('checkout-total').textContent = `¥${grandTotal.toLocaleString()}`;
 
-      // 4. 同步升级发送给 Formspree（邮件通知）的文本结构，确保留档无误
+      // 6. 完美的 Formspree 邮件明细留档结构
       let invoiceText = "===== 注文商品明細 =====\n";
       cart.forEach((item, index) => {
-        const sCost = item.shipping ? item.shipping * item.qty : 0;
-        invoiceText += `${index + 1}. 商品名: ${item.name}\n   数量: ${item.qty} | 単価: ¥${item.price.toLocaleString()} | 商品小計: ¥${(item.price * item.qty).toLocaleString()} | 運費内訳: ¥${sCost.toLocaleString()}\n`;
+        invoiceText += `${index + 1}. 商品名: ${item.name}\n   数量: ${item.qty} | 単価: ¥${item.price.toLocaleString()} | 小計: ¥${(item.price * item.qty).toLocaleString()}\n`;
       });
       invoiceText += `======================\n`;
+      invoiceText += `【配送地域判定】: ${selectedRegion === 'island' ? '離島・沖縄地域（中継料対象）' : '一般地域（本土）'}\n`;
       invoiceText += `【商品小計】: ¥${totalGoodsPrice.toLocaleString()} (税込)\n`;
-      invoiceText += `【送料合計】: ¥${totalShippingPrice > 0 ? totalShippingPrice.toLocaleString() : '0 (送料無料)'}\n`;
+      invoiceText += `【送料合計】: ¥${finalShippingFee.toLocaleString()}\n`;
       invoiceText += `【総合計金額】: ¥${grandTotal.toLocaleString()} (税込)`;
       
       document.getElementById('hidden-invoice-data').value = invoiceText;
     }
 
-    renderSummary();
+    // 🔄 绑定表单实时监听事件：只要用户选择省份或敲击地址，账单右侧秒级无缝重算
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSummary();
+
+      const prefSelect = document.getElementById('prefecture');
+      const addrInput = document.getElementById('address');
+
+      if (prefSelect) prefSelect.addEventListener('change', renderSummary);
+      if (addrInput) addrInput.addEventListener('input', renderSummary);
+    });
 
     // ── INTERCEPT FORM SUBMISSION ───────────────────────────
     const form = document.getElementById('hinoka-checkout-form');
@@ -299,6 +331,7 @@
         loading.style.display = 'none';
         if (response.ok) {
           localStorage.removeItem('hinoka_cart');
+          sessionStorage.removeItem('hinoka_selected_region'); // 支付成功后清空地域选择
           document.getElementById('success-modal').style.display = 'flex';
         } else {
           alert('送信にエラーが発生しました。お手数ですが、もう一度お試しいただくか、直接メールにてご連絡ください。');
@@ -310,75 +343,6 @@
         btn.style.display = 'block';
       });
     });
-  </script><!-- 📦 独立离岛运费精算系统：直接粘贴在原本所有 script 的下方，避免冲突 -->
-  <script>
-    (function() {
-      // 1. 核心精算函数
-      function doIslandShippingCalc() {
-        // 自动去网页里抓取省份下拉框和具体地址输入框
-        // 🌟 兼容性适配：不管你的ID是 prefecture 还是 address，都能自动抓到
-        const prefInput = document.getElementById('prefecture') || document.querySelector('select[name*="pref"]') || document.querySelector('input[name*="pref"]');
-        const addrInput = document.getElementById('address') || document.querySelector('input[name*="addr"]') || document.querySelector('textarea[name*="addr"]');
-        
-        const prefectureValue = prefInput ? prefInput.value : '';
-        const addressValue = addrInput ? addrInput.value : '';
-        
-        let islandFee = 0;
-        
-        // 判定是否发往冲绳或带有“离岛”字样的住所
-        if (prefectureValue.includes('沖縄') || addressValue.includes('離島') || addressValue.includes('利島') || addressValue.includes('小笠原')) {
-          // 🔒 无论商品多少件，同一住所运费死锁 1500，绝不重复叠加
-          islandFee = 1500;
-        }
-
-        // 2. 抓取网页上显示【运费】和【总价】的数字区域
-        // 🌟 自动匹配你网页里可能出现的各种常见高奢电商类名或ID
-        const shippingRow = document.getElementById('summary-shipping') || document.querySelector('.summary-row.shipping .price') || document.querySelector('.shipping-cost');
-        const totalRow = document.getElementById('summary-total') || document.querySelector('.summary-row.total .price') || document.querySelector('.total-amount');
-        const noticeBox = document.getElementById('island-notice');
-
-        // 3. 动态计算（这里假设商品本身的小计金额，系统会自动获取或默认）
-        let baseSubtotal = 0;
-        if (totalRow) {
-          // 从当前总价反推，或者默认一个基础小计，确保数字逻辑完美
-          const currentTotalText = totalRow.innerText.replace(/[^0-9]/g, '');
-          baseSubtotal = parseInt(currentTotalText, 10) || 0;
-        }
-
-        // 渲染界面
-        if (shippingRow) {
-          shippingRow.innerText = `¥${islandFee.toLocaleString()}`;
-        }
-        
-        // 4. 动态弹出安心温馨提示
-        if (noticeBox) {
-          if (islandFee > 0) {
-            noticeBox.innerHTML = `<span>配送注意:</span> 離島地域への配送のため、離島中継料 ¥1,500 が追加されています（同一住所への同梱のため、重複請求はございません）。`;
-            noticeBox.style.display = 'block';
-          } else {
-            noticeBox.style.display = 'none';
-          }
-        }
-      }
-
-      // 🔄 绑定监听事件：只要用户动了地址，立刻重新计算
-      document.addEventListener('DOMContentLoaded', () => {
-        const body = document.body;
-        body.addEventListener('change', (e) => {
-          if (e.target.matches('#prefecture') || e.target.matches('select[name*="pref"]')) {
-            doIslandShippingCalc();
-          }
-        });
-        body.addEventListener('input', (e) => {
-          if (e.target.matches('#address') || e.target.matches('input[name*="addr"]') || e.target.matches('textarea[name*="addr"]')) {
-            doIslandShippingCalc();
-          }
-        });
-        
-        // 页面刚打开时先静默跑一次
-        setTimeout(doIslandShippingCalc, 300);
-      });
-    })();
   </script>
 </body>
 </html>

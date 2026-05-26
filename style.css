@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
 
 :root {
   --white: #ffffff;
@@ -157,22 +157,36 @@ footer { background: var(--accent); padding: 60px 24px 32px; width: 100%; box-si
 
 
 /* ==========================================================================
-   💻 💻 PC 大型屏幕端排版彻底重构（精准优化间距与大图控制）
+   💻 💻 PC 大型屏幕端排版彻底重构
    ========================================================================== */
 @media (min-width: 769px) {
-  /* 🛠️ 【核心优化点】缩减 PC 端各个区域的上下间距（从100px缩减至优雅的60px） */
+  
+  /* 🛠️【针对性重大优化】压缩主体内容顶部的空白 */
+  body { 
+    padding-top: 80px !important; /* 保持与Header高度一致 */
+  }
+
+  /* 如果是首页，让 Hero 区域紧贴导航栏，同时微调 Hero 内部的上边距，将文字内容整体往上提 */
+  .hero {
+    height: calc(85vh - var(--nav-h)) !important; /* 缩减首屏过高带来的空旷感 */
+    min-height: 500px !important;
+  }
+  .hero-content {
+    padding-top: 20px !important; /* 缩减 Hero 内部顶部的留白 */
+  }
+
+  /* 🛠️【针对性重大优化】如果这是独立页面，让第一个板块（如取扱商品/会社概要）距离顶部导航栏更紧凑 */
   .news-section, 
   .products-section, 
   .about-section {
     max-width: 1200px !important;
     margin: 0 auto !important;
-    padding: 60px 24px 40px !important; /* 精确调整：上边距60px，下边距40px */
+    padding: 40px 24px 40px !important; /* 上边距从 60px/100px 精简到 40px，紧贴上方导航 */
     width: 100% !important;
   }
 
-  /* 🛠️ 【核心优化点】精简大标题与下方内容之间的空隙 */
   .section-header { 
-    margin-bottom: 24px !important; /* 从48px缩减到24px，让整体更紧凑 */
+    margin-bottom: 24px !important; 
   }
 
   /* 导航栏置顶居中对齐 */
@@ -185,7 +199,6 @@ footer { background: var(--accent); padding: 60px 24px 32px; width: 100%; box-si
     background: rgba(255, 255, 255, 0.95) !important;
     z-index: 9999 !important;
   }
-  body { padding-top: 80px !important; }
 
   /* ── 1. News (お知らせ) 排版 ── */
   .news-list {
@@ -197,7 +210,7 @@ footer { background: var(--accent); padding: 60px 24px 32px; width: 100%; box-si
   .news-item {
     display: flex !important;
     align-items: center !important;
-    padding: 20px 16px !important; /* 稍微缩减行高更显高级 */
+    padding: 20px 16px !important;
     border-bottom: 1px solid var(--border) !important;
     text-decoration: none !important;
     color: var(--text-dark) !important;
@@ -237,12 +250,12 @@ footer { background: var(--accent); padding: 60px 24px 32px; width: 100%; box-si
   }
   .news-item:hover .news-arrow { transform: translateX(6px) !important; }
 
-  /* ── 2. Products 取消过大的间距，展现三列九宫格 ── */
+  /* ── 2. Products 三列九宫格 ── */
   .product-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 32px !important;
-    margin-top: 16px !important; /* 缩短与标题的距离 */
+    margin-top: 16px !important;
   }
   .product-card {
     position: relative !important;
@@ -278,18 +291,17 @@ footer { background: var(--accent); padding: 60px 24px 32px; width: 100%; box-si
   .stat-num span { font-size: 15px; margin-left: 4px; }
   .stat-label { font-size: 12px; color: var(--text-light); margin-top: 8px; }
 
-  /* ── 4. Company (会社概要横带) 位置与图片大小精致优化 ── */
+  /* ── 4. Company (会社概要横带) ── */
   .company-strip {
     max-width: 1200px !important;
     margin: 0 auto !important;
-    padding: 60px 24px !important; /* 紧凑上下间距 */
+    padding: 50px 24px !important; 
     display: grid !important;
     grid-template-columns: 1.1fr 0.9fr !important;
     gap: 64px !important;
     align-items: center !important;
   }
   .company-strip-text { text-align: left !important; }
-  /* 缩减文字段落上下空隙 */
   .company-strip-text p { font-size: 14px !important; line-height: 2.2 !important; color: var(--text-mid) !important; margin: 20px 0 !important; text-align: justify !important; }
   .btn-outline {
     display: inline-block !important;
@@ -303,16 +315,15 @@ footer { background: var(--accent); padding: 60px 24px 32px; width: 100%; box-si
   }
   .btn-outline:hover { background: var(--accent) !important; color: var(--white) !important; }
 
-  /* 控制展示图片的高度与剪裁比例 */
   .company-strip-img img {
     width: 100% !important;
-    max-height: 380px !important; /* 高度从450px再次精简到380px，彻底解决“图片过大”的问题 */
+    max-height: 380px !important;
     object-fit: cover !important;
     border-radius: 4px !important;
     box-shadow: 0 12px 40px rgba(0,0,0,0.05) !important;
   }
 
-  /* 关于我们内页的大屏优化 */
+  /* 关于我们内页大屏优化 */
   .about-grid { grid-template-columns: 1fr 1fr !important; align-items: center !important; gap: 64px !important; }
   .about-grid img { max-height: 380px !important; object-fit: cover !important; }
 

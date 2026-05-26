@@ -254,3 +254,43 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   .about-section { padding: 60px 24px; }
   .contact-section { padding: 60px 24px; }
 }
+@media (min-width: 1024px) {
+  /* 全体の基本設定の修正 */
+  header { padding: 0 calc((100vw - 1200px) / 2) !important; }
+  footer { padding: 80px calc((100vw - 1200px) / 2) 40px !important; }
+
+  /* 💡 追加：PC版の共通コンテナ（1200px幅で綺麗に中央に収める） */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 会社概要セクション全体の調整 */
+  .about-section { 
+    max-width: 100%; /* フル幅にして内部の container で制御 */
+    padding: 100px 0; 
+  }
+  
+  /* 上段：写真と文章の並び */
+  .about-grid { 
+    grid-template-columns: 1.1fr 0.9fr; 
+    gap: 80px; 
+    align-items: center; 
+    margin-bottom: 100px; /* 下のテーブルとの間隔 */
+  }
+
+  /* 下段：テーブルまわりのラッパー */
+  .company-overview-wrapper {
+    margin-top: 100px;
+  }
+
+  /* 会社概要テーブルの最適化（1200pxのコンテナ内で少し狭めの900pxにして上品に見せる） */
+  .company-table { 
+    max-width: 900px; 
+    margin: 40px auto 0; /* 中央寄せ */
+  }
+}

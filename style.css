@@ -12,7 +12,6 @@
   --gold: #b8a882;
   --gold-light: #d4c9aa;
   --nav-h: 80px;
-  /* 🛒 2026 商城扩展变量 */
   --hinoka-dark: #1a2530;
   --hinoka-gold: #c5a880;
   --hinoka-border: #e5e9ec;
@@ -31,14 +30,9 @@ body {
   overflow-x: hidden;
 }
 
-/* 全局图片安全自适应 */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+img { max-width: 100%; height: auto; display: block; }
 
-/* ── HEADER ────────────────────────────────────── */
+/* ── HEADER ─────────────────────────────────── */
 header {
   position: relative;
   height: var(--nav-h);
@@ -52,7 +46,6 @@ header {
   z-index: 1000;
   transition: box-shadow 0.3s;
 }
-
 header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 
 .logo-text {
@@ -119,7 +112,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .nav-contact:hover { background: var(--gold) !important; }
 .nav-contact::after { display: none !important; }
 
-/* ── HERO (首页横幅) ────────────────────────────── */
+/* ── HERO ────────────────────────────────────── */
 .hero {
   height: calc(100vh - var(--nav-h));
   min-height: 600px;
@@ -130,68 +123,62 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   background: var(--off-white);
 }
 .hero-bg {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background: linear-gradient(135deg, #f8f7f5 0%, #ede9e2 50%, #e6dfd5 100%);
 }
 .hero-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: 0.04;
+  position: absolute; inset: 0; opacity: 0.04;
   background-image: repeating-linear-gradient(45deg, var(--accent) 0, var(--accent) 1px, transparent 0, transparent 50%);
   background-size: 20px 20px;
 }
 .hero-content {
-  position: relative;
-  z-index: 1;
+  position: relative; z-index: 1;
   padding: 0 48px;
-  max-width: 720px;
-  width: 100%;
+  max-width: 720px; width: 100%;
   animation: fadeUp 1s ease both;
 }
 .hero-eyebrow {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 16px;
 }
 .hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(44px, 5vw, 72px);
-  font-weight: 300;
-  line-height: 1.2;
-  color: var(--accent);
-  margin-bottom: 24px;
-  letter-spacing: -0.01em;
+  font-size: clamp(44px, 5vw, 72px); font-weight: 300; line-height: 1.2;
+  color: var(--accent); margin-bottom: 24px; letter-spacing: -0.01em;
 }
 .hero h1 em { font-style: italic; color: var(--gold); }
 .hero p { font-size: 14px; line-height: 2; color: var(--text-mid); max-width: 480px; margin-bottom: 40px; letter-spacing: 0.02em; }
 .hero-cta {
-  display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 8px; transition: gap 0.3s, color 0.2s;
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid var(--gold); padding-bottom: 8px;
+  transition: gap 0.3s, color 0.2s;
 }
 .hero-cta:hover { gap: 20px; color: var(--gold); }
 .hero-cta::after { content: '→'; font-size: 14px; }
-
 .hero-scroll {
-  position: absolute; bottom: 40px; left: 48px; display: flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-light);
+  position: absolute; bottom: 40px; left: 48px;
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Montserrat', sans-serif; font-size: 9px;
+  letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-light);
 }
 .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
 
-/* ── SECTIONS 通用布局 ────────────────────────── */
+/* ── SECTIONS ────────────────────────────────── */
 .section { padding: 100px 48px; width: 100%; box-sizing: border-box; }
+.section-sm { padding: 60px 48px; }
 .section-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 64px; }
 .section-en { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
 .section-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-/* ── NEWS (新闻板块) ── */
+/* ── NEWS ────────────────────────────────────── */
+.news-section { background: var(--white); }
 .news-list { display: flex; flex-direction: column; }
 .news-item { display: flex; align-items: baseline; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.2s; }
 .news-item:first-child { border-top: 1px solid var(--border); }
@@ -202,7 +189,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .news-arrow { font-size: 12px; color: var(--text-light); transition: transform 0.2s, color 0.2s; }
 .news-item:hover .news-arrow { transform: translateX(4px); color: var(--gold); }
 
-/* ── PRODUCTS GRID (首页九宫格/产品卡片) ── */
+/* ── PRODUCTS GRID (homepage) ────────────────── */
 .products-section { background: var(--off-white); }
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .product-card { position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--light); border-radius: 4px; }
@@ -216,15 +203,16 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .product-overlay-btn { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid var(--white); padding: 12px 28px; transition: background 0.2s; text-decoration: none; background: rgba(0,0,0,0.2); }
 .product-overlay-btn:hover { background: var(--white); color: var(--accent); }
 
-/* ── STATS (数据栏) ── */
+/* ── STATS ───────────────────────────────────── */
 .stats-section { background: var(--white); padding: 80px 48px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.stat-item { background: var(--white); padding: 48px 40px; text-align: center; }
+.stat-item { background: var(--white); padding: 48px 40px; text-align: center; transition: transform 0.3s; }
+.stat-item:hover { transform: translateY(-4px); }
 .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: 8px; }
 .stat-num span { font-size: 24px; color: var(--gold); }
 .stat-label { font-size: 11px; color: var(--text-light); letter-spacing: 0.15em; }
 
-/* ── COMPANY STRIP (首页下属大图通栏) ── */
+/* ── COMPANY STRIP ───────────────────────────── */
 .company-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; width: 100%; }
 .company-strip-text { background: var(--accent); padding: 64px; display: flex; flex-direction: column; justify-content: center; }
 .company-strip-text .section-en { color: var(--white); }
@@ -233,156 +221,66 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .btn-outline { display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,0.4); padding: 14px 28px; text-decoration: none; transition: background 0.2s, border-color 0.2s; width: fit-content; }
 .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
 .btn-outline::after { content: '→'; }
+.btn-solid { display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s; width: fit-content; border: none; cursor: pointer; }
+.btn-solid:hover { background: var(--gold); }
+.btn-solid::after { content: '→'; }
 .company-strip-img { position: relative; overflow: hidden; }
 .company-strip-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 
-/* ── 📝 ABOUT & CONTACT 独立页面高级品牌风格组件 ── */
-.brand-hero {
-  padding: 140px 48px 100px;
-  background: var(--off-white);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-}
-.brand-hero-en {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
-}
-.brand-hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 56px;
-  color: var(--accent);
-  margin-bottom: 20px;
-  font-weight: 300;
-}
-.brand-hero-subtitle {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 14px;
-  color: var(--text-mid);
-  letter-spacing: 0.05em;
-}
+/* ── PAGE HERO (inner pages) ─────────────────── */
+.page-hero { padding-top: var(--nav-h); background: var(--off-white); padding-bottom: 0; border-bottom: 1px solid var(--border); overflow: hidden; }
+.page-hero-inner { padding: 64px 48px 48px; position: relative; }
+.page-hero-en { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 7vw, 96px); font-weight: 300; color: var(--accent); line-height: 1; opacity: 0.08; position: absolute; top: 32px; left: 32px; pointer-events: none; letter-spacing: -0.02em; }
+.page-hero-content { position: relative; z-index: 1; }
+.breadcrumb { display: flex; align-items: center; gap: 8px; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); margin-bottom: 20px; }
+.breadcrumb a { color: var(--text-light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--gold); }
+.breadcrumb span { color: var(--border); }
+.page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
+.page-subtitle { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; margin-top: 8px; }
 
-.about-section {
-  max-width: 1000px !important;
-  margin: 0 auto !important;
-  padding: 80px 48px !important;
-}
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-.about-text h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  color: var(--accent);
-  margin-bottom: 30px;
-  line-height: 1.4;
-  font-weight: 400;
-}
-.about-text p {
-  font-size: 14px;
-  line-height: 2.2;
-  color: var(--text-mid);
-  margin-bottom: 24px;
-}
+/* ── PRODUCTS PAGE ───────────────────────────── */
+.products-full { padding: 80px 48px; background: var(--white); max-width: 1200px; margin: 0 auto; }
+.product-grid-full { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 40px; }
+.product-card-full { background: transparent; overflow: hidden; transition: transform 0.4s ease; }
+.product-card-full:hover { transform: translateY(-6px); }
+.product-card-full img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: filter 0.4s; border-radius: 2px; filter: grayscale(8%); }
+.product-card-full:hover img { filter: grayscale(0%); }
+.product-card-body { padding: 24px 0; }
+.product-card-body .product-card-en { color: var(--gold); font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+.product-card-body .product-card-ja { font-size: 18px; font-weight: 500; color: var(--accent); margin-bottom: 10px; }
+.product-card-desc { font-size: 13px; line-height: 1.9; color: var(--text-mid); }
 
-/* 会社概要数据表格 */
-.company-table {
-  width: 100%;
-  margin-top: 40px;
-  border-collapse: collapse;
-  border-top: 2px solid var(--accent);
-}
-.company-table th {
-  width: 25%;
-  padding: 24px 16px;
-  font-size: 13px;
-  text-align: left;
-  letter-spacing: 0.1em;
-  color: var(--text-dark);
-  border-bottom: 1px solid var(--border);
-  font-weight: 500;
-}
-.company-table td {
-  padding: 24px 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--text-mid);
-  border-bottom: 1px solid var(--border);
-}
+/* ── ABOUT PAGE ──────────────────────────────── */
+.about-section { padding: 80px 48px; background: var(--white); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1000px; margin: 0 auto; padding: 80px 0; align-items: center; }
+.about-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
+.about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--accent); line-height: 1.4; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.about-text p { font-size: 14px; line-height: 2.2; color: var(--text-mid); margin-bottom: 20px; }
+.company-table { width: 100%; border-collapse: collapse; margin-top: 60px; border-top: 2px solid var(--accent); }
+.company-table tr { border-bottom: 1px solid var(--border); }
+.company-table th { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-align: left; padding: 24px 0; width: 220px; vertical-align: top; }
+.company-table td { font-size: 14px; color: var(--text-dark); padding: 24px 20px; line-height: 1.8; }
 
-/* ── 🛒 SHOPPING CART SYSTEM (乐天风高定购物车扩展) ── */
-.cart-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  z-index: 2000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-}
-.cart-overlay.open { opacity: 1; visibility: visible; }
+/* ── CONTACT PAGE ────────────────────────────── */
+.contact-section { padding: 80px 48px; background: var(--white); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; }
+.contact-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--accent); margin-bottom: 20px; }
+.contact-info p { font-size: 13px; line-height: 2; color: var(--text-mid); margin-bottom: 32px; }
+.contact-detail { display: flex; flex-direction: column; gap: 16px; }
+.contact-detail-item { display: flex; gap: 16px; align-items: baseline; }
+.contact-detail-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); min-width: 60px; }
+.contact-detail-value { font-size: 14px; color: var(--text-dark); line-height: 1.7; }
+.contact-form { display: flex; flex-direction: column; gap: 24px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mid); }
+.form-label .required { color: var(--gold); margin-left: 4px; }
+.form-input, .form-select, .form-textarea { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 300; color: var(--text-dark); background: var(--off-white); border: 1px solid var(--border); padding: 14px 16px; outline: none; transition: border-color 0.2s, background 0.2s; width: 100%; appearance: none; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); background: var(--white); }
+.form-textarea { resize: vertical; min-height: 140px; }
+.form-submit { align-self: flex-start; }
 
-.cart-drawer {
-  position: fixed;
-  top: 0; right: -450px;
-  width: 100%; max-width: 450px; height: 100vh;
-  background: var(--white);
-  box-shadow: -10px 0 40px rgba(0,0,0,0.08);
-  z-index: 2001;
-  display: flex;
-  flex-direction: column;
-  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.cart-drawer.open { right: 0; }
-
-.cart-header {
-  padding: 24px 32px;
-  border-bottom: 1px solid var(--hinoka-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.cart-header h3 { font-size: 16px; font-weight: 500; letter-spacing: 0.05em; color: var(--hinoka-dark); }
-.close-cart-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-light); }
-
-#cartItemsList { flex: 1; overflow-y: auto; padding: 24px 32px; }
-.cart-item { display: flex; gap: 16px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px dashed var(--hinoka-border); }
-.cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 2px; background: var(--hinoka-bg); }
-.cart-item-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-.cart-item-title { font-size: 13px; font-weight: 400; color: var(--hinoka-dark); line-height: 1.4; }
-.cart-item-price { font-size: 14px; font-weight: 500; color: var(--hinoka-gold); margin-top: 4px; }
-
-.cart-drawer-footer { padding: 24px 32px; background: var(--hinoka-bg); border-top: 1px solid var(--hinoka-border); }
-.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.cart-total span:first-child { font-size: 14px; color: var(--text-mid); }
-.cart-total id("cartTotalAmount") { font-size: 20px; font-weight: 600; color: var(--hinoka-dark); }
-
-/* 右下角悬浮购物车徽章 */
-.floating-cart-badge {
-  position: fixed; bottom: 32px; right: 32px;
-  width: 60px; height: 60px; border-radius: 50%;
-  background: var(--accent); color: var(--white);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15); cursor: pointer; z-index: 999;
-  transition: transform 0.2s, background 0.2s;
-}
-.floating-cart-badge:hover { transform: scale(1.05); background: var(--gold); }
-.cart-count-bubble {
-  position: absolute; top: -4px; right: -4px;
-  background: var(--hinoka-gold); color: var(--white);
-  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
-}
-
-/* ── FOOTER ────────────────────────────────────── */
+/* ── FOOTER ──────────────────────────────────── */
 footer { background: var(--accent); padding: 80px 48px 40px; }
 .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
 .footer-brand .logo-text { color: var(--white); }
@@ -394,103 +292,167 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
 .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
 
-/* ── ANIMATIONS ── */
+/* ── ANIMATIONS ──────────────────────────────── */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+/* ── CART BUTTON & BADGE ─────────────────────── */
+#cart-nav-btn {
+  position: relative;
+  background: none; border: none;
+  cursor: pointer; color: var(--text-mid);
+  padding: 4px;
+  display: flex; align-items: center;
+  transition: color 0.2s;
+}
+#cart-nav-btn:hover { color: var(--accent); }
 
-/* ==========================================================================
-   💻 💻 电脑大屏幕端高级化约束布局（彻底阻断电脑端排版混乱错位）
-   ========================================================================== */
-@media (min-width: 1024px) {
-  /* 核心解法：将所有主体内容区域最大宽度锁定 1200px 并且完美水平居中 */
-  .hero-content,
-  .section,
-  .stats-section,
-  footer {
-    max-width: 1200px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* 导航栏满屏延伸，但内部文字精准对齐 1200px 主轴线 */
-  header {
-    max-width: 100% !important;
-    padding: 0 calc((100vw - 1200px) / 2) !important;
-  }
-
-  /* 解决横幅板块在电脑端过大的问题，使其具有圆角和高级感 */
-  .company-strip {
-    max-width: 1200px !important;
-    margin: 60px auto !important;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .company-strip-text { padding: 80px 80px; }
-
-  /* 修正页脚在大屏电脑上的内边距 */
-  footer {
-    padding-top: 80px !important;
-    padding-bottom: 40px !important;
-  }
+.cart-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 18px; height: 18px;
+  background: var(--gold);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 10px; font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  display: none;
+  align-items: center; justify-content: center;
 }
 
-/* ==========================================================================
-   📱 📱 MOBILE (移动端自适应完美流式布局)
-   ========================================================================== */
+/* ── CART DRAWER ─────────────────────────────── */
+#cart-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+#cart-overlay.active { opacity: 1; pointer-events: all; }
+
+#cart-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 380px; max-width: 100vw;
+  height: 100vh;
+  background: var(--white);
+  z-index: 1200;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+}
+#cart-drawer.open { transform: translateX(0); }
+
+/* ── SHOP PAGE ───────────────────────────────── */
+.shop-wrap { padding-top: var(--nav-h); min-height: 100vh; }
+.shop-inner { max-width: 1240px; margin: 0 auto; padding: 56px 48px 80px; }
+.shop-heading { display: flex; align-items: baseline; gap: 20px; margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.shop-heading-en { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: var(--accent); line-height: 1; }
+.shop-heading-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
+
+.shop-filters { display: flex; margin-bottom: 40px; border-bottom: 1px solid var(--border); }
+.filter-btn { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-light); background: none; border: none; padding: 12px 22px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; }
+.filter-btn:hover { color: var(--accent); }
+.filter-btn.active { color: var(--accent); border-bottom-color: var(--gold); }
+
+.products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+
+.p-card { background: var(--white); border: 1px solid var(--border); display: flex; flex-direction: column; transition: transform 0.25s, box-shadow 0.25s; }
+.p-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,0.08); }
+.p-card-img { position: relative; overflow: hidden; background: var(--off-white); aspect-ratio: 1/1; }
+.p-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+.p-card:hover .p-card-img img { transform: scale(1.05); }
+.p-card-badge { position: absolute; top: 10px; left: 10px; font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: var(--gold); color: var(--white); padding: 4px 10px; }
+.p-card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+.p-card-cat { font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+.p-card-name { font-size: 14px; font-weight: 500; color: var(--accent); line-height: 1.45; margin-bottom: 6px; }
+.p-card-desc { font-size: 11px; color: var(--text-mid); line-height: 1.75; flex: 1; margin-bottom: 14px; }
+.p-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; }
+.p-card-price { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 500; color: var(--accent); }
+.p-card-price small { font-size: 10px; color: var(--text-light); margin-left: 2px; }
+.atc-btn { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--accent); border: none; padding: 10px 16px; cursor: pointer; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
+.atc-btn:hover { background: var(--gold); }
+
+/* ── CHECKOUT PAGE ───────────────────────────── */
+.checkout-section { padding: 80px 48px; background: var(--white); }
+.checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: start; max-width: 1100px; margin: 0 auto; }
+.checkout-form-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--accent); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.checkout-summary { background: var(--off-white); padding: 32px; position: sticky; top: 100px; }
+.checkout-summary h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--accent); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.summary-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 13px; color: var(--text-mid); border-bottom: 1px solid var(--border); gap: 12px; }
+.summary-item-name { flex: 1; }
+.summary-item-qty { color: var(--text-light); }
+.summary-item-price { font-family: 'Montserrat', sans-serif; color: var(--accent); }
+.summary-total { display: flex; justify-content: space-between; font-size: 16px; font-weight: 500; color: var(--accent); margin-top: 16px; padding-top: 16px; }
+.summary-total span:last-child { font-family: 'Montserrat', sans-serif; color: var(--gold); }
+.stripe-note { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-light); margin-top: 16px; font-family: 'Montserrat', sans-serif; letter-spacing: 0.05em; }
+
+/* ── PC LARGE SCREEN ─────────────────────────── */
+@media (min-width: 1024px) {
+  header { max-width: 100%; padding: 0 calc((100vw - 1200px) / 2) !important; }
+  .hero-content, .section, .stats-section { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+  .company-strip { max-width: 1200px; margin: 60px auto; border-radius: 4px; overflow: hidden; }
+  .company-strip-text { padding: 80px 80px; }
+  footer { padding: 80px calc((100vw - 1200px) / 2) 40px; }
+  .section-header { margin-bottom: 80px; }
+  .section-en { font-size: 56px; }
+  .contact-grid { grid-template-columns: 1fr 1.4fr; gap: 120px; }
+  .contact-form { max-width: 620px; }
+  .products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 1100px) {
+  .products-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── MOBILE ──────────────────────────────────── */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
-
-  header { 
-    position: relative !important; 
-    height: var(--nav-h) !important;
-    padding: 0 16px !important; 
-    display: flex !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-  }
-
-  .main-nav { 
-    display: flex !important; 
-    flex-direction: row !important;
-    gap: 16px !important; 
-  }
-  .main-nav a { font-size: 11px !important; white-space: nowrap !important; }
+  header { position: relative !important; height: var(--nav-h) !important; padding: 0 16px !important; display: flex !important; justify-content: space-between !important; width: 100% !important; }
+  .main-nav { display: flex !important; flex-direction: row !important; gap: 12px !important; }
+  .main-nav a { font-size: 10px !important; white-space: nowrap !important; }
   .main-nav a.nav-contact { display: none !important; }
-
   .logo-text { font-size: 16px !important; }
   .logo-text span { font-size: 8px !important; white-space: nowrap !important; }
-
   .hero { height: auto; min-height: 500px; padding: 80px 0; }
   .hero-content { padding: 0 24px; }
   .hero h1 { font-size: 36px; }
   .hero-scroll { display: none; }
-
   .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
   .section-header { margin-bottom: 40px; }
   .section-en { font-size: 32px; }
-
   .news-item { gap: 16px; flex-direction: column; padding: 16px 0; }
   .news-date { min-width: auto; }
-
   .product-grid { grid-template-columns: 1fr; gap: 16px; }
   .product-card { aspect-ratio: 4/3; }
-
+  .product-grid-full { grid-template-columns: 1fr; }
   .company-strip { grid-template-columns: 1fr; }
-  .company-strip-img { height: 240px; }
+  .company-strip-img { height: 240px; position: relative; }
   .company-strip-img img { position: relative; height: 100%; }
   .company-strip-text { padding: 40px 24px; }
-
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .stat-item { padding: 32px 20px; }
   .stat-num { font-size: 36px; }
-
-  .about-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
-
+  .about-grid { grid-template-columns: 1fr; gap: 40px; padding: 60px 0; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-top { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .page-hero-inner { padding: 48px 24px 32px; }
+  .products-full { padding: 60px 24px; }
+  .about-section { padding: 60px 24px; }
+  .contact-section { padding: 60px 24px; }
+  .stats-section { padding: 60px 24px; }
+  .checkout-grid { grid-template-columns: 1fr; }
+  .checkout-section { padding: 48px 20px; }
+  .shop-inner { padding: 40px 20px 60px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  #cart-drawer { width: 100vw; }
+}
+
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: 1fr; }
 }

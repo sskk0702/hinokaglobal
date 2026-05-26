@@ -121,7 +121,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .section-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-/* ── PAGE HERO (子网页通精美头) ── */
+/* ── PAGE HERO (子网页精美头) ── */
 .page-hero { padding-top: var(--nav-h); background: var(--off-white); border-bottom: 1px solid var(--border); overflow: hidden; }
 .page-hero-inner { padding: 90px 48px 70px; position: relative; max-width: 1200px; margin: 0 auto; width: 100%; }
 .page-hero-en { font-family: 'Cormorant Garamond', serif; font-size: 120px; font-weight: 300; color: var(--accent); line-height: 1; opacity: 0.04; position: absolute; bottom: -10px; left: 40px; pointer-events: none; letter-spacing: 0.05em; text-transform: uppercase; font-style: italic; }
@@ -189,113 +189,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
 
 
 /* ==========================================================================
-   💻 💻 PC 大型屏幕端【彻底重构排版】规范 —— 让电脑端产生质的飞跃
-   ========================================================================== */
-@media (min-width: 1024px) {
-  /* 导航与大框架居中线对齐 */
-  header { padding: 0 calc((100vw - 1200px) / 2) !important; }
-  footer { padding: 80px calc((100vw - 1200px) / 2) 40px !important; }
-  .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
-  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
-
-  /* 页头大英文背景在 PC 端更震撼 */
-  .page-hero-inner { padding: 120px 0 80px !important; }
-  .page-hero-en { font-size: 160px; left: -10px; bottom: -30px; opacity: 0.03; }
-
-  /* 核心解药一：会社概要图文并排分栏（左图右文，极具设计感） */
-  .about-section { max-width: 1200px; margin: 0 auto; padding: 100px 0; }
-  .about-grid { grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; }
-  .about-text h2 { font-size: 40px; line-height: 1.5; }
-
-  /* 核心解药二：会社概要表格收紧，防止大屏幕上横向拉得太长 */
-  .company-table { max-width: 900px; margin: 60px auto 0; }
-  .company-table th { width: 240px; padding: 28px 32px; font-size: 15px; background: var(--off-white); }
-  .company-table td { padding: 28px 40px; font-size: 15px; }
-
-  /* 核心解药三：経営理念在 PC 端横向并排，形成规整的画廊卡片感 */
-  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .stat-item { padding: 60px 48px; transition: transform 0.3s, box-shadow 0.3s; }
-  .stat-item:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-
-  /* 核心解药四：お問い合わせ（联系我们）PC端左右对开分栏（左信息，右表单） */
-  .contact-section { max-width: 1200px; margin: 0 auto; padding: 100px 0; }
-  .contact-grid { grid-template-columns: 1fr 1.3fr; gap: 100px; align-items: start; }
-  .contact-info { position: sticky; top: 140px; } /* 滚动时左侧信息悬浮固定，极高级 */
-  .contact-info h3 { font-size: 36px; }
-  .contact-form { padding: 56px; background: var(--off-white); border-radius: 4px; }
-}
-
-
-/* ==========================================================================
-   📱 📱 MOBILE 移动端保持原样（完美流式，不作任何破坏性改动）
-   ========================================================================== */
-@media (max-width: 768px) {
-  :root { --nav-h: 64px; }
-  header { position: relative !important; height: var(--nav-h) !important; padding: 0 16px !important; display: flex !important; justify-content: space-between !important; width: 100% !important; }
-  .main-nav { display: flex !important; flex-direction: row !important; gap: 12px !important; }
-  .main-nav a { font-size: 11px !important; white-space: nowrap !important; letter-spacing: 0.1em !important; }
-  .main-nav a.nav-contact { display: none !important; }
-  .logo-text { font-size: 16px !important; }
-  .logo-text span { font-size: 8px !important; white-space: nowrap !important; }
-
-  .hero { height: auto; min-height: 460px; padding: 60px 0; }
-  .hero-content { padding: 0 24px; }
-  .hero h1 { font-size: 34px; }
-
-  .section { padding: 60px 24px; }
-  .section-sm { padding: 40px 24px; }
-  .section-header { margin-bottom: 32px; gap: 12px; }
-  .section-en { font-size: 32px; }
-  
-  .page-hero-inner { padding: 60px 24px 40px; }
-  .page-hero-en { font-size: 56px; left: 20px; bottom: 5px; }
-  .page-title { font-size: 32px; }
-
-  .about-section { padding: 60px 24px; }
-  .contact-section { padding: 60px 24px; }
-}
-@media (min-width: 1024px) {
-  /* 全体の基本設定の修正 */
-  header { padding: 0 calc((100vw - 1200px) / 2) !important; }
-  footer { padding: 80px calc((100vw - 1200px) / 2) 40px !important; }
-
-  /* 💡 追加：PC版の共通コンテナ（1200px幅で綺麗に中央に収める） */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-left: 24px;
-    padding-right: 24px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* 会社概要セクション全体の調整 */
-  .about-section { 
-    max-width: 100%; /* フル幅にして内部の container で制御 */
-    padding: 100px 0; 
-  }
-  
-  /* 上段：写真と文章の並び */
-  .about-grid { 
-    grid-template-columns: 1.1fr 0.9fr; 
-    gap: 80px; 
-    align-items: center; 
-    margin-bottom: 100px; /* 下のテーブルとの間隔 */
-  }
-
-  /* 下段：テーブルまわりのラッパー */
-  .company-overview-wrapper {
-    margin-top: 100px;
-  }
-
-  /* 会社概要テーブルの最適化（1200pxのコンテナ内で少し狭めの900pxにして上品に見せる） */
-  .company-table { 
-    max-width: 900px; 
-    margin: 40px auto 0; /* 中央寄せ */
-  }
-}
-/* ==========================================================================
-    💻 💻 PC 大型屏幕端【彻底重构排版】规范 —— 安全稳固版
+   💻 💻 PC 大型屏幕端【彻底重构排版】规范 —— 安全稳固唯一指定版
    ========================================================================== */
 @media (min-width: 1024px) {
   /* 导航栏置顶并居中线对齐 */
@@ -306,14 +200,17 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
     width: 100% !important;
     padding: 0 calc((100vw - 1200px) / 2) !important; 
     box-sizing: border-box !important;
-    background: rgba(255, 255, 255, 0.95) !important; /* 确保PC端背景可见 */
+    background: rgba(255, 255, 255, 0.95) !important;
     z-index: 9999 !important;
   }
   
-  /* 加上安全的顶部内边距，防止固定导航栏遮挡大图 */
   body {
     padding-top: 80px !important; 
   }
+
+  /* 页头大英文背景在 PC 端更震撼 */
+  .page-hero-inner { padding: 120px 0 80px !important; }
+  .page-hero-en { font-size: 160px; left: -10px; bottom: -30px; opacity: 0.03; }
 
   /* 页脚在大屏下的排版 */
   footer { 
@@ -357,7 +254,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   /* ── 3. HOME：🔥彻底解决“取扱商品”混乱 —— 强制3列横排 ── */
   .product-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important; /* 强制电脑端铺满3列 */
+    grid-template-columns: repeat(3, 1fr) !important; 
     gap: 32px !important;
     margin-top: 40px !important;
     width: 100% !important;
@@ -365,27 +262,27 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   .product-card {
     position: relative !important;
     overflow: hidden !important;
-    aspect-ratio: 3/4 !important; /* 让三张商品图高宽比完全整齐一致 */
+    aspect-ratio: 3/4 !important; 
   }
   .product-card img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important; /* 保证图片不变形 */
+    object-fit: cover !important; 
     transition: transform 0.6s ease !important;
   }
   .product-card:hover img {
-    transform: scale(1.05) !important; /* 鼠标悬浮高级微动效果 */
+    transform: scale(1.05) !important; 
   }
 
   /* ── 4. HOME：数据面板 ── */
   .stats-section {
     max-width: 100% !important;
-    background: #fcfcf9 !important; /* 回退安全色 */
+    background: #fcfcf9 !important; 
     padding: 80px 0 !important;
   }
   .stats-grid {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important; /* 4列横排 */
+    grid-template-columns: repeat(4, 1fr) !important; 
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 24px !important;
@@ -395,7 +292,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   /* ── 5. HOME：公司简介横带 ── */
   .company-strip {
     display: grid !important;
-    grid-template-columns: 1fr 1fr !important; /* 左文字右图片 */
+    grid-template-columns: 1fr 1fr !important; 
     gap: 80px !important;
     align-items: center !important;
     padding-top: 100px !important;
@@ -436,9 +333,11 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
 
   /* ── 7. ABOUT：经营理念 ── */
   .about-section .stats-grid {
-    grid-template-columns: repeat(3, 1fr) !important; /* 理念为3列 */
+    grid-template-columns: repeat(3, 1fr) !important; 
     gap: 32px !important;
   }
+  .stat-item { padding: 60px 48px !important; transition: transform 0.3s, box-shadow 0.3s !important; }
+  .stat-item:hover { transform: translateY(-8px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.05) !important; }
 
   /* ── 8. CONTACT：联系我们 ── */
   .contact-section { max-width: 100% !important; padding: 100px 0 !important; }
@@ -446,4 +345,34 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   .contact-info { position: sticky !important; top: 140px !important; }
   .contact-info h3 { font-size: 36px !important; }
   .contact-form { padding: 56px !important; background: #fcfcf9 !important; border-radius: 4px !important; }
+}
+
+
+/* ==========================================================================
+   📱 📱 MOBILE 移动端保持原样（完美流式，不作任何破坏性改动）
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root { --nav-h: 64px; }
+  header { position: relative !important; height: var(--nav-h) !important; padding: 0 16px !important; display: flex !important; justify-content: space-between !important; width: 100% !important; }
+  .main-nav { display: flex !important; flex-direction: row !important; gap: 12px !important; }
+  .main-nav a { font-size: 11px !important; white-space: nowrap !important; letter-spacing: 0.1em !important; }
+  .main-nav a.nav-contact { display: none !important; }
+  .logo-text { font-size: 16px !important; }
+  .logo-text span { font-size: 8px !important; white-space: nowrap !important; }
+
+  .hero { height: auto; min-height: 460px; padding: 60px 0; }
+  .hero-content { padding: 0 24px; }
+  .hero h1 { font-size: 34px; }
+
+  .section { padding: 60px 24px; }
+  .section-sm { padding: 40px 24px; }
+  .section-header { margin-bottom: 32px; gap: 12px; }
+  .section-en { font-size: 32px; }
+  
+  .page-hero-inner { padding: 60px 24px 40px; }
+  .page-hero-en { font-size: 56px; left: 20px; bottom: 5px; }
+  .page-title { font-size: 32px; }
+
+  .about-section { padding: 60px 24px; }
+  .contact-section { padding: 60px 24px; }
 }

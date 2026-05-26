@@ -408,7 +408,9 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .products-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ── 📱 MOBILE (彻底重构手机端美观度与丝滑体验) ──────────────────────────────────── */
+/* ==========================================================================
+   📱 MOBILE ULTIMATE REBOOT (整个网站手机端终极美化打包，绝无括号漏洞)
+   ========================================================================== */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
   
@@ -482,180 +484,57 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .product-card-ja { color: var(--white) !important; font-size: 16px !important; font-weight: 400 !important; display: block !important; }
   .product-overlay { display: none !important; } 
 
-  /* 📊 【全新重构】手机版数据看板：轻奢无界交错排版 */
-  .stats-section { 
-    padding: 48px 24px !important; 
-    background: #ffffff !important; /* 保持纯净留白 */
-  }
-  .stats-grid { 
-    display: grid !important; 
-    grid-template-columns: repeat(2, 1fr) !important; /* 优雅双列 */
-    gap: 32px 20px !important; /* 加大上下间距，营造呼吸感 */
-    background: transparent !important; 
-    border: none !important; 
-  }
-  .stat-item { 
-    background: transparent !important; 
-    padding: 0 !important; 
-    border: none !important; 
-    border-left: 2px solid var(--gold-light) !important; /* 左侧一抹香槟金细线，增加高奢感 */
-    padding-left: 14px !important;
-    text-align: left !important; /* 更改为左对齐，更具现代设计感 */
-    box-shadow: none !important;
-    transform: none !important;
-  }
-  .stat-num { 
-    font-size: 36px !important; 
-    font-weight: 300 !important; 
-    color: var(--accent) !important; 
-    margin-bottom: 6px !important;
-    letter-spacing: -0.01em !important;
-  }
-  .stat-num span { 
-    font-size: 14px !important; 
-    color: var(--gold) !important; 
-    margin-left: 4px !important; 
-    font-weight: 400 !important; 
-  }
-  .stat-label { 
-    font-size: 11px !important; 
-    color: var(--text-mid) !important; 
-    letter-spacing: 0.05em !important; 
-    font-weight: 400 !important;
-  }
+  /* 📊 首页数据看板：轻奢无界交错排版 */
+  .stats-section { padding: 48px 24px !important; background: #ffffff !important; }
+  .stats-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 32px 20px !important; background: transparent !important; border: none !important; }
+  .stat-item { background: transparent !important; padding: 0 !important; border: none !important; border-left: 2px solid var(--gold-light) !important; padding-left: 14px !important; text-align: left !important; box-shadow: none !important; transform: none !important; }
+  .stat-num { font-size: 36px !important; font-weight: 300 !important; color: var(--accent) !important; margin-bottom: 6px !important; letter-spacing: -0.01em !important; }
+  .stat-num span { font-size: 14px !important; color: var(--gold) !important; margin-left: 4px !important; font-weight: 400 !important; }
+  .stat-label { font-size: 11px !important; color: var(--text-mid) !important; letter-spacing: 0.05em !important; font-weight: 400 !important; }
 
-  /* 🏢 【全新重构】手机版 Company 区块：流线杂志型叠层设计 */
-  .company-strip { 
-    display: flex !important;
-    flex-direction: column !important; /* 图片在上，文字在下 */
-    min-height: auto !important;
-    background: var(--accent) !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
-  }
-  .company-strip-img { 
-    width: 100% !important;
-    height: 240px !important; /* 锁定一个优雅的黄金高度 */
-    position: relative !important; 
-    order: 1 !important; /* 强制图片冲到最上方 */
-  }
-  .company-strip-img img { 
-    position: relative !important; 
-    width: 100% !important;
-    height: 100% !important; 
-    object-fit: cover !important;
-  }
-  .company-strip-text { 
-    width: 100% !important;
-    padding: 48px 24px 56px 24px !important; /* 饱满的上下留白 */
-    order: 2 !important; /* 文字紧随其后 */
-    background: var(--accent) !important;
-  }
-  .company-strip-text .section-header {
-    margin-bottom: 24px !important;
-  }
-  .company-strip-text p { 
-    font-size: 13.5px !important; 
-    line-height: 2.1 !important; 
-    color: rgba(255,255,255,0.75) !important; 
-    margin: 0 0 36px 0 !important; 
-    text-align: justify !important; /* 两端对齐，文本更工整 */
-  }
-  /* 手机端按钮美化：稍微收紧，触控更精致 */
-  .company-strip-text .btn-outline {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important; /* 手机端按钮拉满全宽，极度方便手指点击 */
-    padding: 16px 0 !important;
-    font-size: 11px !important;
-    letter-spacing: 0.15em !important;
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(255,255,255,0.3) !important;
-    border-radius: 4px !important; /* 微微带有一点圆角，高级而不死板 */
-  }
+  /* 🏢 首页 Company 区块：流线杂志型叠层设计 */
+  .company-strip { display: flex !important; flex-direction: column !important; min-height: auto !important; background: var(--accent) !important; margin: 0 !important; border-radius: 0 !important; }
+  .company-strip-img { width: 100% !important; height: 240px !important; position: relative !important; order: 1 !important; }
+  .company-strip-img img { position: relative !important; width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  .company-strip-text { width: 100% !important; padding: 48px 24px 56px 24px !important; order: 2 !important; background: var(--accent) !important; }
+  .company-strip-text .section-header { margin-bottom: 24px !important; }
+  .company-strip-text p { font-size: 13.5px !important; line-height: 2.1 !important; color: rgba(255,255,255,0.75) !important; margin: 0 0 36px 0 !important; text-align: justify !important; }
+  .company-strip-text .btn-outline { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; padding: 16px 0 !important; font-size: 11px !important; letter-spacing: 0.15em !important; background: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.3) !important; border-radius: 4px !important; }
 
-  /* 🏢 内页：会社概要表格响应式处理 */
-/* 🏢 【全新升级】手机版：会社概要内页——轻奢移动档案式排版 */
-  .about-section { 
-    padding: 48px 24px !important; 
-    background: #ffffff !important;
-  }
-  .about-grid { 
-    display: flex !important;
-    flex-direction: column !important; /* 调整为垂直流线结构 */
-    gap: 40px !important; 
-    padding: 10px 0 !important; 
-  }
-  .about-text h2 { 
-    font-size: 24px !important; 
-    line-height: 1.4 !important;
-    padding-bottom: 16px !important; 
-    margin-bottom: 20px !important; 
-    border-bottom: 1px solid var(--gold-light) !important; /* 用淡淡的香槟金细线点缀标题 */
-  }
-  .about-text p { 
-    font-size: 14px !important; 
-    line-height: 2.2 !important; /* 极度舒适的行高，适合手机屏阅读 */
-    color: var(--text-dark) !important;
-    text-align: justify !important;
-    margin-bottom: 16px !important;
-  }
+  /* 🏢 内页：会社概要——轻奢移动档案式排版 */
+  .about-section { padding: 48px 24px !important; background: #ffffff !important; }
+  .about-grid { display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 10px 0 !important; }
+  .about-text h2 { font-size: 24px !important; line-height: 1.4 !important; padding-bottom: 16px !important; margin-bottom: 20px !important; border-bottom: 1px solid var(--gold-light) !important; }
+  .about-text p { font-size: 14px !important; line-height: 2.2 !important; color: var(--text-dark) !important; text-align: justify !important; margin-bottom: 16px !important; }
 
-  /* 📋 彻底干掉手机端死板的 table，重构成移动端专属的“高奢卡片流” */
-  .company-table { 
-    display: block !important; 
-    width: 100% !important; 
-    border-top: none !important; 
-    margin-top: 24px !important;
-  }
-  .company-table tbody, 
-  .company-table tr { 
-    display: block !important; 
-    width: 100% !important; 
-  }
-  .company-table tr {
-    background: #fcfcfc !important; /* 极为低调的微灰底色卡片 */
-    border: 1px solid #f2f2f0 !important; /* 细腻的轻边框 */
-    border-radius: 6px !important; /* 优雅的轻微圆角 */
-    padding: 20px 20px !important; /* 饱满的卡片内留白 */
-    margin-bottom: 16px !important; /* 卡片与卡片之间的呼吸间距 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important; /* 极其隐蔽的高级阴影 */
-  }
-  .company-table tr:last-child {
-    margin-bottom: 0 !important;
-  }
-  .company-table th { 
-    display: block !important; 
-    width: 100% !important; 
-    font-size: 11px !important; 
-    font-weight: 600 !important;
-    color: var(--gold) !important; /* 标题采用核心香槟金 */
-    letter-spacing: 0.1em !important;
-    text-transform: uppercase !important;
-    padding: 0 0 8px 0 !important; /* 腾出干净的内部间距 */
-    border: none !important;
-    text-align: left !important;
-  }
-  .company-table td { 
-    display: block !important; 
-    width: 100% !important; 
-    font-size: 14px !important; 
-    line-height: 1.6 !important;
-    color: var(--accent) !important; /* 内容使用富有质感的深黛色 */
-    font-weight: 400 !important;
-    padding: 0 !important; 
-    border: none !important;
-    text-align: left !important;
-  }
-  /* 特殊优化：让表格里的邮箱、电话等链接在手机端更显眼、更好触发 */
-  .company-table td a {
-    color: var(--accent) !important;
-    text-decoration: underline !important;
-    text-decoration-color: var(--gold-light) !important;
-  }
+  /* 📋 会社概要内页的档案卡流 */
+  .company-table { display: block !important; width: 100% !important; border-top: none !important; margin-top: 24px !important; }
+  .company-table tbody, .company-table tr { display: block !important; width: 100% !important; }
+  .company-table tr { background: #fcfcfc !important; border: 1px solid #f2f2f0 !important; border-radius: 6px !important; padding: 20px 20px !important; margin-bottom: 16px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important; }
+  .company-table tr:last-child { margin-bottom: 0 !important; }
+  .company-table th { display: block !important; width: 100% !important; font-size: 11px !important; font-weight: 600 !important; color: var(--gold) !important; letter-spacing: 0.1em !important; padding: 0 0 8px 0 !important; border: none !important; text-align: left !important; }
+  .company-table td { display: block !important; width: 100% !important; font-size: 14px !important; line-height: 1.6 !important; color: var(--accent) !important; font-weight: 400 !important; padding: 0 !important; border: none !important; text-align: left !important; }
+  .company-table td a { color: var(--accent) !important; text-decoration: underline !important; text-decoration-color: var(--gold-light) !important; }
 
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  /* ✉️ 内页：お問い合わせ——移动端极简高触感表单 */
+  .contact-section { padding: 48px 24px !important; background: #ffffff !important; }
+  .contact-grid { display: flex !important; flex-direction: column !important; gap: 48px !important; }
+  .contact-info h3 { font-size: 24px !important; line-height: 1.4 !important; margin-bottom: 16px !important; color: var(--accent) !important; }
+  .contact-info p { font-size: 13.5px !important; line-height: 2.0 !important; color: var(--text-mid) !important; margin-bottom: 28px !important; }
+  .contact-detail { gap: 12px !important; background: var(--off-white) !important; padding: 20px !important; border-radius: 6px !important; border: 1px solid #f2f2f0 !important; }
+  .contact-detail-item { padding-bottom: 10px !important; border-bottom: 1px solid var(--border) !important; }
+  .contact-detail-item:last-child { padding-bottom: 0 !important; border-bottom: none !important; }
+  .contact-detail-label { font-size: 10px !important; color: var(--gold) !important; min-width: 70px !important; }
+  .contact-detail-value { font-size: 13.5px !important; color: var(--text-dark) !important; }
+
+  .contact-form { gap: 20px !important; }
+  .form-group { gap: 6px !important; }
+  .form-label { font-size: 11px !important; color: var(--text-dark) !important; font-weight: 500 !important; letter-spacing: 0.05em !important; }
+  .form-input, .form-select, .form-textarea { font-size: 16px !important; padding: 16px 16px !important; background: #fcfcfc !important; border: 1px solid var(--border) !important; border-radius: 4px !important; transition: all 0.25s ease-in-out !important; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold) !important; background: #ffffff !important; box-shadow: 0 0 0 3px rgba(184, 168, 130, 0.12) !important; }
+  .contact-form .form-submit { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; padding: 18px 0 !important; font-size: 12px !important; font-weight: 600 !important; letter-spacing: 0.2em !important; background: var(--accent) !important; color: var(--white) !important; border-radius: 4px !important; box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important; margin-top: 8px !important; }
+
+  /* 其他基础移动端页面对齐 */
   .footer-top { grid-template-columns: 1fr; gap: 36px; padding-bottom: 36px; }
   .footer-brand .footer-tagline { margin-top: 12px; font-size: 16px; }
   .footer-col h4 { margin-bottom: 12px; }
@@ -663,7 +542,6 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .page-hero-inner { padding: 40px 24px 24px; }
   .products-full { padding: 50px 24px; }
   .product-grid-full { grid-template-columns: 1fr; gap: 32px; }
-  .contact-section { padding: 50px 24px; }
   .checkout-grid { grid-template-columns: 1fr; }
   .checkout-section { padding: 40px 20px; }
   .shop-inner { padding: 32px 20px 48px; }

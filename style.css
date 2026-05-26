@@ -12,7 +12,7 @@
   --gold: #b8a882;
   --gold-light: #d4c9aa;
   --nav-h: 80px;
-  /* 🛒 2026.05 扩展变量 */
+  /* 🛒 2026 商城扩展变量 */
   --hinoka-dark: #1a2530;
   --hinoka-gold: #c5a880;
   --hinoka-border: #e5e9ec;
@@ -28,10 +28,17 @@ body {
   background: var(--white);
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* 防止PC端横向出现滚动条 */
+  overflow-x: hidden;
 }
 
-/* ── HEADER (PC端自然滚动大牌格调) ──────────────── */
+/* 全局图片安全自适应 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── HEADER ────────────────────────────────────── */
 header {
   position: relative;
   height: var(--nav-h);
@@ -112,9 +119,9 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .nav-contact:hover { background: var(--gold) !important; }
 .nav-contact::after { display: none !important; }
 
-/* ── HERO ────────────────────────────────────── */
+/* ── HERO (首页横幅) ────────────────────────────── */
 .hero {
-  height: calc(100vh - var(--nav-h)); /* 🎯 修正PC端撑满屏幕高度的比例 */
+  height: calc(100vh - var(--nav-h));
   min-height: 600px;
   position: relative;
   display: flex;
@@ -184,8 +191,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .section-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-/* ── NEWS ── */
-.news-section { background: var(--white); }
+/* ── NEWS (新闻板块) ── */
 .news-list { display: flex; flex-direction: column; }
 .news-item { display: flex; align-items: baseline; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.2s; }
 .news-item:first-child { border-top: 1px solid var(--border); }
@@ -196,9 +202,9 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .news-arrow { font-size: 12px; color: var(--text-light); transition: transform 0.2s, color 0.2s; }
 .news-item:hover .news-arrow { transform: translateX(4px); color: var(--gold); }
 
-/* ── PRODUCTS GRID ── */
+/* ── PRODUCTS GRID (首页九宫格/产品卡片) ── */
 .products-section { background: var(--off-white); }
-.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; } /* 🎯 修正PC端卡片间距 */
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .product-card { position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--light); border-radius: 4px; }
 .product-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .product-card:hover img { transform: scale(1.05); }
@@ -210,7 +216,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .product-overlay-btn { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid var(--white); padding: 12px 28px; transition: background 0.2s; text-decoration: none; background: rgba(0,0,0,0.2); }
 .product-overlay-btn:hover { background: var(--white); color: var(--accent); }
 
-/* ── STATS ── */
+/* ── STATS (数据栏) ── */
 .stats-section { background: var(--white); padding: 80px 48px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
 .stat-item { background: var(--white); padding: 48px 40px; text-align: center; }
@@ -218,7 +224,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .stat-num span { font-size: 24px; color: var(--gold); }
 .stat-label { font-size: 11px; color: var(--text-light); letter-spacing: 0.15em; }
 
-/* ── COMPANY STRIP ── */
+/* ── COMPANY STRIP (首页下属大图通栏) ── */
 .company-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; width: 100%; }
 .company-strip-text { background: var(--accent); padding: 64px; display: flex; flex-direction: column; justify-content: center; }
 .company-strip-text .section-en { color: var(--white); }
@@ -230,7 +236,153 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .company-strip-img { position: relative; overflow: hidden; }
 .company-strip-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 
-/* ── FOOTER ── */
+/* ── 📝 ABOUT & CONTACT 独立页面高级品牌风格组件 ── */
+.brand-hero {
+  padding: 140px 48px 100px;
+  background: var(--off-white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.brand-hero-en {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.brand-hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px;
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+.brand-hero-subtitle {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  color: var(--text-mid);
+  letter-spacing: 0.05em;
+}
+
+.about-section {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 80px 48px !important;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-text h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 30px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.about-text p {
+  font-size: 14px;
+  line-height: 2.2;
+  color: var(--text-mid);
+  margin-bottom: 24px;
+}
+
+/* 会社概要数据表格 */
+.company-table {
+  width: 100%;
+  margin-top: 40px;
+  border-collapse: collapse;
+  border-top: 2px solid var(--accent);
+}
+.company-table th {
+  width: 25%;
+  padding: 24px 16px;
+  font-size: 13px;
+  text-align: left;
+  letter-spacing: 0.1em;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.company-table td {
+  padding: 24px 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-mid);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── 🛒 SHOPPING CART SYSTEM (乐天风高定购物车扩展) ── */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+.cart-overlay.open { opacity: 1; visibility: visible; }
+
+.cart-drawer {
+  position: fixed;
+  top: 0; right: -450px;
+  width: 100%; max-width: 450px; height: 100vh;
+  background: var(--white);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.08);
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cart-drawer.open { right: 0; }
+
+.cart-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--hinoka-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cart-header h3 { font-size: 16px; font-weight: 500; letter-spacing: 0.05em; color: var(--hinoka-dark); }
+.close-cart-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-light); }
+
+#cartItemsList { flex: 1; overflow-y: auto; padding: 24px 32px; }
+.cart-item { display: flex; gap: 16px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px dashed var(--hinoka-border); }
+.cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 2px; background: var(--hinoka-bg); }
+.cart-item-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.cart-item-title { font-size: 13px; font-weight: 400; color: var(--hinoka-dark); line-height: 1.4; }
+.cart-item-price { font-size: 14px; font-weight: 500; color: var(--hinoka-gold); margin-top: 4px; }
+
+.cart-drawer-footer { padding: 24px 32px; background: var(--hinoka-bg); border-top: 1px solid var(--hinoka-border); }
+.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.cart-total span:first-child { font-size: 14px; color: var(--text-mid); }
+.cart-total id("cartTotalAmount") { font-size: 20px; font-weight: 600; color: var(--hinoka-dark); }
+
+/* 右下角悬浮购物车徽章 */
+.floating-cart-badge {
+  position: fixed; bottom: 32px; right: 32px;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--accent); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15); cursor: pointer; z-index: 999;
+  transition: transform 0.2s, background 0.2s;
+}
+.floating-cart-badge:hover { transform: scale(1.05); background: var(--gold); }
+.cart-count-bubble {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--hinoka-gold); color: var(--white);
+  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
+}
+
+/* ── FOOTER ────────────────────────────────────── */
 footer { background: var(--accent); padding: 80px 48px 40px; }
 .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
 .footer-brand .logo-text { color: var(--white); }
@@ -250,10 +402,10 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 
 
 /* ==========================================================================
-   💻 电脑大屏幕端高级化重构（🎯 彻底解决PC端排版混乱错位）
+   💻 💻 电脑大屏幕端高级化约束布局（彻底阻断电脑端排版混乱错位）
    ========================================================================== */
 @media (min-width: 1024px) {
-  /* 🎯 核心解法：将所有主体内容区域最大宽度锁定 1200px 并且完美水平居中 */
+  /* 核心解法：将所有主体内容区域最大宽度锁定 1200px 并且完美水平居中 */
   .hero-content,
   .section,
   .stats-section,
@@ -265,13 +417,13 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     padding-right: 0 !important;
   }
 
-  /* 🎯 导航栏满屏延伸，但内部文字精准对齐 1200px 主轴线 */
+  /* 导航栏满屏延伸，但内部文字精准对齐 1200px 主轴线 */
   header {
     max-width: 100% !important;
     padding: 0 calc((100vw - 1200px) / 2) !important;
   }
 
-  /* 🎯 解决横幅板块在电脑端过大的问题，使其具有圆角和高级感 */
+  /* 解决横幅板块在电脑端过大的问题，使其具有圆角和高级感 */
   .company-strip {
     max-width: 1200px !important;
     margin: 60px auto !important;
@@ -280,7 +432,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   }
   .company-strip-text { padding: 80px 80px; }
 
-  /* 🎯 修正页脚在大屏电脑上的内边距 */
+  /* 修正页脚在大屏电脑上的内边距 */
   footer {
     padding-top: 80px !important;
     padding-bottom: 40px !important;
@@ -288,7 +440,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 }
 
 /* ==========================================================================
-   📱 MOBILE (移动端适配，保持之前完美的流式排版)
+   📱 📱 MOBILE (移动端自适应完美流式布局)
    ========================================================================== */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
@@ -337,203 +489,8 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .stat-item { padding: 32px 20px; }
   .stat-num { font-size: 36px; }
 
+  .about-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
+
   .footer-top { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-}
-/* ==========================================================================
-   🎯 PC 端强制视觉约束（解决所有页面错位问题）
-   ========================================================================== */
-@media (min-width: 1024px) {
-  /* 锁定所有大板块的最大宽度 */
-  .hero-content,
-  .section,
-  .stats-section,
-  .company-strip,
-  footer {
-    max-width: 1200px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  /* 让 Header 与主内容区保持一致的宽度基准 */
-  header {
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding-left: 48px !important;
-    padding-right: 48px !important;
-  }
-
-  /* 修复产品网格在大屏下的间距 */
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 32px !important;
-  }
-
-  /* 修正 stats 统计栏在大屏下的比例 */
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
-  }
-}
-
-/* 修正图片在任何分辨率下的自适应溢出问题 */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-/* ==========================================================================
-   ✨ 企业级官网高级化排版（针对PC大屏优化）
-   ========================================================================== */
-
-/* 1. 会社概要页面：极致的阅读体验 */
-.about-section {
-  max-width: 900px !important; /* 限制阅读宽度，避免字行过长导致疲劳 */
-  margin: 0 auto !important;
-  padding: 120px 48px !important;
-}
-
-.about-text h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 42px; /* 标题更从容 */
-  font-weight: 300;
-  color: var(--accent);
-  margin-bottom: 40px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 20px;
-}
-
-.company-table {
-  margin-top: 60px;
-  border-top: 2px solid var(--accent); /* 顶部深色线，体现高级稳重 */
-}
-
-.company-table th {
-  padding: 24px 0;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: var(--text-dark);
-  border-bottom: 1px solid var(--border);
-}
-
-.company-table td {
-  padding: 24px 20px;
-  color: var(--text-mid);
-  border-bottom: 1px solid var(--border);
-}
-
-/* 2. 产品页面：网格的对称与悬浮效果 */
-.products-full {
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-  padding: 100px 48px !important;
-}
-
-.product-grid-full {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 保持三列，非常工整 */
-  gap: 60px 40px; /* 大间距带来高级感 */
-}
-
-.product-card-full {
-  background: transparent !important; /* 去掉底色，突出产品本身 */
-  box-shadow: none !important;
-  transition: transform 0.4s ease;
-}
-
-.product-card-full img {
-  border-radius: 2px;
-  filter: grayscale(10%); /* 微微的灰度感，更显质感 */
-  transition: filter 0.4s;
-}
-
-.product-card-full:hover img {
-  filter: grayscale(0%);
-  transform: translateY(-8px);
-}
-
-.product-card-body {
-  padding: 24px 0 !important;
-}
-
-.product-card-body .product-card-ja {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-.product-card-desc {
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--text-mid);
-  opacity: 0.8;
-}
-
-/* 3. 增强 PC 端的整体呼吸感 */
-@media (min-width: 1024px) {
-  /* 统一大标题的呼吸感 */
-  .section-header {
-    margin-bottom: 80px !important;
-  }
-  
-  .section-en {
-    font-size: 56px !important; /* 大标题更具视觉冲击力 */
-  }
-}
-/* 页眉区域 - 高级留白设计 */
-.page-header {
-  padding: 120px 48px 80px; /* 上下留白，透气感 */
-  text-align: center;
-  background: var(--off-white);
-  border-bottom: 1px solid var(--border);
-}
-
-.breadcrumb {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--text-light);
-  margin-bottom: 24px;
-}
-
-.page-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 48px; /* 字体适度大，体现稳重 */
-  font-weight: 300;
-  color: var(--accent);
-  margin-bottom: 16px;
-}
-
-.page-subtitle {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.4em; /* 字间距拉开，高级感的秘诀 */
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
-/* 会社概要正文的网格布局修正 */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  max-width: 1000px; /* 锁定核心阅读宽度 */
-  margin: 0 auto;
-  padding: 100px 48px;
-  align-items: center;
-}
-
-.about-text h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  color: var(--accent);
-  margin-bottom: 30px;
-  line-height: 1.4;
-}
-
-.about-text p {
-  font-size: 14px;
-  line-height: 2.2; /* 增大行高，文字看起来不那么挤 */
-  color: var(--text-mid);
-  margin-bottom: 24px;
 }

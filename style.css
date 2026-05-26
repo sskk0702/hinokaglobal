@@ -29,7 +29,7 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 
-/* ── 🔓 通用安全容器（剔除强制死框，允许自适应） ── */
+/* ── 通用安全容器（自応型レイアウト） ── */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -39,11 +39,11 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ==========================================================================
-   📱 📱 【完美手机端】基础布局（强制优先，确保手机端绝对不乱）
+   📱 📱 【スマートフォン端】基礎レイアウト（最優先定義）
    ========================================================================== */
 header {
   position: relative;
-  height: 64px; /* 手机端导航栏矮一点更精致 */
+  height: 64px; /* スマホ端はコンパクトに */
   background: rgba(255,255,255,0.96);
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -82,9 +82,9 @@ header {
   white-space: nowrap;
 }
 .main-nav a.active { color: var(--hinoka-gold); font-weight: 700; }
-.nav-contact { display: none; } /* 手机端隐藏多余的联系按钮 */
+.nav-contact { display: none; } /* スマホ端は非表示 */
 
-/* 手机端首屏区域 */
+/* スマホ端ファーストビュー */
 .hero {
   position: relative;
   background: var(--off-white);
@@ -97,14 +97,29 @@ header {
 .hero p { font-size: 13px; line-height: 1.8; color: var(--text-mid); margin-bottom: 24px; }
 .hero-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 4px; }
 
-/* 手机端 Section 通用基础间距（紧凑舒适） */
+/* スマホ端 下層ページ共通ヒーロー */
+.page-hero {
+  background: var(--off-white);
+  padding: 40px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.page-hero-inner { max-width: 1200px; margin: 0 auto; }
+.page-hero-en { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--accent); opacity: 0.15; line-height: 1; margin-bottom: -10px; }
+.page-hero-content { position: relative; z-index: 2; }
+.breadcrumb { font-size: 11px; color: var(--text-light); margin-bottom: 8px; }
+.breadcrumb a { color: var(--text-mid); text-decoration: none; margin-right: 4px; }
+.breadcrumb span { margin-right: 4px; }
+.page-title { font-size: 24px; font-weight: 400; color: var(--accent); margin-bottom: 4px; }
+.page-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* スマホ端 セクション共通定義 */
 .section { padding: 40px 16px; width: 100%; }
 .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
 .section-en { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--accent); }
 .section-ja { font-size: 11px; color: var(--text-light); }
-.section-line { display: none; } /* 手机端拿掉多余的横线线防止错位 */
+.section-line { display: none; } /* スマホ端は非表示 */
 
-/* 手机端新闻列表 */
+/* スマホ端ニュース一覧 */
 .news-list { display: flex; flex-direction: column; }
 .news-item { display: flex; flex-direction: column; padding: 14px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text-dark); position: relative; }
 .news-date { font-size: 12px; color: var(--text-light); }
@@ -112,7 +127,7 @@ header {
 .news-title { font-size: 13px; color: var(--text-mid); line-height: 1.4; padding-right: 20px; }
 .news-arrow { position: absolute; right: 0; top: 50% !important; transform: translateY(-50%); color: var(--gold); }
 
-/* 手机端商品网格 */
+/* スマホ端商品グリッド（トップページ用） */
 .product-grid { display: flex; flex-direction: column; gap: 16px; }
 .product-card { position: relative; aspect-ratio: 3/4; width: 100%; overflow: hidden; }
 .product-card img { width: 100%; height: 100%; object-fit: cover; }
@@ -122,7 +137,7 @@ header {
 .product-overlay { position: absolute; inset: 0; background: rgba(26,37,48,0.3); display: flex; align-items: center; justify-content: center; }
 .product-overlay-btn { color: var(--white); text-decoration: none; border: 1px solid var(--white); padding: 8px 20px; font-size: 11px; }
 
-/* 手机端数据看板 */
+/* スマホ端データ看板 */
 .stats-section { padding: 32px 16px; background: var(--off-white); }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .stat-item { background: var(--white); padding: 16px; text-align: center; }
@@ -130,7 +145,7 @@ header {
 .stat-num span { font-size: 13px; }
 .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
 
-/* 手机端 会社概要/关于我们 */
+/* スマホ端会社概要 */
 .about-section { padding: 40px 16px; }
 .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--accent); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
 .about-text p { font-size: 13px; line-height: 2; color: var(--text-mid); margin-bottom: 16px; }
@@ -145,22 +160,26 @@ header {
 .company-table th { font-size: 13px; font-weight: 500; text-align: left; padding: 12px 4px; width: 90px; vertical-align: top; }
 .company-table td { font-size: 13px; color: var(--text-mid); padding: 12px 4px; line-height: 1.6; }
 
-/* 手机端页脚 */
+/* スマホ端フッター */
 footer { background: var(--accent); padding: 40px 16px 24px; }
-.footer-top { display: flex; flex-direction: column; gap: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px; margin-bottom: 24px; }
+.footer-top { display: grid; grid-template-columns: 1fr; gap: 32px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px; margin-bottom: 24px; }
 .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--gold-light); font-style: italic; margin-top: 8px; }
 .footer-col h4 { font-size: 9px; color: var(--gold-light); letter-spacing: 0.2em; margin-bottom: 12px; text-transform: uppercase; }
 .footer-col a { display: block; font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 8px; }
 .footer-bottom { text-align: center; }
 .footer-copy { font-size: 9px; color: rgba(255,255,255,0.3); }
 
+/* フェードイン効果の基本スタイル */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
 
 /* ==========================================================================
-   💻 💻 【完美 PC 端】高级定制化响应（严格封装，绝不污染手机端）
+   💻 💻 【PC端】レスポンシブ・高級カスタマイズ（デスクトップ最適化）
    ========================================================================== */
 @media (min-width: 769px) {
   
-  /* 🛠️【核心修复】PC端导航栏采用固定置顶 */
+  /* 固定ナビゲーションヘッダー */
   header {
     position: fixed;
     top: 0;
@@ -173,17 +192,22 @@ footer { background: var(--accent); padding: 40px 16px 24px; }
     box-shadow: 0 1px 0px var(--border);
   }
 
-  /* 🛠️【核心修复】既然导航固定了，给独立页面的第一个板块挪出紧凑且刚好的顶部空隙 */
+  /* ヘッダー固定に伴うコンテンツのトップパディング確保 */
   body { padding-top: var(--nav-h); }
 
-  /* 🛠️【精准紧凑】大幅缩减 取玩商品 / 会社概要 等大页面头部与导航栏之间的空白距离 */
+  /* 固定ヘッダーとの余白調整（大ページの上部余白を最適化） */
   .news-section, 
   .products-section, 
   .about-section,
   .section:first-of-type {
-    padding-top: 36px !important;  /* 从原先的100px直接降到36px，位置瞬间提上去了 */
+    padding-top: 36px !important;  
     padding-bottom: 60px !important;
   }
+
+  /* 下層ページ共通ヒーローのPC最適化 */
+  .page-hero { padding: 60px 0; }
+  .page-hero-en { font-size: 64px; margin-bottom: -16px; }
+  .page-title { font-size: 32px; }
 
   .logo-text { font-size: 22px; }
   .logo-text span { font-size: 9px; margin-top: 2px; }
@@ -198,20 +222,20 @@ footer { background: var(--accent); padding: 40px 16px 24px; }
   .nav-contact { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); background: var(--accent); padding: 10px 22px; border-radius: 2px; text-decoration: none; transition: background 0.2s; }
   .nav-contact:hover { background: var(--gold); }
 
-  /* PC 端首页大图高度合理控制 */
-  .hero { height: calc(82vh - var(--nav-h)); min-height: 520px; padding: 0; }
-  .hero-content { padding: 0 48px; max-width: 720px; margin-top: -10px; }
+  /* PC端メインビジュアル */
+  .hero { height: calc(82vh - var(--nav-h)); min-height: 520px; padding: 0; display: flex; align-items: center; }
+  .hero-content { padding: 0 48px; max-width: 720px; margin-top: -10px; margin-left: calc((100vw - 1200px) / 2); }
   .hero h1 { font-size: 56px; margin-bottom: 24px; }
   .hero p { font-size: 14px; margin-bottom: 40px; }
 
-  /* PC 端通用 Section 大框架 */
+  /* PC端メインセクション */
   .section { padding: 60px 0; max-width: 1200px; margin: 0 auto; }
   .section-header { gap: 24px; margin-bottom: 24px; }
   .section-en { font-size: 44px; }
   .section-ja { font-size: 12px; }
   .section-line { display: block; flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-  /* PC 端新闻 */
+  /* PC端ニュース一覧 */
   .news-list { max-width: 1000px; margin: 0 auto; }
   .news-item { flex-direction: row; align-items: center; padding: 20px 16px; }
   .news-item:hover { background: var(--off-white); }
@@ -221,7 +245,7 @@ footer { background: var(--accent); padding: 40px 16px 24px; }
   .news-arrow { margin-left: 16px; transition: transform 0.2s; }
   .news-item:hover .news-arrow { transform: translateX(6px); }
 
-  /* PC 端商品（优雅三列） */
+  /* PC端商品グリッド（トップページ3列） */
   .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .product-card img { transition: transform 0.6s ease; }
   .product-card:hover img { transform: scale(1.05); }
@@ -231,26 +255,26 @@ footer { background: var(--accent); padding: 40px 16px 24px; }
   .product-card:hover .product-overlay { opacity: 1; }
   .product-overlay-btn { padding: 12px 28px; font-size: 12px; }
 
-  /* PC 端数据 */
+  /* PC端データ看板 */
   .stats-section { padding: 60px 0; width: 100%; }
-  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0; max-width: 1200px; margin: 0 auto; }
   .stat-item { padding: 32px; }
   .stat-num { font-size: 44px; }
 
-  /* PC 端公司概要（横带分栏）与精细大图限高 */
+  /* PC端会社概要 */
   .company-strip { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: center; padding: 40px 0; }
   .company-strip-text p { font-size: 14px; line-height: 2.2; margin: 20px 0; text-align: justify; }
   .btn-outline:hover { background: var(--accent); color: var(--white); transition: all 0.3s; }
   .company-strip-img img { max-height: 380px; object-fit: cover; box-shadow: 0 12px 40px rgba(0,0,0,0.05); }
 
-  /* 独立关于我们页面内页 */
+  /* 独立固定ページ（会社概要等内ページ） */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
   .company-table { margin-top: 40px; }
   .company-table th { padding: 24px 16px; width: 200px; }
   .company-table td { padding: 24px 20px; }
 
-  /* PC 页脚 */
+  /* PC端フッター */
   footer { padding: 60px 0 40px; max-width: 100% !important; }
-  .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr; padding-bottom: 40px; max-width: 1200px; margin: 0 auto 32px; }
-  .footer-bottom { display: flex; flex-direction: row; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+  .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; max-width: 1200px; margin: 0 auto 32px; }
+  .footer-bottom { display: flex; flex-direction: row; justify-content: space-between; max-width: 1200px; margin: 0 auto; align-items: center; }
 }

@@ -294,3 +294,144 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
     margin: 40px auto 0; /* 中央寄せ */
   }
 }
+/* ==========================================================================
+    💻 💻 PC 大型屏幕端【彻底重构排版】规范 —— 让电脑端产生质的飞跃
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* 导航与大框架居中线对齐 */
+  header { 
+    position: fixed; /* PC端固定置顶，更高级 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 calc((100vw - 1200px) / 2) !important; 
+    box-sizing: border-box;
+  }
+  body {
+    padding-top: var(--nav-h); /* 防止固定导航遮挡内容 */
+  }
+
+  footer { padding: 80px calc((100vw - 1200px) / 2) 40px !important; }
+  .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+
+  /* 💡 PC版 共通コンテナ（1200px幅で綺麗に中央に収める） */
+  .container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ── 1. HOME：Hero 区域調整 ── */
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── 2. HOME：News 区域調整 ── */
+  .news-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 24px;
+  }
+
+  /* ── 3. HOME：取扱商品（Products）网格 ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important; /* PC端3列横排 */
+    gap: 32px !important;
+    margin-top: 40px;
+  }
+  .product-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4; /* 统一卡片比例 */
+  }
+  .product-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .product-card:hover img {
+    transform: scale(1.05); /* 悬浮时微放大图片，高级感 */
+  }
+
+  /* ── 4. HOME：数字面板（Stats） ── */
+  .stats-section {
+    max-width: 100%;
+    background: var(--off-white);
+    padding: 80px 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) !important; /* PC端4列横排 */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    gap: 40px;
+  }
+
+  /* ── 5. HOME：会社紹介ストリップ（Company Strip） ── */
+  .company-strip {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important; /* 左右分栏 */
+    gap: 80px !important;
+    align-items: center;
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+  }
+  .company-strip-text {
+    padding-right: 20px;
+  }
+  .company-strip-text p {
+    font-size: 14px;
+    line-height: 2.2;
+    margin: 32px 0;
+    text-align: justify;
+  }
+  .company-strip-img img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+  }
+
+  /* ── 6. ABOUT：会社概要ページ ── */
+  .about-section { 
+    max-width: 100%; 
+    padding: 100px 0; 
+  }
+  .about-grid { 
+    grid-template-columns: 1.1fr 0.9fr !important; 
+    gap: 80px !important; 
+    align-items: center; 
+    margin-bottom: 100px;
+  }
+  .about-text h2 { font-size: 40px; line-height: 1.5; }
+  .company-overview-wrapper { margin-top: 100px; }
+  .company-table { max-width: 900px; margin: 40px auto 0; }
+  .company-table th { width: 240px; padding: 28px 32px; font-size: 15px; background: var(--off-white); }
+  .company-table td { padding: 28px 40px; font-size: 15px; }
+
+  /* ── 7. ABOUT：経営理念（Philosophy） ── */
+  /* about.html内のstats-gridが上書きされないように指定 */
+  .about-section .stats-grid {
+    grid-template-columns: repeat(3, 1fr) !important; /* 3列横排 */
+    gap: 32px !important;
+  }
+  .stat-item { transition: transform 0.3s, box-shadow 0.3s; }
+  .stat-item:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+
+  /* ── 8. CONTACT：お問い合わせ ── */
+  .contact-section { max-width: 100%; padding: 100px 0; }
+  .contact-grid { grid-template-columns: 1fr 1.3fr !important; gap: 100px !important; align-items: start; }
+  .contact-info { position: sticky; top: 140px; }
+  .contact-info h3 { font-size: 36px; }
+  .contact-form { padding: 56px; background: var(--off-white); border-radius: 4px; }
+}

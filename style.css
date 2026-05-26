@@ -1900,3 +1900,63 @@ footer {
         white-space: nowrap !important;
     }
 }
+/* ==========================================================================
+   📱 移动端自适应完美舒展布局（彻底解决竖版排版问题）
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* 1. 优化导航栏整体高度和内边距，两边留出刚好合适的间距 */
+    #header {
+        padding: 0 16px !important;
+        height: 65px !important;
+        display: flex !important;
+        flex-direction: row !important; /* 确保整体绝不换行 */
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    /* 2. 左侧 Logo 区域：放宽最大限制，允许横向伸展 */
+    #header .logo-text {
+        font-size: 16px !important; 
+        font-weight: bold !important;
+        display: block !important; /* 恢复为单行块级 */
+        max-width: 40% !important; 
+        margin: 0 !important;
+        white-space: nowrap !important; /* 强制 HINOKA 绝对不竖排 */
+    }
+
+    /* 🎯 核心大招：在手机端直接隐藏掉冗长的小字副标题，彻底腾出横向空间 */
+    #header .logo-text span {
+        display: none !important; /* 手机端不显示这一长串英文和株式会社 */
+    }
+
+    /* 3. 右侧导航菜单：给予 60% 的充足黄金空间，让文字彻底横向躺平 */
+    #header .main-nav {
+        display: flex !important;
+        flex-direction: row !important; /* 强行确保菜单绝对是横着排 */
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 12px !important; /* 每个菜单之间的舒服间距 */
+        max-width: 60% !important;
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 4. 手机端三个普通菜单：字号适中，强制不换行 */
+    #header .main-nav a {
+        font-size: 13px !important; /* 恢复到清晰的 13 像素 */
+        padding: 4px 0 !important;
+        white-space: nowrap !important; /* 核心：强制文字在一行内横向显示，绝不竖排 */
+        display: inline-block !important;
+    }
+
+    /* 5. “お問い合わせ” 黑色按钮：保持扁平、精致的横向胶囊形状 */
+    #header .main-nav a.nav-contact {
+        padding: 6px 12px !important; /* 恰到好处的按钮包裹感 */
+        font-size: 12px !important;
+        background-color: #333333 !important;
+        color: #ffffff !important;
+        border-radius: 4px !important;
+        white-space: nowrap !important; /* 核心：确保お問い合わせ五个字绝对横着排 */
+        display: inline-block !important;
+    }
+}

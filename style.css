@@ -295,27 +295,42 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   }
 }
 /* ==========================================================================
-    💻 💻 PC 大型屏幕端【彻底重构排版】规范 —— 让电脑端产生质的飞跃
+    💻 💻 PC 大型屏幕端【彻底重构排版】规范 —— 安全稳固版
    ========================================================================== */
 @media (min-width: 1024px) {
-  /* 导航与大框架居中线对齐 */
+  /* 导航栏置顶并居中线对齐 */
   header { 
-    position: fixed; /* PC端固定置顶，更高级 */
-    top: 0;
-    left: 0;
-    width: 100%;
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
     padding: 0 calc((100vw - 1200px) / 2) !important; 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
+    background: rgba(255, 255, 255, 0.95) !important; /* 确保PC端背景可见 */
+    z-index: 9999 !important;
   }
+  
+  /* 加上安全的顶部内边距，防止固定导航栏遮挡大图 */
   body {
-    padding-top: var(--nav-h); /* 防止固定导航遮挡内容 */
+    padding-top: 80px !important; 
   }
 
-  footer { padding: 80px calc((100vw - 1200px) / 2) 40px !important; }
-  .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
-  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+  /* 页脚在大屏下的排版 */
+  footer { 
+    padding: 80px calc((100vw - 1200px) / 2) 40px !important; 
+  }
+  .footer-top { 
+    display: grid !important;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr !important; 
+  }
+  .footer-bottom { 
+    display: flex !important;
+    flex-direction: row !important; 
+    justify-content: space-between !important; 
+    text-align: left !important; 
+  }
 
-  /* 💡 PC版 共通コンテナ（1200px幅で綺麗に中央に収める） */
+  /* 💡 共通安全容器：将混乱的页面牢牢锁在 1200px 优雅范围内 */
   .container {
     max-width: 1200px !important;
     margin: 0 auto !important;
@@ -325,113 +340,110 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
     box-sizing: border-box !important;
   }
 
-  /* ── 1. HOME：Hero 区域調整 ── */
+  /* ── 1. HOME：Hero 区域宽度限制 ── */
   .hero-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 24px !important;
   }
 
-  /* ── 2. HOME：News 区域調整 ── */
+  /* ── 2. HOME：News 区域居中 ── */
   .news-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 100px 24px;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 100px 24px !important;
   }
 
-  /* ── 3. HOME：取扱商品（Products）网格 ── */
+  /* ── 3. HOME：🔥彻底解决“取扱商品”混乱 —— 强制3列横排 ── */
   .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) !important; /* PC端3列横排 */
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* 强制电脑端铺满3列 */
     gap: 32px !important;
-    margin-top: 40px;
+    margin-top: 40px !important;
+    width: 100% !important;
   }
   .product-card {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 3/4; /* 统一卡片比例 */
+    position: relative !important;
+    overflow: hidden !important;
+    aspect-ratio: 3/4 !important; /* 让三张商品图高宽比完全整齐一致 */
   }
   .product-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* 保证图片不变形 */
+    transition: transform 0.6s ease !important;
   }
   .product-card:hover img {
-    transform: scale(1.05); /* 悬浮时微放大图片，高级感 */
+    transform: scale(1.05) !important; /* 鼠标悬浮高级微动效果 */
   }
 
-  /* ── 4. HOME：数字面板（Stats） ── */
+  /* ── 4. HOME：数据面板 ── */
   .stats-section {
-    max-width: 100%;
-    background: var(--off-white);
-    padding: 80px 0;
+    max-width: 100% !important;
+    background: #fcfcf9 !important; /* 回退安全色 */
+    padding: 80px 0 !important;
   }
   .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr) !important; /* PC端4列横排 */
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-    gap: 40px;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important; /* 4列横排 */
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 24px !important;
+    gap: 40px !important;
   }
 
-  /* ── 5. HOME：会社紹介ストリップ（Company Strip） ── */
+  /* ── 5. HOME：公司简介横带 ── */
   .company-strip {
     display: grid !important;
-    grid-template-columns: 1fr 1fr !important; /* 左右分栏 */
+    grid-template-columns: 1fr 1fr !important; /* 左文字右图片 */
     gap: 80px !important;
-    align-items: center;
+    align-items: center !important;
     padding-top: 100px !important;
     padding-bottom: 100px !important;
   }
   .company-strip-text {
-    padding-right: 20px;
+    padding-right: 20px !important;
   }
   .company-strip-text p {
-    font-size: 14px;
-    line-height: 2.2;
-    margin: 32px 0;
-    text-align: justify;
+    font-size: 14px !important;
+    line-height: 2.2 !important;
+    margin: 32px 0 !important;
+    text-align: justify !important;
   }
   .company-strip-img img {
-    width: 100%;
-    aspect-ratio: 16/10;
-    object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+    width: 100% !important;
+    aspect-ratio: 16/10 !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
   }
 
-  /* ── 6. ABOUT：会社概要ページ ── */
+  /* ── 6. ABOUT：关于我们页面 ── */
   .about-section { 
-    max-width: 100%; 
-    padding: 100px 0; 
+    max-width: 100% !important; 
+    padding: 100px 0 !important; 
   }
   .about-grid { 
     grid-template-columns: 1.1fr 0.9fr !important; 
     gap: 80px !important; 
-    align-items: center; 
-    margin-bottom: 100px;
+    align-items: center !important; 
+    margin-bottom: 100px !important;
   }
-  .about-text h2 { font-size: 40px; line-height: 1.5; }
-  .company-overview-wrapper { margin-top: 100px; }
-  .company-table { max-width: 900px; margin: 40px auto 0; }
-  .company-table th { width: 240px; padding: 28px 32px; font-size: 15px; background: var(--off-white); }
-  .company-table td { padding: 28px 40px; font-size: 15px; }
+  .about-text h2 { font-size: 40px !important; line-height: 1.5 !important; }
+  .company-overview-wrapper { margin-top: 100px !important; }
+  .company-table { max-width: 900px !important; margin: 40px auto 0 !important; }
+  .company-table th { width: 240px !important; padding: 28px 32px !important; font-size: 15px !important; background: #fcfcf9 !important; }
+  .company-table td { padding: 28px 40px !important; font-size: 15px !important; }
 
-  /* ── 7. ABOUT：経営理念（Philosophy） ── */
-  /* about.html内のstats-gridが上書きされないように指定 */
+  /* ── 7. ABOUT：经营理念 ── */
   .about-section .stats-grid {
-    grid-template-columns: repeat(3, 1fr) !important; /* 3列横排 */
+    grid-template-columns: repeat(3, 1fr) !important; /* 理念为3列 */
     gap: 32px !important;
   }
-  .stat-item { transition: transform 0.3s, box-shadow 0.3s; }
-  .stat-item:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
 
-  /* ── 8. CONTACT：お問い合わせ ── */
-  .contact-section { max-width: 100%; padding: 100px 0; }
-  .contact-grid { grid-template-columns: 1fr 1.3fr !important; gap: 100px !important; align-items: start; }
-  .contact-info { position: sticky; top: 140px; }
-  .contact-info h3 { font-size: 36px; }
-  .contact-form { padding: 56px; background: var(--off-white); border-radius: 4px; }
+  /* ── 8. CONTACT：联系我们 ── */
+  .contact-section { max-width: 100% !important; padding: 100px 0 !important; }
+  .contact-grid { grid-template-columns: 1fr 1.3fr !important; gap: 100px !important; align-items: start !important; }
+  .contact-info { position: sticky !important; top: 140px !important; }
+  .contact-info h3 { font-size: 36px !important; }
+  .contact-form { padding: 56px !important; background: #fcfcf9 !important; border-radius: 4px !important; }
 }

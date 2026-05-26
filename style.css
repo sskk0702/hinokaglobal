@@ -408,7 +408,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .products-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ── 📱 MOBILE (彻底检测重构手机端美观度) ──────────────────────────────────── */
+/* ── 📱 MOBILE (彻底重构手机端美观度与丝滑体验) ──────────────────────────────────── */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
   
@@ -441,22 +441,51 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .news-item { gap: 16px; flex-direction: column; padding: 16px 0; }
   .news-date { min-width: auto; }
 
-  /* 📦 首页商品卡片手机版防丢、美化逻辑 */
-  .product-grid { display: flex !important; flex-direction: column !important; gap: 24px !important; }
-  .product-card { position: relative !important; width: 100% !important; aspect-ratio: 3/4 !important; overflow: hidden !important; }
-  .product-card img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  /* 📦 首页商品栏：手机端超丝滑磁吸横向滑轴 */
+  .product-grid { 
+    display: flex !important; 
+    flex-direction: row !important; 
+    gap: 16px !important; 
+    overflow-x: auto !important; 
+    overflow-y: hidden !important;
+    padding: 4px 24px 24px 24px !important; 
+    margin: 0 -24px !important; 
+    -webkit-overflow-scrolling: touch !important; 
+    scroll-snap-type: x mandatory !important; 
+    scrollbar-width: none !important; 
+  }
   
-  /* 强制把文字标签定在渐变层最上方，给足对比度，永不丢失 */
+  .product-grid::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .product-card { 
+    position: relative !important; 
+    flex: 0 0 78% !important; /* 露出下一张卡片的边缘，完美引导侧滑 */
+    aspect-ratio: 3/4 !important; 
+    overflow: hidden !important;
+    border-radius: 4px !important;
+    scroll-snap-align: start !important; 
+    box-shadow: 0 8px 24px rgba(26, 26, 24, 0.06) !important; 
+  }
+  
+  .product-card img { 
+    width: 100% !important; 
+    height: 100% !important; 
+    object-fit: cover !important; 
+  }
+  
+  /* 强制锁定白字与深色遮罩图层，手机滑动时文字永不丢失 */
   .product-card-label { 
     position: absolute !important; 
     bottom: 0 !important; left: 0 !important; right: 0 !important; 
-    padding: 40px 20px 20px !important; 
+    padding: 48px 20px 24px !important; 
     background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important; 
     z-index: 5 !important;
   }
-  .product-card-en { color: var(--gold-light) !important; font-size: 10px !important; }
-  .product-card-ja { color: var(--white) !important; font-size: 15px !important; font-weight: 400 !important; }
-  .product-overlay { display: none !important; } /* 移动端取消PC悬浮遮罩 */
+  .product-card-en { color: var(--gold-light) !important; font-size: 10px !important; display: block !important; }
+  .product-card-ja { color: var(--white) !important; font-size: 16px !important; font-weight: 400 !important; display: block !important; }
+  .product-overlay { display: none !important; } 
 
   .product-grid-full { grid-template-columns: 1fr; }
   .company-strip { grid-template-columns: 1fr; }
@@ -464,7 +493,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .company-strip-img img { position: relative; height: 100%; }
   .company-strip-text { padding: 40px 24px; }
 
-  /* 📊 【重雕】手机版数据看板——告别纯数字介绍 */
+  /* 📊 手机版数据看板——高级轻奢卡片阵列 */
   .stats-section { padding: 50px 16px !important; background: var(--off-white) !important; }
   .stats-grid { 
     display: grid !important; 
@@ -491,18 +520,18 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .stat-num span { font-size: 16px !important; margin-left: 2px !important; font-weight: 400 !important; }
   .stat-label { font-size: 10px !important; color: var(--text-light) !important; letter-spacing: 0.05em !important; }
 
-  /* 🏢 【重雕】手机版会社概要——呈现高级杂志感排版 */
+  /* 🏢 手机版会社概要——优雅杂志感图文排版 */
   .about-section { padding: 60px 24px; }
   .about-grid { gap: 32px; padding: 30px 0; }
   .about-text h2 { font-size: 26px !important; padding-bottom: 12px !important; margin-bottom: 20px !important; color: var(--accent) !important; }
   .about-text p { font-size: 13.5px !important; line-height: 2.0 !important; color: var(--text-mid) !important; text-align: justify !important; }
   
-  /* 优化概要表格（Table）在手机上的局促感 */
+  /* 解除表格水平挤压，改为流式垂直上下排版 */
   .company-table { margin-top: 30px !important; border-top: 1px solid var(--accent) !important; }
   .company-table th { 
     font-size: 11px !important; 
     padding: 16px 0 4px 0 !important; 
-    display: block !important; /* 调整为块级，防止文字挤压 */
+    display: block !important; 
     width: 100% !important; 
     color: var(--gold) !important;
   }

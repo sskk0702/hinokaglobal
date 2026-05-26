@@ -12,10 +12,7 @@
   --gold: #b8a882;
   --gold-light: #d4c9aa;
   --nav-h: 80px;
-  --hinoka-dark: #1a2530;
   --hinoka-gold: #c5a880;
-  --hinoka-border: #e5e9ec;
-  --hinoka-bg: #f8fafb;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,6 +28,16 @@ body {
 }
 
 img { max-width: 100%; height: auto; display: block; }
+
+/* ── 通用全屏安全容器锁（防止PC端无限拉伸撑满屏幕） ── */
+.container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
 
 /* ── HEADER ── */
 header {
@@ -99,12 +106,12 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 }
 .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #f8f7f5 0%, #ede9e2 50%, #e6dfd5 100%); }
 .hero-pattern { position: absolute; inset: 0; opacity: 0.04; background-image: repeating-linear-gradient(45deg, var(--accent) 0, var(--accent) 1px, transparent 0, transparent 50%); background-size: 20px 20px; }
-.hero-content { position: relative; z-index: 1; padding: 0 48px; max-width: 720px; width: 100%; animation: fadeUp 1s ease both; }
+.hero-content { position: relative; z-index: 1; padding: 0 48px; max-width: 720px; width: 100%; }
 .hero-eyebrow {
   font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: flex; align-items: center; gap: 16px;
 }
 .hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
-.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5vw, 72px); font-weight: 300; line-height: 1.2; color: var(--accent); margin-bottom: 24px; letter-spacing: -0.01em; }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; line-height: 1.3; color: var(--accent); margin-bottom: 24px; letter-spacing: 0.05em; }
 .hero h1 em { font-style: italic; color: var(--gold); }
 .hero p { font-size: 14px; line-height: 2; color: var(--text-mid); max-width: 480px; margin-bottom: 40px; letter-spacing: 0.02em; }
 .hero-cta {
@@ -112,238 +119,211 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 }
 .hero-cta:hover { gap: 20px; color: var(--gold); }
 .hero-cta::after { content: '→'; font-size: 14px; }
+.hero-scroll { position: absolute; bottom: 40px; left: 48px; font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); display: flex; align-items: center; gap: 12px; }
+.scroll-line { width: 1px; height: 40px; background: var(--border); position: relative; overflow: hidden; }
 
 /* ── SECTIONS 通用基础 ── */
 .section { padding: 100px 48px; width: 100%; box-sizing: border-box; }
-.section-sm { padding: 60px 48px; }
-.section-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 64px; }
+.section-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 48px; }
 .section-en { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
 .section-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-/* ── PAGE HERO (子网页精美头) ── */
-.page-hero { padding-top: var(--nav-h); background: var(--off-white); border-bottom: 1px solid var(--border); overflow: hidden; }
-.page-hero-inner { padding: 90px 48px 70px; position: relative; max-width: 1200px; margin: 0 auto; width: 100%; }
-.page-hero-en { font-family: 'Cormorant Garamond', serif; font-size: 120px; font-weight: 300; color: var(--accent); line-height: 1; opacity: 0.04; position: absolute; bottom: -10px; left: 40px; pointer-events: none; letter-spacing: 0.05em; text-transform: uppercase; font-style: italic; }
-.page-hero-content { position: relative; z-index: 1; }
-.breadcrumb { display: flex; align-items: center; gap: 8px; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); margin-bottom: 20px; }
-.breadcrumb a { color: var(--text-light); text-decoration: none; transition: color 0.2s; }
-.breadcrumb a:hover { color: var(--gold); }
-.breadcrumb span { color: var(--border); }
-.page-title { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
-.page-subtitle { font-size: 11px; color: var(--gold); font-family: 'Montserrat', sans-serif; letter-spacing: 0.25em; text-transform: uppercase; margin-top: 10px; }
-
-/* ── ABOUT PAGE (会社概要基础样式) ── */
-.about-section { padding: 90px 48px; background: var(--white); width: 100%; box-sizing: border-box; }
+/* ── ABOUT PAGE 会社概要基础表格 ── */
+.about-section { padding: 90px 48px; background: var(--white); }
 .about-grid { display: grid; grid-template-columns: 1fr; gap: 48px; max-width: 1200px; margin: 0 auto; }
-.about-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
 .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--accent); line-height: 1.5; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-.about-text p { font-size: 14px; line-height: 2.2; color: var(--text-mid); margin-bottom: 20px; text-align: justify; }
-
-/* 公司表格基础样式 */
+.about-text p { font-size: 14px; line-height: 2.2; color: var(--text-mid); margin-bottom: 20px; }
 .company-table { width: 100%; border-collapse: collapse; border-top: 2px solid var(--accent); margin-top: 40px; }
-.company-table tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
-.company-table tr:hover { background: var(--off-white); }
-.company-table th { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-dark); text-align: left; padding: 24px 16px; width: 200px; vertical-align: top; letter-spacing: 0.05em; }
+.company-table tr { border-bottom: 1px solid var(--border); }
+.company-table th { font-size: 14px; font-weight: 500; text-align: left; padding: 24px 16px; width: 200px; vertical-align: top; }
 .company-table td { font-size: 14px; color: var(--text-mid); padding: 24px 20px; line-height: 2; }
 
-/* ── CONTACT PAGE (联系我们基础样式) ── */
-.contact-section { padding: 90px 48px; background: var(--white); }
-.contact-grid { display: grid; grid-template-columns: 1fr; gap: 64px; max-width: 1200px; margin: 0 auto; }
-.contact-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--accent); margin-bottom: 20px; }
-.contact-info p { font-size: 14px; line-height: 2; color: var(--text-mid); margin-bottom: 40px; }
-.contact-detail { display: flex; flex-direction: column; gap: 20px; }
-.contact-detail-item { display: flex; gap: 16px; align-items: baseline; padding-bottom: 16px; border-bottom: 1px solid var(--off-white); }
-.contact-detail-label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); min-width: 80px; }
-.contact-detail-value { font-size: 15px; color: var(--text-dark); }
-
-.contact-form { display: flex; flex-direction: column; gap: 28px; background: var(--off-white); padding: 48px; border-radius: 4px; }
-.form-group { display: flex; flex-direction: column; gap: 10px; }
-.form-label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-mid); }
-.form-label .required { color: var(--gold); margin-left: 4px; }
-.form-input, .form-select, .form-textarea {
-  font-family: 'Noto Sans JP', sans-serif; font-size: 14px; color: var(--text-dark); background: var(--white); border: 1px solid var(--border); padding: 16px; outline: none; transition: all 0.3s; border-radius: 2px; width: 100%;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,168,130,0.1); }
-.form-textarea { min-height: 160px; resize: vertical; }
-
-/* ── STATS GRID ── */
-.stats-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
-.stat-item { background: var(--white); padding: 48px 40px; border-radius: 2px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-
-/* ── FOOTER ── */
+/* ── FOOTER 通用页脚基础 ── */
 footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-sizing: border-box; }
 .footer-top { display: grid; grid-template-columns: 1fr; gap: 48px; max-width: 1200px; margin: 0 auto 32px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 48px; }
 .footer-brand .logo-text { color: var(--white); }
 .footer-brand .logo-text span { color: rgba(255,255,255,0.4); }
 .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; font-style: italic; color: var(--gold-light); margin-top: 16px; line-height: 1.5; }
 .footer-col h4 { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 20px; }
-.footer-col a { display: block; font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a { display: block; font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 10px; }
 .footer-col a:hover { color: var(--white); }
 .footer-bottom { display: flex; flex-direction: column; gap: 16px; max-width: 1200px; margin: 0 auto; text-align: center; }
 .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+/* ── ANIMATIONS ── */
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
 
 /* ==========================================================================
-   💻 💻 PC 大型屏幕端排版彻底重构（完美兼容 iPad 横屏及所有桌面显示器）
+   💻 💻 PC 大型屏幕端排版彻底重构（完美适配并修复主页混乱与大图失控）
    ========================================================================== */
 @media (min-width: 769px) {
-  /* 💡 统一大屏安全锁：强制限制内容核心区为 1200px，防止无限拉伸 */
-  .container, 
+  /* 确保全局各个核心板块宽度在PC端被完美框在1200px内部 */
   .news-section, 
-  .about-section, 
-  .contact-section {
+  .products-section, 
+  .company-strip,
+  .about-section {
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding-left: 24px !important;
     padding-right: 24px !important;
     width: 100% !important;
-    box-sizing: border-box !important;
   }
 
-  /* 导航栏置顶居中 */
+  /* 导航栏置顶居中对齐 */
   header { 
     position: fixed !important; 
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     padding: 0 calc((100vw - 1200px) / 2) !important; 
-    box-sizing: border-box !important;
     background: rgba(255, 255, 255, 0.95) !important;
     z-index: 9999 !important;
   }
-  
-  body {
-    padding-top: 80px !important; 
-  }
+  body { padding-top: 80px !important; }
 
-  .page-hero-inner { padding: 120px 0 80px !important; }
-  .page-hero-en { font-size: 160px; left: -10px; bottom: -30px; opacity: 0.03; }
-
-  /* ── 1. 彻底修复：News（お知らせ）大屏混乱 ── */
-  /* 让News列表垂直整齐排列，不发生横向错乱 */
+  /* ── 1. 【彻底解决】News (お知らせ) PC端优雅通栏排列 ── */
   .news-list {
     display: flex !important;
     flex-direction: column !important;
-    gap: 0 !important;
-    max-width: 900px !important; /* 优雅的居中窄版流 */
+    max-width: 1000px !important;
     margin: 0 auto !important;
   }
   .news-item {
     display: flex !important;
-    align-items: baseline !important;
+    align-items: center !important; /* 垂直居中对齐 */
     padding: 24px 16px !important;
     border-bottom: 1px solid var(--border) !important;
+    text-decoration: none !important;
+    color: var(--text-dark) !important;
+    transition: background 0.2s ease !important;
+  }
+  .news-item:hover {
+    background: var(--off-white) !important;
   }
   .news-date {
-    width: 140px !important;
+    width: 120px !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 14px !important;
+    color: var(--text-light) !important;
     flex-shrink: 0 !important;
   }
-  .news-category {
-    width: 100px !important;
+  /* 精美的日系分类小框 */
+  .news-tag {
+    width: 90px !important;
+    font-size: 11px !important;
+    color: var(--gold) !important;
+    border: 1px solid var(--gold) !important;
+    padding: 3px 8px !important;
+    text-align: center !important;
+    border-radius: 2px !important;
+    margin-right: 32px !important;
     flex-shrink: 0 !important;
   }
-
-  /* ── 2. 彻底修复：关于我们（会社概要）大屏混乱与图片过大 ── */
-  .about-grid { 
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important; /* 左右1:1完美并排 */
-    gap: 64px !important; 
-    align-items: center !important; 
-    margin-bottom: 80px !important;
+  .news-title {
+    font-size: 14px !important;
+    color: var(--text-mid) !important;
+    flex-grow: 1 !important; /* 让标题自动撑开空间 */
+    text-align: left !important;
   }
-  
-  /* 🌟 控制 PC 端展示图片过大的死穴 */
-  .about-grid img, 
-  .company-strip-img img { 
-    width: 100% !important;
-    max-height: 420px !important; /* 强制锁定图片最高高度，防止撑满大屏幕 */
-    object-fit: cover !important; 
-    border-radius: 4px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04) !important;
+  .news-arrow {
+    font-size: 14px !important;
+    color: var(--gold) !important;
+    margin-left: 16px !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.2s ease !important;
+  }
+  .news-item:hover .news-arrow {
+    transform: translateX(6px) !important;
   }
 
-  /* 会社概要专属表格大屏美化 */
-  .company-overview-wrapper { 
-    margin-top: 80px !important; 
-    width: 100% !important;
-  }
-  .company-table { 
-    max-width: 1000px !important; 
-    margin: 40px auto 0 !important; 
-  }
-  .company-table th { 
-    width: 220px !important; 
-    padding: 24px 32px !important; 
-    font-size: 15px !important; 
-    background: var(--off-white) !important; 
-  }
-  .company-table td { 
-    padding: 24px 32px !important; 
-    font-size: 15px !important; 
-  }
-
-  /* ── 3. 首页：商品九宫格 ── */
+  /* ── 2. Products 首页三列九宫格 ── */
   .product-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important; 
+    grid-template-columns: repeat(3, 1fr) !important;
     gap: 32px !important;
     margin-top: 40px !important;
-    width: 100% !important;
   }
   .product-card {
     position: relative !important;
     overflow: hidden !important;
-    aspect-ratio: 3/4 !important; 
+    aspect-ratio: 3/4 !important;
   }
   .product-card img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important; 
+    object-fit: cover !important;
     transition: transform 0.6s ease !important;
   }
-  .product-card:hover img {
-    transform: scale(1.05) !important; 
-  }
+  .product-card:hover img { transform: scale(1.05) !important; }
+  .product-card-label { position: absolute; bottom: 24px; left: 24px; z-index: 2; color: var(--white); }
+  .product-card-en { font-family: 'Cormorant Garamond', serif; font-size: 24px; }
+  .product-card-ja { font-size: 11px; opacity: 0.8; margin-top: 4px; }
+  .product-overlay { position: absolute; inset: 0; background: rgba(26,37,48,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; z-index: 3; }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .product-overlay-btn { color: var(--white); text-decoration: none; border: 1px solid var(--white); padding: 12px 28px; font-size: 12px; letter-spacing: 0.1em; }
 
-  /* ── 4. 首页：数据面板与双列横带 ── */
-  .stats-section { padding: 80px 0 !important; background: #fcfcf9 !important; }
+  /* ── 3. Data Stats 数据面板大屏展示 ── */
+  .stats-section { padding: 80px 0 !important; background: var(--off-white) !important; width: 100% !important; }
   .stats-grid {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important; 
-    gap: 32px !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 24px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 24px !important;
   }
+  .stat-item { background: var(--white) !important; padding: 40px !important; text-align: center !important; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--gold); }
+  .stat-num span { font-size: 16px; margin-left: 4px; }
+  .stat-label { font-size: 12px; color: var(--text-light); margin-top: 8px; }
+
+  /* ── 4. 【彻底解决】Company (会社概要横带) 大屏混乱与大图失控 ── */
   .company-strip {
     display: grid !important;
-    grid-template-columns: 1fr 1fr !important; 
+    grid-template-columns: 1.1fr 0.9fr !important; /* 左右分栏 */
     gap: 64px !important;
     align-items: center !important;
-    padding-top: 80px !important;
-    padding-bottom: 80px !important;
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+  }
+  .company-strip-text { text-align: left !important; }
+  .company-strip-text p { font-size: 14px !important; line-height: 2.2 !important; color: var(--text-mid) !important; margin: 32px 0 !important; text-align: justify !important; }
+  .btn-outline {
+    display: inline-block !important;
+    border: 1px solid var(--accent) !important;
+    color: var(--accent) !important;
+    text-decoration: none !important;
+    padding: 14px 32px !important;
+    font-size: 12px !important;
+    letter-spacing: 0.15em !important;
+    transition: all 0.3s !important;
+  }
+  .btn-outline:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+  /* 🌟 PC端控制展示图片过大的核心死穴规则 🌟 */
+  .company-strip-img img {
+    width: 100% !important;
+    max-height: 450px !important; /* 限制大屏幕上图片的最高限制，防止撑得无限大 */
+    object-fit: cover !important;
+    border-radius: 4px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.05) !important;
   }
 
+  /* 关于我们单独页面的排版优化 */
+  .about-grid { grid-template-columns: 1fr 1fr !important; align-items: center !important; }
+  .about-grid img { max-height: 450px !important; object-fit: cover !important; }
+
   /* ── 5. 页脚大屏优雅分栏 ── */
-  footer { 
-    padding: 80px calc((100vw - 1200px) / 2) 40px !important; 
-  }
-  .footer-top { 
-    display: grid !important;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr !important; 
-  }
-  .footer-bottom { 
-    display: flex !important;
-    flex-direction: row !important; 
-    justify-content: space-between !important; 
-    text-align: left !important; 
-  }
+  footer { padding: 80px calc((100vw - 1200px) / 2) 40px !important; }
+  .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr !important; }
+  .footer-bottom { display: flex !important; flex-direction: row !important; justify-content: space-between !important; text-align: left !important; }
 }
 
 /* ==========================================================================
-   📱 📱 MOBILE 移动端安全防线（完全保留华哥现有的完美流式效果，不作任何触动）
+   📱 📱 MOBILE 移动端安全防线（完全不触动华哥目前已经调好的手机端版面）
    ========================================================================== */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
@@ -358,15 +338,25 @@ footer { background: var(--accent); padding: 80px 48px 40px; width: 100%; box-si
   .hero-content { padding: 0 24px; }
   .hero h1 { font-size: 34px; }
 
-  .section { padding: 60px 24px; }
-  .section-sm { padding: 40px 24px; }
-  .section-header { margin-bottom: 32px; gap: 12px; }
-  .section-en { font-size: 32px; }
-  
-  .page-hero-inner { padding: 60px 24px 40px; }
-  .page-hero-en { font-size: 56px; left: 20px; bottom: 5px; }
-  .page-title { font-size: 32px; }
+  /* 移动端 News 样式复原防线 */
+  .news-list { display: flex !important; flex-direction: column !important; }
+  .news-item { display: flex !important; flex-direction: column !important; padding: 16px 0 !important; border-bottom: 1px solid var(--border) !important; text-decoration: none !important; position: relative !important; }
+  .news-date { font-size: 12px !important; color: var(--text-light) !important; }
+  .news-tag { display: inline-block !important; font-size: 10px !important; color: var(--gold) !important; margin: 6px 0 !important; width: fit-content !important; }
+  .news-title { font-size: 13px !important; color: var(--text-dark) !important; line-height: 1.4 !important; }
+  .news-arrow { position: absolute !important; right: 0 !important; top: 50% !important; transform: translateY(-50%) !important; color: var(--gold) !important; }
 
-  .about-section { padding: 60px 24px; }
-  .contact-section { padding: 60px 24px; }
+  .product-grid { display: flex !important; flex-direction: column !important; gap: 20px !important; }
+  .product-card { width: 100% !important; aspect-ratio: 3/4 !important; }
+  
+  .stats-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+  .stat-item { padding: 24px 16px !important; }
+
+  .company-strip { display: flex !important; flex-direction: column !important; gap: 32px !important; padding: 40px 24px !important; }
+  .company-strip-img { width: 100% !important; }
+  .company-strip-img img { width: 100% !important; max-height: none !important; }
+
+  .section { padding: 60px 24px; }
+  footer { padding: 48px 24px 32px; }
+  .footer-top { display: flex !important; flex-direction: column !important; gap: 32px !important; }
 }

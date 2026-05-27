@@ -64,15 +64,18 @@
 <body>
 
 <header>
-  <div class="logo" onclick="window.location.href='index.html'">HINOKA</div>
-  
+  <a href="index.html" class="logo-text">
+    HINOKA
+    <span>株式会社 · HINOKA Co., Ltd.</span>
+  </a>
+
   <nav>
     <div onclick="render()">すべて</div>
     <div onclick="filter('ペット用品')">ペット用品</div>
     <div onclick="filter('ファッション・アクセサリー')">ファッション</div>
     <div onclick="filter('生活雑貨')">生活雑貨</div>
   </nav>
-  
+
   <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
     カート <span id="cartCount">(0)</span>
   </div>

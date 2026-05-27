@@ -20,7 +20,7 @@
     /* 商品列表 */
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1200px; margin: 150px auto 100px; padding: 0 5%; }
     .p-card { cursor: pointer; }
-    .p-card img { width: 100%; aspect-ratio: 1/1.2; object-fit: cover; transition: 0.5s; }
+    .p-card img { width: 100%; aspect-ratio:1 / 1.2; object-fit: cover; transition: 0.5s; }
     
     /* 购物车侧边栏 */
     .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #fff; z-index: 10000; transition: 0.4s ease; padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
@@ -62,7 +62,7 @@
 <div class="modal-overlay" id="modal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
     <div>
-        <img id="mImg" style="width:100%; aspect-ratio:1/1.2; object-fit:cover;">
+        <img id="mImg" style="width:100%; aspect-ratio:1 / 1.2; object-fit:cover;">
         <div id="mThumbs" style="display:flex; gap:10px; margin-top:15px;"></div>
     </div>
     <div>

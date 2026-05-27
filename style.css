@@ -888,3 +888,21 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 .product-name { font-size: 13px; color: #1a2530; font-weight: 400; line-height: 1.5; margin: 0 0 8px 0; }
 .price { font-family: 'Montserrat', sans-serif; font-size: 14px; color: #2a2520; font-weight: 500; }
 .tax-note { font-size: 10px; color: #808a94; font-weight: normal; margin-left: 2px; }
+/* 30个商品卡片的网格布局 */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 电脑端一行优雅地排4个商品 */
+  gap: 30px; /* 卡片之间的间距 */
+  padding: 40px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 手机端响应式自动变成一行排2个 */
+@media (max-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px 10px;
+  }
+}

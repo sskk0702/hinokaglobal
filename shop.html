@@ -1,77 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>HINOKA | Lifestyle Collection</title>
-  <style>
-    :root { --bg: #f5f2ed; --text: #2c2520; --accent: #c5a880; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; color: var(--text); font-family: "Helvetica Neue", serif; line-height: 1.6; }
-    
-    /* Hero */
-    .hero { height: 400px; background: var(--bg); display: flex; align-items: center; justify-content: center; margin-bottom: 40px; }
-    
-    /* Nav */
-    .sticky-nav { position: sticky; top: 0; background: #fff; padding: 20px 0; border-bottom: 1px solid #eaddcf; z-index: 900; text-align: center; }
-    .sticky-nav span { margin: 0 20px; cursor: pointer; color: #7c7267; transition: 0.3s; }
-    .sticky-nav span:hover { color: var(--text); }
-
-    /* Grid */
-    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1000px; margin: 50px auto; padding: 0 20px; }
-    .card { cursor: pointer; }
-    .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; transition: 0.5s; }
-    .card:hover img { transform: scale(1.02); }
-
-    /* Toast */
-    .toast-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 9999; display: flex; align-items: center; justify-content: center; }
-    .toast-box { background: #fff; padding: 40px; border-radius: 4px; text-align: center; }
-    .btn { padding: 10px 25px; cursor: pointer; border: 1px solid var(--text); background: #fff; margin: 5px; }
-  </style>
-</head>
 <body>
+  <div id="product-container" style="max-width: 800px; margin: 50px auto; display: flex; gap: 40px;">
+    </div>
 
-<div class="hero"><h1>HINOKA COLLECTION</h1></div>
+  <script src="data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const pId = params.get('id');
+    const p = PRODUCTS.find(x => x.id == pId);
 
-<nav class="sticky-nav">
-    <span onclick="render()">すべて</span>
-    <span onclick="filter('ペット用品')">ペット用品</span>
-    <span onclick="filter('ファッション')">ファッション</span>
-    <span onclick="filter('生活雑貨')">生活雑貨</span>
-</nav>
+    if(p) {
+      document.getElementById('product-container').innerHTML = `
+        <img src="${p.image}" style="width:400px; height:400px; object-fit:cover;">
+        <div>
+          <h1>${p.name}</h1>
+          <p style="font-size:24px; margin:20px 0;">¥${p.price.toLocaleString()}</p>
+          <button onclick="addToCart()">カートに追加</button>
+        </div>
+      `;
+    }
 
-<div class="products-grid" id="grid"></div>
-
-<script src="data.js"></script>
-<script>
-  let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
-
-  function render(data = PRODUCTS) {
-    document.getElementById('grid').innerHTML = data.map(p => `
-      <div class="card" onclick="alert('详情请见你的modal逻辑')">
-        <img src="${p.image}">
-        <h3>${p.name}</h3>
-        <p>¥${p.price.toLocaleString()}</p>
-      </div>
-    `).join('');
-  }
-
-  function filter(cat) { render(PRODUCTS.filter(p => p.category === cat)); }
-
-  // 这里的 showToast 就是你要的 Necoichi 风格互动提示
-  function showToast() {
-    const div = document.createElement('div');
-    div.className = 'toast-overlay';
-    div.innerHTML = `
-      <div class="toast-box">
-        <p>カートに商品を追加しました。</p>
-        <button class="btn" onclick="this.parentElement.parentElement.remove()">ショッピングを続ける</button>
-        <button class="btn" onclick="window.location.href='cart.html'">カートを見る</button>
-      </div>
-    `;
-    document.body.appendChild(div);
-  }
-  
-  window.onload = () => render();
-</script>
+    function addToCart() {
+       let cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
+       cart.push(p);
+       localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+       alert('カートに追加しました');
+       window.location.href = 'cart.html';
+    }
+  </script>
 </body>
 </html>

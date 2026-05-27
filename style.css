@@ -923,3 +923,26 @@ nav div { cursor: pointer; font-size: 13px; color: var(--text-dark); letter-spac
   letter-spacing: 0.4em; /* 增加字间距，提升呼吸感 */
   font-weight: 300;
 }
+<style>
+  .brand-text {
+    font-family: "Yu Mincho", "游明朝", serif; /* 顶级衬线体 */
+    color: #1a1a1a;
+    line-height: 2.2;         /* 增加行高，文字不再紧凑 */
+    letter-spacing: 0.05em;   /* 增加字间距，显得更透气 */
+  }
+
+  .brand-title {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.6em;    /* 大标题拉开字间距，极具仪式感 */
+    color: #444;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  .brand-desc {
+    font-size: 15px;
+    margin: 0 auto;
+    max-width: 500px;         /* 限制宽度，防止文字过长阅读疲劳 */
+  }
+</style>

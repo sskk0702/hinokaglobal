@@ -5,16 +5,16 @@
   <title>株式会社HINOKA - オンラインストア</title>
   <style>
     :root { --bg: #fbfaf7; --text: #2c2520; --gold: #c5a880; }
-    /* 基础样式及Toast提示样式 */
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 5px; display: none; z-index: 9999; }
-    /* 其他样式保持不变 */
     header { position: fixed; top: 0; width: 100%; background: #fff; padding: 20px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; border-bottom: 1px solid #eee; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 120px auto 40px; padding: 0 4%; }
+    .p-card { cursor: pointer; transition: 0.3s; }
+    .p-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
     .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #fff; z-index: 3000; transition: 0.5s; padding: 30px; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
     .cart-sidebar.show { right: 0; }
-    .cart-items-container { flex: 1; overflow-y: auto; margin: 20px 0; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2000; display: none; align-items: center; justify-content: center; }
     .modal-overlay.show { display: flex; }
-    .modal-window { background: #fff; width: 700px; padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-height: 80vh; overflow-y: auto; }
+    .modal-window { background: #fff; width: 700px; padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
   </style>
 </head>
 <body>
@@ -31,12 +31,13 @@
 
 <div class="cart-sidebar" id="cartSidebar">
   <div style="display:flex; justify-content:space-between;"><h2>ショッピングバッグ</h2><button onclick="document.getElementById('cartSidebar').classList.remove('show')">✕</button></div>
-  <div class="cart-items-container" id="cartItems"></div>
+  <div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div>
   <div id="cartTotal" style="border-top:2px solid #000; padding-top:20px;"></div>
   <button onclick="window.location.href='checkout.html'" style="width:100%; padding:15px; background:var(--text); color:#fff; border:none; cursor:pointer;">購入手続きへ進む</button>
 </div>
 
-<div class="products-grid" id="grid" style="margin-top:120px; display:grid; grid-template-columns:repeat(4,1fr); gap:30px; padding:0 4%;"></div>
+<div class="products-grid" id="grid"></div>
+
 <div class="modal-overlay" id="modal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
     <div><img id="mImg" style="width:100%;"></div>
@@ -54,6 +55,16 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
+  // 补全 render 函数
+  function render(data = PRODUCTS) {
+    document.getElementById('grid').innerHTML = data.map(p => `
+      <div class="p-card" onclick="openModal(${p.id})">
+        <img src="${p.image}" onmouseover="this.src='${p.images[1] || p.image}'" onmouseout="this.src='${p.image}'">
+        <div style="padding:15px;"><h3>${p.name}</h3><p>¥${p.price.toLocaleString()}</p></div>
+      </div>
+    `).join('');
+  }
+
   function showToast() {
     const t = document.getElementById('toast');
     t.style.display = 'block';
@@ -67,19 +78,17 @@
     document.getElementById('mPrice').innerText = `¥${p.price.toLocaleString()}`;
     document.getElementById('mSpecs').innerHTML = (p.colors ? `カラー:<select id="selCol">${p.colors.map(c=>`<option>${c.name}</option>`).join('')}</select> ` : '') + 
                                                 (p.sizes ? ` サイズ:<select id="selSiz">${p.sizes.map(s=>`<option>${s.name}</option>`).join('')}</select>` : '');
-    // 更新信息：产地改为中国，并添加发货地
     document.getElementById('mInfo').innerHTML = `<p>产地: 中国</p><p>发货地: ${p.origin}</p><p>配送: ${p.delivery}</p><p>材质: ${p.material}</p><p style="color:red;">${p.notice}</p>`;
     
     const btn = document.getElementById('mBtn');
-    btn.innerText = "カートに入れる";
-    btn.style.background = "#2c2520"; btn.style.color = "#fff";
-    btn.onclick = () => { 
-        cart.push(p); 
-        localStorage.setItem('hinoka_cart', JSON.stringify(cart)); 
-        updateCart(); 
-        showToast(); 
-        document.getElementById('modal').classList.remove('show'); 
-    };
+    if (p.stock > 0) {
+      btn.innerText = "カートに入れる";
+      btn.style.background = "#2c2520"; btn.style.color = "#fff";
+      btn.onclick = () => { cart.push(p); localStorage.setItem('hinoka_cart', JSON.stringify(cart)); updateCart(); showToast(); document.getElementById('modal').classList.remove('show'); };
+    } else {
+      btn.innerText = "在庫なし";
+      btn.style.background = "#ccc"; btn.onclick = null;
+    }
     document.getElementById('modal').classList.add('show');
   }
 
@@ -90,10 +99,7 @@
     document.getElementById('cartTotal').innerHTML = `<h3>合計: ¥${(sub + 800).toLocaleString()} (送料込)</h3>`;
   }
 
-  window.onload = () => { 
-    // 渲染网格逻辑...
-    updateCart(); 
-  };
+  window.onload = () => { render(); updateCart(); };
 </script>
 </body>
 </html>

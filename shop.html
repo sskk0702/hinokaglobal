@@ -142,16 +142,22 @@
     }
     document.getElementById('mSpecs').innerHTML = specsHtml;
       
-    // 4. 设置详细描述信息 (产地/发货地/素材/备注)
-    let infoHtml = `
-      <p><strong>発送地:</strong> ${p.origin || '日本'}</p>
-      <p><strong>素材:</strong> ${p.material || '記載なし'}</p>
-      <p style="margin-top:10px; line-height:1.6; color:#555;">${p.description || ''}</p>
-    `;
-    if (p.notice) {
-        infoHtml += `<p style="color:red; margin-top:10px; font-size:12px;">※${p.notice}</p>`;
-    }
-    document.getElementById('mInfo').innerHTML = infoHtml;
+// 4. 设置详细描述信息 (更新版)
+let infoHtml = `
+  <p style="margin-bottom:15px; line-height:1.6; color:#333;">${p.desc || ''}</p>
+  <div style="border-top:1px solid #eee; padding-top:10px;">
+    <p><strong>発送地:</strong> ${p.origin || '日本'}</p>
+    <p><strong>素材:</strong> ${p.material || '記載なし'}</p>
+    <p><strong>発送目安:</strong> ${p.delivery || 'ご注文後、1〜3営業日以内に発送'}</p>
+  </div>
+`;
+
+if (p.notice) {
+    infoHtml += `<p style="color:red; margin-top:10px; font-size:12px;">※${p.notice}</p>`;
+}
+document.getElementById('mInfo').innerHTML = infoHtml;
+
+// ...后面的代码保持不变
     
     // 5. 设置购买按钮
     const btn = document.getElementById('mBtn');

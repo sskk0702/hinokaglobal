@@ -5,50 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>株式会社HINOKA - オンラインストア</title>
   <style>
-    :root {
-      --bg-color: #fbfaf7; --text-main: #2c2520; --text-muted: #7c7267;
-      --accent-gold: #c5a880; --border-color: #eaddcf;
-    }
+    :root { --bg-color: #fbfaf7; --text-main: #2c2520; --accent-gold: #c5a880; --border-color: #eaddcf; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: var(--bg-color); color: var(--text-main); font-family: "Helvetica Neue", Arial, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-main); font-family: "Helvetica Neue", sans-serif; }
+    
     header { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(253, 252, 249, 0.95); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 0 4%; z-index: 100; }
     .filter-bar { margin-top: 100px; display: flex; justify-content: center; gap: 20px; padding: 0 20px; }
-    .filter-btn { background: none; border: 1px solid var(--border-color); padding: 8px 24px; cursor: pointer; transition: 0.3s; color: var(--text-muted); font-size: 13px; }
+    .filter-btn { background: none; border: 1px solid var(--border-color); padding: 8px 24px; cursor: pointer; color: #7c7267; font-size: 13px; }
     .filter-btn.active { border-color: var(--text-main); color: var(--text-main); background: #fff; }
 
     .section-container { max-width: 1200px; margin: 40px auto; padding: 0 4%; }
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 20px; }
-    @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
-
-    .p-card { background: #fff; border: 1px solid transparent; transition: 0.4s; display:flex; flex-direction:column; }
-    .p-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(44,37,32,0.04); }
-    .p-card-img { width: 100%; aspect-ratio: 1/1; background: #fcfbfa; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; }
-    .p-card-img img { max-width: 80%; max-height: 80%; object-fit: contain; }
-    .p-card-body { padding: 15px; cursor: pointer; flex: 1; }
-    .p-card-name { font-size: 13px; margin: 5px 0; }
-    .p-card-price { font-size: 14px; font-weight: 500; }
-    .atc-btn { width: 100%; padding: 10px; background: var(--text-main); color: #fff; border: none; cursor: pointer; font-size: 12px; }
-
-    .cart-sidebar-wrapper { position: fixed; top:0; right:-420px; width:420px; height:100%; background:#fff; z-index:200; transition:0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow:-5px 0 15px rgba(0,0,0,0.1); padding:20px; display:flex; flex-direction:column; }
-    .cart-sidebar-wrapper.show { right:0; }
-    .checkout-btn { margin-top: auto; padding: 15px; background: var(--accent-gold); color: #fff; border: none; cursor: pointer; font-size: 14px; letter-spacing: 2px; }
     
-    /* 弹窗样式 */
-    .modal-overlay { position:fixed; inset:0; background:rgba(44,37,32,0.4); z-index:300; display:none; align-items:center; justify-content:center; }
+    .p-card { background: #fff; border: 1px solid transparent; display: flex; flex-direction: column; cursor: pointer; }
+    .p-card-img { width: 100%; aspect-ratio: 1/1; overflow: hidden; }
+    .p-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .p-card:hover .p-card-img img { transform: scale(1.1); }
+    
+    .p-card-body { padding: 15px; flex: 1; }
+    .atc-btn { width: 100%; padding: 10px; background: var(--text-main); color: #fff; border: none; cursor: pointer; }
+
+    .modal-overlay { position:fixed; inset:0; background:rgba(44,37,32,0.6); z-index:999; display:none; align-items:center; justify-content:center; }
     .modal-overlay.show { display:flex; }
-    .modal-window { background:#fff; width:90%; max-width:600px; padding:40px; position:relative; }
+    .modal-window { background:#fff; width:90%; max-width:600px; padding:30px; position:relative; }
   </style>
 </head>
 <body>
 
 <header>
-  <a href="index.html" style="text-decoration:none; color:inherit;">
-    <div class="logo">HINOKA</div>
-  </a>
-  <div class="cart-trigger" style="cursor:pointer;" onclick="toggleCart(true)">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-    <span id="cartCount" style="font-size:12px; margin-left:5px;">0</span>
-  </div>
+  <a href="index.html" style="text-decoration:none; color:inherit;"><div class="logo">HINOKA</div></a>
+  <div onclick="toggleCart(true)" style="cursor:pointer;">CART (<span id="cartCount">0</span>)</div>
 </header>
 
 <div class="filter-bar">
@@ -62,29 +48,14 @@
   <div class="products-grid" id="products-grid"></div>
 </div>
 
-<div class="cart-sidebar-wrapper" id="cartSidebar">
-  <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-    <h3>SHOPPING CART</h3>
-    <button onclick="toggleCart(false)" style="background:none; border:none; cursor:pointer;">✕</button>
-  </div>
-  <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
-  <button class="checkout-btn" onclick="goToCheckout()">CHECKOUT</button>
-</div>
-
 <div class="modal-overlay" id="productModal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
     <button onclick="document.getElementById('productModal').classList.remove('show')" style="float:right; border:none; background:none; cursor:pointer;">✕</button>
-    
-    <div class="gallery" style="width:100%; text-align:center;">
-        <img id="modalMainImg" src="" style="width:100%; max-height:300px; object-fit:contain;">
-        <div id="thumbContainer" style="display:flex; gap:10px; justify-content:center; margin-top:15px;"></div>
-    </div>
-
-    <h2 id="modalTitle" style="margin-top:20px;"></h2>
-    <p id="modalPrice" style="font-weight:bold;"></p>
+    <div id="modalMainImgArea"><img id="modalMainImg" src="" style="width:100%;"></div>
+    <div id="thumbContainer" style="display:flex; gap:10px; margin:10px 0;"></div>
+    <h2 id="modalTitle"></h2>
     <div id="modalSpecs" style="margin:15px 0;"></div>
-    <p id="modalDesc" style="font-size:13px; color:#666;"></p>
-    <button class="atc-btn" id="modalAtcBtn" style="margin-top:20px;">カートに追加</button>
+    <button class="atc-btn" id="modalAtcBtn">カートに追加</button>
   </div>
 </div>
 
@@ -92,89 +63,49 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-function render(category = 'all') {
+  function render(category = 'all') {
     const grid = document.getElementById('products-grid');
-    grid.innerHTML = ''; 
+    grid.innerHTML = '';
     const filtered = (category === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
-
     filtered.forEach(p => {
-        grid.innerHTML += `
-            <div class="p-card">
-                <div class="p-card-img" onclick="openModal(${p.id})">
-                    <img src="${p.image}" alt="${p.name}">
-                </div>
-                <div class="p-card-body" onclick="openModal(${p.id})">
-                    <h3 class="p-card-name">${p.name}</h3>
-                    <div class="p-card-price">¥${p.price.toLocaleString()}</div>
-                </div>
-                <button class="atc-btn" onclick="addToCart(${p.id})">ADD TO CART</button>
-            </div>
-        `;
+      grid.innerHTML += `
+        <div class="p-card">
+          <div class="p-card-img" onclick="openModal(${p.id})"><img src="${p.image}" alt="${p.name}"></div>
+          <div class="p-card-body" onclick="openModal(${p.id})">
+            <h3>${p.name}</h3>
+            <p>¥${p.price.toLocaleString()}</p>
+          </div>
+          <button class="atc-btn" onclick="addToCart(${p.id})">ADD TO CART</button>
+        </div>
+      `;
     });
-}
+  }
 
-function openModal(id) {
+  function openModal(id) {
     const p = PRODUCTS.find(x => x.id === id);
-    if (!p) return;
-
-    // 1. 设置主图
     document.getElementById('modalMainImg').src = p.image;
-    
-    // 2. 生成缩略图列表
-    const thumbContainer = document.getElementById('thumbContainer');
-    thumbContainer.innerHTML = p.images.map(img => 
-        `<img src="${img}" style="width:60px; height:60px; cursor:pointer; border:1px solid #ddd;" onmouseover="document.getElementById('modalMainImg').src='${img}'">`
+    document.getElementById('thumbContainer').innerHTML = p.images.map(img => 
+      `<img src="${img}" style="width:60px; height:60px; cursor:pointer;" onclick="document.getElementById('modalMainImg').src='${img}'">`
     ).join('');
-
-    // 3. 设置文字信息
     document.getElementById('modalTitle').innerText = p.name;
-    document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
-    document.getElementById('modalDesc').innerText = p.desc;
-
-    // 4. 生成规格下拉框
-    let specsHtml = '';
-    if (p.colors) specsHtml += `颜色: <select id="modalColor">${p.colors.map(c => `<option>${c.name}</option>`).join('')}</select> `;
-    if (p.sizes) specsHtml += `尺寸: <select id="modalSize">${p.sizes.map(s => `<option>${s.name}</option>`).join('')}</select>`;
-    document.getElementById('modalSpecs').innerHTML = specsHtml;
-
-    // 5. 绑定弹窗内的加购按钮
+    
+    let specs = '';
+    if(p.colors) specs += `颜色:<select id="mColor">${p.colors.map(c => `<option>${c.name}</option>`).join('')}</select>`;
+    if(p.sizes) specs += `尺寸:<select id="mSize">${p.sizes.map(s => `<option>${s.name}</option>`).join('')}</select>`;
+    document.getElementById('modalSpecs').innerHTML = specs;
+    
     document.getElementById('modalAtcBtn').onclick = () => {
-        const color = document.getElementById('modalColor')?.value;
-        const size = document.getElementById('modalSize')?.value;
-        addToCart(p.id, { color, size });
+        addToCart(p.id, { color: document.getElementById('mColor')?.value, size: document.getElementById('mSize')?.value });
         document.getElementById('productModal').classList.remove('show');
     };
-
     document.getElementById('productModal').classList.add('show');
-}
-
-function addToCart(id, specs = {}) {
-  const product = PRODUCTS.find(p => p.id === id);
-  
-  // 查找购物车中是否已有“同ID且同规格”的商品
-  const existing = cart.find(item => 
-    item.id === id && 
-    (item.specs?.color === specs.color) && 
-    (item.specs?.size === specs.size)
-  );
-  
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    // 将商品和规格合并存入
-    cart.push({ ...product, qty: 1, specs: specs });
   }
-  
-  localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-  updateCartUI();
-  toggleCart(true);
-}
 
-  function updateCartUI() {
-    document.getElementById('cartCount').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
-    document.getElementById('cartItems').innerHTML = cart.map(item => `
-      <div style="margin-bottom:15px; font-size:12px;">${item.name} x ${item.qty} - ¥${(item.price * item.qty).toLocaleString()}</div>
-    `).join('');
+  function addToCart(id, specs = {}) {
+    const p = PRODUCTS.find(item => item.id === id);
+    cart.push({ ...p, specs, qty: 1 });
+    localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+    alert('已加入购物车');
   }
 
   function filterProducts(cat, btn) {
@@ -183,10 +114,7 @@ function addToCart(id, specs = {}) {
     render(cat);
   }
 
-  function toggleCart(show) { document.getElementById('cartSidebar').classList.toggle('show', show); }
-  function goToCheckout() { if(cart.length > 0) window.location.href = 'checkout.html'; else alert('カートが空です'); }
-
-  window.addEventListener('DOMContentLoaded', () => { render('all'); updateCartUI(); });
+  window.addEventListener('DOMContentLoaded', () => render('all'));
 </script>
 </body>
 </html>

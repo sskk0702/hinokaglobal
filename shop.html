@@ -233,23 +233,65 @@
     </nav>
   </header>
 
-  <div class="shop-container">
-    <div class="shop-sticky-bar">
-      <div class="shop-filters">
-        <button class="filter-btn active" onclick="filter('all', this)">すべての商品</button>
-        <button class="filter-btn" onclick="filter('pet', this)">ペット用品</button>
-        <button class="filter-btn" onclick="filter('fashion', this)">ファッション・アクセ</button>
-        <button class="filter-btn" onclick="filter('goods', this)">生活雑貨</button>
+<div class="hinoka-shop-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-subtitle">SELECTED ITEMS FOR YOUR INSPIRED LIFE</span>
+    <h1 class="hero-title">日々の暮らしに、洗練されたときめきを。</h1>
+  </div>
+</div>
+
+<div class="hinoka-category-nav-section">
+  <div class="category-nav-grid">
+    
+    <div class="category-nav-card" onclick="scrollToCategory('pet-section')">
+      <div class="card-bg" style="background-image: url('images/cat-pet-bg.jpg');"></div>
+      <div class="card-content">
+        <span class="en">PET SUPPLIES</span>
+        <span class="ja">ペット用品</span>
+        <span class="arrow">VIEW PRODUCTS →</span>
       </div>
-      
-      <button class="menu-cart-btn" onclick="openCart()">
-        <span class="menu-cart-icon">🛒</span>
-        <span>カートを見る</span>
-        <span class="menu-cart-count" id="globalCartCount">0</span>
-      </button>
     </div>
 
-    <div class="product-grid" id="grid"></div>
+    <div class="category-nav-card" onclick="scrollToCategory('fashion-section')">
+      <div class="card-bg" style="background-image: url('images/fashion-knit-bg.jpg');"></div>
+      <div class="card-content">
+        <span class="en">FASHION & ACC</span>
+        <span class="ja">ファッション・アクセ</span>
+        <span class="arrow">VIEW PRODUCTS →</span>
+      </div>
+    </div>
+
+    <div class="category-nav-card" onclick="scrollToCategory('lifestyle-section')">
+      <div class="card-bg" style="background-image: url('images/lifestyle-bg.jpg');"></div>
+      <div class="card-content">
+        <span class="en">LIFE GOODS</span>
+        <span class="ja">生活雑貨</span>
+        <span class="arrow">VIEW PRODUCTS →</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="shop-products-container">
+
+  <div id="pet-section" class="category-block-header">
+    <h2>Pet Supplies<span>ペット用品</span></h2>
+  </div>
+  <div class="product-grid" id="grid-pet"></div>
+
+  <div id="fashion-section" class="category-block-header" style="margin-top: 80px;">
+    <h2>Fashion & Accessories<span>ファッション・アクセ</span></h2>
+  </div>
+  <div class="product-grid" id="grid-fashion"></div>
+
+  <div id="lifestyle-section" class="category-block-header" style="margin-top: 80px;">
+    <h2>Life Goods<span>生活雑貨</span></h2>
+  </div>
+  <div class="product-grid" id="grid-lifestyle"></div>
+
+</section>
   </div>
 
   <div class="p-modal-overlay" id="productModal" onclick="closeProductModal(event)">

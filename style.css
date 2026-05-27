@@ -906,3 +906,9 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     padding: 20px 10px;
   }
 }
+.p-card-img img {
+  transition: transform 0.6s ease;
+}
+.p-card:hover .p-card-img img {
+  transform: scale(1.1); /* 鼠标悬停时图片缓慢放大，形成呼吸感 */
+}

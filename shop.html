@@ -4,64 +4,40 @@
   <meta charset="UTF-8">
   <title>株式会社HINOKA - オンラインストア</title>
   <link rel="stylesheet" href="style.css">
-</head>
   <style>
-    :root { --bg: #fbfaf7; --text: #1a1a1a; --accent: #eaddcf; }
+    :root { --bg: #fbfaf7; --text: #1a1a1a; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: "Helvetica Neue", sans-serif; }
     
-    /* 极致简约的 Header */
     header { 
       position: fixed; top: 0; width: 100%; height: 90px; 
       background: #fbfaf7; display: flex; align-items: center; 
       padding: 0 5%; z-index: 9999; border-bottom: 1px solid rgba(0,0,0,0.05);
     }
-
-    /* Logo 设计 */
-    .logo-text { 
-      display: flex; flex-direction: column; 
-      text-decoration: none; color: var(--text-dark, #1a1a1a); 
-      cursor: pointer; line-height: 1; margin-right: 60px;
-    }
+    .logo-text { display: flex; flex-direction: column; text-decoration: none; color: #1a1a1a; cursor: pointer; line-height: 1; margin-right: 60px; }
     .logo-text { font-size: 26px; font-weight: 700; letter-spacing: 0.3em; }
-    .logo-text span { 
-      font-size: 8px; font-weight: 300; letter-spacing: 0.4em; 
-      color: #888; margin-top: 6px; text-transform: uppercase;
-    }
-
-    /* 导航栏 */
+    .logo-text span { font-size: 8px; font-weight: 300; letter-spacing: 0.4em; color: #888; margin-top: 6px; text-transform: uppercase; }
     nav { display: flex; gap: 40px; align-items: center; }
-    nav div { 
-      cursor: pointer; font-size: 13px; color: var(--text-dark, #444); 
-      letter-spacing: 0.05em; transition: 0.3s; position: relative;
-    }
+    nav div { cursor: pointer; font-size: 13px; color: #444; letter-spacing: 0.05em; transition: 0.3s; }
     nav div:hover { color: #000; }
-    nav div::after { 
-      content: ''; position: absolute; left: 0; bottom: -5px; 
-      width: 0; height: 1px; background: #000; transition: 0.3s;
-    }
-    nav div:hover::after { width: 100%; }
-
-    /* 购物车 */
-    .cart-trigger { 
-      margin-left: auto; cursor: pointer; font-size: 13px; 
-      color:var(--text-dark, #1a1a1a); border: 1px solid var(--text-dark, #1a1a1a); 
-      padding: 8px 20px; transition: 0.3s; border-radius: 20px;
-    }
-    .cart-trigger:hover { background: ar(--text-dark, #1a1a1a); color: #fff; }
-
-    /* 商品列表 */
+    .cart-trigger { margin-left: auto; cursor: pointer; font-size: 13px; color: #1a1a1a; border: 1px solid #1a1a1a; padding: 8px 20px; border-radius: 20px; transition: 0.3s; }
+    .cart-trigger:hover { background: #1a1a1a; color: #fff; }
+    
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1200px; margin: 150px auto 100px; padding: 0 5%; }
     .p-card { cursor: pointer; }
     .p-card img { width: 100%; aspect-ratio: 1/1.2; object-fit: cover; transition: 0.5s; }
-    .p-card:hover img { transform: scale(1.02); }
-
-    /* 其他组件样式保持不变 */
+    
     .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #fff; z-index: 10000; transition: 0.4s ease; padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
     .cart-sidebar.show { right: 0; }
+    .cart-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #eee; }
+    
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9000; display: none; align-items: center; justify-content: center; }
     .modal-overlay.show { display: flex; }
     .modal-window { background: #fff; width: 800px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    
+    /* 提示 Toast 样式 */
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 99999; opacity: 0; transition: 0.5s; }
+    .toast.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -71,50 +47,12 @@
     HINOKA
     <span>株式会社 · HINOKA Co., Ltd.</span>
   </a>
-
   <nav>
     <div onclick="render()">ALL</div>
     <div onclick="filter('ペット用品')">PET</div>
     <div onclick="filter('ファッション・アクセサリー')">FASHION</div>
     <div onclick="filter('生活雑貨')">LIVING</div>
   </nav>
-
-  <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
-    BAG <span id="cartCount">(0)</span>
-  </div>
-</header>
-
-<header>
-  <a href="index.html" class="logo-text">
-    HINOKA
-    <span>株式会社 · HINOKA Co., Ltd.</span>
-  </a>
-
-  <nav>
-    <div onclick="render()">ALL PRODUCTS</div>
-    <div onclick="filter('ペット用品')">PET</div>
-    <div onclick="filter('ファッション・アクセサリー')">FASHION</div>
-    <div onclick="filter('生活雑貨')">LIVING</div>
-  </nav>
-
-  <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
-    BAG <span id="cartCount">(0)</span>
-  </div>
-</header>
-
-<header>
-  <a href="index.html" class="logo-text">
-    HINOKA
-    <span>株式会社 · HINOKA Co., Ltd.</span>
-  </a>
-
-  <nav>
-    <div onclick="render()">ALL</div>
-    <div onclick="filter('ペット用品')">PET</div>
-    <div onclick="filter('ファッション・アクセサリー')">FASHION</div>
-    <div onclick="filter('生活雑貨')">LIVING</div>
-  </nav>
-
   <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
     BAG <span id="cartCount">(0)</span>
   </div>
@@ -124,7 +62,7 @@
   <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>バッグ</h2><button onclick="document.getElementById('cartSidebar').classList.remove('show')">✕</button></div>
   <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
   <div id="cartTotal" style="border-top:2px solid #000; padding:20px 0;"></div>
-  <button onclick="window.location.href='checkout.html'" style="width:100%; padding:15px; background:var(--text); color:#fff; border:none; cursor:pointer;">購入手続きへ進む</button>
+  <button onclick="window.location.href='checkout.html'" style="width:100%; padding:15px; background:#000; color:#fff; border:none; cursor:pointer;">購入手続きへ進む</button>
 </div>
 
 <div class="products-grid" id="grid"></div>
@@ -140,7 +78,7 @@
       <p id="mPrice" style="margin:15px 0; font-size:20px;"></p>
       <div id="mSpecs" style="margin-bottom:20px;"></div>
       <div id="mInfo" style="font-size:13px; line-height:2; color:#555;"></div>
-      <button id="mBtn" style="width:100%; padding:18px; margin-top:20px; border:none; cursor:pointer; background:var(--text); color:#fff;"></button>
+      <button id="mBtn" style="width:100%; padding:18px; margin-top:20px; border:none; cursor:pointer; background:#000; color:#fff;"></button>
     </div>
   </div>
 </div>
@@ -149,13 +87,32 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
+  function showToast(msg) {
+    let toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 2000);
+  }
+
+  function updateCart() {
+    document.getElementById('cartCount').innerText = `(${cart.length})`;
+    let sub = cart.reduce((s, i) => s + i.price, 0);
+    document.getElementById('cartTotal').innerHTML = `<h3>合計: ¥${sub.toLocaleString()}</h3>`;
+    const itemsContainer = document.getElementById('cartItems');
+    itemsContainer.innerHTML = cart.length === 0 ? "<p style='padding:20px;'>カートは空です。</p>" : 
+      cart.map((i, idx) => `<div class="cart-item"><div><p>${i.name}</p><p>¥${i.price.toLocaleString()}</p></div><button onclick="removeItem(${idx})" style="border:none; color:red; cursor:pointer;">削除</button></div>`).join('');
+  }
+
+  function removeItem(idx) { cart.splice(idx, 1); localStorage.setItem('hinoka_cart', JSON.stringify(cart)); updateCart(); }
+
   function render(data = PRODUCTS) {
     document.getElementById('grid').innerHTML = data.map(p => `
       <div class="p-card" onclick="openModal(${p.id})">
-        <img src="${p.image}" onmouseover="this.src='${p.images[0] || p.image}'" onmouseout="this.src='${p.image}'">
+        <img src="${p.image}">
         <div style="padding:15px 0;"><h3>${p.name}</h3><p>¥${p.price.toLocaleString()}</p></div>
-      </div>
-    `).join('');
+      </div>`).join('');
   }
 
   function filter(cat) { render(PRODUCTS.filter(p => p.category === cat)); }
@@ -164,59 +121,20 @@
     const p = PRODUCTS.find(x => x.id === id);
     if (!p) return;
     document.getElementById('mImg').src = p.image;
-    document.getElementById('mThumbs').innerHTML = [p.image, ...(p.images || [])].map(i => `<img src="${i}" class="m-thumb" onclick="document.getElementById('mImg').src='${i}'" style="width:60px; height:60px; object-fit:cover; cursor:pointer; border:1px solid #ddd;">`).join('');
     document.getElementById('mTitle').innerText = p.name;
     document.getElementById('mPrice').innerText = `¥${p.price.toLocaleString()}`;
-    document.getElementById('mSpecs').innerHTML = `<p>カラー: <select id="selCol">${(p.colors||[]).map(c=>`<option>${c.name}</option>`).join('')}</select></p><p>サイズ: <select id="selSiz">${(p.sizes||[]).map(s=>`<option>${s.name}</option>`).join('')}</select></p>`;
-    document.getElementById('mInfo').innerHTML = `<p>発送地: ${p.origin}</p><p>素材: ${p.material}</p>`;
     const btn = document.getElementById('mBtn');
     btn.innerText = p.stock > 0 ? "カートに入れる" : "在庫なし";
-    // 1. 弹出提示函数
-function showToast(msg) {
-  let toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerText = msg;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 10);
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 500);
-  }, 2000);
-}
-
-// 2. 修改后的 openModal 中的按钮逻辑
-btn.onclick = p.stock > 0 ? () => { 
-    cart.push(p); 
-    localStorage.setItem('hinoka_cart', JSON.stringify(cart)); 
-    
-    // 更新购物车显示
-    updateCart(); 
-    
-    // 自动提示
-    showToast("カートに追加しました"); 
-    
-    // 自动打开购物车侧边栏，让客户看到物品已加入
-    document.getElementById('cartSidebar').classList.add('show');
-    document.getElementById('modal').classList.remove('show'); 
-} : null;
-
-// 3. 增强后的 updateCart (确保每次点击都实时渲染内容)
-function updateCart() {
-  document.getElementById('cartCount').innerText = `(${cart.length})`;
-  let sub = cart.reduce((s, i) => s + i.price, 0);
-  document.getElementById('cartTotal').innerHTML = `<h3>合計: ¥${sub.toLocaleString()} (送料込)</h3>`;
-  
-  const itemsContainer = document.getElementById('cartItems');
-  if(cart.length === 0) {
-      itemsContainer.innerHTML = "<p style='padding:20px; color:#888;'>カートは空です。</p>";
-  } else {
-      itemsContainer.innerHTML = cart.map((i, idx) => `
-        <div class="cart-item">
-          <div><p>${i.name}</p><p>¥${i.price.toLocaleString()}</p></div>
-          <button onclick="removeItem(${idx})" style="border:none; background:none; cursor:pointer; color:red;">削除</button>
-        </div>`).join('');
+    btn.onclick = p.stock > 0 ? () => { 
+        cart.push(p); localStorage.setItem('hinoka_cart', JSON.stringify(cart)); 
+        updateCart(); showToast("カートに追加しました"); 
+        document.getElementById('cartSidebar').classList.add('show');
+        document.getElementById('modal').classList.remove('show'); 
+    } : null;
+    document.getElementById('modal').classList.add('show');
   }
-}
+
+  window.onload = () => { render(); updateCart(); };
 </script>
 </body>
 </html>

@@ -234,7 +234,10 @@ document.getElementById('mInfo').innerHTML = infoHtml;
     document.getElementById('modal').classList.add('show');
   }
 
-  window.onload = () => { render(); updateCart(); };
+ window.onload = () => { 
+  render();     // 初始渲染第1页
+  updateCart(); // 初始化购物车
+};
 </script>
 </body>
 </html>

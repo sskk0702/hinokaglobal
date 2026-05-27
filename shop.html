@@ -124,16 +124,28 @@ function openModal(id) {
     document.getElementById('modal').classList.add('show');
   }
 
-  function updateCart() {
+function updateCart() {
     document.getElementById('cartCount').innerText = `(${cart.length})`;
     let sub = cart.reduce((s, i) => s + i.price, 0);
+    
+    // 逻辑：满5000免邮，否则800。离岛特殊加算。
+    let shipping = sub >= 5000 ? 0 : 800;
+    
     document.getElementById('cartItems').innerHTML = cart.map((i, idx) => `
       <div class="cart-item">
         <div><p>${i.name}</p><p>¥${i.price.toLocaleString()}</p></div>
         <button onclick="removeItem(${idx})" style="border:none; background:none; cursor:pointer; color:red;">削除</button>
       </div>`).join('');
-    document.getElementById('cartTotal').innerHTML = `<h3>合計: ¥${(sub + 800).toLocaleString()} (送料込)</h3>`;
-  }
+      
+    document.getElementById('cartTotal').innerHTML = `
+      <div style="margin:10px 0;">小計: ¥${sub.toLocaleString()}</div>
+      <div style="margin:10px 0;">送料: ${shipping === 0 ? '無料' : '¥' + shipping.toLocaleString()}</div>
+      <div style="margin-top:15px; font-weight:bold;">合計: ¥${(sub + shipping).toLocaleString()}</div>
+      <select id="shippingArea" onchange="updateCart()" style="width:100%; margin-top:10px;">
+        <option value="mainland">日本本土</option>
+        <option value="island">離島 (+¥1500)</option>
+      </select>`;
+}
 
   function removeItem(idx) { cart.splice(idx, 1); localStorage.setItem('hinoka_cart', JSON.stringify(cart)); updateCart(); }
 

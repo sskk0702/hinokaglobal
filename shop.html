@@ -2,52 +2,61 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>商品詳細 - 株式会社HINOKA</title>
+  <title>株式会社HINOKA - Online Store</title>
+  <style>
+    :root { --bg: #f5f2ed; --text: #2c2520; }
+    body { background: #fff; color: var(--text); font-family: "Helvetica Neue", sans-serif; }
+    
+    /* 缩小后的 Logo 抬头 */
+    .header-logo { padding: 40px 0; text-align: center; font-size: 20px; letter-spacing: 0.2em; font-weight: 400; cursor: pointer; }
+    
+    /* 导航栏 */
+    .sticky-nav { position: sticky; top: 0; background: #fff; padding: 15px 0; border-bottom: 1px solid #eaddcf; z-index: 900; text-align: center; font-size: 13px; }
+    .sticky-nav span { margin: 0 25px; cursor: pointer; color: #7c7267; transition: 0.3s; }
+    .sticky-nav span:hover { color: var(--text); }
+
+    /* 商品网格 */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin: 50px auto; padding: 0 20px; }
+    .card { cursor: pointer; text-align: center; }
+    .card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; transition: 0.5s; }
+    .card:hover img { opacity: 0.8; }
+    .card h3 { font-size: 14px; font-weight: 400; margin-top: 15px; }
+    .card p { font-size: 13px; color: #9a9490; }
+  </style>
 </head>
 <body>
-  <div id="product-container" style="max-width: 800px; margin: 50px auto; display: flex; gap: 40px; font-family: sans-serif;">
-    <p>商品を読み込んでいます...</p>
-  </div>
 
-  <script src="data.js"></script>
-  <script>
-    // 1. 调试：检查数据是否成功加载
-    console.log("PRODUCTS 数据:", typeof PRODUCTS !== 'undefined' ? PRODUCTS : "未找到 PRODUCTS");
+<div class="header-logo" onclick="window.location.href='index.html'">HINOKA</div>
 
-    const params = new URLSearchParams(window.location.search);
-    const pId = params.get('id');
-    
-    // 确保 PRODUCTS 已定义且是一个数组
-    if (typeof PRODUCTS !== 'undefined' && Array.isArray(PRODUCTS)) {
-      const p = PRODUCTS.find(x => String(x.id) === String(pId));
+<nav class="sticky-nav">
+    <span onclick="render()">すべて</span>
+    <span onclick="filter('ペット用品')">ペット用品</span>
+    <span onclick="filter('ファッション')">ファッション</span>
+    <span onclick="filter('生活雑貨')">生活雑貨</span>
+</nav>
 
-      if (p) {
-        document.getElementById('product-container').innerHTML = `
-          <img src="${p.image}" style="width:400px; height:400px; object-fit:cover; border:1px solid #eee;">
-          <div>
-            <h1>${p.name}</h1>
-            <p style="font-size:24px; margin:20px 0; color:#c5a880;">¥${p.price.toLocaleString()}</p>
-            <button onclick="addToCart()" style="padding:15px 30px; cursor:pointer;">カートに追加</button>
-          </div>
-        `;
-        // 把 p 存入 window 以便 addToCart 函数使用
-        window.selectedProduct = p;
-      } else {
-        document.getElementById('product-container').innerHTML = `<p>商品が見つかりません。ID: ${pId}</p>`;
-      }
-    } else {
-      document.getElementById('product-container').innerHTML = `<p style="color:red;">エラー: data.js が正しく読み込まれていません。</p>`;
-    }
+<div class="products-grid" id="grid"></div>
 
-    function addToCart() {
-       const p = window.selectedProduct;
-       if (!p) return;
-       let cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
-       cart.push(p);
-       localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-       alert('カートに追加しました');
-       window.location.href = 'cart.html';
-    }
-  </script>
+<script src="data.js"></script>
+<script>
+  function render(data = PRODUCTS) {
+    document.getElementById('grid').innerHTML = data.map(p => `
+      <div class="card" onclick="openDetail(${p.id})">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <p>¥${p.price.toLocaleString()}</p>
+      </div>
+    `).join('');
+  }
+
+  function filter(cat) { render(PRODUCTS.filter(p => p.category === cat)); }
+
+  // 关键：点击跳转详情页，带 ID 参数
+  function openDetail(id) {
+    window.location.href = `product_detail.html?id=${id}`;
+  }
+  
+  window.onload = () => render();
+</script>
 </body>
 </html>

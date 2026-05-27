@@ -4,62 +4,49 @@
   <meta charset="UTF-8">
   <title>株式会社HINOKA - オンラインストア</title>
   <style>
-    :root { --bg: #fbfaf7; --text: #2c2520; --gold: #c5a880; --border: #eaddcf; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: "Helvetica Neue", sans-serif; }
-    /* 头部导航：使用 flex 布局，清晰定义各区域 */
+  /* 调整整体色调，让背景更有质感 */
   header { 
-    position: fixed; top: 0; width: 100%; height: 80px; 
+    position: fixed; top: 0; width: 100%; height: 90px; 
     background: #fbfaf7; display: flex; align-items: center; 
-    padding: 0 5%; z-index: 9999; border-bottom: 1px solid #eaddcf; 
+    padding: 0 5%; z-index: 9999; border-bottom: 1px solid rgba(0,0,0,0.05);
   }
-  
-  /* 左侧 Logo */
-  .logo { 
-    font-size: 22px; font-weight: 300; letter-spacing: 0.2em; 
-    cursor: pointer; color: #2c2520; 
+
+  /* Logo 区：通过缩放对比和颜色区分，让它看起来像大牌标签 */
+  .logo-text { 
+    display: flex; flex-direction: column; 
+    text-decoration: none; color: #1a1a1a; 
+    cursor: pointer; line-height: 1;
+    margin-right: 60px; /* 拉开与导航的距离 */
   }
-  
-  /* 导航栏：用 margin-left 自动撑开 */
-  nav { 
-    display: flex; gap: 40px; margin-left: 60px; /* Logo与导航的固定距离 */
+  .logo-text { font-size: 26px; font-weight: 700; letter-spacing: 0.3em; }
+  .logo-text span { 
+    font-size: 8px; font-weight: 300; letter-spacing: 0.4em; 
+    color: #888; margin-top: 6px; text-transform: uppercase;
   }
+
+  /* 导航区：增加呼吸感 */
+  nav { display: flex; gap: 45px; align-items: center; }
   nav div { 
-    cursor: pointer; font-size: 12px; color: #7c7267; 
-    transition: 0.3s; letter-spacing: 0.05em; 
+    cursor: pointer; font-size: 12px; color: #444; 
+    letter-spacing: 0.1em; transition: 0.3s;
+    position: relative;
   }
-  nav div:hover { color: #2c2520; }
-  
-  /* 购物车：固定在最右侧 */
+  /* 导航选中/悬停时的微动效：极细底线 */
+  nav div:hover { color: #000; }
+  nav div::after { 
+    content: ''; position: absolute; left: 0; bottom: -5px; 
+    width: 0; height: 1px; background: #000; transition: 0.3s;
+  }
+  nav div:hover::after { width: 100%; }
+
+  /* 购物车：设计成极简的图标感 */
   .cart-trigger { 
-    margin-left: auto; /* 关键：把购物车推到最右侧 */
-    cursor: pointer; font-size: 12px; color: #2c2520; 
-    border-bottom: 1px solid #2c2520; padding-bottom: 2px;
+    margin-left: auto; cursor: pointer; font-size: 12px; 
+    color: #1a1a1a; border: 1px solid #1a1a1a; 
+    padding: 6px 15px; transition: 0.3s;
   }
-  .cart-trigger:hover { opacity: 0.6; }
-
-  /* 商品列表背景优化 */
-  .products-grid { 
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; 
-    max-width: 1200px; margin: 120px auto 100px; padding: 20px; 
-    background: #fff; /* 给商品区一个纯白背景，产生悬浮质感 */
-    border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-  }
-  .p-card { cursor: pointer; padding: 10px; transition: 0.3s; }
-  .p-card:hover { background: #fdfdfd; }
-  .p-card img { width: 100%; aspect-ratio: 1 / 1.2; object-fit: cover; }
-    
-    /* 购物车侧边栏 */
-    .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #fff; z-index: 10000; transition: 0.4s ease; padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-    .cart-sidebar.show { right: 0; }
-    .cart-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #eee; align-items: center; }
-
-    /* 详情页弹窗 */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9000; display: none; align-items: center; justify-content: center; }
-    .modal-overlay.show { display: flex; }
-    .modal-window { background: #fff; width: 800px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    .m-thumb { width: 60px; height: 60px; object-fit: cover; cursor: pointer; border: 1px solid #ddd; }
-  </style>
+  .cart-trigger:hover { background: #1a1a1a; color: #fff; }
+</style>
 </head>
 <body>
 
@@ -70,17 +57,16 @@
   </a>
 
   <nav>
-    <div onclick="render()">すべて</div>
-    <div onclick="filter('ペット用品')">ペット用品</div>
-    <div onclick="filter('ファッション・アクセサリー')">ファッション</div>
-    <div onclick="filter('生活雑貨')">生活雑貨</div>
+    <div onclick="render()">ALL PRODUCTS</div>
+    <div onclick="filter('ペット用品')">PET</div>
+    <div onclick="filter('ファッション・アクセサリー')">FASHION</div>
+    <div onclick="filter('生活雑貨')">LIVING</div>
   </nav>
 
   <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
-    カート <span id="cartCount">(0)</span>
+    BAG <span id="cartCount">(0)</span>
   </div>
 </header>
-
 <div class="cart-sidebar" id="cartSidebar">
   <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>バッグ</h2><button onclick="document.getElementById('cartSidebar').classList.remove('show')">✕</button></div>
   <div id="cartItems" style="flex:1; overflow-y:auto;"></div>

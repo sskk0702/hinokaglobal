@@ -73,20 +73,18 @@
 
 <div class="modal-overlay" id="productModal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
-    <button onclick="document.getElementById('productModal').classList.remove('show')" style="float:right; border:none; background:none; cursor:pointer; font-size:18px;">✕</button>
+    <button onclick="document.getElementById('productModal').classList.remove('show')" style="float:right; border:none; background:none; cursor:pointer;">✕</button>
     
-    <div id="modalContent">
-      <h2 id="modalTitle" style="margin-bottom:10px;"></h2>
-      <p id="modalPrice" style="margin-bottom:15px; font-weight:bold; font-size:16px;"></p>
-      
-      <div id="modalSpecs" style="margin:20px 0; display:flex; gap:10px;"></div>
-      
-      <p id="modalDesc" style="font-size:13px; line-height:1.6; color:#555;"></p>
-      
-      <div id="modalDetails" style="margin-top:20px; font-size:12px; color:#666; line-height:1.8;"></div>
-      
-      <button class="atc-btn" id="modalAtcBtn" style="margin-top:20px;">カートに追加</button>
+    <div class="gallery" style="width:100%; text-align:center;">
+        <img id="modalMainImg" src="" style="width:100%; max-height:300px; object-fit:contain;">
+        <div id="thumbContainer" style="display:flex; gap:10px; justify-content:center; margin-top:15px;"></div>
     </div>
+
+    <h2 id="modalTitle" style="margin-top:20px;"></h2>
+    <p id="modalPrice" style="font-weight:bold;"></p>
+    <div id="modalSpecs" style="margin:15px 0;"></div>
+    <p id="modalDesc" style="font-size:13px; color:#666;"></p>
+    <button class="atc-btn" id="modalAtcBtn" style="margin-top:20px;">カートに追加</button>
   </div>
 </div>
 
@@ -94,65 +92,60 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-  function render(category = 'all') {
+function render(category = 'all') {
     const grid = document.getElementById('products-grid');
-    grid.innerHTML = '';
+    grid.innerHTML = ''; 
     const filtered = (category === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
 
     filtered.forEach(p => {
-      grid.innerHTML += `
-        <div class="p-card">
-          <div class="p-card-img" onclick="openModal(${p.id})"><img src="${p.image}" alt="${p.name}"></div>
-          <div class="p-card-body" onclick="openModal(${p.id})">
-            <h3 class="p-card-name">${p.name}</h3>
-            <div class="p-card-price">¥${p.price.toLocaleString()}</div>
-          </div>
-          <button class="atc-btn" onclick="addToCart(${p.id})">カートに追加</button>
-        </div>
-      `;
+        grid.innerHTML += `
+            <div class="p-card">
+                <div class="p-card-img" onclick="openModal(${p.id})">
+                    <img src="${p.image}" alt="${p.name}">
+                </div>
+                <div class="p-card-body" onclick="openModal(${p.id})">
+                    <h3 class="p-card-name">${p.name}</h3>
+                    <div class="p-card-price">¥${p.price.toLocaleString()}</div>
+                </div>
+                <button class="atc-btn" onclick="addToCart(${p.id})">ADD TO CART</button>
+            </div>
+        `;
     });
-  }
+}
 
 function openModal(id) {
-  const p = PRODUCTS.find(x => x.id === id);
-  if (!p) return;
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return;
 
-  // 1. 设置基础信息
-  document.getElementById('modalTitle').innerText = p.name;
-  document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
-  document.getElementById('modalDesc').innerText = p.desc;
-  
-  // 2. 动态生成规格选择 (颜色/尺寸下拉框)
-  let specsHtml = '';
-  if (p.colors && p.colors.length > 0) {
-    specsHtml += `<div><label>カラー:</label><select id="selectedColor" style="margin-left:5px;">${p.colors.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}</select></div>`;
-  }
-  if (p.sizes && p.sizes.length > 0) {
-    specsHtml += `<div><label>サイズ:</label><select id="selectedSize" style="margin-left:5px;">${p.sizes.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}</select></div>`;
-  }
-  document.getElementById('modalSpecs').innerHTML = specsHtml;
-
-  // 3. 展示详细资料 (素材、发货信息等)
-  document.getElementById('modalDetails').innerHTML = `
-    <p><strong>素材:</strong> ${p.material || '-'}</p>
-    <p><strong>発送:</strong> ${p.origin} / ${p.delivery}</p>
-    <p style="font-size:10px; margin-top:10px; color:#999;">${p.notice || ''}</p>
-  `;
-
-  // 4. 绑定按钮动作：点击时获取下拉框的值
-  const btn = document.getElementById('modalAtcBtn');
-  btn.onclick = () => {
-    const color = document.getElementById('selectedColor')?.value || null;
-    const size = document.getElementById('selectedSize')?.value || null;
+    // 1. 设置主图
+    document.getElementById('modalMainImg').src = p.image;
     
-    // 调用加购函数并传入规格
-    addToCart(p.id, { color, size });
-    
-    // 关闭弹窗
-    document.getElementById('productModal').classList.remove('show');
-  };
+    // 2. 生成缩略图列表
+    const thumbContainer = document.getElementById('thumbContainer');
+    thumbContainer.innerHTML = p.images.map(img => 
+        `<img src="${img}" style="width:60px; height:60px; cursor:pointer; border:1px solid #ddd;" onmouseover="document.getElementById('modalMainImg').src='${img}'">`
+    ).join('');
 
-  document.getElementById('productModal').classList.add('show');
+    // 3. 设置文字信息
+    document.getElementById('modalTitle').innerText = p.name;
+    document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
+    document.getElementById('modalDesc').innerText = p.desc;
+
+    // 4. 生成规格下拉框
+    let specsHtml = '';
+    if (p.colors) specsHtml += `颜色: <select id="modalColor">${p.colors.map(c => `<option>${c.name}</option>`).join('')}</select> `;
+    if (p.sizes) specsHtml += `尺寸: <select id="modalSize">${p.sizes.map(s => `<option>${s.name}</option>`).join('')}</select>`;
+    document.getElementById('modalSpecs').innerHTML = specsHtml;
+
+    // 5. 绑定弹窗内的加购按钮
+    document.getElementById('modalAtcBtn').onclick = () => {
+        const color = document.getElementById('modalColor')?.value;
+        const size = document.getElementById('modalSize')?.value;
+        addToCart(p.id, { color, size });
+        document.getElementById('productModal').classList.remove('show');
+    };
+
+    document.getElementById('productModal').classList.add('show');
 }
 
 function addToCart(id, specs = {}) {

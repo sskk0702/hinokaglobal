@@ -426,3 +426,138 @@
   </script>
 </body>
 </html>
+/* ========================================================
+   株式会社HINOKA - 高奢买手店弹窗与卡片专属皮肤
+   ======================================================== */
+
+/* 1. 商品卡片基础与悬停高级感 */
+.product-card {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  padding: 15px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+  border-color: #bcaba0; /* 优雅的轻奢大地色边框过渡 */
+}
+.product-img-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f7f7f7;
+  margin-bottom: 12px;
+}
+/* 🌟 升级版：基础图片定位（覆盖你找到的那段） */
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s ease;
+}
+
+/* 🌟 新增：配合 JS 双图渲染的丝滑交织悬停特效 */
+.product-card:hover .main-img {
+  opacity: 0;
+  transform: scale(1.02); /* 轻微放大，极具高级感 */
+}
+
+.product-card:hover .hover-img {
+  opacity: 1;
+  transform: scale(1.02);
+}
+.product-card:hover .product-img {
+  transform: scale(1.03); /* 极其内敛的放大效果 */
+}
+
+/* 2. 弹窗遮罩层（默认隐藏，加 show 时显示） */
+#productModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 37, 48, 0.4); /* 柔和的高级冷灰调遮罩 */
+  backdrop-filter: blur(4px); /* 现代感毛玻璃效果 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#productModal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 3. 弹窗主体白盒 */
+.modal-content {
+  background: #ffffff;
+  width: 90%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding: 40px;
+  gap: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* 响应式：手机端自动变成上下堆叠 */
+@media (max-width: 768px) {
+  .modal-content {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+}
+
+/* 4. 规格选择按钮高级皮肤 */
+.modal-spec-btn {
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  color: #1a2530;
+  padding: 8px 16px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modal-spec-btn:hover {
+  border-color: #1a2530;
+}
+.modal-spec-btn.active {
+  background: #1a2530;
+  border-color: #1a2530;
+  color: #ffffff;
+}
+
+/* 5. 优雅的加入购物车主按钮 */
+#modalAtcBtn {
+  width: 100%;
+  background: #1a2530;
+  color: #ffffff;
+  border: none;
+  padding: 15px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 20px;
+}
+#modalAtcBtn:hover {
+  background: #34424e;
+}
+#modalAtcBtn:disabled {
+  background: #dcdcdc;
+  color: #808a94;
+  cursor: not-allowed;
+}

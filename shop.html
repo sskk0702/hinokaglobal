@@ -128,8 +128,14 @@ function updateCart() {
     document.getElementById('cartCount').innerText = `(${cart.length})`;
     let sub = cart.reduce((s, i) => s + i.price, 0);
     
-    // 逻辑：满5000免邮，否则800。离岛特殊加算。
-    let shipping = sub >= 5000 ? 0 : 800;
+    // 获取下拉菜单的值
+    const areaSelect = document.getElementById('shippingArea');
+    const isIsland = areaSelect ? areaSelect.value === 'island' : false;
+    
+    // 逻辑：满5000免邮，否则800。若是离岛，额外加1500。
+    let baseShipping = sub >= 5000 ? 0 : 800;
+    let islandFee = isIsland ? 1500 : 0;
+    let totalShipping = baseShipping + islandFee;
     
     document.getElementById('cartItems').innerHTML = cart.map((i, idx) => `
       <div class="cart-item">
@@ -139,11 +145,11 @@ function updateCart() {
       
     document.getElementById('cartTotal').innerHTML = `
       <div style="margin:10px 0;">小計: ¥${sub.toLocaleString()}</div>
-      <div style="margin:10px 0;">送料: ${shipping === 0 ? '無料' : '¥' + shipping.toLocaleString()}</div>
-      <div style="margin-top:15px; font-weight:bold;">合計: ¥${(sub + shipping).toLocaleString()}</div>
+      <div style="margin:10px 0;">送料: ¥${totalShipping.toLocaleString()}</div>
+      <div style="margin-top:15px; font-weight:bold;">合計: ¥${(sub + totalShipping).toLocaleString()}</div>
       <select id="shippingArea" onchange="updateCart()" style="width:100%; margin-top:10px;">
-        <option value="mainland">日本本土</option>
-        <option value="island">離島 (+¥1500)</option>
+        <option value="mainland" ${!isIsland ? 'selected' : ''}>日本本土</option>
+        <option value="island" ${isIsland ? 'selected' : ''}>離島 (+¥1500)</option>
       </select>`;
 }
 

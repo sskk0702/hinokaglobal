@@ -125,29 +125,42 @@ function openModal(id) {
   }
 
 function updateCart() {
-    document.getElementById('cartCount').innerText = `(${cart.length})`;
+    const cartCount = document.getElementById('cartCount');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    
+    // 如果购物车为空，直接显示空状态
+    if (cart.length === 0) {
+        cartCount.innerText = "(0)";
+        cartItems.innerHTML = "<p style='padding:20px; text-align:center;'>カートに商品は入っていません。</p>";
+        cartTotal.innerHTML = ""; // 隐藏金额
+        return;
+    }
+
+    cartCount.innerText = `(${cart.length})`;
     let sub = cart.reduce((s, i) => s + i.price, 0);
     
-    // 获取下拉菜单的值
+    // 获取当前选中的地区 (默认为 mainland)
     const areaSelect = document.getElementById('shippingArea');
     const isIsland = areaSelect ? areaSelect.value === 'island' : false;
     
-    // 逻辑：满5000免邮，否则800。若是离岛，额外加1500。
+    // 逻辑：满5000免邮，否则800。离岛在基础运费上加1500
     let baseShipping = sub >= 5000 ? 0 : 800;
     let islandFee = isIsland ? 1500 : 0;
     let totalShipping = baseShipping + islandFee;
     
-    document.getElementById('cartItems').innerHTML = cart.map((i, idx) => `
+    cartItems.innerHTML = cart.map((i, idx) => `
       <div class="cart-item">
         <div><p>${i.name}</p><p>¥${i.price.toLocaleString()}</p></div>
         <button onclick="removeItem(${idx})" style="border:none; background:none; cursor:pointer; color:red;">削除</button>
       </div>`).join('');
       
-    document.getElementById('cartTotal').innerHTML = `
-      <div style="margin:10px 0;">小計: ¥${sub.toLocaleString()}</div>
-      <div style="margin:10px 0;">送料: ¥${totalShipping.toLocaleString()}</div>
-      <div style="margin-top:15px; font-weight:bold;">合計: ¥${(sub + totalShipping).toLocaleString()}</div>
-      <select id="shippingArea" onchange="updateCart()" style="width:100%; margin-top:10px;">
+    cartTotal.innerHTML = `
+      <div style="margin:10px 0; display:flex; justify-content:space-between;"><span>小計:</span> <span>¥${sub.toLocaleString()}</span></div>
+      <div style="margin:10px 0; display:flex; justify-content:space-between;"><span>送料:</span> <span>¥${totalShipping.toLocaleString()}</span></div>
+      <div style="margin:15px 0; font-size:18px; font-weight:bold; display:flex; justify-content:space-between;"><span>合計:</span> <span>¥${(sub + totalShipping).toLocaleString()}</span></div>
+      <p style="font-size:12px; color:#666; margin-bottom:5px;">お届け先を選択してください：</p>
+      <select id="shippingArea" onchange="updateCart()" style="width:100%; padding:8px;">
         <option value="mainland" ${!isIsland ? 'selected' : ''}>日本本土</option>
         <option value="island" ${isIsland ? 'selected' : ''}>離島 (+¥1500)</option>
       </select>`;

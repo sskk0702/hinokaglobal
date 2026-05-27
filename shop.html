@@ -5,449 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>株式会社HINOKA - オンラインストア</title>
   <style>
-    /* ────────────────────────────────────────────────────────
-       HINOKA 高奢品牌视觉系统 (Aesthetics Base)
-       ──────────────────────────────────────────────────────── */
     :root {
-      --bg-color: #fbfaf7;       /* 暖米色背景 */
-      --text-main: #2c2520;      /* 深原木黑 */
-      --text-muted: #7c7267;     /* 亚麻灰 */
-      --accent-gold: #c5a880;    /* 柔金色 */
-      --border-color: #eaddcf;   /* 极细边框线 */
-      --font-luxury: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      --bg-color: #fbfaf7; --text-main: #2c2520; --text-muted: #7c7267;
+      --accent-gold: #c5a880; --border-color: #eaddcf;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-luxury);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.6;
-    }
+    body { background-color: var(--bg-color); color: var(--text-main); font-family: "Helvetica Neue", Arial, sans-serif; }
+    header { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(253, 252, 249, 0.95); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 0 4%; z-index: 100; }
+    .filter-bar { margin-top: 100px; display: flex; justify-content: center; gap: 20px; padding: 0 20px; }
+    .filter-btn { background: none; border: 1px solid var(--border-color); padding: 8px 24px; cursor: pointer; transition: 0.3s; color: var(--text-muted); font-size: 13px; }
+    .filter-btn.active { border-color: var(--text-main); color: var(--text-main); background: #fff; }
 
-    /* 顶部导航栏 */
-    header {
-      position: fixed;
-      top: 0; left: 0; width: 100%;
-      height: 70px;
-      background: rgba(253, 252, 249, 0.95);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 4%;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
-    .logo {
-      font-size: 18px;
-      letter-spacing: 3px;
-      font-weight: 500;
-    }
-    .cart-trigger {
-      cursor: pointer;
-      position: relative;
-      font-size: 14px;
-      letter-spacing: 1px;
-    }
-    .cart-count-badge {
-      background: var(--text-main);
-      color: #fff;
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 10px;
-      margin-left: 5px;
-    }
-
-    /* 分类快捷过滤器 */
-    .filter-bar {
-      margin-top: 110px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 0 20px;
-    }
-    .filter-btn {
-      background: none;
-      border: 1px solid var(--border-color);
-      padding: 8px 24px;
-      font-size: 13px;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.3s;
-      color: var(--text-muted);
-    }
-    .filter-btn:hover, .filter-btn.active {
-      border-color: var(--text-main);
-      color: var(--text-main);
-      background: #fff;
-    }
-
-    /* 展区大标题 */
-    .section-container {
-      max-width: 1200px;
-      margin: 60px auto 20px auto;
-      padding: 0 4%;
-    }
-    .section-title {
-      font-size: 20px;
-      font-weight: 400;
-      letter-spacing: 2px;
-      margin-bottom: 30px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-main);
-    }
-
-    /* 商品网格（分流承载器） */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 30px 20px;
-    }
-    @media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    .section-container { max-width: 1200px; margin: 40px auto; padding: 0 4%; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 20px; }
     @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    /* 高奢商品卡片 */
-    .p-card {
-      background: #fff;
-      border: 1px solid transparent;
-      transition: all 0.4s ease;
-    }
-    .p-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 20px rgba(44,37,32,0.04);
-    }
-    .p-card-img {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: #fcfbfa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .p-card-img img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-      transition: transform 0.6s ease;
-    }
-    .p-card:hover .p-card-img img {
-      transform: scale(1.03);
-    }
-    .p-card-body {
-      padding: 15px;
-    }
-    .p-card-cat {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-    .p-card-name {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--text-main);
-      height: 40px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      margin-bottom: 12px;
-    }
-    .p-card-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 10px;
-      border-top: 1px dashed #f0eae4;
-    }
-    .p-card-price {
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .p-card-price small {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-left: 2px;
-    }
-    .atc-btn {
-      background: var(--text-main);
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      font-size: 11px;
-      letter-spacing: 1px;
-      cursor: pointer;
-    }
-    .atc-btn:disabled {
-      background: #d0c8bf;
-      cursor: not-allowed;
-    }
+    .p-card { background: #fff; border: 1px solid transparent; cursor: pointer; transition: 0.4s; }
+    .p-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(44,37,32,0.04); }
+    .p-card-img { width: 100%; aspect-ratio: 1/1; background: #fcfbfa; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .p-card-img img { max-width: 80%; max-height: 80%; object-fit: contain; }
+    .p-card-body { padding: 15px; }
+    .p-card-name { font-size: 13px; margin: 5px 0; }
+    .p-card-price { font-size: 14px; font-weight: 500; }
+    .atc-btn { width: 100%; margin-top: 10px; padding: 8px; background: var(--text-main); color: #fff; border: none; cursor: pointer; font-size: 12px; }
 
-    /* 高奢侧边栏购物车 */
-    .cart-sidebar-wrapper {
-      position: fixed;
-      top: 0; right: -450px; width: 420px; height: 100%;
-      background: #fff;
-      box-shadow: -10px 0 30px rgba(0,0,0,0.05);
-      z-index: 200;
-      transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      display: flex;
-      flex-direction: column;
-    }
-    .cart-sidebar-wrapper.show { right: 0; }
-    .cart-header {
-      padding: 24px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .cart-close-btn {
-      background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted);
-    }
-    .cart-items-container {
-      flex: 1; overflow-y: auto; padding: 24px;
-    }
-    .drawer-item-card {
-      display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px;
-      border-bottom: 1px solid #f7f4ef;
-    }
-    .drawer-item-img { width: 70px; height: 70px; background: #faf8f5; display:flex; align-items:center; justify-content:center;}
-    .drawer-item-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .drawer-item-details { flex: 1; }
-    .drawer-item-name { font-size: 13px; margin-bottom: 4px; }
-    .drawer-item-price { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
-    .drawer-item-qty-actions { display: flex; align-items: center; gap: 10px; }
-    .drawer-qty-btn { width: 24px; height: 24px; border: 1px solid var(--border-color); background: none; cursor: pointer; }
-    
-    /* 运费切换控制区 */
-    .shipping-selector-zone {
-      padding: 15px 24px; background: #faf8f5; border-top: 1px solid var(--border-color);
-    }
-    .shipping-title { font-size: 12px; font-weight: bold; margin-bottom: 8px; }
-    .shipping-options { display: flex; gap: 20px; font-size: 12px; }
-
-    .cart-footer-zone {
-      padding: 24px; border-top: 1px solid var(--border-color); background: #fff;
-    }
-    .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
-    .grand-total-row { font-size: 16px; font-weight: bold; color: #1a1512; margin-top: 5px; padding-top: 10px; border-top: 1px dashed var(--border-color); }
-    .checkout-btn { width: 100%; background: var(--text-main); color: #fff; border: none; padding: 14px; font-size: 13px; letter-spacing: 2px; cursor: pointer; margin-top: 15px; }
-
-    /* 商品细节弹窗 (Modal) */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(44,37,32,0.4); z-index: 300;
-      display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px);
-    }
-    .modal-overlay.show { display: flex; }
-    .modal-window {
-      background: #fff; width: 90%; max-width: 900px; height: 85vh; display: flex;
-      position: relative; animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
-    .modal-close-x { position: absolute; top: 20px; right: 20px; font-size: 24px; background: none; border: none; cursor: pointer; z-index: 10; }
-    .modal-left { width: 50%; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 30px; justify-content: center; }
-    .modal-main-img-wrap { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; position: relative; }
-    .modal-main-img-wrap img { max-width: 90%; max-height: 90%; object-fit: contain; }
-    .modal-nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); padding: 10px; }
-    .modal-arrow-left { left: 0; } .modal-arrow-right { right: 0; }
-    .modal-thumb-list { display: flex; gap: 8px; justify-content: center; margin-top: 15px; overflow-x: auto; }
-    .modal-thumb { width: 50px; height: 50px; object-fit: contain; border: 1px solid var(--border-color); cursor: pointer; opacity: 0.5; padding: 2px; }
-    .modal-thumb.active { opacity: 1; border-color: var(--text-main); }
-    
-    .modal-right { width: 50%; padding: 40px 30px; overflow-y: auto; display: flex; flex-direction: column; }
-    .modal-cat { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 8px; }
-    .modal-title { font-size: 18px; font-weight: 400; margin-bottom: 15px; line-height: 1.4; }
-    .modal-price { font-size: 20px; font-weight: 500; margin-bottom: 20px; color: #1a1512; }
-    .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.7; }
-    
-    .spec-group { margin-bottom: 20px; }
-    .spec-label { font-size: 12px; font-weight: bold; margin-bottom: 8px; color: var(--text-main); }
-    .spec-options { display: flex; flex-wrap: wrap; gap: 10px; }
-    .modal-spec-btn { background: #fff; border: 1px solid var(--border-color); padding: 6px 16px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
-    .modal-spec-btn.active { border-color: var(--text-main); background: var(--text-main); color: #fff; }
-    
-    .info-meta-box { margin-top: 20px; padding-top: 20px; border-top: 1px solid #f5efe9; font-size: 12px; color: var(--text-muted); }
-    .meta-line { margin-bottom: 6px; }
-    .meta-line strong { color: var(--text-main); }
-    .modal-notice-box { margin-top: 15px; padding: 10px; background: #faf6f0; font-size: 11px; color: #9c8f80; border-left: 2px solid var(--accent-gold); }
+    .cart-sidebar-wrapper { position: fixed; top:0; right:-420px; width:420px; height:100%; background:#fff; z-index:200; transition:0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow:-5px 0 15px rgba(0,0,0,0.1); padding:20px; display:flex; flex-direction:column; }
+    .cart-sidebar-wrapper.show { right:0; }
+    .checkout-btn { margin-top: auto; padding: 15px; background: var(--accent-gold); color: #fff; border: none; cursor: pointer; font-size: 14px; letter-spacing: 2px; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="logo">HINOKA</div>
-    <div class="cart-trigger" onclick="openCart()">
-      CART <span id="globalCartCount" class="cart-count-badge">0</span>
-    </div>
+    <div class="cart-trigger" style="cursor:pointer;" onclick="toggleCart(true)">CART (<span id="cartCount">0</span>)</div>
   </header>
 
   <div class="filter-bar">
-    <button class="filter-btn active" onclick="filter('all', this)">ALL</button>
-    <button class="filter-btn" onclick="filter('pet', this)">PET</button>
-    <button class="filter-btn" onclick="filter('fashion', this)">FASHION</button>
-    <button class="filter-btn" onclick="filter('goods', this)">LIFESTYLE</button>
+    <button class="filter-btn active" onclick="filterProducts('all', this)">ALL</button>
+    <button class="filter-btn" onclick="filterProducts('ペット用品', this)">PET</button>
+    <button class="filter-btn" onclick="filterProducts('ファッション・アクセサリー', this)">FASHION</button>
+    <button class="filter-btn" onclick="filterProducts('生活雑貨', this)">LIFESTYLE</button>
   </div>
 
-  <div class="section-container" id="pet-section">
-    <h2 class="section-title">PET用品 / ペット用品</h2>
-    <div class="products-grid" id="grid-pet"></div>
+  <div class="section-container">
+    <div class="products-grid" id="products-grid"></div>
   </div>
 
-  <div class="section-container" id="fashion-section">
-    <h2 class="section-title">FASHION & ACCESSORIES / ファッション・アクセサリー</h2>
-    <div class="products-grid" id="grid-fashion"></div>
-  </div>
-
-  <div class="section-container" id="lifestyle-section">
-    <h2 class="section-title">LIFESTYLE GOODS / 生活雑貨</h2>
-    <div class="products-grid" id="grid-lifestyle"></div>
-  </div>
-
-  <div class="cart-sidebar-wrapper" id="hinokaCartWrapper">
-    <div class="cart-header">
-      <div style="font-size:15px; letter-spacing:1px;">SHOPPING CART</div>
-      <button class="cart-close-btn" onclick="closeCart()">✕</button>
+  <div class="cart-sidebar-wrapper" id="cartSidebar">
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+        <h3>SHOPPING CART</h3>
+        <button onclick="toggleCart(false)" style="background:none; border:none; cursor:pointer;">✕</button>
     </div>
-    
-    <div class="cart-items-container" id="cartItemsList"></div>
-
-    <div class="shipping-selector-zone" id="cartShippingSelectorZone" style="display:none;">
-      <div class="shipping-title">お届け先地域（配送料金確認）</div>
-      <div class="shipping-options">
-        <label style="cursor:pointer;">
-          <input type="radio" name="shipping_region" id="regionMainland" value="mainland" checked onchange="changeCartRegion('mainland')">
-          日本本土 (送料無料)
-        </label>
-        <label style="cursor:pointer;">
-          <input type="radio" name="shipping_region" id="regionIsland" value="island" onchange="changeCartRegion('island')">
-          北海道・沖縄・離島 (+¥1,500)
-        </label>
-      </div>
-      <div id="cart-island-warn" style="display:none; color:#bf0000; font-size:11px; margin-top:5px;">
-        ※離島地域への配送は、中継手数料として別途1,500円を申し受けます。
-      </div>
-    </div>
-
-    <div class="cart-footer-zone" id="cartFooter">
-      <div class="summary-row">
-        <span>商品合計</span>
-        <span id="cartSubtotalAmount">¥0</span>
-      </div>
-      <div class="summary-row">
-        <span>配送料</span>
-        <span id="cartShippingTotalAmount">送料無料</span>
-      </div>
-      <div class="summary-row grand-total-row">
-        <span>総合計 (税込)</span>
-        <span id="cartGrandTotalAmount">¥0</span>
-      </div>
-      <button class="checkout-btn" onclick="alert('注文手続きへ進みます（デモ）')">CHECKOUT</button>
-    </div>
+    <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
+    <button class="checkout-btn" onclick="goToCheckout()">CHECKOUT</button>
   </div>
 
-  <div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
-    <div class="modal-window">
-      <button class="modal-close-x" onclick="doCloseModal()">✕</button>
-      
-      <div class="modal-left">
-        <div class="modal-main-img-wrap">
-          <button class="modal-nav-arrow modal-arrow-left" onclick="navModalImage(-1)">‹</button>
-          <img id="modalMainImage" src="" alt="商品画像">
-          <button class="modal-nav-arrow modal-arrow-right" onclick="navModalImage(1)">›</button>
-        </div>
-        <div class="modal-thumb-list" id="modalThumbList"></div>
-      </div>
-      
-      <div class="modal-right">
-        <div class="modal-cat" id="modalCategory">Category</div>
-        <h2 class="modal-title" id="modalTitle">Product Title</h2>
-        <div class="modal-price" id="modalPrice">¥0</div>
-        <div class="modal-desc" id="modalLongDesc">Description</div>
-        
-        <div class="spec-group" id="modalColorGroup">
-          <div class="spec-label">COLOR</div>
-          <div class="spec-options" id="modalColorOptions"></div>
-        </div>
-        
-        <div class="spec-group" id="modalSizeGroup">
-          <div class="spec-label">SIZE</div>
-          <div class="spec-options" id="modalSizeOptions"></div>
-        </div>
-        
-        <div class="info-meta-box">
-          <div class="meta-line"><strong>発送元:</strong> <span id="modalOrigin"></span></div>
-          <div class="meta-line"><strong>配送目安:</strong> <span id="modalDelivery"></span></div>
-          <div class="meta-line"><strong>素材・成分:</strong> <span id="modalMaterial"></span></div>
-          <div class="modal-notice-box" id="modalNotice"></div>
-        </div>
-        
-        <button class="checkout-btn" id="modalAtcBtn" onclick="addModalProductToCart()" style="margin-top:auto;">カートに追加する</button>
-      </div>
-    </div>
-  </div>
+  <script src="data.js"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-<script src="data.js"></script>
-<script>
-  // 1. 初始化核心变量
-  let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
-  let currentModalProductId = '';
-  let selectedColorObj = null;
-  let selectedSizeObj = null;
-  let currentImageIndex = 0;
-  let currentProductImagesArray = [];
-  
-  // 2. 补全缺失的渲染引擎 (修复你提到的 Lifestyle 跳转和分页逻辑)
-  function render() {
-    const gridPet = document.getElementById('grid-pet');
-    const gridFashion = document.getElementById('grid-fashion');
-    const gridLifestyle = document.getElementById('grid-lifestyle');
-    
-    // 清空旧数据
-    [gridPet, gridFashion, gridLifestyle].forEach(el => { if(el) el.innerHTML = ''; });
+    function render(category = 'all') {
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = '';
+      const filtered = (category === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
 
-    PRODUCTS.forEach(p => {
-      const cardHTML = `
-        <div class="p-card" onclick="openProductModal(${p.id})">
-          <div class="p-card-img"><img src="${p.image}" alt="${p.name}"></div>
-          <div class="p-card-body">
-            <div class="p-card-cat">${p.category}</div>
-            <h3 class="p-card-name">${p.name}</h3>
-            <div class="p-card-price">¥${p.price.toLocaleString()}</div>
+      filtered.forEach(p => {
+        grid.innerHTML += `
+          <div class="p-card">
+            <div class="p-card-img"><img src="${p.image}" alt="${p.name}"></div>
+            <div class="p-card-body">
+              <h3 class="p-card-name">${p.name}</h3>
+              <div class="p-card-price">¥${p.price.toLocaleString()}</div>
+              <button class="atc-btn" onclick="addToCart(${p.id})">カートに追加</button>
+            </div>
           </div>
-        </div>
-      `;
-      if (p.category === 'ペット用品' && gridPet) gridPet.innerHTML += cardHTML;
-      else if (p.category === 'ファッション・アクセサリー' && gridFashion) gridFashion.innerHTML += cardHTML;
-      else if (p.category === '生活雑貨' && gridLifestyle) gridLifestyle.innerHTML += cardHTML;
-    });
-  }
-
-  // 3. 修复 Lifestyle 跳转锚点
-  function filter(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    
-    const map = { 'pet': 'pet-section', 'fashion': 'fashion-section', 'goods': 'lifestyle-section' };
-    const targetId = map[cat];
-    if (targetId) {
-      document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+        `;
+      });
     }
-  }
 
-  // 4. 确保所有交互函数存在 (防止点击时控制台报错)
-  function openCart() { document.getElementById('hinokaCartWrapper').classList.add('show'); }
-  function closeCart() { document.getElementById('hinokaCartWrapper').classList.remove('show'); }
-  function doCloseModal() { document.getElementById('productModal').classList.remove('show'); }
-  function closeProductModal(e) { if (e.target.id === 'productModal') doCloseModal(); }
+    function addToCart(id) {
+      const product = PRODUCTS.find(p => p.id === id);
+      const existing = cart.find(item => item.id === id);
+      if (existing) existing.qty += 1;
+      else cart.push({ ...product, qty: 1 });
+      
+      localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+      updateCartUI();
+      toggleCart(true);
+    }
 
-  // 执行渲染
-  window.addEventListener('DOMContentLoaded', render);
-</script>
+    function updateCartUI() {
+      const list = document.getElementById('cartItems');
+      const count = document.getElementById('cartCount');
+      count.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+      list.innerHTML = cart.map(item => `
+        <div style="margin-bottom:15px; font-size:12px;">
+          ${item.name} x ${item.qty} - ¥${(item.price * item.qty).toLocaleString()}
+        </div>
+      `).join('');
+    }
+
+    function filterProducts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(cat);
+    }
+
+    function toggleCart(show) { document.getElementById('cartSidebar').classList.toggle('show', show); }
+    
+    function goToCheckout() {
+        if(cart.length === 0) { alert('カートが空です'); return; }
+        window.location.href = 'checkout.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { render('all'); updateCartUI(); });
+  </script>
 </body>
 </html>

@@ -1,27 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>商品詳細 - 株式会社HINOKA</title>
+</head>
 <body>
-  <div id="product-container" style="max-width: 800px; margin: 50px auto; display: flex; gap: 40px;">
-    </div>
+  <div id="product-container" style="max-width: 800px; margin: 50px auto; display: flex; gap: 40px; font-family: sans-serif;">
+    <p>商品を読み込んでいます...</p>
+  </div>
 
   <script src="data.js"></script>
   <script>
+    // 1. 调试：检查数据是否成功加载
+    console.log("PRODUCTS 数据:", typeof PRODUCTS !== 'undefined' ? PRODUCTS : "未找到 PRODUCTS");
+
     const params = new URLSearchParams(window.location.search);
     const pId = params.get('id');
-    const p = PRODUCTS.find(x => x.id == pId);
+    
+    // 确保 PRODUCTS 已定义且是一个数组
+    if (typeof PRODUCTS !== 'undefined' && Array.isArray(PRODUCTS)) {
+      const p = PRODUCTS.find(x => String(x.id) === String(pId));
 
-    if(p) {
-      document.getElementById('product-container').innerHTML = `
-        <img src="${p.image}" style="width:400px; height:400px; object-fit:cover;">
-        <div>
-          <h1>${p.name}</h1>
-          <p style="font-size:24px; margin:20px 0;">¥${p.price.toLocaleString()}</p>
-          <button onclick="addToCart()">カートに追加</button>
-        </div>
-      `;
+      if (p) {
+        document.getElementById('product-container').innerHTML = `
+          <img src="${p.image}" style="width:400px; height:400px; object-fit:cover; border:1px solid #eee;">
+          <div>
+            <h1>${p.name}</h1>
+            <p style="font-size:24px; margin:20px 0; color:#c5a880;">¥${p.price.toLocaleString()}</p>
+            <button onclick="addToCart()" style="padding:15px 30px; cursor:pointer;">カートに追加</button>
+          </div>
+        `;
+        // 把 p 存入 window 以便 addToCart 函数使用
+        window.selectedProduct = p;
+      } else {
+        document.getElementById('product-container').innerHTML = `<p>商品が見つかりません。ID: ${pId}</p>`;
+      }
+    } else {
+      document.getElementById('product-container').innerHTML = `<p style="color:red;">エラー: data.js が正しく読み込まれていません。</p>`;
     }
 
     function addToCart() {
+       const p = window.selectedProduct;
+       if (!p) return;
        let cart = JSON.parse(localStorage.getItem('hinoka_cart') || '[]');
        cart.push(p);
        localStorage.setItem('hinoka_cart', JSON.stringify(cart));

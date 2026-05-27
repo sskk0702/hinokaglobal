@@ -93,6 +93,22 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
+  function openCart() {
+    const sidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('cartOverlay');
+    
+    if (sidebar && overlay) {
+      sidebar.classList.add('show');
+      overlay.classList.add('show');
+    } else {
+      console.error("找不到购物车侧边栏或遮罩层，请检查 HTML ID 是否正确！");
+    }
+  }
+
+  function closeAll() {
+    document.getElementById('cartSidebar').classList.remove('show');
+    document.getElementById('cartOverlay').classList.remove('show');
+  }
   function showToast(msg) {
     let toast = document.createElement('div');
     toast.className = 'toast';

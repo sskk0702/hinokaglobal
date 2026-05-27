@@ -93,6 +93,29 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
+  // 打开购物车 (包含显示遮罩)
+function openCart() {
+  document.getElementById('cartSidebar').classList.add('show');
+  document.getElementById('cartOverlay').classList.add('show');
+}
+
+// 统一关闭函数 (供关闭按钮和点击遮罩调用)
+function closeAll() {
+  document.getElementById('cartSidebar').classList.remove('show');
+  document.getElementById('cartOverlay').classList.remove('show');
+}
+
+// 同时确保在点击加入购物车时，也能顺便调用 openCart
+// (在你的 openModal 函数里，修改按钮点击逻辑为：)
+btn.onclick = p.stock > 0 ? () => { 
+    cart.push(p); 
+    localStorage.setItem('hinoka_cart', JSON.stringify(cart)); 
+    updateCart(); 
+    showToast("カートに追加しました"); 
+    openCart(); // 这里使用新的打开函数
+    document.getElementById('modal').classList.remove('show'); 
+} : null;
+  
   function showToast(msg) {
     let toast = document.createElement('div');
     toast.className = 'toast';

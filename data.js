@@ -7,11 +7,11 @@ const PRODUCTS = [
         price: 8900,
         stock: 15,
         badge: "new",
-        image: "images/Photoroom_雑貨_162139.jpg",
-        image2: "images/IMG_5113ペット.PNG",
+        image: "images/IMG_5169.jpg",
+        image2: "images/IMG_5274.JPG",
         images: [
-          "images/Photoroom_雑貨_162139.jpg",
-          "images/IMG_5113ペット.PNG"
+          "images/IMG_5275.JPG",
+          "images/IMG_5276.JPG"
         ],
         colors: [
           { name: "Off White", priceModifier: 0 },

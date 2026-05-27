@@ -8,54 +8,52 @@
     :root { --bg-color: #fbfaf7; --text-main: #2c2520; --accent-gold: #c5a880; --border-color: #eaddcf; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg-color); color: var(--text-main); font-family: "Helvetica Neue", sans-serif; }
-    
     header { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(253, 252, 249, 0.95); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 0 4%; z-index: 100; }
-    .filter-bar { margin-top: 100px; display: flex; justify-content: center; gap: 20px; padding: 0 20px; }
-    .filter-btn { background: none; border: 1px solid var(--border-color); padding: 8px 24px; cursor: pointer; color: #7c7267; font-size: 13px; }
-    .filter-btn.active { border-color: var(--text-main); color: var(--text-main); background: #fff; }
-
-    .section-container { max-width: 1200px; margin: 40px auto; padding: 0 4%; }
-    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 20px; }
-    
-    .p-card { background: #fff; border: 1px solid transparent; display: flex; flex-direction: column; cursor: pointer; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 120px auto 40px; padding: 0 4%; }
+    .p-card { background: #fff; border: 1px solid var(--border-color); display: flex; flex-direction: column; cursor: pointer; }
     .p-card-img { width: 100%; aspect-ratio: 1/1; overflow: hidden; }
-    .p-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-    .p-card:hover .p-card-img img { transform: scale(1.1); }
-    
-    .p-card-body { padding: 15px; flex: 1; }
+    .p-card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+    .p-card:hover .p-card-img img { transform: scale(1.05); }
+    .p-card-body { padding: 15px; }
     .atc-btn { width: 100%; padding: 10px; background: var(--text-main); color: #fff; border: none; cursor: pointer; }
 
-    .modal-overlay { position:fixed; inset:0; background:rgba(44,37,32,0.6); z-index:999; display:none; align-items:center; justify-content:center; }
-    .modal-overlay.show { display:flex; }
-    .modal-window { background:#fff; width:90%; max-width:600px; padding:30px; position:relative; }
+    /* 侧边栏 */
+    .cart-sidebar-wrapper { position: fixed; top: 0; right: -420px; width: 420px; height: 100%; background: #fff; z-index: 1000; transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1); padding: 20px; display: flex; flex-direction: column; }
+    .cart-sidebar-wrapper.show { right: 0; }
+
+    /* 详情弹窗 */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal-window { background: #fff; width: 90%; max-width: 600px; padding: 40px; position: relative; max-height: 90vh; overflow-y: auto; }
   </style>
 </head>
 <body>
 
 <header>
-  <a href="index.html" style="text-decoration:none; color:inherit;"><div class="logo">HINOKA</div></a>
-  <div onclick="toggleCart(true)" style="cursor:pointer;">CART (<span id="cartCount">0</span>)</div>
+  <a href="index.html" style="text-decoration:none; color:inherit;"><h2>HINOKA</h2></a>
+  <div class="cart-trigger" style="cursor:pointer; display:flex; align-items:center;" onclick="toggleCart(true)">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <span id="cartCount" style="margin-left:5px; font-weight:bold;">0</span>
+  </div>
 </header>
 
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="filterProducts('all', this)">ALL</button>
-  <button class="filter-btn" onclick="filterProducts('ペット用品', this)">PET</button>
-  <button class="filter-btn" onclick="filterProducts('ファッション・アクセサリー', this)">FASHION</button>
-  <button class="filter-btn" onclick="filterProducts('生活雑貨', this)">LIFESTYLE</button>
-</div>
+<div class="products-grid" id="products-grid"></div>
 
-<div class="section-container">
-  <div class="products-grid" id="products-grid"></div>
+<div class="cart-sidebar-wrapper" id="cartSidebar">
+  <div style="display:flex; justify-content:space-between;"><h3>CART</h3><button onclick="toggleCart(false)">✕</button></div>
+  <div id="cartItems" style="flex:1; overflow-y:auto; margin:20px 0;"></div>
+  <button class="atc-btn" onclick="window.location.href='checkout.html'">CHECKOUT</button>
 </div>
 
 <div class="modal-overlay" id="productModal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
-    <button onclick="document.getElementById('productModal').classList.remove('show')" style="float:right; border:none; background:none; cursor:pointer;">✕</button>
-    <div id="modalMainImgArea"><img id="modalMainImg" src="" style="width:100%;"></div>
+    <img id="modalMainImg" src="" style="width:100%; aspect-ratio:1/1; object-fit:cover;">
     <div id="thumbContainer" style="display:flex; gap:10px; margin:10px 0;"></div>
     <h2 id="modalTitle"></h2>
-    <div id="modalSpecs" style="margin:15px 0;"></div>
-    <button class="atc-btn" id="modalAtcBtn">カートに追加</button>
+    <p id="modalPrice" style="font-weight:bold; margin:10px 0;"></p>
+    <div id="modalSpecs"></div>
+    <div id="modalDetails" style="font-size:12px; color:#666; margin:15px 0; line-height:1.6;"></div>
+    <button class="atc-btn" id="modalAtcBtn">ADD TO CART</button>
   </div>
 </div>
 
@@ -63,40 +61,37 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-  function render(category = 'all') {
+  function render() {
     const grid = document.getElementById('products-grid');
-    grid.innerHTML = '';
-    const filtered = (category === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
-    filtered.forEach(p => {
-      grid.innerHTML += `
-        <div class="p-card">
-          <div class="p-card-img" onclick="openModal(${p.id})"><img src="${p.image}" alt="${p.name}"></div>
-          <div class="p-card-body" onclick="openModal(${p.id})">
-            <h3>${p.name}</h3>
-            <p>¥${p.price.toLocaleString()}</p>
-          </div>
-          <button class="atc-btn" onclick="addToCart(${p.id})">ADD TO CART</button>
-        </div>
-      `;
-    });
+    grid.innerHTML = PRODUCTS.map(p => `
+      <div class="p-card">
+        <div class="p-card-img" onclick="openModal(${p.id})"><img src="${p.image}"></div>
+        <div class="p-card-body" onclick="openModal(${p.id})"><h3>${p.name}</h3><p>¥${p.price.toLocaleString()}</p></div>
+        <button class="atc-btn" onclick="addToCart(${p.id})">ADD TO CART</button>
+      </div>
+    `).join('');
   }
 
   function openModal(id) {
     const p = PRODUCTS.find(x => x.id === id);
     document.getElementById('modalMainImg').src = p.image;
-    document.getElementById('thumbContainer').innerHTML = p.images.map(img => 
-      `<img src="${img}" style="width:60px; height:60px; cursor:pointer;" onclick="document.getElementById('modalMainImg').src='${img}'">`
-    ).join('');
+    document.getElementById('thumbContainer').innerHTML = p.images.map(img => `<img src="${img}" style="width:60px; height:60px; cursor:pointer;" onmouseover="document.getElementById('modalMainImg').src='${img}'">`).join('');
     document.getElementById('modalTitle').innerText = p.name;
+    document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
     
-    let specs = '';
-    if(p.colors) specs += `颜色:<select id="mColor">${p.colors.map(c => `<option>${c.name}</option>`).join('')}</select>`;
-    if(p.sizes) specs += `尺寸:<select id="mSize">${p.sizes.map(s => `<option>${s.name}</option>`).join('')}</select>`;
-    document.getElementById('modalSpecs').innerHTML = specs;
+    let specsHtml = (p.colors ? `颜色:<select id="mColor">${p.colors.map(c => `<option>${c.name}</option>`).join('')}</select> ` : '') + 
+                    (p.sizes ? `尺寸:<select id="mSize">${p.sizes.map(s => `<option>${s.name}</option>`).join('')}</select>` : '');
+    document.getElementById('modalSpecs').innerHTML = specsHtml;
     
+    document.getElementById('modalDetails').innerHTML = `
+      <p>材质: ${p.material || '待补充'}</p><p>库存: ${p.stock || '充足'}</p>
+      <p>发货地: ${p.origin || '大阪'}</p><p>时效: ${p.delivery || '1-3天'}</p>
+      <p style="color:red; font-size:10px;">${p.notice || ''}</p>
+    `;
+
     document.getElementById('modalAtcBtn').onclick = () => {
-        addToCart(p.id, { color: document.getElementById('mColor')?.value, size: document.getElementById('mSize')?.value });
-        document.getElementById('productModal').classList.remove('show');
+      addToCart(p.id, { color: document.getElementById('mColor')?.value, size: document.getElementById('mSize')?.value });
+      document.getElementById('productModal').classList.remove('show');
     };
     document.getElementById('productModal').classList.add('show');
   }
@@ -105,16 +100,22 @@
     const p = PRODUCTS.find(item => item.id === id);
     cart.push({ ...p, specs, qty: 1 });
     localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-    alert('已加入购物车');
+    updateCartUI();
+    toggleCart(true);
   }
 
-  function filterProducts(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render(cat);
+  function updateCartUI() {
+    document.getElementById('cartCount').innerText = cart.length;
+    document.getElementById('cartItems').innerHTML = cart.map(item => `
+      <div style="border-bottom:1px solid #eee; padding:10px 0;">
+        <p style="font-size:13px;">${item.name}</p>
+        <p style="font-size:11px; color:#666;">${item.specs.color || ''} ${item.specs.size || ''}</p>
+      </div>`).join('');
   }
 
-  window.addEventListener('DOMContentLoaded', () => render('all'));
+  function toggleCart(show) { document.getElementById('cartSidebar').classList.toggle('show', show); }
+
+  window.onload = () => { render(); updateCartUI(); };
 </script>
 </body>
 </html>

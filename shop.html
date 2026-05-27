@@ -307,10 +307,36 @@
         <div class="modal-thumb-list" id="modalThumbList"></div>
       </div>
       
-      <div class="modal-info">
+<div class="modal-info">
         <div id="modalCategory" style="font-size:11px; color:#808a94; text-transform:uppercase; margin-bottom:4px;"></div>
         <h2 class="modal-title" id="modalTitle">商品名</h2>
         <div class="modal-price" id="modalPrice">¥0</div>
+
+        <!-- 🌟 完美无缝接入：商品详情及保障参数面板 🌟 -->
+        <div class="modal-meta-panel" style="margin-top: 20px; border-top: 1px solid #f0f2f4; padding-top: 15px; font-size: 12px; color: #4a5560; line-height: 1.8;">
+          
+          <div style="margin-bottom: 6px;">
+            <strong style="color: #1a2530; width: 80px; display: inline-block;">発送地：</strong>
+            <span id="modalOrigin"></span>
+          </div>
+          
+          <div style="margin-bottom: 6px;">
+            <strong style="color: #1a2530; width: 80px; display: inline-block;">発送時期：</strong>
+            <span id="modalDelivery"></span>
+          </div>
+          
+          <div style="margin-bottom: 12px;">
+            <strong style="color: #1a2530; width: 80px; display: inline-block;">素材：</strong>
+            <span id="modalMaterial"></span>
+          </div>
+          
+          <!-- 注意事项提示框（地道柔和的强调视觉） -->
+          <div style="background: #fcfaf8; padding: 10px 12px; border-left: 2px solid #9a9490; font-size: 11px; color: #707a84;">
+            <span id="modalNotice"></span>
+          </div>
+          
+        </div>
+        <!-- 🌟 接入结束 🌟 -->
         
         <div class="spec-group" id="modalColorGroup">
           <span class="spec-label">カラー (颜色)</span>
@@ -391,60 +417,574 @@
 
 <script>
 const PRODUCTS = [
+// ────────────────────────────────────────────────────────
+// 株式会社HINOKA - 30款高奢选品完全体数据集（含发货与材质参数）
+// ────────────────────────────────────────────────────────
+
+const PRODUCTS = [
+  // ==========================================
+  // SECTION 1: ペット用品 / PET (ID: 1 ~ 10)
+  // ==========================================
   {
-    id: 'pet-001', category: 'pet', badge: '人気商品',
-    name: 'PET用ふわふわベッド',
-    desc: '洗濯機で洗えるふかふか素材。猫ちゃんが大好きなドーム型デザイン。',
-    price: 2980, 
-    image: 'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
+    id: 1,
+    name: "プレミアム ケーブルニット ペットウェア",
+    category: "ペット用品",
+    price: 8900,
+    stock: 15,
+    badge: "new",
+    image: "images/Photoroom_雑貨_162139.jpg",
+    image2: "images/IMG_5113ペット.PNG",
     images: [
-      'images/2AC2B641-0FB0-4776-AA17-3E88274BAC37.jpeg',
-      'images/IMG_5274.JPG',
-      'images/IMG_5275.JPG',
-      'images/IMG_5276.JPG',
-      'images/IMG_5277.JPG'
+      "images/products/pet-01-front.jpg",
+      "images/products/pet-01-hover.jpg",
+      "images/products/pet-01-detail1.jpg",
+      "images/products/pet-01-detail2.jpg",
+      "images/products/pet-01-size.jpg"
     ],
     colors: [
-      { name: 'ライトグレー', priceModifier: 0 },
-      { name: 'アプリコット', priceModifier: 0 },
-      { name: 'ミルクティー', priceModifier: 0 }
+      { name: "Off White", priceModifier: 0 },
+      { name: "Camel", priceModifier: 500 }
     ],
     sizes: [
-      { name: 'Mサイズ (径50cm)', priceModifier: 0 },
-      { name: 'Lサイズ (径60cm)', priceModifier: 1000 } 
+      { name: "S", priceModifier: 0 },
+      { name: "M", priceModifier: 0 },
+      { name: "L", priceModifier: 300 }
     ],
-    longDesc: '毎日の睡眠は大切な家族的健康に直結します。毛足の長い上質なフェイクファー素材を採用し、包み込まれるような圧倒的な安心感を与えます。',
-    stock: 5,                
-    shipsFrom: '大阪府',    
-    leadTime: '即日〜2営業日以内に発送'
+    desc: "上質なハイゲージニットを使用した、ラグジュアリーなペットウェア。洗練されたぬくもりを大切な家族に。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "高級ウール 80%、カシミヤ 20%",
+    notice: "※本製品はデリケートなウール素材を使用しているため、手洗いまたはネットに入れてのドライコースを推奨いたします。タンブラー乾燥はお避けください。"
   },
   {
-    id: 'fashion-001', category: 'fashion', badge: '人気商品',
-    name: 'パールチェーンネックレス',
-    desc: 'シンプルなパールモチーフが上品な印象に。普段使いからお出かけまで。',
-    price: 1680,
-    image: 'images/Photoroom_アパレル_162100.jpg',
-    images: ['images/Photoroom_アパレル_162100.jpg'],
-    colors: [{ name: 'ゴールド', priceModifier: 0 }, { name: 'シルバー', priceModifier: 0 }],
-    sizes: [{ name: 'フリーサイズ', priceModifier: 0 }],
-    longDesc: 'トレンド感のある上品な淡水パール風ネックレス。リーズナブルな価格でお手軽に大人の輝きをプラスします。',
+    id: 2,
+    name: "オーガニックコットン プレイスマット",
+    category: "ペット用品",
+    price: 3400,
+    stock: 20,
+    badge: "",
+    image: "images/products/pet-02-front.jpg",
+    image2: "images/products/pet-02-hover.jpg",
+    images: ["images/products/pet-02-front.jpg", "images/products/pet-02-hover.jpg"],
+    colors: [{ name: "Natural", priceModifier: 0 }, { name: "Sage", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "お食事の時間をエレガントに演出する、撥水加工を施したオーガニックコットンのマットです。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "オーガニックコットン 100%（表面耐水パラフィン加工）",
+    notice: "※汚れた場合は固く絞った布で拭き取ってください。洗濯機で何度も洗うと撥水効果が徐々に薄れる場合がございます。"
+  },
+  {
+    id: 3,
+    name: "スタイリッシュ フードボウル (セラミック)",
+    category: "ペット用品",
+    price: 4800,
+    stock: 8,
+    badge: "hot",
+    image: "images/products/pet-03-front.jpg",
+    image2: "images/products/pet-03-hover.jpg",
+    images: ["images/products/pet-03-front.jpg", "images/products/pet-03-hover.jpg", "images/products/pet-03-det.jpg"],
+    colors: [{ name: "Black", priceModifier: 0 }, { name: "White", priceModifier: 0 }],
+    sizes: [{ name: "Regular", priceModifier: 0 }],
+    desc: "美濃焼の職人が一つ一つ丁寧に仕上げた、インテリアに溶け込むモダンなフードボウル。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "磁器（美濃焼）",
+    notice: "※電子レンジ・食洗機対応。職人による手作りのため、釉薬のムラやわずかな気泡が見られる場合がありますが、風合いとしてお楽しみください。"
+  },
+  {
+    id: 4,
+    name: "クラシック リネンリード",
+    category: "ペット用品",
+    price: 5200,
+    stock: 12,
+    badge: "",
+    image: "images/products/pet-04-front.jpg",
+    image2: "images/products/pet-04-hover.jpg",
+    images: ["images/products/pet-04-front.jpg", "images/products/pet-04-hover.jpg"],
+    colors: [{ name: "Taupe", priceModifier: 0 }, { name: "Navy", priceModifier: 0 }],
+    sizes: [{ name: "1.2m", priceModifier: 0 }],
+    desc: "使うほどに手に馴染む上質なリネンと、真鍮製パーツを組み合わせた高級感のあるリードです。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "アイリッシュリネン 100%、高級真鍮金具",
+    notice: "※安全のため、ご使用前に傷や擦れがないか必ず点検してください。水濡れした場合は陰干しで完全に乾かしてください。"
+  },
+  {
+    id: 5,
+    name: "コンフォート リネンカラー (首輪)",
+    category: "ペット用品",
+    price: 3800,
+    stock: 0,
+    badge: "",
+    image: "images/products/pet-05-front.jpg",
+    image2: "images/products/pet-05-hover.jpg",
+    images: ["images/products/pet-05-front.jpg", "images/products/pet-05-hover.jpg"],
+    colors: [{ name: "Taupe", priceModifier: 0 }, { name: "Navy", priceModifier: 0 }],
+    sizes: [{ name: "S", priceModifier: 0 }, { name: "M", priceModifier: 200 }],
+    desc: "肌当たりの優しいリネン素材。ワンポイントの真鍮金具がシックな印象を与えます。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "アイリッシュリネン 100%、真鍮",
+    notice: "※サイズはお出かけ前に指が1〜2本入る程度の隙間があるかご確認ください。強い引っ張り癖のあるペットへのご使用はご注意ください。"
+  },
+  {
+    id: 6,
+    name: "トラベル ペットキャリーバッグ",
+    category: "ペット用品",
+    price: 18900,
+    stock: 5,
+    badge: "new",
+    image: "images/products/pet-06-front.jpg",
+    image2: "images/products/pet-06-hover.jpg",
+    images: ["images/products/pet-06-front.jpg", "images/products/pet-06-hover.jpg", "images/products/pet-06-in.jpg"],
+    colors: [{ name: "Charcoal", priceModifier: 0 }],
+    sizes: [{ name: "Standard", priceModifier: 0 }],
+    desc: "耐久性と通气性に優れた、高機能でおしゃれな移動用キャリーバッグ。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "高密度バリスティックナイロン、ヴィーガンレザー、アルミフレーム",
+    notice: "※耐荷重は8kgまでとなります。公共交通機関でご使用の際は、各運行会社の規定をあらかじめご確認ください。"
+  },
+  {
+    id: 7,
+    name: "リラクシング キャットベッド",
+    category: "ペット用品",
+    price: 12000,
+    stock: 7,
+    badge: "",
+    image: "images/products/pet-07-front.jpg",
+    image2: "images/products/pet-07-hover.jpg",
+    images: ["images/products/pet-07-front.jpg", "images/products/pet-07-hover.jpg"],
+    colors: [{ name: "Beige", priceModifier: 0 }, { name: "Gray", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "包み込まれるような安心感を与えるフォルム。インテリアの邪魔をしないニュアンスカラー。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "リネンウール混紡（本体外側）、低反発ウレタンフォーム（クッション内部）",
+    notice: "※内側のクッションカバーは取り外して洗濯機で洗えます。ウレタン本体は洗濯できませんので、日陰干ししてください。"
+  },
+  {
+    id: 8,
+    name: "天然木 キャットタワー ミニ",
+    category: "ペット用品",
+    price: 24500,
+    stock: 3,
+    badge: "",
+    image: "images/products/pet-08-front.jpg",
+    image2: "images/products/pet-08-hover.jpg",
+    images: ["images/products/pet-08-front.jpg", "images/products/pet-08-hover.jpg"],
+    colors: [{ name: "Oak", priceModifier: 0 }],
+    sizes: [{ name: "H110cm", priceModifier: 0 }],
+    desc: "天然木を使用し、日本の住空間に合わせてコンパクトに設計された美しいキャットタワー。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、2〜4営業日以内に発送",
+    material: "天然オーク材（無垢）、最高級麻縄",
+    notice: "※こちらは組み立て式の家具となります（工具同梱）。転倒防止のため、必ず水平で頑丈な壁際に設置してください。"
+  },
+  {
+    id: 9,
+    name: "プレミアム ケアブラシ",
+    category: "ペット用品",
+    price: 4200,
     stock: 25,
-    shipsFrom: '大阪府',
-    leadTime: '1〜2営業日以内に発送'
+    badge: "",
+    image: "images/products/pet-09-front.jpg",
+    image2: "images/products/pet-09-hover.jpg",
+    images: ["images/products/pet-09-front.jpg", "images/products/pet-09-hover.jpg"],
+    colors: [{ name: "Walnut", priceModifier: 0 }],
+    sizes: [{ name: "One Size", priceModifier: 0 }],
+    desc: "ペットの皮膚を傷つけず、無駄毛を優しく取り除く天然木ハンドルの最高級ブラシ。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "天然ウォルナット材、極細ステンレスピン（先端保護ラバー加工）",
+    notice: "※皮膚に炎症がある場合や、毛玉がひどい場合は無理に引っ張らず、優しくほぐすようにブラッシングしてください。"
   },
   {
-    id: 'goods-001', category: 'goods', badge: '残りわずか',
-    name: 'シリコン仕切り収納トレー',
-    desc: '引き出しの中をすっきり整理。柔軟なシリコン素材でどんな引き出しにもフィット。',
-    price: 1580,
-    image: 'images/Photoroom_雑貨_162139.jpg',
-    images: ['images/Photoroom_雑貨_162139.jpg'],
-    colors: [{ name: 'ホワイト', priceModifier: 0 }, { name: 'グレー', priceModifier: 0 }],
-    sizes: [{ name: 'Sサイズ', priceModifier: 0 }, { name: 'Mサイズ', priceModifier: 300 }], 
-    longDesc: '引き出しの中をすっきり美しく整理整頓。柔軟性のあるシリコン素材のため傷がつきにくく、丸洗いも簡単。',
-    stock: 0, 
-    shipsFrom: '大阪府',
-    leadTime: '3〜5営業日以内に発送'
+    id: 10,
+    name: "ボタニカル ペットシャンプー",
+    category: "ペット用品",
+    price: 2900,
+    stock: 30,
+    badge: "",
+    image: "images/products/pet-10-front.jpg",
+    image2: "images/products/pet-10-hover.jpg",
+    images: ["images/products/pet-10-front.jpg", "images/products/pet-10-hover.jpg"],
+    colors: [{ name: "Lavender & Chamomile", priceModifier: 0 }],
+    sizes: [{ name: "300ml", priceModifier: 0 }],
+    desc: "天然由来成分100%。デリケートな肌をやさしく洗い上げ、ほのかに香るボタニカルシャンプー。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "オーガニックカモミールエキス、ラベンダー精油、植物由来洗浄成分",
+    notice: "※目や耳に入らないようにご注意ください。万が一、使用中または使用後に皮膚の異常が現れた場合は直ちに使用を中止し、獣医師にご相談ください。"
+  },
+
+  // ==========================================
+  // SECTION 2: ファッション小物 / FASHION (ID: 11 ~ 20)
+  // ==========================================
+  {
+    id: 11,
+    name: "シルクリネン ライトストール",
+    category: "ファッション小物",
+    price: 12000,
+    stock: 14,
+    badge: "new",
+    image: "images/products/fsh-01-front.jpg",
+    image2: "images/products/fsh-01-hover.jpg",
+    images: ["images/products/fsh-01-front.jpg", "images/products/fsh-01-hover.jpg", "images/products/fsh-01-dt.jpg"],
+    colors: [{ name: "Pale Pink", priceModifier: 0 }, { name: "Sky Blue", priceModifier: 0 }, { name: "Linen", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "極上のシルクとリネンを織り交ぜた、空気のように軽い大判ストール。春夏の紫外線・冷房対策に。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "シルク 55%、リネン 45%",
+    notice: "※非常に繊細な織物ですので、引っかかりにご注意ください。お洗濯は信頼のおけるクリーニング店へご相談いただくか、優しく手洗いしてください。"
+  },
+  {
+    id: 12,
+    name: "ミニマル レザーカードケース",
+    category: "ファッション小物",
+    price: 7800,
+    stock: 18,
+    badge: "",
+    image: "images/products/fsh-02-front.jpg",
+    image2: "images/products/fsh-02-hover.jpg",
+    images: ["images/products/fsh-02-front.jpg", "images/products/fsh-02-hover.jpg"],
+    colors: [{ name: "Black", priceModifier: 0 }, { name: "Etain", priceModifier: 0 }, { name: "Gold", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "厳選されたイタリアンレザーを使用。無駄を削ぎ落としたミニマルな美しいデザイン。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "牛革（イタリア製トゴレザー）",
+    notice: "※天然皮革を使用しているため、自然なシワやシボの個体差があります。水濡れはシミの原因となりますので、濡れた場合はすぐに乾いた柔らかい布で拭き取ってください。"
+  },
+  {
+    id: 13,
+    name: "クラシック パナマハット",
+    category: "ファッション小物",
+    price: 16500,
+    stock: 6,
+    badge: "",
+    image: "images/products/fsh-03-front.jpg",
+    image2: "images/products/fsh-03-hover.jpg",
+    images: ["images/products/fsh-03-front.jpg", "images/products/fsh-03-hover.jpg"],
+    colors: [{ name: "Natural", priceModifier: 0 }],
+    sizes: [{ name: "M (57cm)", priceModifier: 0 }, { name: "L (59cm)", priceModifier: 0 }],
+    desc: "エクアドル産の本格パナマ草を手編みした、コーディネートを格上げするハット。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "天然トキヤ草（パナマ草）100%、レーヨン（リボン部分）",
+    notice: "※型崩れを防ぐため、つばの縁を持ってお取り扱いください。水洗いはできません。保管の際は乾燥した涼しい場所で箱に入れて保管してください。"
+  },
+  {
+    id: 14,
+    name: "シアーソックス (3足セット)",
+    category: "ファッション小物",
+    price: 3900,
+    stock: 40,
+    badge: "",
+    image: "images/products/fsh-04-front.jpg",
+    image2: "images/products/fsh-04-hover.jpg",
+    images: ["images/products/fsh-04-front.jpg", "images/products/fsh-04-hover.jpg"],
+    colors: [{ name: "Monotone Set", priceModifier: 0 }, { name: "Earth Set", priceModifier: 0 }],
+    sizes: [{ name: "23-25cm", priceModifier: 0 }],
+    desc: "絶妙な透け感と上品な光沢。パンプスにもサンダルにも合わせやすい上質な一足。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "ナイロン、ポリウレタン、ポリエステル",
+    notice: "※大変薄く繊細な生地です。爪や指輪などによる引っかかり、伝線に十分ご注意ください。お洗濯の際は必ず目の細かいネットに入れてください。"
+  },
+  {
+    id: 15,
+    name: "ヴィンテージライク 真鍮バングル",
+    category: "ファッション小物",
+    price: 6400,
+    stock: 11,
+    badge: "hot",
+    image: "images/products/fsh-05-front.jpg",
+    image2: "images/products/fsh-05-hover.jpg",
+    images: ["images/products/fsh-05-front.jpg", "images/products/fsh-05-hover.jpg"],
+    colors: [{ name: "Brass Gold", priceModifier: 0 }],
+    sizes: [{ name: "Slim", priceModifier: 0 }, { name: "Wide", priceModifier: 800 }],
+    desc: "経年変化を楽しめる真鍮バングル。手元にクラシカルなアクセントを添えます。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "ソリッドブラス（無垢真鍮）",
+    notice: "※真鍮の特性上、空気に触れることで徐々にアンティーク調の色味へ変化します。輝きを戻したい場合は、市販の真鍮磨きクロスなどで優しく磨いてください。"
+  },
+  {
+    id: 16,
+    name: "アコヤ真珠 ミニマルピアス",
+    category: "ファッション小物",
+    price: 24000,
+    stock: 4,
+    badge: "new",
+    image: "images/products/fsh-06-front.jpg",
+    image2: "images/products/fsh-06-hover.jpg",
+    images: ["images/products/fsh-06-front.jpg", "images/products/fsh-06-hover.jpg"],
+    colors: [{ name: "K18 Yellow Gold", priceModifier: 0 }],
+    sizes: [{ name: "6.0mm", priceModifier: 0 }],
+    desc: "伊勢志摩産の上質なアコヤ真珠を使用。普段使いからフォーマルまで気品溢れる仕上がりに。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "伊勢志摩産アコヤ本真珠、K18イエローゴールド（ポスト・キャッチ部）",
+    notice: "※真珠は酸や汗に弱い性質があります。ご使用後は、柔らかいクロス等で優しく汗や皮脂を拭き取ってから保管してください。"
+  },
+  {
+    id: 17,
+    name: "キャンバス 2WAY トートバッグ",
+    category: "ファッション小物",
+    price: 13500,
+    stock: 9,
+    badge: "",
+    image: "images/products/fsh-07-front.jpg",
+    image2: "images/products/fsh-07-hover.jpg",
+    images: ["images/products/fsh-07-front.jpg", "images/products/fsh-07-hover.jpg"],
+    colors: [{ name: "Ivory", priceModifier: 0 }, { name: "Olive", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "厚手の強靭なキャンバス地と上質なヌメ革を使用。経年変化が楽しみな2WAYバッグ。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "6号倉敷帆布（綿100%）、国産ヌメ革",
+    notice: "※キャンバス生地の特性上、水濡れや摩擦により色落ち・衣類への色移りが発生する場合があります。特に雨の日のご使用にはご注意ください。"
+  },
+  {
+    id: 18,
+    name: "フレンチリネン エプロンドレス",
+    category: "ファッション小物",
+    price: 9800,
+    stock: 15,
+    badge: "",
+    image: "images/products/fsh-08-front.jpg",
+    image2: "images/products/fsh-08-hover.jpg",
+    images: ["images/products/fsh-08-front.jpg", "images/products/fsh-08-hover.jpg"],
+    colors: [{ name: "Charcoal", priceModifier: 0 }, { name: "Flax", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "美しく身体を包み込むドレスのようなエプロン。家の中での時間をさらに豊かに。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "フランス産リネン 100%",
+    notice: "※麻特有のネップ（糸の節）が見られる場合がありますが、天然素材の風合いです。洗濯後はシワを伸ばし、形を整えてから陰干ししてください。"
+  },
+  {
+    id: 19,
+    name: "UVカット オーガニックコットン日傘",
+    category: "ファッション小物",
+    price: 14000,
+    stock: 0,
+    badge: "",
+    image: "images/products/fsh-09-front.jpg",
+    image2: "images/products/fsh-09-hover.jpg",
+    images: ["images/products/fsh-09-front.jpg", "images/products/fsh-09-hover.jpg"],
+    colors: [{ name: "Striped Beige", priceModifier: 0 }],
+    sizes: [{ name: "47cm", priceModifier: 0 }],
+    desc: "竹製のハンドルと天然素材の生地が涼しげな、完全遮光仕様の高級日傘。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "オーガニックコットン 100%（裏面UVカット遮光コーティング）、天然竹（持ち手）",
+    notice: "※本製品は日傘専用です。激しい豪雨の際などは雨水が染み込む恐れがありますので、雨傘としての常用はお避けください。"
+  },
+  {
+    id: 20,
+    name: "ウールフェルト ベレー帽",
+    category: "ファッション小物",
+    price: 6800,
+    stock: 22,
+    badge: "",
+    image: "images/products/fsh-10-front.jpg",
+    image2: "images/products/fsh-10-hover.jpg",
+    images: ["images/products/fsh-10-front.jpg", "images/products/fsh-10-hover.jpg"],
+    colors: [{ name: "Bordeaux", priceModifier: 0 }, { name: "Noir", priceModifier: 0 }],
+    sizes: [{ name: "Free", priceModifier: 0 }],
+    desc: "なめらかなウールフェルトを贅沢に使用。美しい立体感をキープできる仕立てです。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "ウールフェルト 100%",
+    notice: "※水洗いは縮みの原因となりますのでお避けください。汚れた場合は、固く絞った布で叩くように汚れを落とし、陰干ししてください。"
+  },
+
+  // ==========================================
+  // SECTION 3: 生活雑貨 / LIFESTYLE (ID: 21 ~ 30)
+  // ==========================================
+  {
+    id: 21,
+    name: "ボタニカル ソイキャンドル",
+    category: "生活雑貨",
+    price: 4200,
+    stock: 25,
+    badge: "new",
+    image: "images/products/lfs-01-front.jpg",
+    image2: "images/products/lfs-01-hover.jpg",
+    images: ["images/products/lfs-01-front.jpg", "images/products/lfs-01-hover.jpg", "images/products/lfs-01-box.jpg"],
+    colors: [{ name: "Fig & Hinoki", priceModifier: 0 }, { name: "Citrus & Sage", priceModifier: 0 }],
+    sizes: [{ name: "200g", priceModifier: 0 }],
+    desc: "天然のソイワックスに100%ピュアエッセンシャルオイルをブレンド。木製芯の優しく心地よい音を愉しんで。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "天然大豆ワックス（ソイワックス）100%、天然精油、ウッドウィック（木製芯）",
+    notice: "※点火時は芯を5mm程度にカットしてご使用ください。大豆アレルギーをお持ちの方は念のためご使用をお控えいただくか、医師にご相談ください。"
+  },
+  {
+    id: 22,
+    name: "リネン ワッフルフェイスタオル",
+    category: "生活雑貨",
+    price: 2800,
+    stock: 35,
+    badge: "",
+    image: "images/products/lfs-02-front.jpg",
+    image2: "images/products/lfs-02-hover.jpg",
+    images: ["images/products/lfs-02-front.jpg", "images/products/lfs-02-hover.jpg"],
+    colors: [{ name: "White", priceModifier: 0 }, { name: "Oatmeal", priceModifier: 0 }],
+    sizes: [{ name: "Standard", priceModifier: 0 }],
+    desc: "吸水性と速乾性に優れたリネン100%のワッフルタオル。使うほどに柔らかく育ちます。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "高品質リネン 100%",
+    notice: "※使い始めは特有の繊維くずが出ることがありますので、単独での洗濯をお勧めします。柔軟剤のご使用は吸水性を損なうため、極力お控えください。"
+  },
+  {
+    id: 23,
+    name: "ハンドメイド ルームスリッパ",
+    category: "生活雑貨",
+    price: 5800,
+    stock: 12,
+    badge: "",
+    image: "images/products/lfs-03-front.jpg",
+    image2: "images/products/lfs-03-hover.jpg",
+    images: ["images/products/lfs-03-front.jpg", "images/products/lfs-03-hover.jpg"],
+    colors: [{ name: "Brown Leather", priceModifier: 0 }, { name: "Suede Gray", priceModifier: 0 }],
+    sizes: [{ name: "M (24cm)", priceModifier: 0 }, { name: "L (26cm)", priceModifier: 200 }],
+    desc: "職人が一足ずつ手縫いで仕上げた、素足で履きたくなる極上のラム革スリッパ。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "羊革（本体）、スエードレザー（底面・静音加工）",
+    notice: "※本製品は室内専用です。本革仕様のため水洗いはできません。革用クリーナーまたは固く絞った布でメンテナンスしてください。"
+  },
+  {
+    id: 24,
+    name: "和硝子 手吹きグラス",
+    category: "生活雑貨",
+    price: 3600,
+    stock: 16,
+    badge: "hot",
+    image: "images/products/lfs-04-front.jpg",
+    image2: "images/products/lfs-04-hover.jpg",
+    images: ["images/products/lfs-04-front.jpg", "images/products/lfs-04-hover.jpg"],
+    colors: [{ name: "Clear", priceModifier: 0 }, { name: "Amber", priceModifier: 0 }],
+    sizes: [{ name: "250ml", priceModifier: 0 }],
+    desc: "気泡の入り方や揺らぎが美しい、手吹きならではの温かみを感じるモダンなグラス。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後., 1〜3営業日以内に発送",
+    material: "ソーダガラス（手吹き製法）",
+    notice: "※耐熱ガラスではありません。急激な温度変化（熱湯の注ぎ入れや、冷えた状態での電子レンジ使用など）は破損の原因となりますのでお避けください。"
+  },
+  {
+    id: 25,
+    name: "ウォルナット ツールスタンド",
+    category: "生活雑貨",
+    price: 7200,
+    stock: 8,
+    badge: "",
+    image: "images/products/lfs-05-front.jpg",
+    image2: "images/products/lfs-05-hover.jpg",
+    images: ["images/products/lfs-05-front.jpg", "images/products/lfs-05-hover.jpg"],
+    colors: [{ name: "Natural Walnut", priceModifier: 0 }],
+    sizes: [{ name: "High", priceModifier: 0 }],
+    desc: "キッチンツールや文房具を美しく収納する、重厚感のある天然木スタンド。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "北米産ブラックウォルナット材（天然木・オイルフィニッシュ）",
+    notice: "※水気の多い場所に長時間放置するとカビや反りの原因になります。定期的に植物性オイルを薄く塗ることで、深い色艶を長く保てます。"
+  },
+  {
+    id: 26,
+    name: "真鍮製 ミニマリスト一輪挿し",
+    category: "生活雑貨",
+    price: 4900,
+    stock: 20,
+    badge: "",
+    image: "images/products/lfs-06-front.jpg",
+    image2: "images/products/lfs-06-hover.jpg",
+    images: ["images/products/lfs-06-front.jpg", "images/products/lfs-06-hover.jpg"],
+    colors: [{ name: "Solid Brass", priceModifier: 0 }],
+    sizes: [{ name: "H15cm", priceModifier: 0 }],
+    desc: "一輪の花を際立たせる、洗練された真鍮製のフラワーベース。静かな存在感を放ちます。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "真鍮（内側：ガラス試験管同梱）",
+    notice: "※水を入れる際は、付属のガラス管をご使用ください。真鍮本体に直接水が長時間触れると、強い緑青（サビ）の原因となります。"
+  },
+  {
+    id: 27,
+    name: "手織りオーガニック ルームマット",
+    category: "生活雑貨",
+    price: 14500,
+    stock: 4,
+    badge: "",
+    image: "images/products/lfs-07-front.jpg",
+    image2: "images/products/lfs-07-hover.jpg",
+    images: ["images/products/lfs-07-front.jpg", "images/products/lfs-07-hover.jpg"],
+    colors: [{ name: "Ivory & Charcoal", priceModifier: 0 }],
+    sizes: [{ name: "50x80cm", priceModifier: 0 }],
+    desc: "インドの伝統的な手法で丁寧に手織りされた、インテリアの主役になるラグマット。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "オーガニックコットン 70%、天然ジュート（麻） 30%",
+    notice: "※手織りのため、サイズに数センチの個体差がある場合があります。最初のうちは独特の素材臭がすることがあります。気になる場合は陰干ししてください。"
+  },
+  {
+    id: 28,
+    name: "ボタニカル ルームミスト",
+    category: "生活雑貨",
+    price: 3200,
+    stock: 30,
+    badge: "",
+    image: "images/products/lfs-08-front.jpg",
+    image2: "images/products/lfs-08-hover.jpg",
+    images: ["images/products/lfs-08-front.jpg", "images/products/lfs-08-hover.jpg"],
+    colors: [{ name: "Deep Forest", priceModifier: 0 }, { name: "Morning Sun", priceModifier: 0 }],
+    sizes: [{ name: "150ml", priceModifier: 0 }],
+    desc: "空間を瞬時にリフレッシュする天然エッセンシャルオイル配合の贅沢なミスト。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "天然植物精油（ヒノキ・シダーウッド等）、植物性エタノール、精製水",
+    notice: "※シルクや革製品、白い壁紙などに直接スプレーするとシミになる恐れがあります。対象物から30cm以上離して空間にスプレーしてください。"
+  },
+  {
+    id: 29,
+    name: "美濃焼 マット釉 プレート",
+    category: "生活雑貨",
+    price: 3800,
+    stock: 18,
+    badge: "new",
+    image: "images/products/lfs-09-front.jpg",
+    image2: "images/products/lfs-09-hover.jpg",
+    images: ["images/products/lfs-09-front.jpg", "images/products/lfs-09-hover.jpg"],
+    colors: [{ name: "Matt Gray", priceModifier: 0 }, { name: "Matt Beige", priceModifier: 0 }],
+    sizes: [{ name: "21cm", priceModifier: 0 }],
+    desc: "現代の食卓に寄り添う、マットな質感がシックな美濃焼の万能ミディアムプレート。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "陶磁器（美浓焼・マット釉仕上）",
+    notice: "※電子レンジ・食洗機対応。オーブンや直火でのご使用はできません。メタルマーク（金属製ナイフ等との摩擦による黒い線）がつきやすいためご注意ください。"
+  },
+  {
+    id: 30,
+    name: "オーガニック ハーブティーボックス",
+    category: "生活雑貨",
+    price: 2600,
+    stock: 0,
+    badge: "",
+    image: "images/products/lfs-10-front.jpg",
+    image2: "images/products/lfs-10-hover.jpg",
+    images: ["images/products/lfs-10-front.jpg", "images/products/lfs-10-hover.jpg"],
+    colors: [{ name: "Relax Blend", priceModifier: 0 }],
+    sizes: [{ name: "20 Bags", priceModifier: 0 }],
+    desc: "厳選されたオーガニックハーブのみを使用。1日の終わりに心身を解きほぐすブレンド。",
+    origin: "大阪府より発送",
+    delivery: "ご注文後、1〜3営業日以内に発送",
+    material: "有機カモミール、有機ペパーミント、有機レモングラス（生分解性ティーバッグ使用）",
+    notice: "※直射日光・高温多湿を避けて冷暗所に保存してください。開封後は賞味期限に関わらずお早めにお召し上がりください。"
   }
 ];
 
@@ -590,18 +1130,31 @@ function openProductModal(id) {
   document.getElementById('modalTitle').innerText = p.name;
   document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
   
-  // 📸 完美继承并激活你的 5~6 张多图数组
+  // 🌟 核心升级：自动注入发货、材质与注意事项（带兜底保护，没填也不会碎版）
+  if (document.getElementById('modalOrigin')) {
+    document.getElementById('modalOrigin').innerText = p.origin || "国内倉庫（大阪）より発送";
+  }
+  if (document.getElementById('modalDelivery')) {
+    document.getElementById('modalDelivery').innerText = p.delivery || "ご注文後、1〜3営業日以内に発送";
+  }
+  if (document.getElementById('modalMaterial')) {
+    document.getElementById('modalMaterial').innerText = p.material || "商品詳細に記載";
+  }
+  if (document.getElementById('modalNotice')) {
+    document.getElementById('modalNotice').innerText = p.notice || "※お使いの端末により、実物と色味が異なって見える場合がございます。";
+  }
+  
+  // 📸 完美继承 5~6 张多图数组
   currentProductImagesArray = p.images && p.images.length ? p.images : [p.image];
   currentImageIndex = 0;
   
-  // ⚡ 核心升级：大图显示与缩略图列表自动生成
   updateModalImageDisplay();
   renderThumbnails();
 
   selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
   selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
   
-  // 🎨 完美保留你原本的 Color 颜色按钮生成逻辑
+  // 🎨 Color 颜色按钮生成
   const colorOptions = document.getElementById('modalColorOptions');
   if (p.colors && p.colors.length) {
     document.getElementById('modalColorGroup').style.display = 'block';
@@ -612,7 +1165,7 @@ function openProductModal(id) {
     document.getElementById('modalColorGroup').style.display = 'none';
   }
   
-  // 📐 完美保留你原本的 Size 尺寸按钮生成逻辑
+  // 📐 Size 尺寸按钮生成
   const sizeOptions = document.getElementById('modalSizeOptions');
   if (p.sizes && p.sizes.length) {
     document.getElementById('modalSizeGroup').style.display = 'block';
@@ -623,7 +1176,6 @@ function openProductModal(id) {
     document.getElementById('modalSizeGroup').style.display = 'none';
   }
 
-  // 完美承接你原本的计价引擎与售罄判断
   updateModalPriceAndShipping();
 
   const atcBtnEl = document.getElementById('modalAtcBtn');
@@ -636,44 +1188,6 @@ function openProductModal(id) {
   }
   
   document.getElementById('productModal').classList.add('show');
-}
-
-// 🖼️ 核心升级：大图丝滑显示助手
-function updateModalImageDisplay() {
-  const mainImg = document.getElementById('modalMainImage');
-  if (mainImg && currentProductImagesArray.length > 0) {
-    mainImg.src = currentProductImagesArray[currentImageIndex];
-  }
-}
-
-// 🎞️ 核心升级：重构你的缩略图生成逻辑，带一键点击 jump 联动和高奢激活框（is-active）
-function renderThumbnails() {
-  const thumbContainer = document.getElementById('modalThumbList');
-  if (!thumbContainer) return;
-  
-  thumbContainer.innerHTML = currentProductImagesArray.map((img, idx) => `
-    <div class="thumb-item ${idx === currentImageIndex ? 'is-active' : ''}" onclick="jumpToModalImage(${idx})">
-      <img src="${img}" alt="thumbnail">
-    </div>
-  `).join('');
-}
-
-// 🧭 核心升级：让左右箭头也可以完美控制图片循环轮播
-function navModalImage(direction) {
-  if (currentProductImagesArray.length <= 1) return;
-  currentImageIndex += direction;
-  if (currentImageIndex >= currentProductImagesArray.length) currentImageIndex = 0;
-  if (currentImageIndex < 0) currentImageIndex = currentProductImagesArray.length - 1;
-  
-  updateModalImageDisplay();
-  renderThumbnails();
-}
-
-// 🎯 核心升级：点击缩略图直接跳转
-function jumpToModalImage(index) {
-  currentImageIndex = index;
-  updateModalImageDisplay();
-  renderThumbnails();
 }
 
 function navModalImage(direction) {

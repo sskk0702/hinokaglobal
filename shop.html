@@ -393,11 +393,61 @@
   </div>
 
 <script src="data.js"></script>
-
 <script>
-  // 现在，这里可以直接调用 PRODUCTS 变量
-  // 执行之前的渲染函数
-  render(); 
+  // 1. 初始化核心变量
+  let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
+  let currentModalProductId = '';
+  let selectedColorObj = null;
+  let selectedSizeObj = null;
+  let currentImageIndex = 0;
+  let currentProductImagesArray = [];
+  
+  // 2. 补全缺失的渲染引擎 (修复你提到的 Lifestyle 跳转和分页逻辑)
+  function render() {
+    const gridPet = document.getElementById('grid-pet');
+    const gridFashion = document.getElementById('grid-fashion');
+    const gridLifestyle = document.getElementById('grid-lifestyle');
+    
+    // 清空旧数据
+    [gridPet, gridFashion, gridLifestyle].forEach(el => { if(el) el.innerHTML = ''; });
+
+    PRODUCTS.forEach(p => {
+      const cardHTML = `
+        <div class="p-card" onclick="openProductModal(${p.id})">
+          <div class="p-card-img"><img src="${p.image}" alt="${p.name}"></div>
+          <div class="p-card-body">
+            <div class="p-card-cat">${p.category}</div>
+            <h3 class="p-card-name">${p.name}</h3>
+            <div class="p-card-price">¥${p.price.toLocaleString()}</div>
+          </div>
+        </div>
+      `;
+      if (p.category === 'ペット用品' && gridPet) gridPet.innerHTML += cardHTML;
+      else if (p.category === 'ファッション・アクセサリー' && gridFashion) gridFashion.innerHTML += cardHTML;
+      else if (p.category === '生活雑貨' && gridLifestyle) gridLifestyle.innerHTML += cardHTML;
+    });
+  }
+
+  // 3. 修复 Lifestyle 跳转锚点
+  function filter(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    const map = { 'pet': 'pet-section', 'fashion': 'fashion-section', 'goods': 'lifestyle-section' };
+    const targetId = map[cat];
+    if (targetId) {
+      document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // 4. 确保所有交互函数存在 (防止点击时控制台报错)
+  function openCart() { document.getElementById('hinokaCartWrapper').classList.add('show'); }
+  function closeCart() { document.getElementById('hinokaCartWrapper').classList.remove('show'); }
+  function doCloseModal() { document.getElementById('productModal').classList.remove('show'); }
+  function closeProductModal(e) { if (e.target.id === 'productModal') doCloseModal(); }
+
+  // 执行渲染
+  window.addEventListener('DOMContentLoaded', render);
 </script>
 </body>
 </html>

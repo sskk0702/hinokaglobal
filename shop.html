@@ -73,9 +73,20 @@
 
 <div class="modal-overlay" id="productModal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
-    <h2 id="modalTitle"></h2>
-    <p id="modalPrice" style="margin:10px 0; font-weight:bold;"></p>
-    <p id="modalDesc"></p>
+    <button onclick="document.getElementById('productModal').classList.remove('show')" style="float:right; border:none; background:none; cursor:pointer; font-size:18px;">✕</button>
+    
+    <div id="modalContent">
+      <h2 id="modalTitle" style="margin-bottom:10px;"></h2>
+      <p id="modalPrice" style="margin-bottom:15px; font-weight:bold; font-size:16px;"></p>
+      
+      <div id="modalSpecs" style="margin:20px 0; display:flex; gap:10px;"></div>
+      
+      <p id="modalDesc" style="font-size:13px; line-height:1.6; color:#555;"></p>
+      
+      <div id="modalDetails" style="margin-top:20px; font-size:12px; color:#666; line-height:1.8;"></div>
+      
+      <button class="atc-btn" id="modalAtcBtn" style="margin-top:20px;">カートに追加</button>
+    </div>
   </div>
 </div>
 
@@ -102,23 +113,69 @@
     });
   }
 
-  function openModal(id) {
-    const p = PRODUCTS.find(x => x.id === id);
-    document.getElementById('modalTitle').innerText = p.name;
-    document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
-    document.getElementById('modalDesc').innerText = p.desc || "上質な暮らしのためのアイテムです。";
-    document.getElementById('productModal').classList.add('show');
-  }
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
 
-  function addToCart(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    const existing = cart.find(item => item.id === id);
-    if (existing) existing.qty += 1;
-    else cart.push({ ...product, qty: 1 });
-    localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-    updateCartUI();
-    toggleCart(true);
+  // 1. 设置基础信息
+  document.getElementById('modalTitle').innerText = p.name;
+  document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
+  document.getElementById('modalDesc').innerText = p.desc;
+  
+  // 2. 动态生成规格选择 (颜色/尺寸下拉框)
+  let specsHtml = '';
+  if (p.colors && p.colors.length > 0) {
+    specsHtml += `<div><label>カラー:</label><select id="selectedColor" style="margin-left:5px;">${p.colors.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}</select></div>`;
   }
+  if (p.sizes && p.sizes.length > 0) {
+    specsHtml += `<div><label>サイズ:</label><select id="selectedSize" style="margin-left:5px;">${p.sizes.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}</select></div>`;
+  }
+  document.getElementById('modalSpecs').innerHTML = specsHtml;
+
+  // 3. 展示详细资料 (素材、发货信息等)
+  document.getElementById('modalDetails').innerHTML = `
+    <p><strong>素材:</strong> ${p.material || '-'}</p>
+    <p><strong>発送:</strong> ${p.origin} / ${p.delivery}</p>
+    <p style="font-size:10px; margin-top:10px; color:#999;">${p.notice || ''}</p>
+  `;
+
+  // 4. 绑定按钮动作：点击时获取下拉框的值
+  const btn = document.getElementById('modalAtcBtn');
+  btn.onclick = () => {
+    const color = document.getElementById('selectedColor')?.value || null;
+    const size = document.getElementById('selectedSize')?.value || null;
+    
+    // 调用加购函数并传入规格
+    addToCart(p.id, { color, size });
+    
+    // 关闭弹窗
+    document.getElementById('productModal').classList.remove('show');
+  };
+
+  document.getElementById('productModal').classList.add('show');
+}
+
+function addToCart(id, specs = {}) {
+  const product = PRODUCTS.find(p => p.id === id);
+  
+  // 查找购物车中是否已有“同ID且同规格”的商品
+  const existing = cart.find(item => 
+    item.id === id && 
+    (item.specs?.color === specs.color) && 
+    (item.specs?.size === specs.size)
+  );
+  
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    // 将商品和规格合并存入
+    cart.push({ ...product, qty: 1, specs: specs });
+  }
+  
+  localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+  updateCartUI();
+  toggleCart(true);
+}
 
   function updateCartUI() {
     document.getElementById('cartCount').innerText = cart.reduce((sum, item) => sum + item.qty, 0);

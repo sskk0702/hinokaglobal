@@ -914,3 +914,12 @@ nav div { cursor: pointer; font-size: 13px; color: var(--text-dark); letter-spac
     gap: 40px;
   }
 }
+/* 高级感字体设定 */
+.brand-story, .nav-links, .p-card {
+  font-family: 'Yu Mincho', '游明朝', serif; /* 衬线体，极具日本高级感 */
+  color: #2a2a2a;
+}
+.brand-story h2 {
+  letter-spacing: 0.4em; /* 增加字间距，提升呼吸感 */
+  font-weight: 300;
+}

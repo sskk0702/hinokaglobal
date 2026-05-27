@@ -662,3 +662,229 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 @media (max-width: 480px) {
   .products-grid { grid-template-columns: 1fr; }
 }
+/* ────────────────────────────────────────────────────────
+   株式会社HINOKA - 购物主页焕新视觉系统
+   ──────────────────────────────────────────────────────── */
+
+/* 巨幕氛围区 */
+.hinoka-shop-hero {
+  position: relative;
+  width: 100%;
+  height: 45vh;
+  min-height: 320px;
+  background: #f5f2ed url('images/shop-hero-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(42, 37, 32, 0.15); /* 极轻柔的暖咖色滤镜 */
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  padding: 0 20px;
+}
+.hero-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  display: block;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.hero-title {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 分类传送门卡片 */
+.hinoka-category-nav-section {
+  max-width: 1200px;
+  margin: -40px auto 60px auto;
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+}
+.category-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .category-nav-grid { grid-template-columns: 1fr; }
+  .hinoka-category-nav-section { margin-top: 20px; }
+}
+.category-nav-card {
+  position: relative;
+  height: 160px;
+  background: #1a2530;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+.category-nav-card .card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.65;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.category-nav-card:hover .card-bg {
+  transform: scale(1.05);
+}
+.card-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  color: #ffffff;
+}
+.card-content .en {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+.card-content .ja {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 4px 0 12px 0;
+  letter-spacing: 0.03em;
+}
+.card-content .arrow {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+.category-nav-card:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 分类大标题样式 */
+.category-block-header {
+  max-width: 1200px;
+  margin: 0 auto 30px auto;
+  padding: 0 20px;
+  border-bottom: 1px solid #f0f2f4;
+  padding-bottom: 12px;
+}
+.category-block-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: #1a2530;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.category-block-header h2 span {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  color: #9a9490;
+  font-weight: 400;
+}
+
+/* 重新优化的精美商品卡片网格 */
+.shop-products-container {
+  max-width: 1200px;
+  margin: 0 auto 100px auto;
+  padding: 0 20px;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 30px;
+}
+@media (max-width: 768px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 15px; }
+}
+
+/* 核心：大牌双图切换卡片 */
+.hinoka-product-card {
+  background: #ffffff;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.hinoka-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(42, 37, 32, 0.04);
+}
+.product-image-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4; /* 时装买手店高奢比例 */
+  overflow: hidden;
+  background: #fcfaf8;
+}
+.prod-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-back { opacity: 0; }
+.hinoka-product-card:hover .img-front { opacity: 0; transform: scale(1.02); }
+.hinoka-product-card:hover .img-back { opacity: 1; transform: scale(1.02); }
+
+/* 快速预览按钮 */
+.quick-view-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translate(-50%, 8px);
+  background: rgba(255, 255, 255, 0.96);
+  color: #1a2530;
+  padding: 10px 24px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.hinoka-product-card:hover .quick-view-badge { opacity: 1; transform: translate(-50%, 0); }
+
+/* 氛围章（Badges）如：NEW / HOT */
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  text-transform: uppercase;
+}
+.badge-new { background: #f5f2ed; color: #2a2520; }
+.badge-hot { background: #fff1f2; color: #e11d48; }
+
+/* 商品文字信息排版 */
+.product-info { padding: 16px 4px 4px 4px; }
+.product-category { font-size: 10px; color: #9a9490; letter-spacing: 0.05em; display: block; margin-bottom: 6px; text-transform: uppercase; }
+.product-name { font-size: 13px; color: #1a2530; font-weight: 400; line-height: 1.5; margin: 0 0 8px 0; }
+.price { font-family: 'Montserrat', sans-serif; font-size: 14px; color: #2a2520; font-weight: 500; }
+.tax-note { font-size: 10px; color: #808a94; font-weight: normal; margin-left: 2px; }

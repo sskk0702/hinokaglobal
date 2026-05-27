@@ -9,13 +9,34 @@
     body { background: var(--bg); color: var(--text); font-family: "Helvetica Neue", sans-serif; }
     
     /* 头部导航 */
-    header { position: fixed; top: 0; width: 100%; height: 90px; background: #fbfaf7; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; z-index: 9999; border-bottom: 1px solid var(--border); }
-    .logo { font-size: 26px; font-weight: 300; letter-spacing: 0.2em; cursor: pointer; color: var(--text); }
-    nav { display: flex; gap: 40px; }
-    nav div { cursor: pointer; font-size: 13px; color: #7c7267; transition: 0.3s; }
-    nav div:hover { color: var(--text); }
-    .cart-trigger { cursor: pointer; font-size: 13px; border: 1px solid var(--gold); padding: 8px 18px; border-radius: 20px; transition: 0.3s; color: var(--text); }
-    .cart-trigger:hover { background: var(--gold); color: #fff; }
+/* 极致简约的头部布局 */
+    header { 
+      position: fixed; top: 0; width: 100%; height: 80px; 
+      background: #fbfaf7; display: flex; align-items: center; 
+      padding: 0 5%; z-index: 9999; border-bottom: 1px solid #eaddcf; 
+    }
+    
+    /* Logo 稳居左侧 */
+    .logo { 
+      font-size: 22px; font-weight: 300; letter-spacing: 0.2em; 
+      cursor: pointer; color: #2c2520; margin-right: auto; 
+    }
+    
+    /* 导航栏设计：增加间距，使用更纤细的字体颜色 */
+    nav { display: flex; gap: 40px; margin-right: 40px; }
+    nav div { 
+      cursor: pointer; font-size: 12px; color: #7c7267; 
+      letter-spacing: 0.05em; transition: 0.3s; 
+    }
+    nav div:hover { color: #2c2520; }
+    
+    /* 购物车按钮：去掉圆角，改用简洁的下划线风格，更有质感 */
+    .cart-trigger { 
+      cursor: pointer; font-size: 12px; color: #2c2520; 
+      border-bottom: 1px solid #2c2520; padding-bottom: 2px;
+      transition: 0.3s;
+    }
+    .cart-trigger:hover { opacity: 0.6; }
 
     /* 商品列表 */
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1200px; margin: 150px auto 100px; padding: 0 5%; }
@@ -37,16 +58,17 @@
 <body>
 
 <header>
-  <div style="width: 120px;"></div> 
   <div class="logo" onclick="window.location.href='index.html'">HINOKA</div>
+  
   <nav>
     <div onclick="render()">すべて</div>
     <div onclick="filter('ペット用品')">ペット用品</div>
     <div onclick="filter('ファッション・アクセサリー')">ファッション</div>
     <div onclick="filter('生活雑貨')">生活雑貨</div>
   </nav>
+  
   <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
-    カート<span id="cartCount">(0)</span>
+    カート <span id="cartCount">(0)</span>
   </div>
 </header>
 

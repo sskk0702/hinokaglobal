@@ -3,1349 +3,1212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>オンラインショップ - 株式会社HINOKA</title>
-  <link rel="stylesheet" href="style.css">
+  <title>株式会社HINOKA - オンラインストア</title>
   <style>
-    /* ── 🛒 SHOP CONTAINER ── */
-    .shop-container { max-width: 1200px; margin: 0 auto; padding: 120px 20px 80px; }
-    
-    /* ── 📌 分类与购物车吸顶固定栏 ── */
-    .shop-sticky-bar {
-      position: sticky;
-      top: 70px;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(5px);
-      z-index: 900;
+    /* ────────────────────────────────────────────────────────
+       HINOKA 高奢品牌视觉系统 (Aesthetics Base)
+       ──────────────────────────────────────────────────────── */
+    :root {
+      --bg-color: #fbfaf7;       /* 暖米色背景 */
+      --text-main: #2c2520;      /* 深原木黑 */
+      --text-muted: #7c7267;     /* 亚麻灰 */
+      --accent-gold: #c5a880;    /* 柔金色 */
+      --border-color: #eaddcf;   /* 极细边框线 */
+      --font-luxury: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-luxury);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* 顶部导航栏 */
+    header {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 70px;
+      background: rgba(253, 252, 249, 0.95);
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #e5e9ec;
-      margin-bottom: 40px;
-      padding: 15px 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      padding: 0 4%;
+      z-index: 100;
+      backdrop-filter: blur(10px);
     }
-    
-    .shop-filters { display: flex; gap: 5px; overflow-x: auto; white-space: nowrap; width: calc(100% - 60px); -webkit-overflow-scrolling: touch; }
-    .shop-filters::-webkit-scrollbar { display: none; }
-    .filter-btn { background: none; border: none; padding: 8px 12px; font-size: 14px; color: #606a74; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
-    .filter-btn.active, .filter-btn:hover { color: #c5a880; font-weight: 600; }
-    
-    .menu-cart-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: #1a2530; color: #fff; border: none; padding: 8px 12px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
-    .menu-cart-btn:hover { background: #c5a880; }
-    .menu-cart-count { background: #bf0000; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
-
-    @media (max-width: 500px) {
-      .shop-container { padding-top: 80px; }
-      .shop-sticky-bar { top: 60px; padding: 10px 5px; }
-      .menu-cart-btn span:not(.menu-cart-icon):not(.menu-cart-count) { display: none; }
-      .menu-cart-btn { padding: 8px 10px; }
-      .shop-filters { width: calc(100% - 45px); }
+    .logo {
+      font-size: 18px;
+      letter-spacing: 3px;
+      font-weight: 500;
     }
-
-    /* ── 🖼️ 图片防裁剪、完整展示 ── */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-    .p-card { background: #fff; border: 1px solid #e5e9ec; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
-    .p-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    .p-card-img { width: 100%; aspect-ratio: 1; background: #f8fafb; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .p-card-img img { width: 100%; height: 100%; object-fit: contain; padding: 10px; box-sizing: border-box; }
-    .p-card-badge { position: absolute; top: 12px; left: 12px; background: #1a2530; color: #fff; padding: 4px 8px; font-size: 11px; letter-spacing: 0.05em; z-index: 2; }
-    .p-card-shipping-tag { position: absolute; bottom: 12px; right: 12px; background: #bf0000; color: #fff; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 2px; z-index: 2; }
-    .p-card-body { padding: 20px; }
-    .p-card-cat { font-size: 11px; color: #808a94; text-transform: uppercase; margin-bottom: 6px; }
-    .p-card-name { font-size: 16px; font-weight: 500; color: #1a2530; margin-bottom: 8px; }
-    .p-card-desc { font-size: 13px; color: #606a74; line-height: 1.6; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .p-card-bottom { display: flex; justify-content: space-between; align-items: center; }
-    .p-card-price { font-size: 16px; font-weight: 700; color: #1a2530; }
-    .p-card-price small { font-size: 11px; font-weight: normal; margin-left: 2px; }
-    .atc-btn { background: #c5a880; color: #fff; border: none; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .atc-btn:hover { background: #1a2530; }
-    .atc-btn:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
-
-    /* ── 🌟 详情弹窗 ── */
-    .p-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
-    .p-modal-overlay.show { display: flex; }
-    .p-modal-window { background: #fff; width: 100%; max-width: 960px; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; position: relative; border-radius: 4px; animation: modalUp 0.4s ease; }
-    @media (max-width: 768px) { .p-modal-window { grid-template-columns: 1fr; } }
-    .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 32px; background: none; border: none; color: #1a2530; cursor: pointer; z-index: 10; }
-    
-    .modal-gallery { padding: 30px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid #e5e9ec; }
-    @media (max-width: 768px) { .modal-gallery { border-right: none; border-bottom: 1px solid #e5e9ec; } }
-    .modal-main-img-wrap { width: 100%; aspect-ratio: 1; position: relative; background: #f8fafb; border: 1px solid #e5e9ec; }
-    .modal-main-img { width: 100%; height: 100%; object-fit: contain; padding: 15px; box-sizing: border-box; }
-    
-    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,37,48,0.7); color: #fff; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border-radius: 50%; transition: background 0.2s; user-select: none; }
-    .nav-arrow:hover { background: rgba(197,168,128,0.9); }
-    .prev-arrow { left: 10px; }
-    .next-arrow { right: 10px; }
-
-    .modal-thumb-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-    .modal-thumb { width: 60px; height: 60px; object-fit: contain; background: #f8fafb; border: 1px solid #e5e9ec; cursor: pointer; padding: 2px; flex-shrink: 0; transition: border-color 0.2s; }
-    .modal-thumb.active { border-color: #c5a880; border-width: 2px; }
-
-    .modal-info { padding: 30px; display: flex; flex-direction: column; }
-    .modal-title { font-size: 22px; font-weight: 500; color: #1a2530; margin: 0 0 10px; }
-    .modal-price { font-size: 22px; font-weight: 700; color: #1a2530; margin-bottom: 15px; }
-    
-    /* 规格组 */
-    .spec-group { margin-bottom: 15px; }
-    .spec-label { display: block; font-size: 12px; font-weight: 600; color: #1a2530; margin-bottom: 6px; }
-    .spec-options { display: flex; flex-wrap: wrap; gap: 8px; }
-    .modal-spec-btn { border: 1px solid #e5e9ec; background: #fff; padding: 6px 14px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
-    .modal-spec-btn.active { border-color: #1a2530; background: #1a2530; color: #fff; }
-    
-    .modal-long-desc { font-size: 13px; color: #606a74; line-height: 1.8; margin: 15px 0; background: #f8fafb; padding: 15px; border-left: 2px solid #c5a880; }
-    .modal-atc-btn { background: #c5a880; color: #fff; border: none; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; margin-top: auto; }
-    .modal-atc-btn:hover { background: #1a2530; }
-
-
-    /* ==========================================================================
-       🛒 【全新重构】HINOKA MODERN CART DRAWER (高奢抽屉式购物车样式)
-       ========================================================================== */
-    .hinoka-cart-drawer-wrapper {
-      position: fixed !important;
-      top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
-      z-index: 11000 !important;
-      display: none;
+    .cart-trigger {
+      cursor: pointer;
+      position: relative;
+      font-size: 14px;
+      letter-spacing: 1px;
     }
-    .hinoka-cart-drawer-wrapper.show {
-      display: block !important;
+    .cart-count-badge {
+      background: var(--text-main);
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 5px;
     }
 
-    /* 现代高斯模糊背景遮罩 */
-    .cart-drawer-overlay {
-      position: absolute !important;
-      top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important;
-      background: rgba(26, 26, 24, 0.4) !important;
-      backdrop-filter: blur(4px) !important;
+    /* 分类快捷过滤器 */
+    .filter-bar {
+      margin-top: 110px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 8px 24px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--text-muted);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--text-main);
+      color: var(--text-main);
+      background: #fff;
     }
 
-    /* 抽屉容器 */
-    .cart-drawer-container {
-      position: absolute !important;
-      top: 0 !important; right: -420px !important;
-      width: 88vw !important;
-      max-width: 400px !important;
-      height: 100% !important;
-      background: #ffffff !important;
-      box-shadow: -10px 0 40px rgba(0,0,0,0.08) !important;
-      display: flex !important;
-      flex-direction: column !important;
-      overflow: hidden !important;
-      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    /* 展区大标题 */
+    .section-container {
+      max-width: 1200px;
+      margin: 60px auto 20px auto;
+      padding: 0 4%;
     }
-    .hinoka-cart-drawer-wrapper.show .cart-drawer-container {
-      right: 0 !important;
+    .section-title {
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
     }
 
-    /* 头部区域 */
-    .cart-drawer-header {
-      padding: 24px 20px 16px 20px !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      border-bottom: 1px solid #f5f5f2 !important;
+    /* 商品网格（分流承载器） */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px 20px;
     }
-    .cart-drawer-title h3 {
-      font-size: 18px !important; font-weight: 400 !important; color: #1a2530 !important; letter-spacing: 0.05em !important; margin: 0 !important;
+    @media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* 高奢商品卡片 */
+    .p-card {
+      background: #fff;
+      border: 1px solid transparent;
+      transition: all 0.4s ease;
     }
-    .cart-drawer-title span {
-      font-size: 9px !important; color: #808a94 !important; letter-spacing: 0.08em !important; display: block; margin-top: 2px;
+    .p-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(44,37,32,0.04);
     }
-    .cart-drawer-close-btn {
-      background: none !important; border: none !important; font-size: 20px !important; color: #606a74 !important; cursor: pointer !important; padding: 4px !important;
+    .p-card-img {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #fcfbfa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .p-card-img img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      transition: transform 0.6s ease;
+    }
+    .p-card:hover .p-card-img img {
+      transform: scale(1.03);
+    }
+    .p-card-body {
+      padding: 15px;
+    }
+    .p-card-cat {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .p-card-name {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-main);
+      height: 40px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      margin-bottom: 12px;
+    }
+    .p-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px dashed #f0eae4;
+    }
+    .p-card-price {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .p-card-price small {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-left: 2px;
+    }
+    .atc-btn {
+      background: var(--text-main);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+    .atc-btn:disabled {
+      background: #d0c8bf;
+      cursor: not-allowed;
     }
 
-    /* SSL 安全盾标志线 */
-    .cart-drawer-ssl-bar {
-      background: #fafaf7 !important; padding: 8px 20px !important; border-bottom: 1px solid #eeeee9 !important; text-align: center !important;
+    /* 高奢侧边栏购物车 */
+    .cart-sidebar-wrapper {
+      position: fixed;
+      top: 0; right: -450px; width: 420px; height: 100%;
+      background: #fff;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+      z-index: 200;
+      transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      display: flex;
+      flex-direction: column;
     }
-    .cart-drawer-ssl-bar span {
-      font-size: 10.5px !important; color: #c5a880 !important; letter-spacing: 0.03em !important;
+    .cart-sidebar-wrapper.show { right: 0; }
+    .cart-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
-    /* 中间动态滚动区 */
-    .cart-drawer-scroll-content {
-      flex: 1 !important; overflow-y: auto !important; padding: 20px !important; -webkit-overflow-scrolling: touch !important;
+    .cart-close-btn {
+      background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted);
     }
-
-    /* 高奢单个商品卡片 */
+    .cart-items-container {
+      flex: 1; overflow-y: auto; padding: 24px;
+    }
     .drawer-item-card {
-      display: flex !important; position: relative !important; background: #fcfcfc !important; border: 1px solid #f2f2f0 !important; border-radius: 6px !important; padding: 12px !important; margin-bottom: 14px !important; align-items: center;
+      display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px;
+      border-bottom: 1px solid #f7f4ef;
     }
-    .drawer-item-img {
-      width: 64px !important; height: 64px !important; border-radius: 4px !important; overflow: hidden !important; margin-right: 12px !important; background: #ffffff !important; flex-shrink: 0;
-    }
-    .drawer-item-img img { width: 100%; height: 100%; object-fit: contain; }
-    .drawer-item-details { flex: 1 !important; }
-    .drawer-item-name { font-size: 13px !important; font-weight: 500 !important; color: #1a2530 !important; margin: 0 0 4px 0 !important; line-height: 1.4 !important; }
-    .drawer-item-price { font-size: 13px !important; font-weight: 600 !important; color: #1a2530 !important; margin-bottom: 6px !important; }
+    .drawer-item-img { width: 70px; height: 70px; background: #faf8f5; display:flex; align-items:center; justify-content:center;}
+    .drawer-item-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .drawer-item-details { flex: 1; }
+    .drawer-item-name { font-size: 13px; margin-bottom: 4px; }
+    .drawer-item-price { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+    .drawer-item-qty-actions { display: flex; align-items: center; gap: 10px; }
+    .drawer-qty-btn { width: 24px; height: 24px; border: 1px solid var(--border-color); background: none; cursor: pointer; }
     
-    .drawer-item-qty-actions { display: flex !important; align-items: center !important; gap: 10px !important; }
-    .drawer-qty-btn { width: 24px !important; height: 24px !important; background: #fff !important; border: 1px solid #e5e9ec !important; font-size: 14px !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; }
-    .drawer-qty-val { font-size: 13px !important; min-width: 20px !important; text-align: center !important; }
+    /* 运费切换控制区 */
+    .shipping-selector-zone {
+      padding: 15px 24px; background: #faf8f5; border-top: 1px solid var(--border-color);
+    }
+    .shipping-title { font-size: 12px; font-weight: bold; margin-bottom: 8px; }
+    .shipping-options { display: flex; gap: 20px; font-size: 12px; }
 
-    /* 🚚 购物车内的地域选择器美化 */
-    .cart-shipping-selector {
-      background: #fafafa !important; border: 1px solid #f0f0ed !important; border-radius: 6px !important; padding: 16px !important; margin: 24px 0 12px 0 !important;
+    .cart-footer-zone {
+      padding: 24px; border-top: 1px solid var(--border-color); background: #fff;
     }
-    .shipping-selector-title { display: block !important; font-size: 11px !important; color: #c5a880 !important; font-weight: 600 !important; margin-bottom: 12px !important; letter-spacing: 0.05em !important; }
-    .shipping-options-group { display: flex !important; flex-direction: column !important; gap: 12px !important; }
-    .shipping-option-item { display: flex !important; align-items: center !important; position: relative !important; cursor: pointer !important; }
-    .shipping-option-item input { position: absolute !important; opacity: 0 !important; }
-    
-    .option-custom-box { width: 16px !important; height: 16px !important; border: 1px solid #cbd5e1 !important; border-radius: 50% !important; margin-right: 10px !important; display: inline-block !important; position: relative !important; background: #ffffff !important; }
-    .shipping-option-item input:checked + .option-custom-box { border-color: #c5a880 !important; }
-    .shipping-option-item input:checked + .option-custom-box::after { content: "" !important; position: absolute !important; top: 4px !important; left: 4px !important; width: 6px !important; height: 6px !important; background: #c5a880 !important; border-radius: 50% !important; }
-    .option-text { font-size: 12.5px !important; color: #1a2530 !important; }
-    .option-text span { font-size: 11px !important; color: #606a74 !important; margin-left: 4px !important; }
-    
-    #cart-island-warn { display: none; font-size: 11px !important; line-height: 1.5 !important; color: #bf0000 !important; margin: 12px 0 0 0 !important; border-top: 1px dashed rgba(191, 0, 0, 0.15) !important; padding-top: 8px !important; }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
+    .grand-total-row { font-size: 16px; font-weight: bold; color: #1a1512; margin-top: 5px; padding-top: 10px; border-top: 1px dashed var(--border-color); }
+    .checkout-btn { width: 100%; background: var(--text-main); color: #fff; border: none; padding: 14px; font-size: 13px; letter-spacing: 2px; cursor: pointer; margin-top: 15px; }
 
-    /* 底层固定结算面板 */
-    .cart-drawer-footer {
-      background: #ffffff !important; border-top: 1px solid #f5f5f2 !important; padding: 20px 20px 32px 20px !important; box-shadow: 0 -6px 20px rgba(0,0,0,0.02) !important;
+    /* 商品细节弹窗 (Modal) */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(44,37,32,0.4); z-index: 300;
+      display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px);
     }
-    .cart-drawer-summary-row {
-      display: flex !important; justify-content: space-between !important; font-size: 13.5px !important; color: #606a74 !important; margin-bottom: 10px !important;
+    .modal-overlay.show { display: flex; }
+    .modal-window {
+      background: #fff; width: 90%; max-width: 900px; height: 85vh; display: flex;
+      position: relative; animation: fadeIn 0.3s ease;
     }
-    .cart-drawer-summary-row.total {
-      margin-top: 14px !important; padding-top: 14px !important; border-top: 1px dashed #e5e9ec !important; font-size: 15px !important; color: #1a2530 !important; font-weight: 600 !important; margin-bottom: 20px !important;
-    }
-    .cart-drawer-summary-row.total .value { font-size: 19px !important; color: #bf0000 !important; }
-
-    .btn-drawer-checkout {
-      display: flex !important; align-items: center !important; justify-content: space-between !important; width: 100% !important; padding: 16px 20px !important; background: #1a2530 !important; color: #ffffff !important; font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.15em !important; border-radius: 4px !important; box-shadow: 0 4px 16px rgba(26,37,48,0.15) !important; text-decoration: none !important; box-sizing: border-box;
-    }
-    .btn-drawer-checkout:hover { background: #c5a880 !important; }
+    @keyframes fadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+    .modal-close-x { position: absolute; top: 20px; right: 20px; font-size: 24px; background: none; border: none; cursor: pointer; z-index: 10; }
+    .modal-left { width: 50%; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 30px; justify-content: center; }
+    .modal-main-img-wrap { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; position: relative; }
+    .modal-main-img-wrap img { max-width: 90%; max-height: 90%; object-fit: contain; }
+    .modal-nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); padding: 10px; }
+    .modal-arrow-left { left: 0; } .modal-arrow-right { right: 0; }
+    .modal-thumb-list { display: flex; gap: 8px; justify-content: center; margin-top: 15px; overflow-x: auto; }
+    .modal-thumb { width: 50px; height: 50px; object-fit: contain; border: 1px solid var(--border-color); cursor: pointer; opacity: 0.5; padding: 2px; }
+    .modal-thumb.active { opacity: 1; border-color: var(--text-main); }
     
-    @keyframes modalUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-right { width: 50%; padding: 40px 30px; overflow-y: auto; display: flex; flex-direction: column; }
+    .modal-cat { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 8px; }
+    .modal-title { font-size: 18px; font-weight: 400; margin-bottom: 15px; line-height: 1.4; }
+    .modal-price { font-size: 20px; font-weight: 500; margin-bottom: 20px; color: #1a1512; }
+    .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.7; }
+    
+    .spec-group { margin-bottom: 20px; }
+    .spec-label { font-size: 12px; font-weight: bold; margin-bottom: 8px; color: var(--text-main); }
+    .spec-options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .modal-spec-btn { background: #fff; border: 1px solid var(--border-color); padding: 6px 16px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+    .modal-spec-btn.active { border-color: var(--text-main); background: var(--text-main); color: #fff; }
+    
+    .info-meta-box { margin-top: 20px; padding-top: 20px; border-top: 1px solid #f5efe9; font-size: 12px; color: var(--text-muted); }
+    .meta-line { margin-bottom: 6px; }
+    .meta-line strong { color: var(--text-main); }
+    .modal-notice-box { margin-top: 15px; padding: 10px; background: #faf6f0; font-size: 11px; color: #9c8f80; border-left: 2px solid var(--accent-gold); }
   </style>
 </head>
 <body>
 
-  <header id="header">
-    <a href="index.html" class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></a>
-    <nav class="main-nav">
-      <a href="index.html">ホーム</a>
-      <a href="shop.html" class="active">オンラインショップ</a>
-      <a href="about.html">会社概要</a>
-      <a href="contact.html" class="nav-contact">お問い合わせ</a>
-    </nav>
+  <header>
+    <div class="logo">HINOKA</div>
+    <div class="cart-trigger" onclick="openCart()">
+      CART <span id="globalCartCount" class="cart-count-badge">0</span>
+    </div>
   </header>
 
-<div class="hinoka-shop-hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="hero-subtitle">SELECTED ITEMS FOR YOUR INSPIRED LIFE</span>
-    <h1 class="hero-title">日々の暮らしに、洗練されたときめきを。</h1>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filter('all', this)">ALL</button>
+    <button class="filter-btn" onclick="filter('pet', this)">PET</button>
+    <button class="filter-btn" onclick="filter('fashion', this)">FASHION</button>
+    <button class="filter-btn" onclick="filter('goods', this)">LIFESTYLE</button>
   </div>
-</div>
 
-<div class="hinoka-category-nav-section">
-  <div class="category-nav-grid">
+  <div class="section-container" id="pet-section">
+    <h2 class="section-title">PET用品 / ペット用品</h2>
+    <div class="products-grid" id="grid-pet"></div>
+  </div>
+
+  <div class="section-container" id="fashion-section">
+    <h2 class="section-title">FASHION & ACCESSORIES / ファッション・アクセサリー</h2>
+    <div class="products-grid" id="grid-fashion"></div>
+  </div>
+
+  <div class="section-container" id="lifestyle-section">
+    <h2 class="section-title">LIFESTYLE GOODS / 生活雑貨</h2>
+    <div class="products-grid" id="grid-lifestyle"></div>
+  </div>
+
+  <div class="cart-sidebar-wrapper" id="hinokaCartWrapper">
+    <div class="cart-header">
+      <div style="font-size:15px; letter-spacing:1px;">SHOPPING CART</div>
+      <button class="cart-close-btn" onclick="closeCart()">✕</button>
+    </div>
     
-    <div class="category-nav-card" onclick="scrollToCategory('pet-section')">
-      <div class="card-bg" style="background-image: url('images/cat-pet-bg.jpg');"></div>
-      <div class="card-content">
-        <span class="en">PET SUPPLIES</span>
-        <span class="ja">ペット用品</span>
-        <span class="arrow">VIEW PRODUCTS →</span>
+    <div class="cart-items-container" id="cartItemsList"></div>
+
+    <div class="shipping-selector-zone" id="cartShippingSelectorZone" style="display:none;">
+      <div class="shipping-title">お届け先地域（配送料金確認）</div>
+      <div class="shipping-options">
+        <label style="cursor:pointer;">
+          <input type="radio" name="shipping_region" id="regionMainland" value="mainland" checked onchange="changeCartRegion('mainland')">
+          日本本土 (送料無料)
+        </label>
+        <label style="cursor:pointer;">
+          <input type="radio" name="shipping_region" id="regionIsland" value="island" onchange="changeCartRegion('island')">
+          北海道・沖縄・離島 (+¥1,500)
+        </label>
+      </div>
+      <div id="cart-island-warn" style="display:none; color:#bf0000; font-size:11px; margin-top:5px;">
+        ※離島地域への配送は、中継手数料として別途1,500円を申し受けます。
       </div>
     </div>
 
-    <div class="category-nav-card" onclick="scrollToCategory('fashion-section')">
-      <div class="card-bg" style="background-image: url('images/fashion-knit-bg.jpg');"></div>
-      <div class="card-content">
-        <span class="en">FASHION & ACC</span>
-        <span class="ja">ファッション・アクセ</span>
-        <span class="arrow">VIEW PRODUCTS →</span>
+    <div class="cart-footer-zone" id="cartFooter">
+      <div class="summary-row">
+        <span>商品合計</span>
+        <span id="cartSubtotalAmount">¥0</span>
       </div>
-    </div>
-
-    <div class="category-nav-card" onclick="scrollToCategory('lifestyle-section')">
-      <div class="card-bg" style="background-image: url('images/lifestyle-bg.jpg');"></div>
-      <div class="card-content">
-        <span class="en">LIFE GOODS</span>
-        <span class="ja">生活雑貨</span>
-        <span class="arrow">VIEW PRODUCTS →</span>
+      <div class="summary-row">
+        <span>配送料</span>
+        <span id="cartShippingTotalAmount">送料無料</span>
       </div>
+      <div class="summary-row grand-total-row">
+        <span>総合計 (税込)</span>
+        <span id="cartGrandTotalAmount">¥0</span>
+      </div>
+      <button class="checkout-btn" onclick="alert('注文手続きへ進みます（デモ）')">CHECKOUT</button>
     </div>
-
-  </div>
-</div>
-
-<div id="productsContainer" class="products-grid">
   </div>
 
-  <div id="pet-section" class="category-block-header">
-    <h2>Pet Supplies<span>ペット用品</span></h2>
-  </div>
-  <div class="product-grid" id="grid-pet"></div>
-
-  <div id="fashion-section" class="category-block-header" style="margin-top: 80px;">
-    <h2>Fashion & Accessories<span>ファッション・アクセ</span></h2>
-  </div>
-  <div class="product-grid" id="grid-fashion"></div>
-
-  <div id="lifestyle-section" class="category-block-header" style="margin-top: 80px;">
-    <h2>Life Goods<span>生活雑貨</span></h2>
-  </div>
-  <div class="product-grid" id="grid-lifestyle"></div>
-
-</section>
-  </div>
-
-  <div class="p-modal-overlay" id="productModal" onclick="closeProductModal(event)">
-    <div class="p-modal-window">
-      <button class="close-modal-btn" onclick="doCloseModal()">×</button>
+  <div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
+    <div class="modal-window">
+      <button class="modal-close-x" onclick="doCloseModal()">✕</button>
       
-      <div class="modal-gallery">
+      <div class="modal-left">
         <div class="modal-main-img-wrap">
-          <button class="nav-arrow prev-arrow" onclick="navModalImage(-1)">‹</button>
-          <img src="" id="modalMainImage" class="modal-main-img" alt="メイン画像">
-          <button class="nav-arrow next-arrow" onclick="navModalImage(1)">›</button>
+          <button class="modal-nav-arrow modal-arrow-left" onclick="navModalImage(-1)">‹</button>
+          <img id="modalMainImage" src="" alt="商品画像">
+          <button class="modal-nav-arrow modal-arrow-right" onclick="navModalImage(1)">›</button>
         </div>
         <div class="modal-thumb-list" id="modalThumbList"></div>
       </div>
       
-<div class="modal-info">
-        <div id="modalCategory" style="font-size:11px; color:#808a94; text-transform:uppercase; margin-bottom:4px;"></div>
-        <h2 class="modal-title" id="modalTitle">商品名</h2>
+      <div class="modal-right">
+        <div class="modal-cat" id="modalCategory">Category</div>
+        <h2 class="modal-title" id="modalTitle">Product Title</h2>
         <div class="modal-price" id="modalPrice">¥0</div>
-
-        <!-- 🌟 完美无缝接入：商品详情及保障参数面板 🌟 -->
-        <div class="modal-meta-panel" style="margin-top: 20px; border-top: 1px solid #f0f2f4; padding-top: 15px; font-size: 12px; color: #4a5560; line-height: 1.8;">
-          
-          <div style="margin-bottom: 6px;">
-            <strong style="color: #1a2530; width: 80px; display: inline-block;">発送地：</strong>
-            <span id="modalOrigin"></span>
-          </div>
-          
-          <div style="margin-bottom: 6px;">
-            <strong style="color: #1a2530; width: 80px; display: inline-block;">発送時期：</strong>
-            <span id="modalDelivery"></span>
-          </div>
-          
-          <div style="margin-bottom: 12px;">
-            <strong style="color: #1a2530; width: 80px; display: inline-block;">素材：</strong>
-            <span id="modalMaterial"></span>
-          </div>
-          
-          <!-- 注意事项提示框（地道柔和的强调视觉） -->
-          <div style="background: #fcfaf8; padding: 10px 12px; border-left: 2px solid #9a9490; font-size: 11px; color: #707a84;">
-            <span id="modalNotice"></span>
-          </div>
-          
-        </div>
-        <!-- 🌟 接入结束 🌟 -->
+        <div class="modal-desc" id="modalLongDesc">Description</div>
         
         <div class="spec-group" id="modalColorGroup">
-          <span class="spec-label">カラー (颜色)</span>
+          <div class="spec-label">COLOR</div>
           <div class="spec-options" id="modalColorOptions"></div>
         </div>
-
-        <div class="spec-group" id="modalSizeGroup" style="margin-top:10px;">
-          <span class="spec-label">サイズ (尺寸)</span>
+        
+        <div class="spec-group" id="modalSizeGroup">
+          <div class="spec-label">SIZE</div>
           <div class="spec-options" id="modalSizeOptions"></div>
         </div>
-
-        <div class="modal-long-desc" id="modalLongDesc"></div>
         
-        <button class="modal-atc-btn" id="modalAtcBtn" onclick="addModalProductToCart()">カートに追加する</button>
+        <div class="info-meta-box">
+          <div class="meta-line"><strong>発送元:</strong> <span id="modalOrigin"></span></div>
+          <div class="meta-line"><strong>配送目安:</strong> <span id="modalDelivery"></span></div>
+          <div class="meta-line"><strong>素材・成分:</strong> <span id="modalMaterial"></span></div>
+          <div class="modal-notice-box" id="modalNotice"></div>
+        </div>
+        
+        <button class="checkout-btn" id="modalAtcBtn" onclick="addModalProductToCart()" style="margin-top:auto;">カートに追加する</button>
       </div>
     </div>
   </div>
 
+  <script>
+    const PRODUCTS = [
+      // ==========================================
+      // SECTION 1: ペット用品 / PET (ID: 1 ~ 10)
+      // ==========================================
+      {
+        id: 1,
+        name: "プレミアム ケーブルニット ペットウェア",
+        category: "ペット用品",
+        price: 8900,
+        stock: 15,
+        badge: "new",
+        image: "images/Photoroom_雑貨_162139.jpg",
+        image2: "images/IMG_5113ペット.PNG",
+        images: [
+          "images/Photoroom_雑貨_162139.jpg",
+          "images/IMG_5113ペット.PNG"
+        ],
+        colors: [
+          { name: "Off White", priceModifier: 0 },
+          { name: "Camel", priceModifier: 500 }
+        ],
+        sizes: [
+          { name: "S", priceModifier: 0 },
+          { name: "M", priceModifier: 0 },
+          { name: "L", priceModifier: 300 }
+        ],
+        desc: "上質なハイゲージニットを使用した、ラグジュアリーなペットウェア。洗練されたぬくもりを大切な家族に。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "高級ウール 80%、カシミヤ 20%",
+        notice: "※本製品はデリケートなウール素材を使用しているため、手洗いまたはネットに入れてのドライコースを推奨いたします。タンブラー乾燥はお避けください。"
+      },
+      {
+        id: 2,
+        name: "オーガニックコットン プレイスマット",
+        category: "ペット用品",
+        price: 3400,
+        stock: 20,
+        badge: "",
+        image: "images/products/pet-02-front.jpg",
+        images: ["images/products/pet-02-front.jpg"],
+        colors: [{ name: "Natural", priceModifier: 0 }, { name: "Sage", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "お食事の時間をエレガントに演出する、撥水加工を施したオーガニックコットンのマットです。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "オーガニックコットン 100%（表面耐水パラフィン加工）",
+        notice: "※汚れた場合は固く絞った布で拭き取ってください。洗濯機で何度も洗うと撥水効果が徐々に薄れる場合がございます。"
+      },
+      {
+        id: 3,
+        name: "スタイリッシュ フードボウル (セラミック)",
+        category: "ペット用品",
+        price: 4800,
+        stock: 8,
+        badge: "hot",
+        image: "images/products/pet-03-front.jpg",
+        images: ["images/products/pet-03-front.jpg"],
+        colors: [{ name: "Black", priceModifier: 0 }, { name: "White", priceModifier: 0 }],
+        sizes: [{ name: "Regular", priceModifier: 0 }],
+        desc: "美濃焼の職人が一つ一つ丁寧に仕上げた、インテリアに溶け込むモダンなフードボウル。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "磁器（美濃焼）",
+        notice: "※電子レンジ・食洗機対応。職人による手作りのため、釉薬のムラやわずかな気泡が見られる場合がありますが、風合いとしてお楽しみください。"
+      },
+      {
+        id: 4,
+        name: "クラシック リネンリード",
+        category: "ペット用品",
+        price: 5200,
+        stock: 12,
+        badge: "",
+        image: "images/products/pet-04-front.jpg",
+        images: ["images/products/pet-04-front.jpg"],
+        colors: [{ name: "Taupe", priceModifier: 0 }, { name: "Navy", priceModifier: 0 }],
+        sizes: [{ name: "1.2m", priceModifier: 0 }],
+        desc: "使うほどに手に馴染む上質なリネンと、真鍮製パーツを組み合わせた高級感のあるリードです。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "アイリッシュリネン 100%、高級真鍮金具",
+        notice: "※安全のため、ご使用前に傷や擦れがないか必ず点検してください。水濡れした場合は陰干しで完全に乾かしてください。"
+      },
+      {
+        id: 5,
+        name: "コンフォート リネンカラー (首輪)",
+        category: "ペット用品",
+        price: 3800,
+        stock: 0,
+        badge: "",
+        image: "images/products/pet-05-front.jpg",
+        images: ["images/products/pet-05-front.jpg"],
+        colors: [{ name: "Taupe", priceModifier: 0 }, { name: "Navy", priceModifier: 0 }],
+        sizes: [{ name: "S", priceModifier: 0 }, { name: "M", priceModifier: 200 }],
+        desc: "肌当たりの優しいリネン素材。ワンポイントの真鍮金具がシックな印象を与えます。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "アイリッシュリネン 100%、真鍮",
+        notice: "※サイズはお出かけ前に指が1〜2本入る程度の隙間があるかご確認ください。強い引っ張り癖のあるペットへのご使用はご注意ください。"
+      },
+      {
+        id: 6,
+        name: "トラベル ペットキャリーバッグ",
+        category: "ペット用品",
+        price: 18900,
+        stock: 5,
+        badge: "new",
+        image: "images/products/pet-06-front.jpg",
+        images: ["images/products/pet-06-front.jpg"],
+        colors: [{ name: "Charcoal", priceModifier: 0 }],
+        sizes: [{ name: "Standard", priceModifier: 0 }],
+        desc: "耐久性と通気性に優れた、高機能でおしゃれな移動用キャリーバッグ。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "高密度バリスティックナイロン、ヴィーガンレザー、アルミフレーム",
+        notice: "※耐荷重は8kgまでとなります。公共交通機関でご使用の際は、各運行会社の規定をあらかじめご確認ください。"
+      },
+      {
+        id: 7,
+        name: "リラクシング キャットベッド",
+        category: "ペット用品",
+        price: 12000,
+        stock: 7,
+        badge: "",
+        image: "images/products/pet-07-front.jpg",
+        images: ["images/products/pet-07-front.jpg"],
+        colors: [{ name: "Beige", priceModifier: 0 }, { name: "Gray", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "包み込まれるような安心感を与えるフォルム。インテリアの邪魔をしないニュアンスカラー。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "リネンウール混紡（本体外側）、低反発ウレタンフォーム（クッション内部）",
+        notice: "※内側のクッションカバーは取り外して洗濯機で洗えます。ウレタン本体は洗濯できませんので、日陰干ししてください。"
+      },
+      {
+        id: 8,
+        name: "天然木 キャットタワー ミニ",
+        category: "ペット用品",
+        price: 24500,
+        stock: 3,
+        badge: "",
+        image: "images/products/pet-08-front.jpg",
+        images: ["images/products/pet-08-front.jpg"],
+        colors: [{ name: "Oak", priceModifier: 0 }],
+        sizes: [{ name: "H110cm", priceModifier: 0 }],
+        desc: "天然木を使用し、日本の住空間に合わせてコンパクトに設計された美しいキャットタワー。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、2〜4営業日以内に発送",
+        material: "天然オーク材（無垢）、最高級麻縄",
+        notice: "※こちらは組み立て式の家具となります（工具同梱）。転倒防止のため、必ず水平で頑丈な壁際に設置してください。"
+      },
+      {
+        id: 9,
+        name: "プレミアム ケアブラシ",
+        category: "ペット用品",
+        price: 4200,
+        stock: 25,
+        badge: "",
+        image: "images/products/pet-09-front.jpg",
+        images: ["images/products/pet-09-front.jpg"],
+        colors: [{ name: "Walnut", priceModifier: 0 }],
+        sizes: [{ name: "One Size", priceModifier: 0 }],
+        desc: "ペットの皮膚を傷つけず、無駄毛を優しく取り除く天然木ハンドルの最高級ブラシ。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "天然ウォルナット材、極細ステンレスピン（先端保护ラバー加工）",
+        notice: "※皮膚に炎症がある場合や、毛玉がひどい場合は無理に引っ張らず、優しくほぐすようにブラッシングしてください。"
+      },
+      {
+        id: 10,
+        name: "ボタニカル ペットシャンプー",
+        category: "ペット用品",
+        price: 2900,
+        stock: 30,
+        badge: "",
+        image: "images/products/pet-10-front.jpg",
+        images: ["images/products/pet-10-front.jpg"],
+        colors: [{ name: "Lavender & Chamomile", priceModifier: 0 }],
+        sizes: [{ name: "300ml", priceModifier: 0 }],
+        desc: "天然由来成分100%。デリケートな肌をやさしく洗い上げ、ほのかに香るボタニカルシャンプー。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "有機カモミールエキス、ラベンダー精油、植物由来洗浄成分",
+        notice: "※目や耳に入らないようにご注意ください。万が一、使用中または使用後に皮膚の異常が現れた場合は直ちに使用を中止し、獣医師にご相談ください。"
+      },
 
-  <div class="hinoka-cart-drawer-wrapper" id="hinokaCartWrapper">
-    <div class="cart-drawer-overlay" onclick="closeCart()"></div>
-    
-    <div class="cart-drawer-container">
-      <div class="cart-drawer-header">
-        <div class="cart-drawer-title">
-          <h3>Shopping Bag</h3>
-          <span>ショッピングバッグ</span>
-        </div>
-        <button class="cart-drawer-close-btn" onclick="closeCart()">✕</button>
-      </div>
+      // ==========================================
+      // SECTION 2: ファッション・アクセサリー / FASHION (ID: 11 ~ 20)
+      // ==========================================
+      {
+        id: 11,
+        name: "シルクリネン ライトストール",
+        category: "ファッション・アクセサリー",
+        price: 12000,
+        stock: 14,
+        badge: "new",
+        image: "images/products/fsh-01-front.jpg",
+        images: ["images/products/fsh-01-front.jpg"],
+        colors: [{ name: "Pale Pink", priceModifier: 0 }, { name: "Sky Blue", priceModifier: 0 }, { name: "Linen", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "極上のシルクとリネンを織り交ぜた、空気のように軽い大判ストール。春夏の紫外線・冷房対策に。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "シルク 55%、リネン 45%",
+        notice: "※非常に繊浅な織物ですので、引っかかりにご注意ください。お洗濯は信頼のおけるクリーニング店へご相談いただくか、優しく手洗いしてください。"
+      },
+      {
+        id: 12,
+        name: "ミニマル レザーカードケース",
+        category: "ファッション・アクセサリー",
+        price: 7800,
+        stock: 18,
+        badge: "",
+        image: "images/products/fsh-02-front.jpg",
+        images: ["images/products/fsh-02-front.jpg"],
+        colors: [{ name: "Black", priceModifier: 0 }, { name: "Etain", priceModifier: 0 }, { name: "Gold", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "厳選されたイタリアンレザーを使用。無駄を削ぎ落としたミニマルな美しいデザイン。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "牛革（イタリア製トゴレザー）",
+        notice: "※天然皮革を使用しているため、自然なシワやシボの個体差があります。水濡れはシミの原因となりますので、濡れた場合はすぐに乾いた柔らかい布で拭き取ってください。"
+      },
+      {
+        id: 13,
+        name: "クラシック パナマハット",
+        category: "ファッション・アクセサリー",
+        price: 16500,
+        stock: 6,
+        badge: "",
+        image: "images/products/fsh-03-front.jpg",
+        images: ["images/products/fsh-03-front.jpg"],
+        colors: [{ name: "Natural", priceModifier: 0 }],
+        sizes: [{ name: "M (57cm)", priceModifier: 0 }, { name: "L (59cm)", priceModifier: 0 }],
+        desc: "エクアドル産の本格パナマ草を手編みした、コーディネートを格上げするハット。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "天然トキヤ草（パナマ草）100%、レーヨン（リボン部分）",
+        notice: "※型崩れを防ぐため、つばの縁を持ってお取り扱いください。水洗いはできません。保管 of 際は乾燥した涼しい場所で箱に入れて保管してください。"
+      },
+      {
+        id: 14,
+        name: "シアーソックス (3足セット)",
+        category: "ファッション・アクセサリー",
+        price: 3900,
+        stock: 40,
+        badge: "",
+        image: "images/products/fsh-04-front.jpg",
+        images: ["images/products/fsh-04-front.jpg"],
+        colors: [{ name: "Monotone Set", priceModifier: 0 }, { name: "Earth Set", priceModifier: 0 }],
+        sizes: [{ name: "23-25cm", priceModifier: 0 }],
+        desc: "絶妙な透け感と上品な光沢。パンプスにもサンダルにも合わせやすい上質な一足。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "ナイロン、ポリウレタン、ポリエステル",
+        notice: "※大変薄く繊細な生地です。爪や指輪などによる引っかかり、伝線に十分ご注意ください。お洗濯の際は必ず目の細かいネットに入れてください。"
+      },
+      {
+        id: 15,
+        name: "ヴィンテージライク 真鍮バングル",
+        category: "ファッション・アクセサリー",
+        price: 6400,
+        stock: 11,
+        badge: "hot",
+        image: "images/products/fsh-05-front.jpg",
+        images: ["images/products/fsh-05-front.jpg"],
+        colors: [{ name: "Brass Gold", priceModifier: 0 }],
+        sizes: [{ name: "Slim", priceModifier: 0 }, { name: "Wide", priceModifier: 800 }],
+        desc: "経年変化を楽しめる真鍮バングル。手元にクラシカルなアクセントを添えます。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "ソリッドブラス（無垢真鍮）",
+        notice: "※真鍮の特性上、空気に触れることで徐々にアンティーク調の色味へ変化します。輝きを戻したい場合は、市販の真鍮磨きクロスなどで優しく磨いてください。"
+      },
+      {
+        id: 16,
+        name: "アコヤ真珠 ミニマルピアス",
+        category: "ファッション・アクセサリー",
+        price: 24000,
+        stock: 4,
+        badge: "new",
+        image: "images/products/fsh-06-front.jpg",
+        images: ["images/products/fsh-06-front.jpg"],
+        colors: [{ name: "K18 Yellow Gold", priceModifier: 0 }],
+        sizes: [{ name: "6.0mm", priceModifier: 0 }],
+        desc: "伊勢志摩産の上質なアコヤ真珠を使用。普段使いからフォーマルまで気品溢れる仕上がりに。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "伊勢志摩産アコヤ本真珠、K18イエローゴールド（ポスト・キャッチ部）",
+        notice: "※真珠は酸や汗に弱い性質があります。ご使用後は、柔らかいクロス等で優しく汗や皮脂を拭き取ってから保管してください。"
+      },
+      {
+        id: 17,
+        name: "キャンバス 2WAY トートバッグ",
+        category: "ファッション・アクセサリー",
+        price: 13500,
+        stock: 9,
+        badge: "",
+        image: "images/products/fsh-07-front.jpg",
+        images: ["images/products/fsh-07-front.jpg"],
+        colors: [{ name: "Ivory", priceModifier: 0 }, { name: "Olive", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "厚手の強靭なキャンバス地と上質なヌメ革を使用。経年変化が楽しみな2WAYバッグ。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "6号倉敷帆布（綿100%）、国産ヌメ革",
+        notice: "※キャンバス生地の特性上、水濡れや摩擦により色落ち・衣類への色移りが発生する場合があります。特に雨の日のご使用にはご注意ください。"
+      },
+      {
+        id: 18,
+        name: "フレンチリネン エプロンドレス",
+        category: "ファッション・アクセサリー",
+        price: 9800,
+        stock: 15,
+        badge: "",
+        image: "images/products/fsh-08-front.jpg",
+        images: ["images/products/fsh-08-front.jpg"],
+        colors: [{ name: "Charcoal", priceModifier: 0 }, { name: "Flax", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "美しく身体を包み込むドレスのようなエプロン。家の中での時間をさらに豊かに。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "フランス産リネン 100%",
+        notice: "※麻特有のネップ（糸の節）が見られる場合がありますが、天然素材の風合いです。洗濯後はシワを伸ばし、形を整えてから陰干ししてください。"
+      },
+      {
+        id: 19,
+        name: "UVカット オーガニックコットン日傘",
+        category: "ファッション・アクセサリー",
+        price: 14000,
+        stock: 0,
+        badge: "",
+        image: "images/products/fsh-09-front.jpg",
+        images: ["images/products/fsh-09-front.jpg"],
+        colors: [{ name: "Striped Beige", priceModifier: 0 }],
+        sizes: [{ name: "47cm", priceModifier: 0 }],
+        desc: "竹製のハンドルと天然素材の生地が涼しげな、完全遮光仕様の高級日傘。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "オーガニックコットン 100%（裏面UVカット遮光コーティング）、天然竹（持ち手）",
+        notice: "※本製品は日傘専用です。激しい豪雨の際などは雨水が染み込む恐れがありますので、雨傘としての常用はお避けください。"
+      },
+      {
+        id: 20,
+        name: "ウールフェルト ベレー帽",
+        category: "ファッション・アクセサリー",
+        price: 6800,
+        stock: 22,
+        badge: "",
+        image: "images/products/fsh-10-front.jpg",
+        images: ["images/products/fsh-10-front.jpg"],
+        colors: [{ name: "Bordeaux", priceModifier: 0 }, { name: "Noir", priceModifier: 0 }],
+        sizes: [{ name: "Free", priceModifier: 0 }],
+        desc: "なめらかなウールフェルトを贅沢に使用。美しい立体感をキープできる仕立てです。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "ウールフェルト 100%",
+        notice: "※水洗いは縮みの原因となりますのでお避けください。汚れた場合は、固く絞った布で叩くように汚れを落とし、陰干ししてください。"
+      },
+
+      // ==========================================
+      // SECTION 3: 生活雑貨 / LIFESTYLE (ID: 21 ~ 30)
+      // ==========================================
+      {
+        id: 21,
+        name: "ボタニカル ソイキャンドル",
+        category: "生活雑貨",
+        price: 4200,
+        stock: 25,
+        badge: "new",
+        image: "images/products/lfs-01-front.jpg",
+        images: ["images/products/lfs-01-front.jpg"],
+        colors: [{ name: "Fig & Hinoki", priceModifier: 0 }, { name: "Citrus & Sage", priceModifier: 0 }],
+        sizes: [{ name: "200g", priceModifier: 0 }],
+        desc: "天然のソイワックスに100%ピュアエッセンシャルオイルをブレンド。木製芯の優しく心地よい音を愉しんで。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "天然大豆ワックス（ソイワックス）100%、天然精油、ウッドウィック（木製芯）",
+        notice: "※点火時は芯を5mm程度にカットしてご使用ください。大豆アレルギーをお持ちの方は念のためご使用をお控えいただくか、医師にご相談ください。"
+      },
+      {
+        id: 22,
+        name: "リネン ワッフルフェイスタオル",
+        category: "生活雑貨",
+        price: 2800,
+        stock: 35,
+        badge: "",
+        image: "images/products/lfs-02-front.jpg",
+        images: ["images/products/lfs-02-front.jpg"],
+        colors: [{ name: "White", priceModifier: 0 }, { name: "Oatmeal", priceModifier: 0 }],
+        sizes: [{ name: "Standard", priceModifier: 0 }],
+        desc: "吸水性と速乾性に優れたリネン100%のワッフルタオル。使うほどに柔らかく育ちます。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "高品質リネン 100%",
+        notice: "※使い始めは特有の繊維くずが出ることがありますので、単独での洗濯をお勧めします。柔軟剤のご使用は吸水性を損なうため、極力お控えください。"
+      },
+      {
+        id: 23,
+        name: "ハンドメイド ルームスリッパ",
+        category: "生活雑貨",
+        price: 5800,
+        stock: 12,
+        badge: "",
+        image: "images/products/lfs-03-front.jpg",
+        images: ["images/products/lfs-03-front.jpg"],
+        colors: [{ name: "Brown Leather", priceModifier: 0 }, { name: "Suede Gray", priceModifier: 0 }],
+        sizes: [{ name: "M (24cm)", priceModifier: 0 }, { name: "L (26cm)", priceModifier: 200 }],
+        desc: "職人が一足ずつ手縫いで仕上げた、素足で履きたくなる極上のラム革スリッパ。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "羊革（本体）、スエードレザー（底面・静音加工）",
+        notice: "※本製品は室内専用です。本革仕様のため水洗いはできません。革用クリーナーまたは固く絞った布でメンテナンスしてください。"
+      },
+      {
+        id: 24,
+        name: "和硝子 手吹きグラス",
+        category: "生活雑貨",
+        price: 3600,
+        stock: 16,
+        badge: "hot",
+        image: "images/products/lfs-04-front.jpg",
+        images: ["images/products/lfs-04-front.jpg"],
+        colors: [{ name: "Clear", priceModifier: 0 }, { name: "Amber", priceModifier: 0 }],
+        sizes: [{ name: "250ml", priceModifier: 0 }],
+        desc: "気泡の入り方や揺らぎが美しい、手吹きならではの温かみを感じるモダンなグラス。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "ソーダガラス（手吹き製法）",
+        notice: "※耐熱ガラスではありません。急激な温度変化（熱湯の注ぎ入れや、冷えた状態での電子レンジ使用など）は破損の原因となりますのでお避けください。"
+      },
+      {
+        id: 25,
+        name: "ウォルナット ツールスタンド",
+        category: "生活雑貨",
+        price: 7200,
+        stock: 8,
+        badge: "",
+        image: "images/products/lfs-05-front.jpg",
+        images: ["images/products/lfs-05-front.jpg"],
+        colors: [{ name: "Natural Walnut", priceModifier: 0 }],
+        sizes: [{ name: "High", priceModifier: 0 }],
+        desc: "キッチンツールや文房具を美しく収納する、重厚感のある天然木スタンド。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "北米産ブラックウォルナット材（天然木・オイルフィニッシュ）",
+        notice: "※水気の多い場所に長時間放置するとカビや反りの原因になります。定期的に植物性オイルを薄く塗ることで、深い色艶を長く保てます。"
+      },
+      {
+        id: 26,
+        name: "真鍮製 ミニマリスト一輪挿し",
+        category: "生活雑貨",
+        price: 4900,
+        stock: 20,
+        badge: "",
+        image: "images/products/lfs-06-front.jpg",
+        images: ["images/products/lfs-06-front.jpg"],
+        colors: [{ name: "Solid Brass", priceModifier: 0 }],
+        sizes: [{ name: "H15cm", priceModifier: 0 }],
+        desc: "一輪の花を際立たせる、洗練された真鍮製のフラワーベース。静かな存在感を放ちます。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "真鍮（内側：ガラス試験管同梱）",
+        notice: "※水を入れる際は、付属のガラス管をご使用ください。真鍮本体に直接水が長時間触れると、強い緑青（サビ）の原因となります。"
+      },
+      {
+        id: 27,
+        name: "手織りオーガニック ルームマット",
+        category: "生活雑貨",
+        price: 14500,
+        stock: 4,
+        badge: "",
+        image: "images/products/lfs-07-front.jpg",
+        images: ["images/products/lfs-07-front.jpg"],
+        colors: [{ name: "Ivory & Charcoal", priceModifier: 0 }],
+        sizes: [{ name: "50x80cm", priceModifier: 0 }],
+        desc: "インドの伝統的な手法で丁寧に手織りされた、インテリアの主役になるラグマット。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "オーガニックコットン 70%、天然ジュート（麻） 30%",
+        notice: "※手織りのため、サイズに数センチの個体差がある場合があります。最初のうちは独特の素材臭がすることがあります。気になる場合は陰干ししてください。"
+      },
+      {
+        id: 28,
+        name: "ボタニカル ルームミスト",
+        category: "生活雑貨",
+        price: 3200,
+        stock: 30,
+        badge: "",
+        image: "images/products/lfs-08-front.jpg",
+        images: ["images/products/lfs-08-front.jpg"],
+        colors: [{ name: "Deep Forest", priceModifier: 0 }, { name: "Morning Sun", priceModifier: 0 }],
+        sizes: [{ name: "150ml", priceModifier: 0 }],
+        desc: "空間を瞬時にリフレッシュする天然エッセンシャルオイル配合の贅沢なミスト。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "天然植物精油（ヒノキ・シダーウッド等）、植物性エタノール、精製水",
+        notice: "※シルクや革製品、白い壁紙などに直接スプレーするとシミになる恐れがあります。対象物から30cm以上離して空間にスプレーしてください。"
+      },
+      {
+        id: 29,
+        name: "美濃焼 マット釉 プレート",
+        category: "生活雑貨",
+        price: 3800,
+        stock: 18,
+        badge: "new",
+        image: "images/products/lfs-09-front.jpg",
+        images: ["images/products/lfs-09-front.jpg"],
+        colors: [{ name: "Matt Gray", priceModifier: 0 }, { name: "Matt Beige", priceModifier: 0 }],
+        sizes: [{ name: "21cm", priceModifier: 0 }],
+        desc: "現代の食卓に寄り添う、マットな質感がシックな美濃焼の万能ミディアムプレート。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "陶磁器（美濃焼・マット釉仕上）",
+        notice: "※電子レンジ・食洗機対応。オーブンや直火でのご使用はできません。メタルマーク（金属製ナイフ等との摩擦による黒い線）がつきやすいためご注意ください。"
+      },
+      {
+        id: 30,
+        name: "オーガニック ハーブティーボックス",
+        category: "生活雑貨",
+        price: 2600,
+        stock: 0,
+        badge: "",
+        image: "images/products/lfs-10-front.jpg",
+        images: ["images/products/lfs-10-front.jpg"],
+        colors: [{ name: "Relax Blend", priceModifier: 0 }],
+        sizes: [{ name: "20 Bags", priceModifier: 0 }],
+        desc: "厳選されたオーガニックハーブのみを使用。1日の終わりに心身を解きほぐすブレンド。",
+        origin: "大阪府より発送",
+        delivery: "ご注文後、1〜3営業日以内に発送",
+        material: "有機カモミール、有機ペパーミント、有機レモングラス（生分解性ティーバッグ使用）",
+        notice: "※直射日光・高温多湿を避けて冷暗所に保存してください。開封後は賞味期限に関わらずお早めにお召し上がりください。"
+      }
+    ];
+
+    // ────────────────────────────────────────────────────────
+    // 核心高奢控制中心核心交互逻辑
+    // ────────────────────────────────────────────────────────
+    let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
+    let currentModalProductId = '';
+    let selectedColorObj = null;
+    let selectedSizeObj = null;
+    let currentImageIndex = 0;
+    let currentProductImagesArray = [];
+    let currentShippingRegion = sessionStorage.getItem('hinoka_selected_region') || 'mainland';
+
+    function openCart() {
+      const cartWrapper = document.getElementById('hinokaCartWrapper');
+      if (cartWrapper) cartWrapper.classList.add('show');
       
-      <div class="cart-drawer-ssl-bar">
-        <span>🔒 個人情報と決済内容は安全に保護されます</span>
-      </div>
+      const regionIsland = document.getElementById('regionIsland');
+      const regionMainland = document.getElementById('regionMainland');
+      if (currentShippingRegion === 'island' && regionIsland) {
+        regionIsland.checked = true;
+      } else if (regionMainland) {
+        regionMainland.checked = true;
+      }
+      renderCart();
+    }
 
-      <div class="cart-drawer-scroll-content">
-        <div id="cartItemsList"></div>
+    function closeCart() {
+      const cartWrapper = document.getElementById('hinokaCartWrapper');
+      if (cartWrapper) cartWrapper.classList.remove('show');
+    }
 
-        <div class="cart-shipping-selector" id="cartShippingSelectorZone">
-          <label class="shipping-selector-title">お届け先の地域をお選びください</label>
-          <div class="shipping-options-group">
-            <label class="shipping-option-item">
-              <input type="radio" name="cart_region" value="mainland" id="regionMainland" checked onchange="changeCartRegion('mainland')">
-              <span class="option-custom-box"></span>
-              <span class="option-text">本州・四国・九州 <span>(送料込み)</span></span>
-            </label>
-            <label class="shipping-option-item">
-              <input type="radio" name="cart_region" value="island" id="regionIsland" onchange="changeCartRegion('island')">
-              <span class="option-custom-box"></span>
-              <span class="option-text">北海道・沖縄・離島地域 <span>(+¥1,500)</span></span>
-            </label>
+    // 分流渲染函数
+    function renderGrid(items) {
+      const gridPet = document.getElementById('grid-pet');
+      const gridFashion = document.getElementById('grid-fashion');
+      const gridLifestyle = document.getElementById('grid-lifestyle');
+
+      if (gridPet) gridPet.innerHTML = '';
+      if (gridFashion) gridFashion.innerHTML = '';
+      if (gridLifestyle) gridLifestyle.innerHTML = '';
+
+      items.forEach(p => {
+        const isOut = p.stock <= 0;
+        let badgeHTML = '';
+        if (p.badge === 'new') {
+          badgeHTML = `<div style="position: absolute; top: 12px; left: 12px; background: #f5f2eb; color: #7c6e5f; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; z-index: 2;">NEW</div>`;
+        } else if (p.badge === 'hot') {
+          badgeHTML = `<div style="position: absolute; top: 12px; left: 12px; background: #fcf1f1; color: #b86b6b; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; z-index: 2;">HOT</div>`;
+        }
+
+        const cardHTML = `
+          <div class="p-card" onclick="openProductModal(${p.id})" style="${isOut ? 'opacity: 0.7;' : ''}">
+            <div class="p-card-img">
+              ${badgeHTML}
+              ${isOut ? '<div style="position:absolute; inset:0; background:rgba(26,37,48,0.7); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; z-index:6; max-height:30px; margin:auto; width:80px;">SOLD OUT</div>' : ''}
+              <img src="${p.image}" alt="${p.name}">
+            </div>
+            <div class="p-card-body">
+              <div class="p-card-cat">${p.category}</div>
+              <h3 class="p-card-name">${p.name}</h3>
+              <div class="p-card-bottom">
+                <div class="p-card-price">¥${Number(p.price).toLocaleString()}<small>(税込)</small></div>
+                <button class="atc-btn" ${isOut ? 'disabled' : ''}>${isOut ? '完売' : '詳細を見る'}</button>
+              </div>
+            </div>
           </div>
-          <p id="cart-island-warn">※ 同一住所へのお届けの場合、複数の商品をご注文でも離島中継料は一律1,500円のみとなります。重複請求はございません。</p>
-        </div>
-      </div>
+        `;
 
-      <div class="cart-drawer-footer" id="cartFooter">
-        <div class="cart-drawer-summary-row">
-          <span>商品小計 (税込)</span>
-          <span id="cartSubtotalAmount">¥0</span>
-        </div>
-        <div class="cart-drawer-summary-row">
-          <span>離島中継料</span>
-          <span id="cartShippingTotalAmount">送料込み</span>
-        </div>
-        <div class="cart-drawer-summary-row total">
-          <span>合計金額</span>
-          <span id="cartGrandTotalAmount" class="value">¥0</span>
-        </div>
-        
-        <a href="checkout.html" class="btn-drawer-checkout">
-          <span>ご注文手続きへ進む</span>
-          <span>→</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-<script>
-const PRODUCTS = [
-// ────────────────────────────────────────────────────────
-// 株式会社HINOKA - 30款高奢选品完全体数据集（含发货与材质参数）
-// ────────────────────────────────────────────────────────
-
-const PRODUCTS = [
-  // ==========================================
-  // SECTION 1: ペット用品 / PET (ID: 1 ~ 10)
-  // ==========================================
-  {
-    id: 1,
-    name: "プレミアム ケーブルニット ペットウェア",
-    category: "ペット用品",
-    price: 8900,
-    stock: 15,
-    badge: "new",
-    image: "images/Photoroom_雑貨_162139.jpg",
-    image2: "images/IMG_5113ペット.PNG",
-    images: [
-      "images/products/pet-01-front.jpg",
-      "images/products/pet-01-hover.jpg",
-      "images/products/pet-01-detail1.jpg",
-      "images/products/pet-01-detail2.jpg",
-      "images/products/pet-01-size.jpg"
-    ],
-    colors: [
-      { name: "Off White", priceModifier: 0 },
-      { name: "Camel", priceModifier: 500 }
-    ],
-    sizes: [
-      { name: "S", priceModifier: 0 },
-      { name: "M", priceModifier: 0 },
-      { name: "L", priceModifier: 300 }
-    ],
-    desc: "上質なハイゲージニットを使用した、ラグジュアリーなペットウェア。洗練されたぬくもりを大切な家族に。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "高級ウール 80%、カシミヤ 20%",
-    notice: "※本製品はデリケートなウール素材を使用しているため、手洗いまたはネットに入れてのドライコースを推奨いたします。タンブラー乾燥はお避けください。"
-  },
-  {
-    id: 2,
-    name: "オーガニックコットン プレイスマット",
-    category: "ペット用品",
-    price: 3400,
-    stock: 20,
-    badge: "",
-    image: "images/products/pet-02-front.jpg",
-    image2: "images/products/pet-02-hover.jpg",
-    images: ["images/products/pet-02-front.jpg", "images/products/pet-02-hover.jpg"],
-    colors: [{ name: "Natural", priceModifier: 0 }, { name: "Sage", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "お食事の時間をエレガントに演出する、撥水加工を施したオーガニックコットンのマットです。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "オーガニックコットン 100%（表面耐水パラフィン加工）",
-    notice: "※汚れた場合は固く絞った布で拭き取ってください。洗濯機で何度も洗うと撥水効果が徐々に薄れる場合がございます。"
-  },
-  {
-    id: 3,
-    name: "スタイリッシュ フードボウル (セラミック)",
-    category: "ペット用品",
-    price: 4800,
-    stock: 8,
-    badge: "hot",
-    image: "images/products/pet-03-front.jpg",
-    image2: "images/products/pet-03-hover.jpg",
-    images: ["images/products/pet-03-front.jpg", "images/products/pet-03-hover.jpg", "images/products/pet-03-det.jpg"],
-    colors: [{ name: "Black", priceModifier: 0 }, { name: "White", priceModifier: 0 }],
-    sizes: [{ name: "Regular", priceModifier: 0 }],
-    desc: "美濃焼の職人が一つ一つ丁寧に仕上げた、インテリアに溶け込むモダンなフードボウル。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "磁器（美濃焼）",
-    notice: "※電子レンジ・食洗機対応。職人による手作りのため、釉薬のムラやわずかな気泡が見られる場合がありますが、風合いとしてお楽しみください。"
-  },
-  {
-    id: 4,
-    name: "クラシック リネンリード",
-    category: "ペット用品",
-    price: 5200,
-    stock: 12,
-    badge: "",
-    image: "images/products/pet-04-front.jpg",
-    image2: "images/products/pet-04-hover.jpg",
-    images: ["images/products/pet-04-front.jpg", "images/products/pet-04-hover.jpg"],
-    colors: [{ name: "Taupe", priceModifier: 0 }, { name: "Navy", priceModifier: 0 }],
-    sizes: [{ name: "1.2m", priceModifier: 0 }],
-    desc: "使うほどに手に馴染む上質なリネンと、真鍮製パーツを組み合わせた高級感のあるリードです。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "アイリッシュリネン 100%、高級真鍮金具",
-    notice: "※安全のため、ご使用前に傷や擦れがないか必ず点検してください。水濡れした場合は陰干しで完全に乾かしてください。"
-  },
-  {
-    id: 5,
-    name: "コンフォート リネンカラー (首輪)",
-    category: "ペット用品",
-    price: 3800,
-    stock: 0,
-    badge: "",
-    image: "images/products/pet-05-front.jpg",
-    image2: "images/products/pet-05-hover.jpg",
-    images: ["images/products/pet-05-front.jpg", "images/products/pet-05-hover.jpg"],
-    colors: [{ name: "Taupe", priceModifier: 0 }, { name: "Navy", priceModifier: 0 }],
-    sizes: [{ name: "S", priceModifier: 0 }, { name: "M", priceModifier: 200 }],
-    desc: "肌当たりの優しいリネン素材。ワンポイントの真鍮金具がシックな印象を与えます。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "アイリッシュリネン 100%、真鍮",
-    notice: "※サイズはお出かけ前に指が1〜2本入る程度の隙間があるかご確認ください。強い引っ張り癖のあるペットへのご使用はご注意ください。"
-  },
-  {
-    id: 6,
-    name: "トラベル ペットキャリーバッグ",
-    category: "ペット用品",
-    price: 18900,
-    stock: 5,
-    badge: "new",
-    image: "images/products/pet-06-front.jpg",
-    image2: "images/products/pet-06-hover.jpg",
-    images: ["images/products/pet-06-front.jpg", "images/products/pet-06-hover.jpg", "images/products/pet-06-in.jpg"],
-    colors: [{ name: "Charcoal", priceModifier: 0 }],
-    sizes: [{ name: "Standard", priceModifier: 0 }],
-    desc: "耐久性と通气性に優れた、高機能でおしゃれな移動用キャリーバッグ。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "高密度バリスティックナイロン、ヴィーガンレザー、アルミフレーム",
-    notice: "※耐荷重は8kgまでとなります。公共交通機関でご使用の際は、各運行会社の規定をあらかじめご確認ください。"
-  },
-  {
-    id: 7,
-    name: "リラクシング キャットベッド",
-    category: "ペット用品",
-    price: 12000,
-    stock: 7,
-    badge: "",
-    image: "images/products/pet-07-front.jpg",
-    image2: "images/products/pet-07-hover.jpg",
-    images: ["images/products/pet-07-front.jpg", "images/products/pet-07-hover.jpg"],
-    colors: [{ name: "Beige", priceModifier: 0 }, { name: "Gray", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "包み込まれるような安心感を与えるフォルム。インテリアの邪魔をしないニュアンスカラー。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "リネンウール混紡（本体外側）、低反発ウレタンフォーム（クッション内部）",
-    notice: "※内側のクッションカバーは取り外して洗濯機で洗えます。ウレタン本体は洗濯できませんので、日陰干ししてください。"
-  },
-  {
-    id: 8,
-    name: "天然木 キャットタワー ミニ",
-    category: "ペット用品",
-    price: 24500,
-    stock: 3,
-    badge: "",
-    image: "images/products/pet-08-front.jpg",
-    image2: "images/products/pet-08-hover.jpg",
-    images: ["images/products/pet-08-front.jpg", "images/products/pet-08-hover.jpg"],
-    colors: [{ name: "Oak", priceModifier: 0 }],
-    sizes: [{ name: "H110cm", priceModifier: 0 }],
-    desc: "天然木を使用し、日本の住空間に合わせてコンパクトに設計された美しいキャットタワー。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、2〜4営業日以内に発送",
-    material: "天然オーク材（無垢）、最高級麻縄",
-    notice: "※こちらは組み立て式の家具となります（工具同梱）。転倒防止のため、必ず水平で頑丈な壁際に設置してください。"
-  },
-  {
-    id: 9,
-    name: "プレミアム ケアブラシ",
-    category: "ペット用品",
-    price: 4200,
-    stock: 25,
-    badge: "",
-    image: "images/products/pet-09-front.jpg",
-    image2: "images/products/pet-09-hover.jpg",
-    images: ["images/products/pet-09-front.jpg", "images/products/pet-09-hover.jpg"],
-    colors: [{ name: "Walnut", priceModifier: 0 }],
-    sizes: [{ name: "One Size", priceModifier: 0 }],
-    desc: "ペットの皮膚を傷つけず、無駄毛を優しく取り除く天然木ハンドルの最高級ブラシ。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "天然ウォルナット材、極細ステンレスピン（先端保護ラバー加工）",
-    notice: "※皮膚に炎症がある場合や、毛玉がひどい場合は無理に引っ張らず、優しくほぐすようにブラッシングしてください。"
-  },
-  {
-    id: 10,
-    name: "ボタニカル ペットシャンプー",
-    category: "ペット用品",
-    price: 2900,
-    stock: 30,
-    badge: "",
-    image: "images/products/pet-10-front.jpg",
-    image2: "images/products/pet-10-hover.jpg",
-    images: ["images/products/pet-10-front.jpg", "images/products/pet-10-hover.jpg"],
-    colors: [{ name: "Lavender & Chamomile", priceModifier: 0 }],
-    sizes: [{ name: "300ml", priceModifier: 0 }],
-    desc: "天然由来成分100%。デリケートな肌をやさしく洗い上げ、ほのかに香るボタニカルシャンプー。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "オーガニックカモミールエキス、ラベンダー精油、植物由来洗浄成分",
-    notice: "※目や耳に入らないようにご注意ください。万が一、使用中または使用後に皮膚の異常が現れた場合は直ちに使用を中止し、獣医師にご相談ください。"
-  },
-
-  // ==========================================
-  // SECTION 2: ファッション小物 / FASHION (ID: 11 ~ 20)
-  // ==========================================
-  {
-    id: 11,
-    name: "シルクリネン ライトストール",
-    category: "ファッション小物",
-    price: 12000,
-    stock: 14,
-    badge: "new",
-    image: "images/products/fsh-01-front.jpg",
-    image2: "images/products/fsh-01-hover.jpg",
-    images: ["images/products/fsh-01-front.jpg", "images/products/fsh-01-hover.jpg", "images/products/fsh-01-dt.jpg"],
-    colors: [{ name: "Pale Pink", priceModifier: 0 }, { name: "Sky Blue", priceModifier: 0 }, { name: "Linen", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "極上のシルクとリネンを織り交ぜた、空気のように軽い大判ストール。春夏の紫外線・冷房対策に。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "シルク 55%、リネン 45%",
-    notice: "※非常に繊細な織物ですので、引っかかりにご注意ください。お洗濯は信頼のおけるクリーニング店へご相談いただくか、優しく手洗いしてください。"
-  },
-  {
-    id: 12,
-    name: "ミニマル レザーカードケース",
-    category: "ファッション小物",
-    price: 7800,
-    stock: 18,
-    badge: "",
-    image: "images/products/fsh-02-front.jpg",
-    image2: "images/products/fsh-02-hover.jpg",
-    images: ["images/products/fsh-02-front.jpg", "images/products/fsh-02-hover.jpg"],
-    colors: [{ name: "Black", priceModifier: 0 }, { name: "Etain", priceModifier: 0 }, { name: "Gold", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "厳選されたイタリアンレザーを使用。無駄を削ぎ落としたミニマルな美しいデザイン。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "牛革（イタリア製トゴレザー）",
-    notice: "※天然皮革を使用しているため、自然なシワやシボの個体差があります。水濡れはシミの原因となりますので、濡れた場合はすぐに乾いた柔らかい布で拭き取ってください。"
-  },
-  {
-    id: 13,
-    name: "クラシック パナマハット",
-    category: "ファッション小物",
-    price: 16500,
-    stock: 6,
-    badge: "",
-    image: "images/products/fsh-03-front.jpg",
-    image2: "images/products/fsh-03-hover.jpg",
-    images: ["images/products/fsh-03-front.jpg", "images/products/fsh-03-hover.jpg"],
-    colors: [{ name: "Natural", priceModifier: 0 }],
-    sizes: [{ name: "M (57cm)", priceModifier: 0 }, { name: "L (59cm)", priceModifier: 0 }],
-    desc: "エクアドル産の本格パナマ草を手編みした、コーディネートを格上げするハット。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "天然トキヤ草（パナマ草）100%、レーヨン（リボン部分）",
-    notice: "※型崩れを防ぐため、つばの縁を持ってお取り扱いください。水洗いはできません。保管の際は乾燥した涼しい場所で箱に入れて保管してください。"
-  },
-  {
-    id: 14,
-    name: "シアーソックス (3足セット)",
-    category: "ファッション小物",
-    price: 3900,
-    stock: 40,
-    badge: "",
-    image: "images/products/fsh-04-front.jpg",
-    image2: "images/products/fsh-04-hover.jpg",
-    images: ["images/products/fsh-04-front.jpg", "images/products/fsh-04-hover.jpg"],
-    colors: [{ name: "Monotone Set", priceModifier: 0 }, { name: "Earth Set", priceModifier: 0 }],
-    sizes: [{ name: "23-25cm", priceModifier: 0 }],
-    desc: "絶妙な透け感と上品な光沢。パンプスにもサンダルにも合わせやすい上質な一足。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "ナイロン、ポリウレタン、ポリエステル",
-    notice: "※大変薄く繊細な生地です。爪や指輪などによる引っかかり、伝線に十分ご注意ください。お洗濯の際は必ず目の細かいネットに入れてください。"
-  },
-  {
-    id: 15,
-    name: "ヴィンテージライク 真鍮バングル",
-    category: "ファッション小物",
-    price: 6400,
-    stock: 11,
-    badge: "hot",
-    image: "images/products/fsh-05-front.jpg",
-    image2: "images/products/fsh-05-hover.jpg",
-    images: ["images/products/fsh-05-front.jpg", "images/products/fsh-05-hover.jpg"],
-    colors: [{ name: "Brass Gold", priceModifier: 0 }],
-    sizes: [{ name: "Slim", priceModifier: 0 }, { name: "Wide", priceModifier: 800 }],
-    desc: "経年変化を楽しめる真鍮バングル。手元にクラシカルなアクセントを添えます。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "ソリッドブラス（無垢真鍮）",
-    notice: "※真鍮の特性上、空気に触れることで徐々にアンティーク調の色味へ変化します。輝きを戻したい場合は、市販の真鍮磨きクロスなどで優しく磨いてください。"
-  },
-  {
-    id: 16,
-    name: "アコヤ真珠 ミニマルピアス",
-    category: "ファッション小物",
-    price: 24000,
-    stock: 4,
-    badge: "new",
-    image: "images/products/fsh-06-front.jpg",
-    image2: "images/products/fsh-06-hover.jpg",
-    images: ["images/products/fsh-06-front.jpg", "images/products/fsh-06-hover.jpg"],
-    colors: [{ name: "K18 Yellow Gold", priceModifier: 0 }],
-    sizes: [{ name: "6.0mm", priceModifier: 0 }],
-    desc: "伊勢志摩産の上質なアコヤ真珠を使用。普段使いからフォーマルまで気品溢れる仕上がりに。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "伊勢志摩産アコヤ本真珠、K18イエローゴールド（ポスト・キャッチ部）",
-    notice: "※真珠は酸や汗に弱い性質があります。ご使用後は、柔らかいクロス等で優しく汗や皮脂を拭き取ってから保管してください。"
-  },
-  {
-    id: 17,
-    name: "キャンバス 2WAY トートバッグ",
-    category: "ファッション小物",
-    price: 13500,
-    stock: 9,
-    badge: "",
-    image: "images/products/fsh-07-front.jpg",
-    image2: "images/products/fsh-07-hover.jpg",
-    images: ["images/products/fsh-07-front.jpg", "images/products/fsh-07-hover.jpg"],
-    colors: [{ name: "Ivory", priceModifier: 0 }, { name: "Olive", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "厚手の強靭なキャンバス地と上質なヌメ革を使用。経年変化が楽しみな2WAYバッグ。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "6号倉敷帆布（綿100%）、国産ヌメ革",
-    notice: "※キャンバス生地の特性上、水濡れや摩擦により色落ち・衣類への色移りが発生する場合があります。特に雨の日のご使用にはご注意ください。"
-  },
-  {
-    id: 18,
-    name: "フレンチリネン エプロンドレス",
-    category: "ファッション小物",
-    price: 9800,
-    stock: 15,
-    badge: "",
-    image: "images/products/fsh-08-front.jpg",
-    image2: "images/products/fsh-08-hover.jpg",
-    images: ["images/products/fsh-08-front.jpg", "images/products/fsh-08-hover.jpg"],
-    colors: [{ name: "Charcoal", priceModifier: 0 }, { name: "Flax", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "美しく身体を包み込むドレスのようなエプロン。家の中での時間をさらに豊かに。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "フランス産リネン 100%",
-    notice: "※麻特有のネップ（糸の節）が見られる場合がありますが、天然素材の風合いです。洗濯後はシワを伸ばし、形を整えてから陰干ししてください。"
-  },
-  {
-    id: 19,
-    name: "UVカット オーガニックコットン日傘",
-    category: "ファッション小物",
-    price: 14000,
-    stock: 0,
-    badge: "",
-    image: "images/products/fsh-09-front.jpg",
-    image2: "images/products/fsh-09-hover.jpg",
-    images: ["images/products/fsh-09-front.jpg", "images/products/fsh-09-hover.jpg"],
-    colors: [{ name: "Striped Beige", priceModifier: 0 }],
-    sizes: [{ name: "47cm", priceModifier: 0 }],
-    desc: "竹製のハンドルと天然素材の生地が涼しげな、完全遮光仕様の高級日傘。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "オーガニックコットン 100%（裏面UVカット遮光コーティング）、天然竹（持ち手）",
-    notice: "※本製品は日傘専用です。激しい豪雨の際などは雨水が染み込む恐れがありますので、雨傘としての常用はお避けください。"
-  },
-  {
-    id: 20,
-    name: "ウールフェルト ベレー帽",
-    category: "ファッション小物",
-    price: 6800,
-    stock: 22,
-    badge: "",
-    image: "images/products/fsh-10-front.jpg",
-    image2: "images/products/fsh-10-hover.jpg",
-    images: ["images/products/fsh-10-front.jpg", "images/products/fsh-10-hover.jpg"],
-    colors: [{ name: "Bordeaux", priceModifier: 0 }, { name: "Noir", priceModifier: 0 }],
-    sizes: [{ name: "Free", priceModifier: 0 }],
-    desc: "なめらかなウールフェルトを贅沢に使用。美しい立体感をキープできる仕立てです。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "ウールフェルト 100%",
-    notice: "※水洗いは縮みの原因となりますのでお避けください。汚れた場合は、固く絞った布で叩くように汚れを落とし、陰干ししてください。"
-  },
-
-  // ==========================================
-  // SECTION 3: 生活雑貨 / LIFESTYLE (ID: 21 ~ 30)
-  // ==========================================
-  {
-    id: 21,
-    name: "ボタニカル ソイキャンドル",
-    category: "生活雑貨",
-    price: 4200,
-    stock: 25,
-    badge: "new",
-    image: "images/products/lfs-01-front.jpg",
-    image2: "images/products/lfs-01-hover.jpg",
-    images: ["images/products/lfs-01-front.jpg", "images/products/lfs-01-hover.jpg", "images/products/lfs-01-box.jpg"],
-    colors: [{ name: "Fig & Hinoki", priceModifier: 0 }, { name: "Citrus & Sage", priceModifier: 0 }],
-    sizes: [{ name: "200g", priceModifier: 0 }],
-    desc: "天然のソイワックスに100%ピュアエッセンシャルオイルをブレンド。木製芯の優しく心地よい音を愉しんで。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "天然大豆ワックス（ソイワックス）100%、天然精油、ウッドウィック（木製芯）",
-    notice: "※点火時は芯を5mm程度にカットしてご使用ください。大豆アレルギーをお持ちの方は念のためご使用をお控えいただくか、医師にご相談ください。"
-  },
-  {
-    id: 22,
-    name: "リネン ワッフルフェイスタオル",
-    category: "生活雑貨",
-    price: 2800,
-    stock: 35,
-    badge: "",
-    image: "images/products/lfs-02-front.jpg",
-    image2: "images/products/lfs-02-hover.jpg",
-    images: ["images/products/lfs-02-front.jpg", "images/products/lfs-02-hover.jpg"],
-    colors: [{ name: "White", priceModifier: 0 }, { name: "Oatmeal", priceModifier: 0 }],
-    sizes: [{ name: "Standard", priceModifier: 0 }],
-    desc: "吸水性と速乾性に優れたリネン100%のワッフルタオル。使うほどに柔らかく育ちます。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "高品質リネン 100%",
-    notice: "※使い始めは特有の繊維くずが出ることがありますので、単独での洗濯をお勧めします。柔軟剤のご使用は吸水性を損なうため、極力お控えください。"
-  },
-  {
-    id: 23,
-    name: "ハンドメイド ルームスリッパ",
-    category: "生活雑貨",
-    price: 5800,
-    stock: 12,
-    badge: "",
-    image: "images/products/lfs-03-front.jpg",
-    image2: "images/products/lfs-03-hover.jpg",
-    images: ["images/products/lfs-03-front.jpg", "images/products/lfs-03-hover.jpg"],
-    colors: [{ name: "Brown Leather", priceModifier: 0 }, { name: "Suede Gray", priceModifier: 0 }],
-    sizes: [{ name: "M (24cm)", priceModifier: 0 }, { name: "L (26cm)", priceModifier: 200 }],
-    desc: "職人が一足ずつ手縫いで仕上げた、素足で履きたくなる極上のラム革スリッパ。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "羊革（本体）、スエードレザー（底面・静音加工）",
-    notice: "※本製品は室内専用です。本革仕様のため水洗いはできません。革用クリーナーまたは固く絞った布でメンテナンスしてください。"
-  },
-  {
-    id: 24,
-    name: "和硝子 手吹きグラス",
-    category: "生活雑貨",
-    price: 3600,
-    stock: 16,
-    badge: "hot",
-    image: "images/products/lfs-04-front.jpg",
-    image2: "images/products/lfs-04-hover.jpg",
-    images: ["images/products/lfs-04-front.jpg", "images/products/lfs-04-hover.jpg"],
-    colors: [{ name: "Clear", priceModifier: 0 }, { name: "Amber", priceModifier: 0 }],
-    sizes: [{ name: "250ml", priceModifier: 0 }],
-    desc: "気泡の入り方や揺らぎが美しい、手吹きならではの温かみを感じるモダンなグラス。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後., 1〜3営業日以内に発送",
-    material: "ソーダガラス（手吹き製法）",
-    notice: "※耐熱ガラスではありません。急激な温度変化（熱湯の注ぎ入れや、冷えた状態での電子レンジ使用など）は破損の原因となりますのでお避けください。"
-  },
-  {
-    id: 25,
-    name: "ウォルナット ツールスタンド",
-    category: "生活雑貨",
-    price: 7200,
-    stock: 8,
-    badge: "",
-    image: "images/products/lfs-05-front.jpg",
-    image2: "images/products/lfs-05-hover.jpg",
-    images: ["images/products/lfs-05-front.jpg", "images/products/lfs-05-hover.jpg"],
-    colors: [{ name: "Natural Walnut", priceModifier: 0 }],
-    sizes: [{ name: "High", priceModifier: 0 }],
-    desc: "キッチンツールや文房具を美しく収納する、重厚感のある天然木スタンド。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "北米産ブラックウォルナット材（天然木・オイルフィニッシュ）",
-    notice: "※水気の多い場所に長時間放置するとカビや反りの原因になります。定期的に植物性オイルを薄く塗ることで、深い色艶を長く保てます。"
-  },
-  {
-    id: 26,
-    name: "真鍮製 ミニマリスト一輪挿し",
-    category: "生活雑貨",
-    price: 4900,
-    stock: 20,
-    badge: "",
-    image: "images/products/lfs-06-front.jpg",
-    image2: "images/products/lfs-06-hover.jpg",
-    images: ["images/products/lfs-06-front.jpg", "images/products/lfs-06-hover.jpg"],
-    colors: [{ name: "Solid Brass", priceModifier: 0 }],
-    sizes: [{ name: "H15cm", priceModifier: 0 }],
-    desc: "一輪の花を際立たせる、洗練された真鍮製のフラワーベース。静かな存在感を放ちます。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "真鍮（内側：ガラス試験管同梱）",
-    notice: "※水を入れる際は、付属のガラス管をご使用ください。真鍮本体に直接水が長時間触れると、強い緑青（サビ）の原因となります。"
-  },
-  {
-    id: 27,
-    name: "手織りオーガニック ルームマット",
-    category: "生活雑貨",
-    price: 14500,
-    stock: 4,
-    badge: "",
-    image: "images/products/lfs-07-front.jpg",
-    image2: "images/products/lfs-07-hover.jpg",
-    images: ["images/products/lfs-07-front.jpg", "images/products/lfs-07-hover.jpg"],
-    colors: [{ name: "Ivory & Charcoal", priceModifier: 0 }],
-    sizes: [{ name: "50x80cm", priceModifier: 0 }],
-    desc: "インドの伝統的な手法で丁寧に手織りされた、インテリアの主役になるラグマット。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "オーガニックコットン 70%、天然ジュート（麻） 30%",
-    notice: "※手織りのため、サイズに数センチの個体差がある場合があります。最初のうちは独特の素材臭がすることがあります。気になる場合は陰干ししてください。"
-  },
-  {
-    id: 28,
-    name: "ボタニカル ルームミスト",
-    category: "生活雑貨",
-    price: 3200,
-    stock: 30,
-    badge: "",
-    image: "images/products/lfs-08-front.jpg",
-    image2: "images/products/lfs-08-hover.jpg",
-    images: ["images/products/lfs-08-front.jpg", "images/products/lfs-08-hover.jpg"],
-    colors: [{ name: "Deep Forest", priceModifier: 0 }, { name: "Morning Sun", priceModifier: 0 }],
-    sizes: [{ name: "150ml", priceModifier: 0 }],
-    desc: "空間を瞬時にリフレッシュする天然エッセンシャルオイル配合の贅沢なミスト。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "天然植物精油（ヒノキ・シダーウッド等）、植物性エタノール、精製水",
-    notice: "※シルクや革製品、白い壁紙などに直接スプレーするとシミになる恐れがあります。対象物から30cm以上離して空間にスプレーしてください。"
-  },
-  {
-    id: 29,
-    name: "美濃焼 マット釉 プレート",
-    category: "生活雑貨",
-    price: 3800,
-    stock: 18,
-    badge: "new",
-    image: "images/products/lfs-09-front.jpg",
-    image2: "images/products/lfs-09-hover.jpg",
-    images: ["images/products/lfs-09-front.jpg", "images/products/lfs-09-hover.jpg"],
-    colors: [{ name: "Matt Gray", priceModifier: 0 }, { name: "Matt Beige", priceModifier: 0 }],
-    sizes: [{ name: "21cm", priceModifier: 0 }],
-    desc: "現代の食卓に寄り添う、マットな質感がシックな美濃焼の万能ミディアムプレート。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "陶磁器（美浓焼・マット釉仕上）",
-    notice: "※電子レンジ・食洗機対応。オーブンや直火でのご使用はできません。メタルマーク（金属製ナイフ等との摩擦による黒い線）がつきやすいためご注意ください。"
-  },
-  {
-    id: 30,
-    name: "オーガニック ハーブティーボックス",
-    category: "生活雑貨",
-    price: 2600,
-    stock: 0,
-    badge: "",
-    image: "images/products/lfs-10-front.jpg",
-    image2: "images/products/lfs-10-hover.jpg",
-    images: ["images/products/lfs-10-front.jpg", "images/products/lfs-10-hover.jpg"],
-    colors: [{ name: "Relax Blend", priceModifier: 0 }],
-    sizes: [{ name: "20 Bags", priceModifier: 0 }],
-    desc: "厳選されたオーガニックハーブのみを使用。1日の終わりに心身を解きほぐすブレンド。",
-    origin: "大阪府より発送",
-    delivery: "ご注文後、1〜3営業日以内に発送",
-    material: "有機カモミール、有機ペパーミント、有機レモングラス（生分解性ティーバッグ使用）",
-    notice: "※直射日光・高温多湿を避けて冷暗所に保存してください。開封後は賞味期限に関わらずお早めにお召し上がりください。"
-  }
-];
-
-// ────────────────────────────────────────────────────────
-// 株式会社HINOKA - 核心高奢控制中心（完全体接线版）
-// ────────────────────────────────────────────────────────
-
-const CAT_LABEL = { pet: 'ペット用品', fashion: 'ファッション・アクセサリー', goods: '生活雑貨' };
-let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
-let currentModalProductId = '';
-let selectedColorObj = null;
-let selectedSizeObj = null;
-
-let currentImageIndex = 0;
-let currentProductImagesArray = [];
-
-// 全局运费地域控制状态（默认本岛为 mainland，离岛为 island）
-let currentShippingRegion = sessionStorage.getItem('hinoka_selected_region') || 'mainland';
-
-function openCart() {
-  const cartWrapper = document.getElementById('hinokaCartWrapper');
-  if (cartWrapper) cartWrapper.classList.add('show');
-  
-  // 同步读取之前选过的地域选项
-  const regionIsland = document.getElementById('regionIsland');
-  const regionMainland = document.getElementById('regionMainland');
-  if (currentShippingRegion === 'island' && regionIsland) {
-    regionIsland.checked = true;
-  } else if (regionMainland) {
-    regionMainland.checked = true;
-  }
-  renderCart();
-}
-
-function closeCart() {
-  const cartWrapper = document.getElementById('hinokaCartWrapper');
-  if (cartWrapper) cartWrapper.classList.remove('show');
-}
-
-// 🌟 智能商品分流渲染系统：完美投递到三大项目展区
-function renderGrid(items) {
-  // 1. 抓取 HTML 中对应的三个独立新展区容器
-  const gridPet = document.getElementById('grid-pet');
-  const gridFashion = document.getElementById('grid-fashion');
-  const gridLifestyle = document.getElementById('grid-lifestyle');
-
-  // 2. 渲染前先清空容器，防止重复加载时叠加
-  if (gridPet) gridPet.innerHTML = '';
-  if (gridFashion) gridFashion.innerHTML = '';
-  if (gridLifestyle) gridLifestyle.innerHTML = '';
-
-  // 3. 开始遍历并智能投递
-  items.forEach(p => {
-    const isOut = p.stock <= 0;
-    const frontImg = p.image;
-    const backImg = p.image2 || p.image; 
-
-    // 智能气泡标签判断 (支持 'new' 或 'hot')
-    let badgeHTML = '';
-    if (p.badge === 'new') {
-      badgeHTML = `<div class="product-badge badge-new" style="position: absolute; top: 12px; left: 12px; background: #f5f2eb; color: #7c6e5f; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; z-index: 2;">NEW</div>`;
-    } else if (p.badge === 'hot') {
-      badgeHTML = `<div class="product-badge badge-hot" style="position: absolute; top: 12px; left: 12px; background: #fcf1f1; color: #b86b6b; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; z-index: 2;">HOT</div>`;
+        const cat = p.category;
+        if (cat === 'ペット用品' && gridPet) gridPet.innerHTML += cardHTML;
+        else if (cat === 'ファッション・アクセサリー' && gridFashion) gridFashion.innerHTML += cardHTML;
+        else if (cat === '生活雑貨' && gridLifestyle) gridLifestyle.innerHTML += cardHTML;
+      });
     }
 
-    // 📐 组装 HINOKA 高奢双图悬停卡片模板
-    const cardHTML = `
-      <div class="hinoka-product-card" onclick="openProductModal(${p.id})" style="position: relative; cursor: pointer; margin-bottom: 20px; ${isOut ? 'opacity: 0.7;' : ''}">
-        <div class="product-image-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #f7f7f7;">
-          ${badgeHTML}
-          ${isOut ? '<div class="sold-out-badge" style="position:absolute; inset:0; background:rgba(255,255,255,0.6); color:#ffffff; background:#1a2530; display:flex; align-items:center; justify-content:center; font-size:12px; z-index:6; max-height:30px; margin:auto;">SOLD OUT</div>' : ''}
-          <img src="${frontImg}" class="product-img main-img" alt="${p.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, opacity 0.6s ease; ${isOut ? 'filter: grayscale(30%);' : ''}">
-          <img src="${backImg}" class="product-img hover-img" alt="${p.name}" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: transform 0.6s ease, opacity 0.6s ease; ${isOut ? 'filter: grayscale(30%);' : ''}">
-        </div>
-        
-        <div class="product-info" style="padding-top: 12px; ${isOut ? 'opacity: 0.6;' : ''}">
-          <span class="product-category" style="font-size: 10px; color: #808a94; text-transform: uppercase;">${p.category}</span>
-          <h3 class="product-title" style="font-size: 13px; color: #1a2530; font-weight: 400; margin: 4px 0 6px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 36px;">${p.name}</h3>
-          <p class="product-price" style="font-size: 13px; color: #4a5560; font-weight: 500; margin: 0;">¥${Number(p.price).toLocaleString()} <span style="font-size:10px; color:#808a94;">(税込)</span></p>
-        </div>
-      </div>
-    `;
-
-    // 4. 根据商品数据的 category 属性，进行精准分类投放到对应的 HTML 展区
-    const cat = (p.category || '').toLowerCase();
-    if (cat.includes('ペット') || cat.includes('pet')) {
-      if (gridPet) gridPet.innerHTML += cardHTML;
-    } else if (cat.includes('ファッション') || cat.includes('アクセ') || cat.includes('fashion')) {
-      if (gridFashion) gridFashion.innerHTML += cardHTML;
-    } else if (cat.includes('雑貨') || cat.includes('life') || cat.includes('生活')) {
-      if (gridLifestyle) gridLifestyle.innerHTML += cardHTML;
+    function scrollToCategory(elementId) {
+      const target = document.getElementById(elementId);
+      if (target) {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 90, behavior: "smooth" });
+      }
     }
-  });
-}
 
-// 🧭 用于分类平滑滚动的导航助手
-function scrollToCategory(elementId) {
-  const target = document.getElementById(elementId);
-  if (target) {
-    const headerOffset = 90;
-    const elementPosition = target.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-    
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth"
-    });
-  }
-}
+    // 模态弹窗控制
+    function openProductModal(id) {
+      const p = PRODUCTS.find(item => item.id === id);
+      if (!p) return;
+      
+      currentModalProductId = id;
+      document.getElementById('modalCategory').innerText = p.category;
+      document.getElementById('modalTitle').innerText = p.name;
+      document.getElementById('modalLongDesc').innerText = p.desc || '';
+      document.getElementById('modalOrigin').innerText = p.origin || "大阪府より発送";
+      document.getElementById('modalDelivery').innerText = p.delivery || "ご注文後、1〜3営業日以内に発送";
+      document.getElementById('modalMaterial').innerText = p.material || "商品詳細に記載";
+      document.getElementById('modalNotice').innerText = p.notice || "";
+      
+      currentProductImagesArray = p.images && p.images.length ? p.images : [p.image];
+      currentImageIndex = 0;
+      
+      updateModalImageDisplay();
+      renderModalThumbs();
 
-// 🛍️ 唤醒高奢详情弹窗
-function openProductModal(id) {
-  const p = PRODUCTS.find(item => item.id === id);
-  if (!p) return;
-  
-  currentModalProductId = id;
-  if (document.getElementById('modalCategory')) {
-    document.getElementById('modalCategory').innerText = CAT_LABEL[p.category] || p.category;
-  }
-  if (document.getElementById('modalTitle')) {
-    document.getElementById('modalTitle').innerText = p.name;
-  }
-  if (document.getElementById('modalLongDesc')) {
-    document.getElementById('modalLongDesc').innerText = p.desc;
-  }
-  
-  // 自动注入新发货保障参数
-  if (document.getElementById('modalOrigin')) document.getElementById('modalOrigin').innerText = p.origin || "大阪府より発送";
-  if (document.getElementById('modalDelivery')) document.getElementById('modalDelivery').innerText = p.delivery || "ご注文後、1〜3営業日以内に発送";
-  if (document.getElementById('modalMaterial')) document.getElementById('modalMaterial').innerText = p.material || "商品詳細に記載";
-  if (document.getElementById('modalNotice')) document.getElementById('modalNotice').innerText = p.notice || "";
-  
-  currentProductImagesArray = p.images && p.images.length ? p.images : [p.image];
-  currentImageIndex = 0;
-  
-  // 更新图片容器（防碎图处理）
-  const mainImgEl = document.getElementById('modalMainImage');
-  if (mainImgEl) mainImgEl.src = currentProductImagesArray[0];
+      selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
+      selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
+      
+      const colorOptions = document.getElementById('modalColorOptions');
+      const colorGroup = document.getElementById('modalColorGroup');
+      if (p.colors && p.colors.length) {
+        colorGroup.style.display = 'block';
+        colorOptions.innerHTML = p.colors.map((c, idx) => `
+          <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('color', '${c.name}', this)">${c.name}</button>
+        `).join('');
+      } else { colorGroup.style.display = 'none'; }
+      
+      const sizeOptions = document.getElementById('modalSizeOptions');
+      const sizeGroup = document.getElementById('modalSizeGroup');
+      if (p.sizes && p.sizes.length) {
+        sizeGroup.style.display = 'block';
+        sizeOptions.innerHTML = p.sizes.map((s, idx) => `
+          <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('size', '${s.name}', this)">${s.name}</button>
+        `).join('');
+      } else { sizeGroup.style.display = 'none'; }
 
-  selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
-  selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
-  
-  // Color 规格生成
-  const colorOptions = document.getElementById('modalColorOptions');
-  const colorGroup = document.getElementById('modalColorGroup');
-  if (p.colors && p.colors.length && colorOptions && colorGroup) {
-    colorGroup.style.display = 'block';
-    colorOptions.innerHTML = p.colors.map((c, idx) => `
-      <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('color', '${c.name}', this)">${c.name}</button>
-    `).join('');
-  } else if (colorGroup) {
-    colorGroup.style.display = 'none';
-  }
-  
-  // Size 规格生成
-  const sizeOptions = document.getElementById('modalSizeOptions');
-  const sizeGroup = document.getElementById('modalSizeGroup');
-  if (p.sizes && p.sizes.length && sizeOptions && sizeGroup) {
-    sizeGroup.style.display = 'block';
-    sizeOptions.innerHTML = p.sizes.map((s, idx) => `
-      <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('size', '${s.name}', this)">${s.name}</button>
-    `).join('');
-  } else if (sizeGroup) {
-    sizeGroup.style.display = 'none';
-  }
+      updateModalPriceAndShipping();
 
-  updateModalPriceAndShipping();
-
-  const atcBtnEl = document.getElementById('modalAtcBtn');
-  if (atcBtnEl) {
-    if (p.stock <= 0) {
-      atcBtnEl.innerText = '売り切れました';
-      atcBtnEl.disabled = true;
-    } else {
-      atcBtnEl.innerText = 'カートに追加する';
-      atcBtnEl.disabled = false;
+      const atcBtnEl = document.getElementById('modalAtcBtn');
+      if (p.stock <= 0) {
+        atcBtnEl.innerText = '売り切れました'; atcBtnEl.disabled = true;
+      } else {
+        atcBtnEl.innerText = 'カートに追加する'; atcBtnEl.disabled = false;
+      }
+      
+      document.getElementById('productModal').classList.add('show');
     }
-  }
-  
-  const productModal = document.getElementById('productModal');
-  if (productModal) productModal.classList.add('show');
-}
 
-function updateModalPriceAndShipping() {
-  const p = PRODUCTS.find(item => item.id === currentModalProductId);
-  if (!p) return;
-  
-  let currentProductPrice = p.price;
-  if (selectedColorObj) currentProductPrice += selectedColorObj.priceModifier;
-  if (selectedSizeObj) currentProductPrice += selectedSizeObj.priceModifier;
-  
-  const priceEl = document.getElementById('modalPrice');
-  if (priceEl) priceEl.innerText = `¥${currentProductPrice.toLocaleString()} (税込)`;
-}
-
-function selectModalSpec(type, name, el) {
-  const p = PRODUCTS.find(item => item.id === currentModalProductId);
-  if (!p) return;
-
-  if (type === 'color') {
-    selectedColorObj = p.colors.find(c => c.name === name);
-    const colorOpts = document.getElementById('modalColorOptions');
-    if (colorOpts) colorOpts.querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
-  } else {
-    selectedSizeObj = p.sizes.find(s => s.name === name);
-    const sizeOpts = document.getElementById('modalSizeOptions');
-    if (sizeOpts) sizeOpts.querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
-  }
-  el.classList.add('active');
-  updateModalPriceAndShipping();
-}
-
-function doCloseModal() { 
-  const productModal = document.getElementById('productModal');
-  if (productModal) productModal.classList.remove('show'); 
-}
-
-function addModalProductToCart() {
-  const p = PRODUCTS.find(item => item.id === currentModalProductId);
-  if (!p) return;
-
-  let finalItemPrice = p.price;
-  const specTextArray = [];
-  if (selectedColorObj) {
-    finalItemPrice += selectedColorObj.priceModifier;
-    specTextArray.push(selectedColorObj.name);
-  }
-  if (selectedSizeObj) {
-    finalItemPrice += selectedSizeObj.priceModifier;
-    specTextArray.push(selectedSizeObj.name);
-  }
-  
-  let finalName = p.name;
-  if (specTextArray.length > 0) {
-    finalName += ` (${specTextArray.join(' / ')})`;
-  }
-
-  const specId = `${p.id}-${selectedColorObj?.name || ''}-${selectedSizeObj?.name || ''}`;
-  const existingItem = cart.find(item => item.id === specId);
-  if (existingItem) {
-    existingItem.qty += 1;
-  } else {
-    cart.push({
-      id: specId,
-      name: finalName,
-      price: finalItemPrice,
-      image: p.image,
-      qty: 1
-    });
-  }
-
-  localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-  doCloseModal();
-  openCart();
-}
-
-function updateQty(id, change) {
-  const item = cart.find(item => item.id === id);
-  if (item) {
-    item.qty += change;
-    if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-    localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-    renderCart();
-  }
-}
-
-function changeCartRegion(regionValue) {
-  currentShippingRegion = regionValue;
-  sessionStorage.setItem('hinoka_selected_region', regionValue);
-  renderCart();
-}
-
-function renderCart() {
-  const listContainer = document.getElementById('cartItemsList');
-  const footerContainer = document.getElementById('cartFooter');
-  const selectorZone = document.getElementById('cartShippingSelectorZone');
-  const warnNotice = document.getElementById('cart-island-warn');
-  const globalBadge = document.getElementById('globalCartCount');
-  
-  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-  if (globalBadge) globalBadge.innerText = totalQty;
-  
-  if (!listContainer) return;
-  
-  if (cart.length === 0) {
-    listContainer.innerHTML = '<div class="empty-cart-msg" style="text-align:center; padding:30px; color:#808a94;">カートは空です。</div>';
-    if (document.getElementById('cartSubtotalAmount')) document.getElementById('cartSubtotalAmount').innerText = '¥0';
-    if (document.getElementById('cartShippingTotalAmount')) document.getElementById('cartShippingTotalAmount').innerText = '送料込み';
-    if (document.getElementById('cartGrandTotalAmount')) document.getElementById('cartGrandTotalAmount').innerText = '¥0';
-    if (footerContainer) {
-      footerContainer.style.opacity = '0.5';
-      footerContainer.style.pointerEvents = 'none';
+    function updateModalImageDisplay() {
+      document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
+      document.querySelectorAll('.modal-thumb').forEach((t, idx) => {
+        t.classList.toggle('active', idx === currentImageIndex);
+      });
     }
-    if (selectorZone) selectorZone.style.display = 'none';
-    return;
-  }
-  
-  if (footerContainer) {
-    footerContainer.style.opacity = '1';
-    footerContainer.style.pointerEvents = 'auto';
-  }
-  if (selectorZone) selectorZone.style.display = 'block';
-  
-  let totalGoodsPrice = 0;
-  listContainer.innerHTML = cart.map(item => {
-    totalGoodsPrice += item.price * item.qty;
-    
-    return `
-      <div class="drawer-item-card" style="display:flex; gap:15px; margin-bottom:15px; border-bottom:1px solid #f0f2f4; padding-bottom:15px;">
-        <div class="drawer-item-img" style="width:70px; aspect-ratio:1/1;"><img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div class="drawer-item-details" style="flex:1;">
-          <div class="drawer-item-name" style="font-size:12px; color:#1a2530; margin-bottom:4px;">${item.name}</div>
-          <div class="drawer-item-price" style="font-size:12px; color:#4a5560; margin-bottom:8px;">¥${item.price.toLocaleString()}</div>
-          <div class="drawer-item-qty-actions">
-            <button class="drawer-qty-btn" type="button" onclick="updateQty('${item.id}', -1)">-</button>
-            <span class="drawer-qty-val" style="margin:0 10px;">${item.qty}</span>
-            <button class="drawer-qty-btn" type="button" onclick="updateQty('${item.id}', 1)">+</button>
+
+    function renderModalThumbs() {
+      const listEl = document.getElementById('modalThumbList');
+      if (currentProductImagesArray.length <= 1) { listEl.innerHTML = ''; return; }
+      listEl.innerHTML = currentProductImagesArray.map((url, idx) => `
+        <img src="${url}" class="modal-thumb ${idx === currentImageIndex ? 'active' : ''}" onclick="switchModalImage(${idx})">
+      `).join('');
+    }
+
+    function switchModalImage(idx) { currentImageIndex = idx; updateModalImageDisplay(); }
+
+    function navModalImage(dir) {
+      currentImageIndex += dir;
+      if (currentImageIndex < 0) currentImageIndex = currentProductImagesArray.length - 1;
+      if (currentImageIndex >= currentProductImagesArray.length) currentImageIndex = 0;
+      updateModalImageDisplay();
+    }
+
+    function updateModalPriceAndShipping() {
+      const p = PRODUCTS.find(item => item.id === currentModalProductId);
+      if (!p) return;
+      let price = p.price;
+      if (selectedColorObj) price += selectedColorObj.priceModifier;
+      if (selectedSizeObj) price += selectedSizeObj.priceModifier;
+      document.getElementById('modalPrice').innerText = `¥${price.toLocaleString()} (税込)`;
+    }
+
+    function selectModalSpec(type, name, el) {
+      const p = PRODUCTS.find(item => item.id === currentModalProductId);
+      if (type === 'color') {
+        selectedColorObj = p.colors.find(c => c.name === name);
+        document.getElementById('modalColorOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
+      } else {
+        selectedSizeObj = p.sizes.find(s => s.name === name);
+        document.getElementById('modalSizeOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
+      }
+      el.classList.add('active');
+      updateModalPriceAndShipping();
+    }
+
+    function doCloseModal() { document.getElementById('productModal').classList.remove('show'); }
+    function closeProductModal(e) { if (e.target.id === 'productModal') doCloseModal(); }
+
+    function addModalProductToCart() {
+      const p = PRODUCTS.find(item => item.id === currentModalProductId);
+      let finalPrice = p.price;
+      let specText = [];
+      if (selectedColorObj) { finalPrice += selectedColorObj.priceModifier; specText.push(selectedColorObj.name); }
+      if (selectedSizeObj) { finalPrice += selectedSizeObj.priceModifier; specText.push(selectedSizeObj.name); }
+      
+      let finalName = p.name + (specText.length ? ` (${specText.join(' / ')})` : '');
+      const specId = `${p.id}-${selectedColorObj?.name || ''}-${selectedSizeObj?.name || ''}`;
+      
+      const exist = cart.find(i => i.id === specId);
+      if (exist) { exist.qty += 1; } 
+      else { cart.push({ id: specId, name: finalName, price: finalPrice, image: p.image, qty: 1 }); }
+
+      localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+      doCloseModal();
+      openCart();
+    }
+
+    function updateQty(id, change) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += change;
+        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+        localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+        renderCart();
+      }
+    }
+
+    function changeCartRegion(val) {
+      currentShippingRegion = val;
+      sessionStorage.setItem('hinoka_selected_region', val);
+      renderCart();
+    }
+
+    function renderCart() {
+      const list = document.getElementById('cartItemsList');
+      const footer = document.getElementById('cartFooter');
+      const selector = document.getElementById('cartShippingSelectorZone');
+      const warn = document.getElementById('cart-island-warn');
+      const badge = document.getElementById('globalCartCount');
+      
+      badge.innerText = cart.reduce((sum, i) => sum + i.qty, 0);
+      if (cart.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:30px; color:#9c8f80; font-size:13px;">カートは空です。</div>';
+        document.getElementById('cartSubtotalAmount').innerText = '¥0';
+        document.getElementById('cartShippingTotalAmount').innerText = '送料無料';
+        document.getElementById('cartGrandTotalAmount').innerText = '¥0';
+        footer.style.opacity = '0.5'; footer.style.pointerEvents = 'none';
+        selector.style.display = 'none'; return;
+      }
+      
+      footer.style.opacity = '1'; footer.style.pointerEvents = 'auto';
+      selector.style.display = 'block';
+      
+      let subtotal = 0;
+      list.innerHTML = cart.map(item => {
+        subtotal += item.price * item.qty;
+        return `
+          <div class="drawer-item-card">
+            <div class="drawer-item-img"><img src="${item.image}"></div>
+            <div class="drawer-item-details">
+              <div class="drawer-item-name">${item.name}</div>
+              <div class="drawer-item-price">¥${item.price.toLocaleString()}</div>
+              <div class="drawer-item-qty-actions">
+                <button class="drawer-qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
+                <span>${item.qty}</span>
+                <button class="drawer-qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    `;
-  }).join('');
+        `;
+      }).join('');
 
-  let islandShippingFee = 0;
-  const shippingAmtEl = document.getElementById('cartShippingTotalAmount');
-  if (currentShippingRegion === 'island') {
-    islandShippingFee = 1500;
-    if (warnNotice) warnNotice.style.display = 'block';
-    if (shippingAmtEl) {
-      shippingAmtEl.innerText = '¥1,500';
-      shippingAmtEl.style.color = '#bf0000';
+      let fee = currentShippingRegion === 'island' ? 1500 : 0;
+      warn.style.display = fee ? 'block' : 'none';
+      const shipEl = document.getElementById('cartShippingTotalAmount');
+      shipEl.innerText = fee ? '¥1,500' : '送料無料';
+      shipEl.style.color = fee ? '#bf0000' : '#7c7267';
+
+      document.getElementById('cartSubtotalAmount').innerText = '¥' + subtotal.toLocaleString();
+      document.getElementById('cartGrandTotalAmount').innerText = '¥' + (subtotal + fee).toLocaleString();
     }
-  } else {
-    islandShippingFee = 0;
-    if (warnNotice) warnNotice.style.display = 'none';
-    if (shippingAmtEl) {
-      shippingAmtEl.innerText = '送料込み';
-      shippingAmtEl.style.color = '#606a74';
+
+    function filter(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      if (cat === 'all') {
+        scrollToCategory('pet-section');
+      } else {
+        scrollToCategory(cat + '-section');
+      }
     }
-  }
 
-  const grandTotal = totalGoodsPrice + islandShippingFee;
-  if (document.getElementById('cartSubtotalAmount')) document.getElementById('cartSubtotalAmount').innerText = '¥' + totalGoodsPrice.toLocaleString();
-  if (document.getElementById('cartGrandTotalAmount')) document.getElementById('cartGrandTotalAmount').innerText = '¥' + grandTotal.toLocaleString();
-}
-
-// 🌟 过滤器改良：由于现在的模式是三大展区同时陈列，点击按钮时自动平滑滚动到对应区域
-function filter(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  
-  if (cat === 'ペット用品' || cat === 'pet') scrollToCategory('grid-pet');
-  if (cat === 'ファッション・アクセサリー' || cat === 'fashion') scrollToCategory('grid-fashion');
-  if (cat === '生活雑貨' || cat === 'goods') scrollToCategory('grid-lifestyle');
-}
-
-// 页面加载自动运行
-window.addEventListener('DOMContentLoaded', () => {
-  if (typeof PRODUCTS !== 'undefined') {
-    renderGrid(PRODUCTS);
-  }
-  renderCart();
-});
+    window.addEventListener('DOMContentLoaded', () => {
+      renderGrid(PRODUCTS);
+      renderCart();
+    });
+  </script>
+</body>
+</html>

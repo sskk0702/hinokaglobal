@@ -586,17 +586,22 @@ function openProductModal(id) {
   if (!p) return;
   
   currentModalProductId = id;
-  document.getElementById('modalCategory').innerText = CAT_LABEL[p.category];
+  document.getElementById('modalCategory').innerText = CAT_LABEL[p.category] || p.category;
   document.getElementById('modalTitle').innerText = p.name;
   document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
   
+  // 📸 完美继承并激活你的 5~6 张多图数组
   currentProductImagesArray = p.images && p.images.length ? p.images : [p.image];
   currentImageIndex = 0;
-  document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
+  
+  // ⚡ 核心升级：大图显示与缩略图列表自动生成
+  updateModalImageDisplay();
+  renderThumbnails();
 
   selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
   selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
   
+  // 🎨 完美保留你原本的 Color 颜色按钮生成逻辑
   const colorOptions = document.getElementById('modalColorOptions');
   if (p.colors && p.colors.length) {
     document.getElementById('modalColorGroup').style.display = 'block';
@@ -607,6 +612,7 @@ function openProductModal(id) {
     document.getElementById('modalColorGroup').style.display = 'none';
   }
   
+  // 📐 完美保留你原本的 Size 尺寸按钮生成逻辑
   const sizeOptions = document.getElementById('modalSizeOptions');
   if (p.sizes && p.sizes.length) {
     document.getElementById('modalSizeGroup').style.display = 'block';
@@ -617,6 +623,7 @@ function openProductModal(id) {
     document.getElementById('modalSizeGroup').style.display = 'none';
   }
 
+  // 完美承接你原本的计价引擎与售罄判断
   updateModalPriceAndShipping();
 
   const atcBtnEl = document.getElementById('modalAtcBtn');
@@ -628,15 +635,45 @@ function openProductModal(id) {
     atcBtnEl.disabled = false;
   }
   
-  renderThumbnails();
   document.getElementById('productModal').classList.add('show');
 }
 
+// 🖼️ 核心升级：大图丝滑显示助手
+function updateModalImageDisplay() {
+  const mainImg = document.getElementById('modalMainImage');
+  if (mainImg && currentProductImagesArray.length > 0) {
+    mainImg.src = currentProductImagesArray[currentImageIndex];
+  }
+}
+
+// 🎞️ 核心升级：重构你的缩略图生成逻辑，带一键点击 jump 联动和高奢激活框（is-active）
 function renderThumbnails() {
   const thumbContainer = document.getElementById('modalThumbList');
+  if (!thumbContainer) return;
+  
   thumbContainer.innerHTML = currentProductImagesArray.map((img, idx) => `
-    <img src="${img}" class="modal-thumb ${idx === currentImageIndex ? 'active' : ''}" onclick="jumpToModalImage(${idx})">
+    <div class="thumb-item ${idx === currentImageIndex ? 'is-active' : ''}" onclick="jumpToModalImage(${idx})">
+      <img src="${img}" alt="thumbnail">
+    </div>
   `).join('');
+}
+
+// 🧭 核心升级：让左右箭头也可以完美控制图片循环轮播
+function navModalImage(direction) {
+  if (currentProductImagesArray.length <= 1) return;
+  currentImageIndex += direction;
+  if (currentImageIndex >= currentProductImagesArray.length) currentImageIndex = 0;
+  if (currentImageIndex < 0) currentImageIndex = currentProductImagesArray.length - 1;
+  
+  updateModalImageDisplay();
+  renderThumbnails();
+}
+
+// 🎯 核心升级：点击缩略图直接跳转
+function jumpToModalImage(index) {
+  currentImageIndex = index;
+  updateModalImageDisplay();
+  renderThumbnails();
 }
 
 function navModalImage(direction) {

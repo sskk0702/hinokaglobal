@@ -4,22 +4,21 @@
   <meta charset="UTF-8">
   <title>株式会社HINOKA - オンラインストア</title>
   <style>
-    /* 核心基准：与 index.html 保持一致的变量 */
-    :root { --bg: #fbfaf7; --text: #1a1a1a; --border: rgba(0,0,0,0.05); }
+    :root { --bg: #fbfaf7; --text: #1a1a1a; --accent: #eaddcf; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: "Helvetica Neue", sans-serif; }
     
-    /* Header 与 index.html 高度对齐 */
+    /* 极致简约的 Header */
     header { 
       position: fixed; top: 0; width: 100%; height: 90px; 
       background: #fbfaf7; display: flex; align-items: center; 
-      padding: 0 5%; z-index: 9999; border-bottom: 1px solid var(--border); 
+      padding: 0 5%; z-index: 9999; border-bottom: 1px solid rgba(0,0,0,0.05);
     }
 
-    /* Logo 视觉统一 */
+    /* Logo 设计 */
     .logo-text { 
       display: flex; flex-direction: column; 
-      text-decoration: none; color: var(--text); 
+      text-decoration: none; color: #1a1a1a; 
       cursor: pointer; line-height: 1; margin-right: 60px;
     }
     .logo-text { font-size: 26px; font-weight: 700; letter-spacing: 0.3em; }
@@ -28,31 +27,60 @@
       color: #888; margin-top: 6px; text-transform: uppercase;
     }
 
-    /* 导航栏视觉统一 */
-    nav { display: flex; gap: 40px; align-items: center; }
+    /* 导航栏 */
+    nav { display: flex; gap: 45px; align-items: center; }
     nav div { 
-      cursor: pointer; font-size: 13px; color: #444; 
-      letter-spacing: 0.05em; transition: 0.3s;
+      cursor: pointer; font-size: 12px; color: #444; 
+      letter-spacing: 0.1em; transition: 0.3s; position: relative;
     }
-    nav div:hover { color: var(--text); }
+    nav div:hover { color: #000; }
+    nav div::after { 
+      content: ''; position: absolute; left: 0; bottom: -5px; 
+      width: 0; height: 1px; background: #000; transition: 0.3s;
+    }
+    nav div:hover::after { width: 100%; }
 
-    /* 购物车按钮设计：与主页风格呼应 */
+    /* 购物车 */
     .cart-trigger { 
-      margin-left: auto; cursor: pointer; font-size: 13px; 
-      color: var(--text); border: 1px solid var(--text); 
-      padding: 8px 20px; border-radius: 20px; transition: 0.3s;
+      margin-left: auto; cursor: pointer; font-size: 12px; 
+      color: #1a1a1a; border: 1px solid #1a1a1a; 
+      padding: 6px 18px; transition: 0.3s; border-radius: 20px;
     }
-    .cart-trigger:hover { background: var(--text); color: #fff; }
+    .cart-trigger:hover { background: #1a1a1a; color: #fff; }
 
-    /* 内容区域：与主页留白一致 */
+    /* 商品列表 */
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1200px; margin: 150px auto 100px; padding: 0 5%; }
     .p-card { cursor: pointer; }
     .p-card img { width: 100%; aspect-ratio: 1/1.2; object-fit: cover; transition: 0.5s; }
-    .p-card h3 { font-size: 14px; margin-top: 15px; font-weight: 400; }
-    .p-card p { font-size: 13px; color: #888; }
+    .p-card:hover img { transform: scale(1.02); }
+
+    /* 其他组件样式保持不变 */
+    .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #fff; z-index: 10000; transition: 0.4s ease; padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+    .cart-sidebar.show { right: 0; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9000; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal-window { background: #fff; width: 800px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
   </style>
 </head>
 <body>
+
+<header>
+  <a href="index.html" class="logo-text">
+    HINOKA
+    <span>株式会社 · HINOKA Co., Ltd.</span>
+  </a>
+
+  <nav>
+    <div onclick="render()">ALL</div>
+    <div onclick="filter('ペット用品')">PET</div>
+    <div onclick="filter('ファッション・アクセサリー')">FASHION</div>
+    <div onclick="filter('生活雑貨')">LIVING</div>
+  </nav>
+
+  <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
+    BAG <span id="cartCount">(0)</span>
+  </div>
+</header>
 
 <header>
   <a href="index.html" class="logo-text">

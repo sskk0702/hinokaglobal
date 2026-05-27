@@ -475,12 +475,90 @@ function closeCart() {
   document.getElementById('hinokaCartWrapper').classList.remove('show');
 }
 
+// ────────────────────────────────────────────────────────
+// 株式会社HINOKA - 智能商品分流渲染系统（完美接线版）
+// ────────────────────────────────────────────────────────
+
 function renderGrid(items) {
-  const grid = document.getElementById('grid');
-  if (!grid) return;
-  grid.innerHTML = items.map(p => {
+  // 1. 抓取 HTML 中对应的三个独立新展区容器
+  const gridPet = document.getElementById('grid-pet');
+  const gridFashion = document.getElementById('grid-fashion');
+  const gridLifestyle = document.getElementById('grid-lifestyle');
+
+  // 2. 渲染前先清空容器，防止切换分类或重复加载时叠加
+  if (gridPet) gridPet.innerHTML = '';
+  if (gridFashion) gridFashion.innerHTML = '';
+  if (gridLifestyle) gridLifestyle.innerHTML = '';
+
+  // 3. 开始遍历并智能投递
+  items.forEach(p => {
+    // 🔒 完美继承你原本的库存判断逻辑：如果库存小于等于0，则标记为售罄
     const isOut = p.stock <= 0;
-    return `
+    
+    // 🖼️ 核心双图容错：如果你的数据里目前没有配第二张氛围图(image2)，就自动用主图(p.image)兜底，防止碎图
+    const frontImg = p.image;
+    const backImg = p.image2 || p.image; 
+
+    // ✨ 智能气泡标签判断 (支持 'new' 或 'hot')
+    let badgeHTML = '';
+    if (p.badge === 'new') {
+      badgeHTML = `<div class="product-badge badge-new">NEW</div>`;
+    } else if (p.badge === 'hot') {
+      badgeHTML = `<div class="product-badge badge-hot">HOT</div>`;
+    }
+
+    // 📐 组装升级后的 HINOKA 高奢双图悬停卡片模板
+    // 注意：这里保留了你原本的 openProductModal(${p.id}) 弹窗触发
+    const cardHTML = `
+      <div class="hinoka-product-card ${isOut ? 'sold-out-status' : ''}" onclick="openProductModal(${p.id})">
+        <div class="product-image-wrapper">
+          ${badgeHTML}
+          ${isOut ? '<div class="sold-out-badge" style="position:absolute; inset:0; background:rgba(255,255,255,0.6); color:#808a94; display:flex; align-items:center; justify-content:center; font-size:12px; z-index:6;">SOLD OUT</div>' : ''}
+          <!-- 默认正面纯净图 -->
+          <img src="${frontImg}" class="prod-img img-front" alt="${p.name}" loading="lazy" style="${isOut ? 'filter: grayscale(30%);' : ''}">
+          <!-- 鼠标悬停时显现的情绪氛围图 -->
+          <img src="${backImg}" class="prod-img img-back" alt="${p.name}" loading="lazy" style="${isOut ? 'filter: grayscale(30%);' : ''}">
+          <div class="quick-view-badge">クイックビュー</div>
+        </div>
+        
+        <div class="product-info" style="${isOut ? 'opacity: 0.6;' : ''}">
+          <span class="product-category">${p.category}</span>
+          <h3 class="product-name">${p.name}</h3>
+          <div class="product-price-row">
+            <span class="price">¥${Number(p.price).toLocaleString()}<span class="tax-note">(税込)</span></span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 4. 根据商品数据的 category 属性，进行精准分类投放
+    // 无论是中文、日文还是英文分类名，都能聪明地识别并分流
+    const cat = (p.category || '').toLowerCase();
+    
+    if (cat.includes('ペット') || cat.includes('pet')) {
+      if (gridPet) gridPet.innerHTML += cardHTML;
+    } else if (cat.includes('ファッション') || cat.includes('アクセ') || cat.includes('fashion')) {
+      if (gridFashion) gridFashion.innerHTML += cardHTML;
+    } else if (cat.includes('雑貨') || cat.includes('life')) {
+      if (gridLifestyle) gridLifestyle.innerHTML += cardHTML;
+    }
+  });
+}
+
+// 🧭 用于分类大方块平滑滚动的导航小助手
+function scrollToCategory(elementId) {
+  const target = document.getElementById(elementId);
+  if (target) {
+    const headerOffset = 90; // 留出顶部固定导航栏的距离
+    const elementPosition = target.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+  }
+}
       <div class="p-card" onclick="openProductModal('${p.id}')">
         <div class="p-card-img">
           <img src="${p.image}" alt="${p.name}">

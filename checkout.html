@@ -344,5 +344,27 @@
       });
     });
   </script>
+  <script>
+  window.onload = () => {
+    // 1. 获取购物车数据
+    const cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
+    
+    // 2. 计算小计
+    const sub = cart.reduce((s, i) => s + i.price, 0);
+    
+    // 3. 计算运费 (逻辑：满5000免邮，否则800)
+    // 注意：如果你的离岛选择是动态的，checkout 页面通常需要一个下拉选项
+    const shipping = sub >= 5000 ? 0 : 800;
+    const total = sub + shipping;
+    
+    // 4. 将计算结果填入刚才创建的 id="finalTotal" 标签中
+    const totalEl = document.getElementById('finalTotal');
+    if (totalEl) {
+        totalEl.innerText = `¥${total.toLocaleString()}`;
+    } else {
+        console.error("未找到 id 为 finalTotal 的元素");
+    }
+  };
+</script>
 </body>
 </html>

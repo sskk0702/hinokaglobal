@@ -989,6 +989,10 @@ const PRODUCTS = [
   }
 ];
 
+// ────────────────────────────────────────────────────────
+// 株式会社HINOKA - 核心高奢控制中心（完全体接线版）
+// ────────────────────────────────────────────────────────
+
 const CAT_LABEL = { pet: 'ペット用品', fashion: 'ファッション・アクセサリー', goods: '生活雑貨' };
 let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 let currentModalProductId = '';
@@ -998,99 +1002,90 @@ let selectedSizeObj = null;
 let currentImageIndex = 0;
 let currentProductImagesArray = [];
 
-// 🌟 新引入的全局运费地域控制状态（默认本岛为 mainland，离岛为 island）
+// 全局运费地域控制状态（默认本岛为 mainland，离岛为 island）
 let currentShippingRegion = sessionStorage.getItem('hinoka_selected_region') || 'mainland';
 
 function openCart() {
-  document.getElementById('hinokaCartWrapper').classList.add('show');
+  const cartWrapper = document.getElementById('hinokaCartWrapper');
+  if (cartWrapper) cartWrapper.classList.add('show');
+  
   // 同步读取之前选过的地域选项
-  if (currentShippingRegion === 'island') {
-    document.getElementById('regionIsland').checked = true;
-  } else {
-    document.getElementById('regionMainland').checked = true;
+  const regionIsland = document.getElementById('regionIsland');
+  const regionMainland = document.getElementById('regionMainland');
+  if (currentShippingRegion === 'island' && regionIsland) {
+    regionIsland.checked = true;
+  } else if (regionMainland) {
+    regionMainland.checked = true;
   }
   renderCart();
 }
 
 function closeCart() {
-  document.getElementById('hinokaCartWrapper').classList.remove('show');
+  const cartWrapper = document.getElementById('hinokaCartWrapper');
+  if (cartWrapper) cartWrapper.classList.remove('show');
 }
 
-// ────────────────────────────────────────────────────────
-// 株式会社HINOKA - 智能商品分流渲染系统（完美接线版）
-// ────────────────────────────────────────────────────────
-
+// 🌟 智能商品分流渲染系统：完美投递到三大项目展区
 function renderGrid(items) {
   // 1. 抓取 HTML 中对应的三个独立新展区容器
   const gridPet = document.getElementById('grid-pet');
   const gridFashion = document.getElementById('grid-fashion');
   const gridLifestyle = document.getElementById('grid-lifestyle');
 
-  // 2. 渲染前先清空容器，防止切换分类或重复加载时叠加
+  // 2. 渲染前先清空容器，防止重复加载时叠加
   if (gridPet) gridPet.innerHTML = '';
   if (gridFashion) gridFashion.innerHTML = '';
   if (gridLifestyle) gridLifestyle.innerHTML = '';
 
   // 3. 开始遍历并智能投递
   items.forEach(p => {
-    // 🔒 完美继承你原本的库存判断逻辑：如果库存小于等于0，则标记为售罄
     const isOut = p.stock <= 0;
-    
-    // 🖼️ 核心双图容错：如果你的数据里目前没有配第二张氛围图(image2)，就自动用主图(p.image)兜底，防止碎图
     const frontImg = p.image;
     const backImg = p.image2 || p.image; 
 
-    // ✨ 智能气泡标签判断 (支持 'new' 或 'hot')
+    // 智能气泡标签判断 (支持 'new' 或 'hot')
     let badgeHTML = '';
     if (p.badge === 'new') {
-      badgeHTML = `<div class="product-badge badge-new">NEW</div>`;
+      badgeHTML = `<div class="product-badge badge-new" style="position: absolute; top: 12px; left: 12px; background: #f5f2eb; color: #7c6e5f; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; z-index: 2;">NEW</div>`;
     } else if (p.badge === 'hot') {
-      badgeHTML = `<div class="product-badge badge-hot">HOT</div>`;
+      badgeHTML = `<div class="product-badge badge-hot" style="position: absolute; top: 12px; left: 12px; background: #fcf1f1; color: #b86b6b; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; z-index: 2;">HOT</div>`;
     }
 
-    // 📐 组装升级后的 HINOKA 高奢双图悬停卡片模板
-    // 注意：这里保留了你原本的 openProductModal(${p.id}) 弹窗触发
+    // 📐 组装 HINOKA 高奢双图悬停卡片模板
     const cardHTML = `
-      <div class="hinoka-product-card ${isOut ? 'sold-out-status' : ''}" onclick="openProductModal(${p.id})">
-        <div class="product-image-wrapper">
+      <div class="hinoka-product-card" onclick="openProductModal(${p.id})" style="position: relative; cursor: pointer; margin-bottom: 20px; ${isOut ? 'opacity: 0.7;' : ''}">
+        <div class="product-image-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #f7f7f7;">
           ${badgeHTML}
-          ${isOut ? '<div class="sold-out-badge" style="position:absolute; inset:0; background:rgba(255,255,255,0.6); color:#808a94; display:flex; align-items:center; justify-content:center; font-size:12px; z-index:6;">SOLD OUT</div>' : ''}
-          <!-- 默认正面纯净图 -->
-          <img src="${frontImg}" class="prod-img img-front" alt="${p.name}" loading="lazy" style="${isOut ? 'filter: grayscale(30%);' : ''}">
-          <!-- 鼠标悬停时显现的情绪氛围图 -->
-          <img src="${backImg}" class="prod-img img-back" alt="${p.name}" loading="lazy" style="${isOut ? 'filter: grayscale(30%);' : ''}">
-          <div class="quick-view-badge">クイックビュー</div>
+          ${isOut ? '<div class="sold-out-badge" style="position:absolute; inset:0; background:rgba(255,255,255,0.6); color:#ffffff; background:#1a2530; display:flex; align-items:center; justify-content:center; font-size:12px; z-index:6; max-height:30px; margin:auto;">SOLD OUT</div>' : ''}
+          <img src="${frontImg}" class="product-img main-img" alt="${p.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, opacity 0.6s ease; ${isOut ? 'filter: grayscale(30%);' : ''}">
+          <img src="${backImg}" class="product-img hover-img" alt="${p.name}" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: transform 0.6s ease, opacity 0.6s ease; ${isOut ? 'filter: grayscale(30%);' : ''}">
         </div>
         
-        <div class="product-info" style="${isOut ? 'opacity: 0.6;' : ''}">
-          <span class="product-category">${p.category}</span>
-          <h3 class="product-name">${p.name}</h3>
-          <div class="product-price-row">
-            <span class="price">¥${Number(p.price).toLocaleString()}<span class="tax-note">(税込)</span></span>
-          </div>
+        <div class="product-info" style="padding-top: 12px; ${isOut ? 'opacity: 0.6;' : ''}">
+          <span class="product-category" style="font-size: 10px; color: #808a94; text-transform: uppercase;">${p.category}</span>
+          <h3 class="product-title" style="font-size: 13px; color: #1a2530; font-weight: 400; margin: 4px 0 6px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 36px;">${p.name}</h3>
+          <p class="product-price" style="font-size: 13px; color: #4a5560; font-weight: 500; margin: 0;">¥${Number(p.price).toLocaleString()} <span style="font-size:10px; color:#808a94;">(税込)</span></p>
         </div>
       </div>
     `;
 
-    // 4. 根据商品数据的 category 属性，进行精准分类投放
-    // 无论是中文、日文还是英文分类名，都能聪明地识别并分流
+    // 4. 根据商品数据的 category 属性，进行精准分类投放到对应的 HTML 展区
     const cat = (p.category || '').toLowerCase();
-    
     if (cat.includes('ペット') || cat.includes('pet')) {
       if (gridPet) gridPet.innerHTML += cardHTML;
     } else if (cat.includes('ファッション') || cat.includes('アクセ') || cat.includes('fashion')) {
       if (gridFashion) gridFashion.innerHTML += cardHTML;
-    } else if (cat.includes('雑貨') || cat.includes('life')) {
+    } else if (cat.includes('雑貨') || cat.includes('life') || cat.includes('生活')) {
       if (gridLifestyle) gridLifestyle.innerHTML += cardHTML;
     }
   });
 }
 
-// 🧭 用于分类大方块平滑滚动的导航小助手
+// 🧭 用于分类平滑滚动的导航助手
 function scrollToCategory(elementId) {
   const target = document.getElementById(elementId);
   if (target) {
-    const headerOffset = 90; // 留出顶部固定导航栏的距离
+    const headerOffset = 90;
     const elementPosition = target.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
     
@@ -1100,110 +1095,78 @@ function scrollToCategory(elementId) {
     });
   }
 }
-      <div class="p-card" onclick="openProductModal('${p.id}')">
-        <div class="p-card-img">
-          <img src="${p.image}" alt="${p.name}">
-          ${p.badge ? `<div class="p-card-badge">${p.badge}</div>` : ''}
-          <div class="p-card-shipping-tag">送料無料</div>
-        </div>
-        <div class="p-card-body">
-          <div class="p-card-cat">${CAT_LABEL[p.category]}</div>
-          <div class="p-card-name">${p.name}</div>
-          <div class="p-card-desc">${p.desc}</div>
-          <div class="p-card-bottom" onclick="event.stopPropagation()">
-            <div class="p-card-price">¥${p.price.toLocaleString()}<small>~ (税込)</small></div>
-            <button class="atc-btn" ${isOut ? 'disabled' : ''} onclick="openProductModal('${p.id}')">
-              ${isOut ? '売り切れ' : '選択する'}
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
 
+// 🛍️ 唤醒高奢详情弹窗
 function openProductModal(id) {
   const p = PRODUCTS.find(item => item.id === id);
   if (!p) return;
   
   currentModalProductId = id;
-  document.getElementById('modalCategory').innerText = CAT_LABEL[p.category] || p.category;
-  document.getElementById('modalTitle').innerText = p.name;
-  document.getElementById('modalLongDesc').innerText = p.longDesc || p.desc;
-  
-  // 🌟 核心升级：自动注入发货、材质与注意事项（带兜底保护，没填也不会碎版）
-  if (document.getElementById('modalOrigin')) {
-    document.getElementById('modalOrigin').innerText = p.origin || "国内倉庫（大阪）より発送";
+  if (document.getElementById('modalCategory')) {
+    document.getElementById('modalCategory').innerText = CAT_LABEL[p.category] || p.category;
   }
-  if (document.getElementById('modalDelivery')) {
-    document.getElementById('modalDelivery').innerText = p.delivery || "ご注文後、1〜3営業日以内に発送";
+  if (document.getElementById('modalTitle')) {
+    document.getElementById('modalTitle').innerText = p.name;
   }
-  if (document.getElementById('modalMaterial')) {
-    document.getElementById('modalMaterial').innerText = p.material || "商品詳細に記載";
-  }
-  if (document.getElementById('modalNotice')) {
-    document.getElementById('modalNotice').innerText = p.notice || "※お使いの端末により、実物と色味が異なって見える場合がございます。";
+  if (document.getElementById('modalLongDesc')) {
+    document.getElementById('modalLongDesc').innerText = p.desc;
   }
   
-  // 📸 完美继承 5~6 张多图数组
+  // 自动注入新发货保障参数
+  if (document.getElementById('modalOrigin')) document.getElementById('modalOrigin').innerText = p.origin || "大阪府より発送";
+  if (document.getElementById('modalDelivery')) document.getElementById('modalDelivery').innerText = p.delivery || "ご注文後、1〜3営業日以内に発送";
+  if (document.getElementById('modalMaterial')) document.getElementById('modalMaterial').innerText = p.material || "商品詳細に記載";
+  if (document.getElementById('modalNotice')) document.getElementById('modalNotice').innerText = p.notice || "";
+  
   currentProductImagesArray = p.images && p.images.length ? p.images : [p.image];
   currentImageIndex = 0;
   
-  updateModalImageDisplay();
-  renderThumbnails();
+  // 更新图片容器（防碎图处理）
+  const mainImgEl = document.getElementById('modalMainImage');
+  if (mainImgEl) mainImgEl.src = currentProductImagesArray[0];
 
   selectedColorObj = p.colors && p.colors.length ? p.colors[0] : null;
   selectedSizeObj = p.sizes && p.sizes.length ? p.sizes[0] : null;
   
-  // 🎨 Color 颜色按钮生成
+  // Color 规格生成
   const colorOptions = document.getElementById('modalColorOptions');
-  if (p.colors && p.colors.length) {
-    document.getElementById('modalColorGroup').style.display = 'block';
+  const colorGroup = document.getElementById('modalColorGroup');
+  if (p.colors && p.colors.length && colorOptions && colorGroup) {
+    colorGroup.style.display = 'block';
     colorOptions.innerHTML = p.colors.map((c, idx) => `
       <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('color', '${c.name}', this)">${c.name}</button>
     `).join('');
-  } else {
-    document.getElementById('modalColorGroup').style.display = 'none';
+  } else if (colorGroup) {
+    colorGroup.style.display = 'none';
   }
   
-  // 📐 Size 尺寸按钮生成
+  // Size 规格生成
   const sizeOptions = document.getElementById('modalSizeOptions');
-  if (p.sizes && p.sizes.length) {
-    document.getElementById('modalSizeGroup').style.display = 'block';
+  const sizeGroup = document.getElementById('modalSizeGroup');
+  if (p.sizes && p.sizes.length && sizeOptions && sizeGroup) {
+    sizeGroup.style.display = 'block';
     sizeOptions.innerHTML = p.sizes.map((s, idx) => `
       <button class="modal-spec-btn ${idx === 0 ? 'active' : ''}" onclick="selectModalSpec('size', '${s.name}', this)">${s.name}</button>
     `).join('');
-  } else {
-    document.getElementById('modalSizeGroup').style.display = 'none';
+  } else if (sizeGroup) {
+    sizeGroup.style.display = 'none';
   }
 
   updateModalPriceAndShipping();
 
   const atcBtnEl = document.getElementById('modalAtcBtn');
-  if (p.stock <= 0) {
-    atcBtnEl.innerText = '売り切れました';
-    atcBtnEl.disabled = true;
-  } else {
-    atcBtnEl.innerText = 'カートに追加する';
-    atcBtnEl.disabled = false;
+  if (atcBtnEl) {
+    if (p.stock <= 0) {
+      atcBtnEl.innerText = '売り切れました';
+      atcBtnEl.disabled = true;
+    } else {
+      atcBtnEl.innerText = 'カートに追加する';
+      atcBtnEl.disabled = false;
+    }
   }
   
-  document.getElementById('productModal').classList.add('show');
-}
-
-function navModalImage(direction) {
-  if (currentProductImagesArray.length <= 1) return;
-  currentImageIndex += direction;
-  if (currentImageIndex >= currentProductImagesArray.length) currentImageIndex = 0;
-  if (currentImageIndex < 0) currentImageIndex = currentProductImagesArray.length - 1;
-  document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
-  renderThumbnails();
-}
-
-function jumpToModalImage(index) {
-  currentImageIndex = index;
-  document.getElementById('modalMainImage').src = currentProductImagesArray[currentImageIndex];
-  renderThumbnails();
+  const productModal = document.getElementById('productModal');
+  if (productModal) productModal.classList.add('show');
 }
 
 function updateModalPriceAndShipping() {
@@ -1215,7 +1178,7 @@ function updateModalPriceAndShipping() {
   if (selectedSizeObj) currentProductPrice += selectedSizeObj.priceModifier;
   
   const priceEl = document.getElementById('modalPrice');
-  priceEl.innerText = `¥${currentProductPrice.toLocaleString()} (税込)`;
+  if (priceEl) priceEl.innerText = `¥${currentProductPrice.toLocaleString()} (税込)`;
 }
 
 function selectModalSpec(type, name, el) {
@@ -1224,17 +1187,21 @@ function selectModalSpec(type, name, el) {
 
   if (type === 'color') {
     selectedColorObj = p.colors.find(c => c.name === name);
-    document.getElementById('modalColorOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
+    const colorOpts = document.getElementById('modalColorOptions');
+    if (colorOpts) colorOpts.querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
   } else {
     selectedSizeObj = p.sizes.find(s => s.name === name);
-    document.getElementById('modalSizeOptions').querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
+    const sizeOpts = document.getElementById('modalSizeOptions');
+    if (sizeOpts) sizeOpts.querySelectorAll('.modal-spec-btn').forEach(b => b.classList.remove('active'));
   }
   el.classList.add('active');
   updateModalPriceAndShipping();
 }
 
-function doCloseModal() { document.getElementById('productModal').classList.remove('show'); }
-function closeProductModal(e) { if (e.target.classList.contains('p-modal-overlay')) doCloseModal(); }
+function doCloseModal() { 
+  const productModal = document.getElementById('productModal');
+  if (productModal) productModal.classList.remove('show'); 
+}
 
 function addModalProductToCart() {
   const p = PRODUCTS.find(item => item.id === currentModalProductId);
@@ -1256,9 +1223,7 @@ function addModalProductToCart() {
     finalName += ` (${specTextArray.join(' / ')})`;
   }
 
-  // 🌟 取消商品单体绑定运费，统一划归购物车整单结算
   const specId = `${p.id}-${selectedColorObj?.name || ''}-${selectedSizeObj?.name || ''}`;
-
   const existingItem = cart.find(item => item.id === specId);
   if (existingItem) {
     existingItem.qty += 1;
@@ -1287,7 +1252,6 @@ function updateQty(id, change) {
   }
 }
 
-// 🌟 当用户切换购物车里的地区单选框时调用的变价引擎
 function changeCartRegion(regionValue) {
   currentShippingRegion = regionValue;
   sessionStorage.setItem('hinoka_selected_region', regionValue);
@@ -1304,37 +1268,40 @@ function renderCart() {
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   if (globalBadge) globalBadge.innerText = totalQty;
   
+  if (!listContainer) return;
+  
   if (cart.length === 0) {
-    listContainer.innerHTML = '<div class="empty-cart-msg">カートは空です。</div>';
-    document.getElementById('cartSubtotalAmount').innerText = '¥0';
-    document.getElementById('cartShippingTotalAmount').innerText = '送料込み';
-    document.getElementById('cartGrandTotalAmount').innerText = '¥0';
-    footerContainer.style.opacity = '0.5';
-    footerContainer.style.pointerEvents = 'none';
-    if(selectorZone) selectorZone.style.display = 'none';
+    listContainer.innerHTML = '<div class="empty-cart-msg" style="text-align:center; padding:30px; color:#808a94;">カートは空です。</div>';
+    if (document.getElementById('cartSubtotalAmount')) document.getElementById('cartSubtotalAmount').innerText = '¥0';
+    if (document.getElementById('cartShippingTotalAmount')) document.getElementById('cartShippingTotalAmount').innerText = '送料込み';
+    if (document.getElementById('cartGrandTotalAmount')) document.getElementById('cartGrandTotalAmount').innerText = '¥0';
+    if (footerContainer) {
+      footerContainer.style.opacity = '0.5';
+      footerContainer.style.pointerEvents = 'none';
+    }
+    if (selectorZone) selectorZone.style.display = 'none';
     return;
   }
   
-  footerContainer.style.opacity = '1';
-  footerContainer.style.pointerEvents = 'auto';
-  if(selectorZone) selectorZone.style.display = 'block';
+  if (footerContainer) {
+    footerContainer.style.opacity = '1';
+    footerContainer.style.pointerEvents = 'auto';
+  }
+  if (selectorZone) selectorZone.style.display = 'block';
   
-  // 1. 累加纯商品小计金额
   let totalGoodsPrice = 0;
   listContainer.innerHTML = cart.map(item => {
     totalGoodsPrice += item.price * item.qty;
     
     return `
-      <div class="drawer-item-card">
-        <div class="drawer-item-img">
-          <img src="${item.image}" alt="${item.name}">
-        </div>
-        <div class="drawer-item-details">
-          <div class="drawer-item-name">${item.name}</div>
-          <div class="drawer-item-price">¥${item.price.toLocaleString()}</div>
+      <div class="drawer-item-card" style="display:flex; gap:15px; margin-bottom:15px; border-bottom:1px solid #f0f2f4; padding-bottom:15px;">
+        <div class="drawer-item-img" style="width:70px; aspect-ratio:1/1;"><img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover;"></div>
+        <div class="drawer-item-details" style="flex:1;">
+          <div class="drawer-item-name" style="font-size:12px; color:#1a2530; margin-bottom:4px;">${item.name}</div>
+          <div class="drawer-item-price" style="font-size:12px; color:#4a5560; margin-bottom:8px;">¥${item.price.toLocaleString()}</div>
           <div class="drawer-item-qty-actions">
             <button class="drawer-qty-btn" type="button" onclick="updateQty('${item.id}', -1)">-</button>
-            <span class="drawer-qty-val">${item.qty}</span>
+            <span class="drawer-qty-val" style="margin:0 10px;">${item.qty}</span>
             <button class="drawer-qty-btn" type="button" onclick="updateQty('${item.id}', 1)">+</button>
           </div>
         </div>
@@ -1342,82 +1309,43 @@ function renderCart() {
     `;
   }).join('');
 
-  // 2. 🌟 核心商业判断：根据购物车单选框状态计算整单附加费（死锁 1500，绝不重复叠加）
   let islandShippingFee = 0;
+  const shippingAmtEl = document.getElementById('cartShippingTotalAmount');
   if (currentShippingRegion === 'island') {
     islandShippingFee = 1500;
-    if(warnNotice) warnNotice.style.display = 'block';
-    document.getElementById('cartShippingTotalAmount').innerText = '¥1,500';
-    document.getElementById('cartShippingTotalAmount').style.color = '#bf0000';
+    if (warnNotice) warnNotice.style.display = 'block';
+    if (shippingAmtEl) {
+      shippingAmtEl.innerText = '¥1,500';
+      shippingAmtEl.style.color = '#bf0000';
+    }
   } else {
     islandShippingFee = 0;
-    if(warnNotice) warnNotice.style.display = 'none';
-    document.getElementById('cartShippingTotalAmount').innerText = '送料込み';
-    document.getElementById('cartShippingTotalAmount').style.color = '#606a74';
+    if (warnNotice) warnNotice.style.display = 'none';
+    if (shippingAmtEl) {
+      shippingAmtEl.innerText = '送料込み';
+      shippingAmtEl.style.color = '#606a74';
+    }
   }
 
-  // 3. 计算最终总花费并渲染
   const grandTotal = totalGoodsPrice + islandShippingFee;
-  document.getElementById('cartSubtotalAmount').innerText = '¥' + totalGoodsPrice.toLocaleString();
-  document.getElementById('cartGrandTotalAmount').innerText = '¥' + grandTotal.toLocaleString();
+  if (document.getElementById('cartSubtotalAmount')) document.getElementById('cartSubtotalAmount').innerText = '¥' + totalGoodsPrice.toLocaleString();
+  if (document.getElementById('cartGrandTotalAmount')) document.getElementById('cartGrandTotalAmount').innerText = '¥' + grandTotal.toLocaleString();
 }
 
+// 🌟 过滤器改良：由于现在的模式是三大展区同时陈列，点击按钮时自动平滑滚动到对应区域
 function filter(cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (cat === 'all') {
-    renderGrid(PRODUCTS);
-  } else {
-    const filtered = PRODUCTS.filter(p => p.category === cat);
-    renderGrid(filtered);
-  }
+  if (btn) btn.classList.add('active');
+  
+  if (cat === 'ペット用品' || cat === 'pet') scrollToCategory('grid-pet');
+  if (cat === 'ファッション・アクセサリー' || cat === 'fashion') scrollToCategory('grid-fashion');
+  if (cat === '生活雑貨' || cat === 'goods') scrollToCategory('grid-lifestyle');
 }
-
-// 🌟 【完美接入】负责在主页渲染出 30 个商品的魔法函数 🌟
-function renderGrid(productsArray) {
-  const container = document.getElementById('productsContainer');
-  if (!container) return;
-
-  if (productsArray.length === 0) {
-    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #808a94;">該当する商品がありません。</div>';
-    return;
-  }
-
-  container.innerHTML = productsArray.map(p => {
-    const isSoldOut = p.stock <= 0;
-    
-    let badgeHtml = '';
-    if (p.badge === 'new') {
-      badgeHtml = `<span style="position: absolute; top: 12px; left: 12px; background: #f5f2eb; color: #7c6e5f; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; z-index: 2;">NEW</span>`;
-    } else if (p.badge === 'hot') {
-      badgeHtml = `<span style="position: absolute; top: 12px; left: 12px; background: #fcf1f1; color: #b86b6b; font-size: 10px; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; z-index: 2;">HOT</span>`;
-    }
-
-    return `
-      <div class="product-card" onclick="openProductModal(${p.id})" style="position: relative; cursor: pointer; ${isSoldOut ? 'opacity: 0.7;' : ''}">
-        ${badgeHtml}
-        <div class="product-img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #f7f7f7;">
-          <img src="${p.image}" alt="${p.name}" class="product-img main-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, opacity 0.6s ease;">
-          <img src="${p.image2 || p.image}" class="product-img hover-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: transform 0.6s ease, opacity 0.6s ease;">
-          ${isSoldOut ? `
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.6); display: flex; align-items: center; justify-content: center; z-index: 3;">
-              <span style="background: #1a2530; color: #ffffff; font-size: 11px; padding: 6px 15px; letter-spacing: 1px;">SOLD OUT</span>
-            </div>
-          ` : ''}
-        </div>
-        <div class="product-info" style="padding-top: 12px;">
-          <h3 class="product-title" style="font-size: 13px; color: #1a2530; font-weight: 400; margin: 0 0 6px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 36px;">${p.name}</h3>
-          <p class="product-price" style="font-size: 13px; color: #4a5560; font-weight: 500; margin: 0;">¥${p.price.toLocaleString()}</p>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-// 🌟 【接入结束】 🌟
 
 // 页面加载自动运行
-renderGrid(PRODUCTS);
-renderCart();
-</script>
-</body>
-</html>
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof PRODUCTS !== 'undefined') {
+    renderGrid(PRODUCTS);
+  }
+  renderCart();
+});

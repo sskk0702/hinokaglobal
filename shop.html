@@ -71,7 +71,8 @@
 </div>
 
 <div class="products-grid" id="grid"></div>
-
+<div id="pagination" style="text-align:center; margin: 40px 0; display:flex; justify-content:center; gap:15px; font-size: 14px;"></div>
+  
 <div class="modal-overlay" id="modal" onclick="this.classList.remove('show')">
   <div class="modal-window" onclick="event.stopPropagation()">
     <div>
@@ -129,16 +130,47 @@
 
   function removeItem(idx) { cart.splice(idx, 1); localStorage.setItem('hinoka_cart', JSON.stringify(cart)); updateCart(); }
 
-  function render(data = PRODUCTS) {
-    document.getElementById('grid').innerHTML = data.map(p => `
-      <div class="p-card" onclick="openModal(${p.id})">
-        <img src="${p.image}">
-        <div style="padding:15px 0;"><h3>${p.name}</h3><p>¥${p.price.toLocaleString()}</p></div>
-      </div>`).join('');
+  // 新增两个变量用来保存状态
+let currentPage = 1;
+let currentData = PRODUCTS; // 默认展示所有产品
+
+function render(data = PRODUCTS, page = 1) {
+  currentData = data; 
+  currentPage = page;
+  
+  // 1. 分页切片逻辑：每页4个
+  const start = (page - 1) * 4;
+  const end = start + 4;
+  const pageData = data.slice(start, end);
+  
+  // 2. 渲染商品
+  document.getElementById('grid').innerHTML = pageData.map(p => `
+    <div class="p-card" onclick="openModal(${p.id})">
+      <img src="${p.image}">
+      <div style="padding:15px 0;"><h3>${p.name}</h3><p>¥${p.price.toLocaleString()}</p></div>
+    </div>
+  `).join('');
+
+  // 3. 渲染页码数字
+  const pageCount = Math.ceil(data.length / 4);
+  const paginator = document.getElementById('pagination');
+  
+  if (pageCount <= 1) {
+    paginator.innerHTML = ""; // 如果只有一页，隐藏页码
+  } else {
+    paginator.innerHTML = Array.from({length: pageCount}, (_, i) => i + 1).map(num => `
+      <span onclick="render(currentData, ${num})" 
+            style="cursor:pointer; padding:5px 10px; border-bottom: ${currentPage === num ? '2px solid #000' : '1px solid #ddd'};">
+        ${num}
+      </span>
+    `).join('');
   }
+}
 
-  function filter(cat) { render(PRODUCTS.filter(p => p.category === cat)); }
-
+// 4. 筛选逻辑：筛选后自动跳回第1页
+function filter(cat) {
+  render(PRODUCTS.filter(p => p.category === cat), 1);
+}
  function openModal(id) {
     const p = PRODUCTS.find(x => x.id === id);
     if (!p) return;

@@ -896,3 +896,21 @@ nav div { cursor: pointer; font-size: 13px; color: var(--text-dark); letter-spac
   display: none; /* 默认隐藏 */
 }
 .cart-overlay.show { display: block; }
+.products-grid {
+  display: grid;
+  /* 平板及大屏幕：一行2个，卡片最大宽度 500px */
+  grid-template-columns: repeat(2, minmax(300px, 500px));
+  justify-content: center; 
+  gap: 80px; /* 宽大的留白是高级感的关键 */
+  max-width: 1200px;
+  margin: 0 auto 100px;
+  padding: 0 5%;
+}
+
+/* 小屏幕自动转为1列 */
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

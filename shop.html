@@ -3,52 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>株式会社HINOKA - オンラインストア</title>
-  <style>
-    :root { --bg: #fbfaf7; --text: #2c2520; --gold: #c5a880; --border: #eaddcf; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: "Helvetica Neue", sans-serif; }
-    
-    /* 头部导航 */
-    header { position: fixed; top: 0; width: 100%; height: 90px; background: #fbfaf7; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; z-index: 9999; border-bottom: 1px solid var(--border); }
-    .logo { font-size: 26px; font-weight: 300; letter-spacing: 0.2em; cursor: pointer; color: var(--text); }
-    nav { display: flex; gap: 40px; }
-    nav div { cursor: pointer; font-size: 13px; color: #7c7267; transition: 0.3s; }
-    nav div:hover { color: var(--text); }
-    .cart-trigger { cursor: pointer; font-size: 13px; border: 1px solid var(--gold); padding: 8px 18px; border-radius: 20px; transition: 0.3s; color: var(--text); }
-    .cart-trigger:hover { background: var(--gold); color: #fff; }
+<style>
+  :root { --text: #1a1a1a; --bg: #fbfbfb; --accent: #e5e5e5; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: "Helvetica Neue", sans-serif; }
 
-    /* 商品列表 */
-    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1200px; margin: 150px auto 100px; padding: 0 5%; }
-    .p-card { cursor: pointer; }
-    .p-card img { width: 100%; aspect-ratio:1 / 1.2; object-fit: cover; transition: 0.5s; }
-    
-    /* 购物车侧边栏 */
-    .cart-sidebar { position: fixed; top: 0; right: -450px; width: 450px; height: 100%; background: #fff; z-index: 10000; transition: 0.4s ease; padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-    .cart-sidebar.show { right: 0; }
-    .cart-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #eee; align-items: center; }
+  /* 极致高级的 Header */
+  header { 
+    position: fixed; top: 0; width: 100%; height: 80px; 
+    background: rgba(255, 255, 255, 0.95); /* 微磨砂效果 */
+    display: flex; align-items: center; padding: 0 5%; 
+    z-index: 9999; border-bottom: 1px solid var(--accent);
+  }
+  .logo { font-size: 24px; font-weight: 500; letter-spacing: 0.3em; cursor: pointer; margin-right: auto; }
+  
+  nav { display: flex; gap: 40px; margin-right: 40px; }
+  nav div { 
+    cursor: pointer; font-size: 12px; color: #777; 
+    text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; 
+  }
+  nav div:hover { color: #000; }
 
-    /* 详情页弹窗 */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9000; display: none; align-items: center; justify-content: center; }
-    .modal-overlay.show { display: flex; }
-    .modal-window { background: #fff; width: 800px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    .m-thumb { width: 60px; height: 60px; object-fit: cover; cursor: pointer; border: 1px solid #ddd; }
-  </style>
+  .cart-trigger { cursor: pointer; font-size: 12px; font-weight: 500; border: 1px solid #000; padding: 6px 16px; transition: 0.3s; }
+  .cart-trigger:hover { background: #000; color: #fff; }
+
+  /* 产品展示区背景优化 */
+  .products-grid { 
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; 
+    max-width: 1200px; margin: 120px auto 100px; padding: 40px; 
+    background: #fff; /* 产品区用纯白背景承托，增加高级感 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  }
+  
+  .p-card { cursor: pointer; overflow: hidden; }
+  .p-card img { width: 100%; aspect-ratio: 1/1.2; object-fit: cover; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+  .p-card:hover img { transform: scale(1.05); }
+  
+  .p-info { padding: 15px 0; }
+  .p-info h3 { font-size: 14px; font-weight: 400; margin-bottom: 5px; }
+  .p-info p { font-size: 13px; color: #999; }
+</style>
 </head>
 <body>
 
 <header>
-  <div style="width: 120px;"></div> 
   <div class="logo" onclick="window.location.href='index.html'">HINOKA</div>
   <nav>
     <div onclick="render()">すべて</div>
     <div onclick="filter('ペット用品')">ペット用品</div>
-    <div onclick="filter('ファッション・アクセサリー')">ファッション</div>
+    <div onclick="filter('ファッション')">ファッション</div>
     <div onclick="filter('生活雑貨')">生活雑貨</div>
   </nav>
   <div class="cart-trigger" onclick="document.getElementById('cartSidebar').classList.add('show')">
-    カート<span id="cartCount">(0)</span>
+    BAG <span id="cartCount">(0)</span>
   </div>
 </header>
+
+<div class="products-grid" id="grid"></div>
 
 <div class="cart-sidebar" id="cartSidebar">
   <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>バッグ</h2><button onclick="document.getElementById('cartSidebar').classList.remove('show')">✕</button></div>
@@ -79,14 +90,17 @@
 <script>
   let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-  function render(data = PRODUCTS) {
-    document.getElementById('grid').innerHTML = data.map(p => `
-      <div class="p-card" onclick="openModal(${p.id})">
-        <img src="${p.image}" onmouseover="this.src='${p.images[0] || p.image}'" onmouseout="this.src='${p.image}'">
-        <div style="padding:15px;"><h3>${p.name}</h3><p>¥${p.price.toLocaleString()}</p></div>
+function render(data = PRODUCTS) {
+  document.getElementById('grid').innerHTML = data.map(p => `
+    <div class="p-card" onclick="openModal(${p.id})">
+      <img src="${p.image}" onmouseover="this.src='${p.images[0] || p.image}'" onmouseout="this.src='${p.image}'">
+      <div class="p-info">
+        <h3>${p.name}</h3>
+        <p>¥${p.price.toLocaleString()}</p>
       </div>
-    `).join('');
-  }
+    </div>
+  `).join('');
+}
 
   function filter(cat) { render(PRODUCTS.filter(p => p.category === cat)); }
 

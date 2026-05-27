@@ -20,106 +20,123 @@
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 20px; }
     @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    .p-card { background: #fff; border: 1px solid transparent; cursor: pointer; transition: 0.4s; }
+    .p-card { background: #fff; border: 1px solid transparent; transition: 0.4s; display:flex; flex-direction:column; }
     .p-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(44,37,32,0.04); }
-    .p-card-img { width: 100%; aspect-ratio: 1/1; background: #fcfbfa; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .p-card-img { width: 100%; aspect-ratio: 1/1; background: #fcfbfa; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; }
     .p-card-img img { max-width: 80%; max-height: 80%; object-fit: contain; }
-    .p-card-body { padding: 15px; }
+    .p-card-body { padding: 15px; cursor: pointer; flex: 1; }
     .p-card-name { font-size: 13px; margin: 5px 0; }
     .p-card-price { font-size: 14px; font-weight: 500; }
-    .atc-btn { width: 100%; margin-top: 10px; padding: 8px; background: var(--text-main); color: #fff; border: none; cursor: pointer; font-size: 12px; }
+    .atc-btn { width: 100%; padding: 10px; background: var(--text-main); color: #fff; border: none; cursor: pointer; font-size: 12px; }
 
     .cart-sidebar-wrapper { position: fixed; top:0; right:-420px; width:420px; height:100%; background:#fff; z-index:200; transition:0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow:-5px 0 15px rgba(0,0,0,0.1); padding:20px; display:flex; flex-direction:column; }
     .cart-sidebar-wrapper.show { right:0; }
     .checkout-btn { margin-top: auto; padding: 15px; background: var(--accent-gold); color: #fff; border: none; cursor: pointer; font-size: 14px; letter-spacing: 2px; }
+    
+    /* 弹窗样式 */
+    .modal-overlay { position:fixed; inset:0; background:rgba(44,37,32,0.4); z-index:300; display:none; align-items:center; justify-content:center; }
+    .modal-overlay.show { display:flex; }
+    .modal-window { background:#fff; width:90%; max-width:600px; padding:40px; position:relative; }
   </style>
 </head>
 <body>
 
-  <header>
+<header>
+  <a href="index.html" style="text-decoration:none; color:inherit;">
     <div class="logo">HINOKA</div>
-    <div class="cart-trigger" style="cursor:pointer;" onclick="toggleCart(true)">CART (<span id="cartCount">0</span>)</div>
-  </header>
-
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterProducts('all', this)">ALL</button>
-    <button class="filter-btn" onclick="filterProducts('ペット用品', this)">PET</button>
-    <button class="filter-btn" onclick="filterProducts('ファッション・アクセサリー', this)">FASHION</button>
-    <button class="filter-btn" onclick="filterProducts('生活雑貨', this)">LIFESTYLE</button>
+  </a>
+  <div class="cart-trigger" style="cursor:pointer;" onclick="toggleCart(true)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <span id="cartCount" style="font-size:12px; margin-left:5px;">0</span>
   </div>
+</header>
 
-  <div class="section-container">
-    <div class="products-grid" id="products-grid"></div>
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterProducts('all', this)">ALL</button>
+  <button class="filter-btn" onclick="filterProducts('ペット用品', this)">PET</button>
+  <button class="filter-btn" onclick="filterProducts('ファッション・アクセサリー', this)">FASHION</button>
+  <button class="filter-btn" onclick="filterProducts('生活雑貨', this)">LIFESTYLE</button>
+</div>
+
+<div class="section-container">
+  <div class="products-grid" id="products-grid"></div>
+</div>
+
+<div class="cart-sidebar-wrapper" id="cartSidebar">
+  <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+    <h3>SHOPPING CART</h3>
+    <button onclick="toggleCart(false)" style="background:none; border:none; cursor:pointer;">✕</button>
   </div>
+  <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
+  <button class="checkout-btn" onclick="goToCheckout()">CHECKOUT</button>
+</div>
 
-  <div class="cart-sidebar-wrapper" id="cartSidebar">
-    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-        <h3>SHOPPING CART</h3>
-        <button onclick="toggleCart(false)" style="background:none; border:none; cursor:pointer;">✕</button>
-    </div>
-    <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
-    <button class="checkout-btn" onclick="goToCheckout()">CHECKOUT</button>
+<div class="modal-overlay" id="productModal" onclick="this.classList.remove('show')">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <h2 id="modalTitle"></h2>
+    <p id="modalPrice" style="margin:10px 0; font-weight:bold;"></p>
+    <p id="modalDesc"></p>
   </div>
+</div>
 
-  <script src="data.js"></script>
-  <script>
-    let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
+<script src="data.js"></script>
+<script>
+  let cart = JSON.parse(localStorage.getItem('hinoka_cart')) || [];
 
-    function render(category = 'all') {
-      const grid = document.getElementById('products-grid');
-      grid.innerHTML = '';
-      const filtered = (category === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
+  function render(category = 'all') {
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = '';
+    const filtered = (category === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
 
-      filtered.forEach(p => {
-        grid.innerHTML += `
-          <div class="p-card">
-            <div class="p-card-img"><img src="${p.image}" alt="${p.name}"></div>
-            <div class="p-card-body">
-              <h3 class="p-card-name">${p.name}</h3>
-              <div class="p-card-price">¥${p.price.toLocaleString()}</div>
-              <button class="atc-btn" onclick="addToCart(${p.id})">カートに追加</button>
-            </div>
+    filtered.forEach(p => {
+      grid.innerHTML += `
+        <div class="p-card">
+          <div class="p-card-img" onclick="openModal(${p.id})"><img src="${p.image}" alt="${p.name}"></div>
+          <div class="p-card-body" onclick="openModal(${p.id})">
+            <h3 class="p-card-name">${p.name}</h3>
+            <div class="p-card-price">¥${p.price.toLocaleString()}</div>
           </div>
-        `;
-      });
-    }
-
-    function addToCart(id) {
-      const product = PRODUCTS.find(p => p.id === id);
-      const existing = cart.find(item => item.id === id);
-      if (existing) existing.qty += 1;
-      else cart.push({ ...product, qty: 1 });
-      
-      localStorage.setItem('hinoka_cart', JSON.stringify(cart));
-      updateCartUI();
-      toggleCart(true);
-    }
-
-    function updateCartUI() {
-      const list = document.getElementById('cartItems');
-      const count = document.getElementById('cartCount');
-      count.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
-      list.innerHTML = cart.map(item => `
-        <div style="margin-bottom:15px; font-size:12px;">
-          ${item.name} x ${item.qty} - ¥${(item.price * item.qty).toLocaleString()}
+          <button class="atc-btn" onclick="addToCart(${p.id})">カートに追加</button>
         </div>
-      `).join('');
-    }
+      `;
+    });
+  }
 
-    function filterProducts(cat, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      render(cat);
-    }
+  function openModal(id) {
+    const p = PRODUCTS.find(x => x.id === id);
+    document.getElementById('modalTitle').innerText = p.name;
+    document.getElementById('modalPrice').innerText = `¥${p.price.toLocaleString()}`;
+    document.getElementById('modalDesc').innerText = p.desc || "上質な暮らしのためのアイテムです。";
+    document.getElementById('productModal').classList.add('show');
+  }
 
-    function toggleCart(show) { document.getElementById('cartSidebar').classList.toggle('show', show); }
-    
-    function goToCheckout() {
-        if(cart.length === 0) { alert('カートが空です'); return; }
-        window.location.href = 'checkout.html';
-    }
+  function addToCart(id) {
+    const product = PRODUCTS.find(p => p.id === id);
+    const existing = cart.find(item => item.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({ ...product, qty: 1 });
+    localStorage.setItem('hinoka_cart', JSON.stringify(cart));
+    updateCartUI();
+    toggleCart(true);
+  }
 
-    window.addEventListener('DOMContentLoaded', () => { render('all'); updateCartUI(); });
-  </script>
+  function updateCartUI() {
+    document.getElementById('cartCount').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('cartItems').innerHTML = cart.map(item => `
+      <div style="margin-bottom:15px; font-size:12px;">${item.name} x ${item.qty} - ¥${(item.price * item.qty).toLocaleString()}</div>
+    `).join('');
+  }
+
+  function filterProducts(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(cat);
+  }
+
+  function toggleCart(show) { document.getElementById('cartSidebar').classList.toggle('show', show); }
+  function goToCheckout() { if(cart.length > 0) window.location.href = 'checkout.html'; else alert('カートが空です'); }
+
+  window.addEventListener('DOMContentLoaded', () => { render('all'); updateCartUI(); });
+</script>
 </body>
 </html>

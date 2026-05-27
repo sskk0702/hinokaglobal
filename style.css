@@ -853,3 +853,33 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     80% { opacity: 1; }
     100% { opacity: 0; }
 }
+/* --- 商城页面专用布局样式 --- */
+
+/* Header 对齐 */
+header { 
+  height: 90px; padding: 0 5%; display: flex; align-items: center; 
+  border-bottom: 1px solid var(--border, rgba(0,0,0,0.05));
+  background: var(--white);
+}
+
+/* Logo 统一风格 */
+.logo-text { 
+  display: flex; flex-direction: column; text-decoration: none; 
+  color: var(--text-dark); cursor: pointer; line-height: 1; margin-right: 60px;
+}
+.logo-text { font-size: 26px; font-weight: 700; letter-spacing: 0.3em; }
+.logo-text span { 
+  font-size: 9px; font-weight: 300; letter-spacing: 0.4em; 
+  color: #888; margin-top: 6px; text-transform: uppercase;
+}
+
+/* 导航栏 */
+nav { display: flex; gap: 40px; align-items: center; }
+nav div { cursor: pointer; font-size: 13px; color: var(--text-dark); letter-spacing: 0.05em; }
+
+/* 购物车按钮 */
+.cart-trigger { 
+  margin-left: auto; cursor: pointer; font-size: 13px; 
+  color: var(--text-dark); border: 1px solid var(--text-dark); 
+  padding: 8px 20px; border-radius: 20px;
+}

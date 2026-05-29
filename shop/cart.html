@@ -1,1 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HINOKA | ショッピングバッグ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body { padding-top: var(--nav-height); background: var(--white); }
 
+    .cart-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .cart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      margin-bottom: 32px;
+    }
+
+    /* ── 左：商品リスト ── */
+    .cart-items { }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .cart-item-img {
+      width: 90px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      background: var(--gray-light);
+    }
+
+    .cart-item-body { }
+
+    .cart-item-name {
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .cart-item-meta {
+      font-size: 11px;
+      color: var(--gray-dark);
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .cart-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--gray-mid);
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--black);
+      transition: background var(--transition);
+    }
+
+    .qty-btn:hover { background: var(--gray-light); }
+
+    .qty-num {
+      width: 36px;
+      text-align: center;
+      font-size: 13px;
+      border: none;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .cart-item-price {
+      font-size: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    .delete-btn {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-decoration: underline;
+      color: var(--gray-dark);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 80px 0;
+      font-size: 14px;
+      color: var(--gray-dark);
+    }
+
+    .cart-empty a {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 40px;
+      border: 1px solid var(--black);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+    }
+
+    /* ── 右：サマリー ── */
+    .cart-summary {
+      background: var(--gray-light);
+      padding: 32px 24px;
+      position: sticky;
+      top: calc(var(--nav-height) + 24px);
+    }
+
+    .summary-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      margin-bottom: 24px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .summary-divider {
+      border: none;
+      border-top: 1px solid var(--gray-mid);
+      margin: 16px 0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition);
+      margin-bottom: 16px;
+    }
+
+    .checkout-btn:hover { background: #333; }
+
+    .summary-notes {
+      font-size: 11px;
+      color: var(--gray-dark);
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+    }
+
+    .summary-notes p { margin-bottom: 4px; }
+
+    @media (max-width: 768px) {
+      .cart-page { grid-template-columns: 1fr; gap: 40px; padding: 32px 16px; }
+      .cart-summary { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cart-page">
+    <!-- 左：カート商品 -->
+    <div>
+      <h1 class="cart-title">ショッピングバッグ</h1>
+      <div id="cartItems"></div>
+    </div>
+
+    <!-- 右：注文サマリー -->
+    <div class="cart-summary">
+      <h2 class="summary-title">注文内容</h2>
+      <div class="summary-row"><span>小計</span><span id="subtotal">¥0</span></div>
+      <div class="summary-row"><span>配送料</span><span id="shipping">¥550</span></div>
+      <div class="summary-row"><span>消費税（10%）</span><span id="tax">¥0</span></div>
+      <hr class="summary-divider">
+      <div class="summary-total">
+        <span>合計（税・送料込み）</span>
+        <span id="total">¥550</span>
+      </div>
+      <button class="checkout-btn" onclick="location.href='checkout.html'">ご注文を確定する</button>
+      <div class="summary-notes">
+        <p>📦 お届け予定：ご注文から最短翌々日</p>
+        <p>⚠️ 在庫状況により変動する場合がございます</p>
+        <p>🚚 配送料：全国一律550円（税込）</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+  <script>
+  (function () {
+    const SHIPPING_FEE = 550;
+
+    function loadCart() {
+      return JSON.parse(localStorage.getItem('cartItems') || '[]');
+    }
+
+    function saveCart(items) {
+      localStorage.setItem('cartItems', JSON.stringify(items));
+      window.dispatchEvent(new Event('cartUpdated'));
+    }
+
+    function render() {
+      const items = loadCart();
+      const container = document.getElementById('cartItems');
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="cart-empty">
+            <p>ショッピングバッグは空です</p>
+            <a href="store.html">ショッピングを続ける</a>
+          </div>`;
+        updateSummary(0);
+        return;
+      }
+
+      container.innerHTML = '';
+      let subtotal = 0;
+
+      items.forEach((item, index) => {
+        subtotal += item.price * item.qty;
+
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+        el.innerHTML = `
+          <img class="cart-item-img" src="${item.img || 'assets/images/placeholder.jpg'}" alt="${item.name}"
+               onerror="this.src='assets/images/placeholder.jpg'">
+          <div class="cart-item-body">
+            <p class="cart-item-name">${item.name}</p>
+            <p class="cart-item-meta">
+              ${item.color ? `カラー：<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.color};vertical-align:middle;margin-right:4px;border:1px solid #ccc"></span>` : ''}
+              ${item.size ? `サイズ：${item.size}` : ''}
+            </p>
+            <div class="cart-item-row">
+              <div class="qty-control">
+                <button class="qty-btn" data-action="dec" data-index="${index}">−</button>
+                <input class="qty-num" type="number" value="${item.qty}" min="1" data-index="${index}" readonly>
+                <button class="qty-btn" data-action="inc" data-index="${index}">+</button>
+              </div>
+              <span class="cart-item-price">¥${(item.price * item.qty).toLocaleString()}</span>
+            </div>
+            <button class="delete-btn" data-index="${index}">削除</button>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+
+      // イベント：数量変更
+      container.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const items = loadCart();
+          const i = parseInt(btn.dataset.index);
+          if (btn.dataset.action === 'inc') items[i].qty++;
+          else if (items[i].qty > 1) items[i].qty--;
+          saveCart(items);
+          render();
+        });
+      });
+
+      // イベント：削除
+      container.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const items = loadCart();
+          items.splice(parseInt(btn.dataset.index), 1);
+          saveCart(items);
+          render();
+        });
+      });
+
+      updateSummary(subtotal);
+    }
+
+    function updateSummary(subtotal) {
+      const tax = Math.round(subtotal * 0.1);
+      const total = subtotal + SHIPPING_FEE + tax;
+      document.getElementById('subtotal').textContent = `¥${subtotal.toLocaleString()}`;
+      document.getElementById('tax').textContent = `¥${tax.toLocaleString()}`;
+      document.getElementById('total').textContent = `¥${total.toLocaleString()}`;
+      document.getElementById('shipping').textContent = subtotal === 0 ? '−' : `¥${SHIPPING_FEE.toLocaleString()}`;
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>

@@ -1,1 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HINOKA | 商品一覧</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body { padding-top: var(--nav-height); }
 
+    .page-header {
+      padding: 48px 48px 32px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .breadcrumb {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--gray-dark);
+      margin-bottom: 12px;
+    }
+
+    .breadcrumb a { color: var(--gray-dark); }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+    }
+
+    /* ── 商品グリッド ── */
+    .products-section {
+      padding: 48px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px 24px;
+    }
+
+    .product-card {
+      cursor: pointer;
+    }
+
+    .product-image-wrapper {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: var(--gray-light);
+      margin-bottom: 14px;
+    }
+
+    .product-image-wrapper img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.35s ease;
+    }
+
+    .product-image-wrapper .main-img { opacity: 1; }
+    .product-image-wrapper .sub-img  { opacity: 0; }
+
+    .product-card:hover .main-img { opacity: 0; }
+    .product-card:hover .sub-img  { opacity: 1; }
+
+    /* ウィッシュリストアイコン（右上） */
+    .product-wish {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .product-wish svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--black);
+      fill: none;
+      stroke-width: 1.5;
+      transition: fill 0.2s;
+    }
+
+    .product-wish.active svg { fill: var(--black); }
+
+    .product-name {
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .product-price {
+      font-size: 13px;
+      color: var(--gray-dark);
+    }
+
+    /* ── さらに読み込む ── */
+    .load-more-wrap {
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .load-more-btn {
+      display: inline-block;
+      padding: 14px 48px;
+      border: 1px solid var(--black);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: none;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .load-more-btn:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .load-more-btn.hidden { display: none; }
+
+    @media (max-width: 1024px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .products-section { padding: 32px 16px; }
+      .page-header { padding: 32px 16px 24px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <p class="breadcrumb">
+      <a href="store.html">HOME</a>
+      <span>/</span>
+      <span id="breadcrumbCat">商品一覧</span>
+    </p>
+    <h1 class="page-title" id="pageTitle">すべての商品</h1>
+  </div>
+
+  <section class="products-section">
+    <div class="products-grid" id="productsGrid"></div>
+    <div class="load-more-wrap">
+      <button class="load-more-btn" id="loadMoreBtn">さらに読み込む</button>
+    </div>
+  </section>
+
+  <script src="js/nav.js"></script>
+  <script>
+  (function () {
+    // ── ダミー商品データ（本番は API / JSON から取得に変更） ──
+    const ALL_PRODUCTS = [
+      { id: '001', name: 'プレミアム ドッグフード', price: 3850, category: 'dog-food', mainImg: 'assets/images/p001-main.jpg', subImg: 'assets/images/p001-sub.jpg' },
+      { id: '002', name: 'キャット ボウル セット', price: 5500, category: 'cat-food', mainImg: 'assets/images/p002-main.jpg', subImg: 'assets/images/p002-sub.jpg' },
+      { id: '003', name: 'ペット ロープ トイ', price: 1980, category: 'pet-toys', mainImg: 'assets/images/p003-main.jpg', subImg: 'assets/images/p003-sub.jpg' },
+      { id: '004', name: 'オーガニック コットン ベッド', price: 12100, category: 'pet-bed', mainImg: 'assets/images/p004-main.jpg', subImg: 'assets/images/p004-sub.jpg' },
+      { id: '005', name: 'レザー 首輪', price: 4400, category: 'pet-collar', mainImg: 'assets/images/p005-main.jpg', subImg: 'assets/images/p005-sub.jpg' },
+      { id: '006', name: 'リネン オーバーシャツ', price: 18700, category: 'tops', mainImg: 'assets/images/p006-main.jpg', subImg: 'assets/images/p006-sub.jpg' },
+      { id: '007', name: 'テーパード スラックス', price: 22000, category: 'bottoms', mainImg: 'assets/images/p007-main.jpg', subImg: 'assets/images/p007-sub.jpg' },
+      { id: '008', name: 'ウール コート', price: 55000, category: 'outer', mainImg: 'assets/images/p008-main.jpg', subImg: 'assets/images/p008-sub.jpg' },
+      { id: '009', name: 'シルバー チェーン', price: 8800, category: 'accessories', mainImg: 'assets/images/p009-main.jpg', subImg: 'assets/images/p009-sub.jpg' },
+      { id: '010', name: 'レザー ローファー', price: 38500, category: 'shoes', mainImg: 'assets/images/p010-main.jpg', subImg: 'assets/images/p010-sub.jpg' },
+      { id: '011', name: '鋳鉄 フライパン', price: 15400, category: 'kitchen', mainImg: 'assets/images/p011-main.jpg', subImg: 'assets/images/p011-sub.jpg' },
+      { id: '012', name: 'ラタン バスケット', price: 7700, category: 'storage', mainImg: 'assets/images/p012-main.jpg', subImg: 'assets/images/p012-sub.jpg' },
+    ];
+
+    const BATCH_SIZE = 4;
+    let displayCount = BATCH_SIZE;
+
+    // URLパラメータからカテゴリーを取得
+    const params = new URLSearchParams(location.search);
+    const cat = params.get('category') || '';
+    const query = params.get('q') || '';
+
+    let products = ALL_PRODUCTS;
+    if (cat) {
+      products = ALL_PRODUCTS.filter(p => p.category === cat || p.category.startsWith(cat));
+    }
+    if (query) {
+      products = ALL_PRODUCTS.filter(p => p.name.includes(query));
+    }
+
+    // カテゴリー表示名
+    const CAT_NAMES = {
+      pet: 'ペット用品', fashion: 'ファッション', daily: '生活雑貨',
+      'dog-food': 'ドッグフード', 'cat-food': 'キャットフード',
+      'pet-toys': 'おもちゃ', 'pet-bed': 'ベッド・ハウス', 'pet-collar': '首輪・リード',
+      tops: 'トップス', bottoms: 'ボトムス', outer: 'アウター',
+      accessories: 'アクセサリー', shoes: 'シューズ',
+      kitchen: 'キッチン用品', interior: 'インテリア', bath: 'バス・トイレ',
+      storage: '収納・整理', aroma: 'アロマ・キャンドル',
+    };
+
+    const title = query ? `"${query}" の検索結果` : (CAT_NAMES[cat] || 'すべての商品');
+    document.getElementById('pageTitle').textContent = title;
+    document.getElementById('breadcrumbCat').textContent = title;
+    document.title = `HINOKA | ${title}`;
+
+    const grid = document.getElementById('productsGrid');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    function renderProducts() {
+      grid.innerHTML = '';
+      const visible = products.slice(0, displayCount);
+
+      visible.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="product-image-wrapper">
+            <img class="main-img" src="${p.mainImg}" alt="${p.name}" onerror="this.src='assets/images/placeholder.jpg'">
+            <img class="sub-img"  src="${p.subImg}"  alt="${p.name} サブ" onerror="this.src='assets/images/placeholder.jpg'">
+            <button class="product-wish" aria-label="ウィッシュリストに追加">
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <p class="product-name">${p.name}</p>
+          <p class="product-price">¥${p.price.toLocaleString()}（税込）</p>
+        `;
+
+        // ウィッシュリストボタン
+        card.querySelector('.product-wish').addEventListener('click', e => {
+          e.stopPropagation();
+          e.currentTarget.classList.toggle('active');
+        });
+
+        // カードクリック → 詳細ページ
+        card.addEventListener('click', () => {
+          location.href = `product-detail.html?id=${p.id}`;
+        });
+
+        grid.appendChild(card);
+      });
+
+      // 「さらに読み込む」ボタン
+      if (displayCount >= products.length) {
+        loadMoreBtn.classList.add('hidden');
+      } else {
+        loadMoreBtn.classList.remove('hidden');
+      }
+    }
+
+    loadMoreBtn.addEventListener('click', () => {
+      displayCount += BATCH_SIZE;
+      renderProducts();
+    });
+
+    renderProducts();
+  })();
+  </script>
+</body>
+</html>

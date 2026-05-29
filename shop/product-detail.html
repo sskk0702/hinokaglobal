@@ -1,1 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HINOKA | 商品詳細</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body { padding-top: var(--nav-height); }
 
+    .breadcrumb {
+      padding: 20px 48px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--gray-dark);
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .breadcrumb a { color: var(--gray-dark); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── 2カラムレイアウト ── */
+    .product-layout {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      min-height: calc(100vh - var(--nav-height));
+    }
+
+    /* 左：画像スライダー */
+    .product-gallery {
+      position: sticky;
+      top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
+      overflow: hidden;
+      background: var(--gray-light);
+    }
+
+    .gallery-main {
+      position: relative;
+      width: 100%;
+      height: calc(100% - 80px);
+      overflow: hidden;
+    }
+
+    .gallery-main img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .gallery-main img.active { opacity: 1; }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      background: rgba(255,255,255,0.8);
+      border: none;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .gallery-arrow.prev { left: 12px; }
+    .gallery-arrow.next { right: 12px; }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      height: 80px;
+      overflow-x: auto;
+    }
+
+    .gallery-thumbs img {
+      height: 56px;
+      width: 42px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .gallery-thumbs img.active { opacity: 1; }
+
+    /* 右：商品情報 */
+    .product-info {
+      padding: 48px 48px 48px 40px;
+      overflow-y: auto;
+    }
+
+    .product-info-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .product-category {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+    }
+
+    .wish-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .wish-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--black);
+      fill: none;
+      stroke-width: 1.5;
+      transition: fill 0.2s;
+    }
+
+    .wish-btn.active svg { fill: var(--black); }
+
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .product-price {
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+      color: var(--black);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--gray-light);
+      margin: 24px 0;
+    }
+
+    /* カラー選択 */
+    .option-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .color-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .color-dot.selected {
+      border-color: var(--black);
+      outline: 2px solid var(--black);
+      outline-offset: 2px;
+    }
+
+    /* サイズ選択 */
+    .size-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .size-btn {
+      min-width: 44px;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--gray-mid);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      background: none;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .size-btn.selected {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .size-btn:hover:not(.selected) {
+      border-color: var(--black);
+    }
+
+    /* カートボタン */
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      transition: background var(--transition);
+      margin-bottom: 24px;
+    }
+
+    .add-to-cart-btn:hover { background: #333; }
+
+    /* 商品説明 */
+    .product-desc {
+      font-size: 13px;
+      line-height: 2;
+      color: var(--gray-dark);
+      margin-bottom: 24px;
+    }
+
+    /* アコーディオンセクション */
+    .info-accordion {
+      border-top: 1px solid var(--gray-light);
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      cursor: pointer;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .accordion-header span.icon {
+      font-size: 18px;
+      font-weight: 300;
+      transition: transform 0.3s;
+    }
+
+    .accordion-item.open .accordion-header span.icon {
+      transform: rotate(45deg);
+    }
+
+    @media (max-width: 768px) {
+      .product-layout { grid-template-columns: 1fr; }
+      .product-gallery { position: relative; height: 60vw; }
+      .breadcrumb { padding: 16px; }
+      .product-info { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <p class="breadcrumb" id="breadcrumb">
+    <a href="store.html">HOME</a>
+    <span>/</span>
+    <a href="#" id="breadCat">カテゴリー</a>
+    <span>/</span>
+    <span id="breadName">商品名</span>
+  </p>
+
+  <div class="product-layout">
+    <!-- 左：ギャラリー -->
+    <div class="product-gallery">
+      <div class="gallery-main" id="galleryMain">
+        <!-- 画像はJSで挿入 -->
+        <button class="gallery-arrow prev" id="galleryPrev" aria-label="前の画像">&#8592;</button>
+        <button class="gallery-arrow next" id="galleryNext" aria-label="次の画像">&#8594;</button>
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+
+    <!-- 右：商品情報 -->
+    <div class="product-info">
+      <div class="product-info-top">
+        <span class="product-category" id="productCategory"></span>
+        <button class="wish-btn" id="wishBtn" aria-label="ウィッシュリストに追加">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+
+      <h1 class="product-name" id="productName"></h1>
+      <p class="product-price" id="productPrice"></p>
+      <hr class="divider">
+
+      <!-- カラー -->
+      <p class="option-label">カラー</p>
+      <div class="color-options" id="colorOptions"></div>
+
+      <!-- サイズ -->
+      <p class="option-label">サイズ</p>
+      <div class="size-options" id="sizeOptions"></div>
+
+      <!-- カートに追加 -->
+      <button class="add-to-cart-btn" id="addToCartBtn">カートに追加する</button>
+
+      <!-- 商品説明 -->
+      <p class="product-desc" id="productDesc"></p>
+
+      <!-- アコーディオン -->
+      <div class="info-accordion">
+        <div class="accordion-item">
+          <div class="accordion-header" data-modal="detail">
+            <span>商品詳細</span><span class="icon">+</span>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" data-modal="shipping">
+            <span>配送について</span><span class="icon">+</span>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" data-modal="return">
+            <span>返品について</span><span class="icon">+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル：商品詳細 -->
+  <div class="modal-overlay" id="modalDetail">
+    <div class="modal-box">
+      <button class="modal-close" data-close="modalDetail">×</button>
+      <h3>商品詳細</h3>
+      <p>産地：日本</p>
+      <p>素材：コットン 100%</p>
+      <p>サイズ詳細：S（着丈65cm 身幅48cm）M（着丈68cm 身幅51cm）L（着丈71cm 身幅54cm）</p>
+      <p>ケア方法：洗濯機可（ネット使用）／乾燥機不可</p>
+    </div>
+  </div>
+
+  <!-- モーダル：配送 -->
+  <div class="modal-overlay" id="modalShipping">
+    <div class="modal-box">
+      <button class="modal-close" data-close="modalShipping">×</button>
+      <h3>配送について</h3>
+      <p>現在ご利用いただける配送方法は標準配送のみとなります（月曜日から日曜日の午前8時から午後9時の間にお届けします）。</p>
+      <br>
+      <p>標準配送の料金は全国一律550円（税込）となります。</p>
+      <p>最短でのお届けはご注文日の翌々日となります。</p>
+      <br>
+      <p>※着荷日は交通事情や天候状況、遠隔地や離島などお届け場所等により若干遅れが生じる場合がございます。</p>
+      <p>※配送は日本国内のみに限らせていただきます。</p>
+    </div>
+  </div>
+
+  <!-- モーダル：返品 -->
+  <div class="modal-overlay" id="modalReturn">
+    <div class="modal-box">
+      <button class="modal-close" data-close="modalReturn">×</button>
+      <h3>返品について</h3>
+      <p>ご注文いただいた商品をお受け取りになられてから30日以内に返品または交換をお申し込みいただくことで、お受け付けをいたしております。</p>
+      <br>
+      <p>以下の商品は返品・交換不可となります：</p>
+      <ul>
+        <li>CYOやオーダーメイドなどのカスタマイズ商品</li>
+        <li>香水とフレグランス（ディフューザーを含む）</li>
+        <li>衛生テープが取り外された水着および下着</li>
+        <li>パッケージの包装が開封されているマスク</li>
+        <li>セール価格または「返品不可」と記載されていた商品</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+  <script>
+  (function () {
+    // ── ダミー商品データ ──
+    const PRODUCTS = {
+      '001': { name: 'プレミアム ドッグフード', price: 3850, category: 'ペット用品',
+               images: ['assets/images/p001-main.jpg','assets/images/p001-sub.jpg','assets/images/p001-3.jpg'],
+               colors: ['#8B6914','#D4B896','#333'], sizes: ['S','M','L'],
+               desc: '厳選された国産素材を使用したプレミアムドッグフードです。愛犬の健康を第一に考えた栄養バランスで作られています。' },
+      '002': { name: 'キャット ボウル セット', price: 5500, category: 'ペット用品',
+               images: ['assets/images/p002-main.jpg','assets/images/p002-sub.jpg'],
+               colors: ['#fff','#F5F0E8'], sizes: ['FREE'],
+               desc: 'ステンレス製の高品質キャットボウルセットです。食洗機対応で清潔に保てます。' },
+    };
+
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id') || '001';
+    const product = PRODUCTS[id] || PRODUCTS['001'];
+
+    // ── ページ情報設定 ──
+    document.getElementById('productCategory').textContent = product.category;
+    document.getElementById('productName').textContent = product.name;
+    document.getElementById('productPrice').textContent = `¥${product.price.toLocaleString()}（税込）`;
+    document.getElementById('productDesc').textContent = product.desc;
+    document.getElementById('breadName').textContent = product.name;
+    document.title = `HINOKA | ${product.name}`;
+
+    // ── ギャラリー ──
+    const galleryMain  = document.getElementById('galleryMain');
+    const galleryThumbs = document.getElementById('galleryThumbs');
+    let currentImg = 0;
+
+    product.images.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = product.name;
+      img.className = i === 0 ? 'active' : '';
+      img.onerror = () => { img.src = 'assets/images/placeholder.jpg'; };
+      galleryMain.insertBefore(img, document.getElementById('galleryPrev'));
+
+      const thumb = document.createElement('img');
+      thumb.src = src;
+      thumb.alt = `サムネイル ${i+1}`;
+      thumb.className = i === 0 ? 'active' : '';
+      thumb.onerror = () => { thumb.src = 'assets/images/placeholder.jpg'; };
+      thumb.addEventListener('click', () => goToImage(i));
+      galleryThumbs.appendChild(thumb);
+    });
+
+    function goToImage(index) {
+      galleryMain.querySelectorAll('img').forEach((img, i) => img.classList.toggle('active', i === index));
+      galleryThumbs.querySelectorAll('img').forEach((t, i) => t.classList.toggle('active', i === index));
+      currentImg = index;
+    }
+
+    document.getElementById('galleryPrev').addEventListener('click', () => {
+      goToImage((currentImg - 1 + product.images.length) % product.images.length);
+    });
+    document.getElementById('galleryNext').addEventListener('click', () => {
+      goToImage((currentImg + 1) % product.images.length);
+    });
+
+    // ── カラー選択 ──
+    let selectedColor = product.colors[0];
+    const colorContainer = document.getElementById('colorOptions');
+    product.colors.forEach(c => {
+      const dot = document.createElement('div');
+      dot.className = 'color-dot' + (c === selectedColor ? ' selected' : '');
+      dot.style.background = c;
+      dot.style.border = c === '#fff' ? '1px solid #ccc' : '';
+      dot.addEventListener('click', () => {
+        selectedColor = c;
+        colorContainer.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+        dot.classList.add('selected');
+      });
+      colorContainer.appendChild(dot);
+    });
+
+    // ── サイズ選択 ──
+    let selectedSize = '';
+    const sizeContainer = document.getElementById('sizeOptions');
+    product.sizes.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'size-btn';
+      btn.textContent = s;
+      btn.addEventListener('click', () => {
+        selectedSize = s;
+        sizeContainer.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+      sizeContainer.appendChild(btn);
+    });
+
+    // ── ウィッシュリスト ──
+    document.getElementById('wishBtn').addEventListener('click', function () {
+      this.classList.toggle('active');
+    });
+
+    // ── カートに追加 ──
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      const existing = items.find(i => i.id === id && i.color === selectedColor && i.size === selectedSize);
+      if (existing) {
+        existing.qty++;
+      } else {
+        items.push({
+          id, name: product.name, price: product.price,
+          color: selectedColor, size: selectedSize,
+          img: product.images[0], qty: 1
+        });
+      }
+      localStorage.setItem('cartItems', JSON.stringify(items));
+      window.dispatchEvent(new Event('cartUpdated'));
+      if (typeof window.showCartToast === 'function') window.showCartToast();
+    });
+
+    // ── モーダル ──
+    document.querySelectorAll('.accordion-header[data-modal]').forEach(header => {
+      header.addEventListener('click', () => {
+        const key = header.getAttribute('data-modal');
+        const map = { detail: 'modalDetail', shipping: 'modalShipping', return: 'modalReturn' };
+        document.getElementById(map[key]).classList.add('open');
+        header.parentElement.classList.toggle('open');
+      });
+    });
+
+    document.querySelectorAll('.modal-close').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById(btn.getAttribute('data-close')).classList.remove('open');
+      });
+    });
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.remove('open');
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

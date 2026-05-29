@@ -1,1 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HINOKA | お会計</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body { padding-top: var(--nav-height); background: var(--gray-light); }
 
+    .checkout-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* 戻るボタン */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--gray-dark);
+      margin-bottom: 32px;
+      cursor: pointer;
+      transition: color var(--transition);
+    }
+
+    .back-link:hover { color: var(--black); }
+
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .form-card {
+      background: var(--white);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    /* フォームフィールド */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--gray-dark);
+    }
+
+    .form-group input,
+    .form-group select {
+      border: 1px solid var(--gray-mid);
+      padding: 10px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition);
+      background: var(--white);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--black);
+    }
+
+    /* 支払い方法 */
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--gray-mid);
+      cursor: pointer;
+      transition: border-color var(--transition);
+    }
+
+    .payment-option input[type="radio"] { accent-color: var(--black); }
+
+    .payment-option label {
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    .payment-option:has(input:checked) {
+      border-color: var(--black);
+    }
+
+    /* クレカ入力欄 */
+    #creditCardFields {
+      margin-top: 20px;
+      display: none;
+    }
+
+    #creditCardFields.visible { display: block; }
+
+    /* ── 右：サマリー ── */
+    .checkout-summary {
+      background: var(--white);
+      padding: 32px 24px;
+      position: sticky;
+      top: calc(var(--nav-height) + 24px);
+    }
+
+    .summary-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+    }
+
+    .summary-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .summary-item img {
+      width: 56px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      background: var(--gray-light);
+    }
+
+    .summary-item-info {
+      flex: 1;
+    }
+
+    .summary-item-name {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .summary-item-price {
+      font-size: 12px;
+      color: var(--gray-dark);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .summary-divider {
+      border: none;
+      border-top: 1px solid var(--gray-light);
+      margin: 14px 0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+    }
+
+    /* 注文確定ボタン */
+    .place-order-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition);
+      font-family: inherit;
+    }
+
+    .place-order-btn:hover { background: #333; }
+
+    /* 確認モーダル */
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 5000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .confirm-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .confirm-box {
+      background: var(--white);
+      padding: 48px 40px;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+    }
+
+    .confirm-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .confirm-box p {
+      font-size: 13px;
+      color: var(--gray-dark);
+      line-height: 2;
+      margin-bottom: 24px;
+    }
+
+    .confirm-box button {
+      padding: 14px 40px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-wrap { grid-template-columns: 1fr; gap: 32px; padding: 24px 16px 60px; }
+      .form-row { grid-template-columns: 1fr; }
+      .checkout-summary { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-wrap">
+    <!-- 左：フォーム -->
+    <div>
+      <a class="back-link" href="cart.html">← カートに戻る</a>
+
+      <!-- お届け先 -->
+      <div class="form-card">
+        <h2 class="section-heading">お届け先情報</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>姓</label>
+            <input type="text" placeholder="山田" autocomplete="family-name">
+          </div>
+          <div class="form-group">
+            <label>名</label>
+            <input type="text" placeholder="花子" autocomplete="given-name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>郵便番号</label>
+          <input type="text" id="postalCode" placeholder="000-0000" maxlength="8" autocomplete="postal-code">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>都道府県</label>
+            <select id="prefecture" autocomplete="address-level1">
+              <option value="">選択してください</option>
+              <option>北海道</option><option>青森県</option><option>岩手県</option>
+              <option>宮城県</option><option>秋田県</option><option>山形県</option>
+              <option>福島県</option><option>茨城県</option><option>栃木県</option>
+              <option>群馬県</option><option>埼玉県</option><option>千葉県</option>
+              <option>東京都</option><option>神奈川県</option><option>新潟県</option>
+              <option>富山県</option><option>石川県</option><option>福井県</option>
+              <option>山梨県</option><option>長野県</option><option>岐阜県</option>
+              <option>静岡県</option><option>愛知県</option><option>三重県</option>
+              <option>滋賀県</option><option>京都府</option><option>大阪府</option>
+              <option>兵庫県</option><option>奈良県</option><option>和歌山県</option>
+              <option>鳥取県</option><option>島根県</option><option>岡山県</option>
+              <option>広島県</option><option>山口県</option><option>徳島県</option>
+              <option>香川県</option><option>愛媛県</option><option>高知県</option>
+              <option>福岡県</option><option>佐賀県</option><option>長崎県</option>
+              <option>熊本県</option><option>大分県</option><option>宮崎県</option>
+              <option>鹿児島県</option><option>沖縄県</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>市区町村</label>
+            <input type="text" placeholder="渋谷区" autocomplete="address-level2">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>番地・建物名</label>
+          <input type="text" placeholder="1-1-1 ○○ビル 101号室" autocomplete="address-line1">
+        </div>
+        <div class="form-group">
+          <label>電話番号</label>
+          <input type="tel" placeholder="090-0000-0000" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label>メールアドレス</label>
+          <input type="email" placeholder="example@email.com" autocomplete="email">
+        </div>
+      </div>
+
+      <!-- 支払い方法 -->
+      <div class="form-card">
+        <h2 class="section-heading">お支払い方法</h2>
+        <div class="payment-options">
+          <div class="payment-option">
+            <input type="radio" name="payment" id="payCredit" value="credit" checked>
+            <label for="payCredit">クレジットカード</label>
+          </div>
+          <div class="payment-option">
+            <input type="radio" name="payment" id="payBank" value="bank">
+            <label for="payBank">銀行振込</label>
+          </div>
+          <div class="payment-option">
+            <input type="radio" name="payment" id="payConbini" value="conbini">
+            <label for="payConbini">コンビニ払い</label>
+          </div>
+        </div>
+
+        <!-- クレカ入力（クレジット選択時のみ） -->
+        <div id="creditCardFields" class="visible">
+          <div class="form-group" style="margin-top:20px">
+            <label>カード番号</label>
+            <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>有効期限</label>
+              <input type="text" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+            </div>
+            <div class="form-group">
+              <label>セキュリティコード</label>
+              <input type="text" placeholder="CVV" maxlength="4" autocomplete="cc-csc">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>カード名義（ローマ字）</label>
+            <input type="text" placeholder="HANAKO YAMADA" autocomplete="cc-name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：注文サマリー -->
+    <div class="checkout-summary">
+      <h2 class="summary-title">注文内容</h2>
+      <div id="summaryItems"></div>
+      <div class="summary-row"><span>小計</span><span id="cSubtotal">¥0</span></div>
+      <div class="summary-row"><span>配送料</span><span>¥550</span></div>
+      <div class="summary-row"><span>消費税（10%）</span><span id="cTax">¥0</span></div>
+      <hr class="summary-divider">
+      <div class="summary-total">
+        <span>合計</span><span id="cTotal">¥550</span>
+      </div>
+      <button class="place-order-btn" id="placeOrderBtn">注文を確定する</button>
+    </div>
+  </div>
+
+  <!-- 確認モーダル -->
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-box">
+      <h3>ご注文ありがとうございます</h3>
+      <p>ご注文を受け付けました。<br>確認メールをお送りします。<br>お届け予定日：ご注文から最短翌々日</p>
+      <button onclick="localStorage.removeItem('cartItems'); location.href='store.html'">ショッピングを続ける</button>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+  <script>
+  (function () {
+    const SHIPPING = 550;
+
+    // 支払い方法切替
+    document.querySelectorAll('input[name="payment"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.getElementById('creditCardFields').classList.toggle('visible', radio.value === 'credit');
+      });
+    });
+
+    // サマリー描画
+    const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const container = document.getElementById('summaryItems');
+    let subtotal = 0;
+
+    items.forEach(item => {
+      subtotal += item.price * item.qty;
+      const el = document.createElement('div');
+      el.className = 'summary-item';
+      el.innerHTML = `
+        <img src="${item.img || 'assets/images/placeholder.jpg'}" alt="${item.name}"
+             onerror="this.src='assets/images/placeholder.jpg'">
+        <div class="summary-item-info">
+          <p class="summary-item-name">${item.name} × ${item.qty}</p>
+          <p class="summary-item-price">¥${(item.price * item.qty).toLocaleString()}</p>
+        </div>
+      `;
+      container.appendChild(el);
+    });
+
+    const tax = Math.round(subtotal * 0.1);
+    document.getElementById('cSubtotal').textContent = `¥${subtotal.toLocaleString()}`;
+    document.getElementById('cTax').textContent = `¥${tax.toLocaleString()}`;
+    document.getElementById('cTotal').textContent = `¥${(subtotal + SHIPPING + tax).toLocaleString()}`;
+
+    // 注文確定
+    document.getElementById('placeOrderBtn').addEventListener('click', () => {
+      document.getElementById('confirmModal').classList.add('open');
+    });
+
+    // 郵便番号フォーマット
+    document.getElementById('postalCode').addEventListener('input', function () {
+      const v = this.value.replace(/\D/g, '');
+      this.value = v.length > 3 ? v.slice(0,3) + '-' + v.slice(3,7) : v;
+    });
+  })();
+  </script>
+</body>
+</html>

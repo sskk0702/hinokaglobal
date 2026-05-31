@@ -28,13 +28,15 @@ body {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  padding-top: var(--nav-h);
 }
 
 img { max-width: 100%; height: auto; display: block; }
 
-/* ── HEADER ─────────────────────────────────── */
+/* 鈹€鈹€ HEADER 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 header {
-  position: relative;
+  position: fixed;
+  top: 0; left: 0; right: 0;
   height: var(--nav-h);
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(8px);
@@ -44,9 +46,10 @@ header {
   justify-content: space-between;
   padding: 0 48px;
   z-index: 1000;
-  transition: box-shadow 0.3s;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
 }
 header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+header.nav-hidden { transform: translateY(-100%); box-shadow: none; }
 
 .logo-text {
   font-family: 'Cormorant Garamond', serif;
@@ -112,7 +115,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .nav-contact:hover { background: var(--gold) !important; }
 .nav-contact::after { display: none !important; }
 
-/* ── HERO ────────────────────────────────────── */
+/* 鈹€鈹€ HERO 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .hero {
   height: calc(100vh - var(--nav-h));
   min-height: 600px;
@@ -160,7 +163,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   transition: gap 0.3s, color 0.2s;
 }
 .hero-cta:hover { gap: 20px; color: var(--gold); }
-.hero-cta::after { content: '→'; font-size: 14px; }
+.hero-cta::after { content: '鈫�'; font-size: 14px; }
 .hero-scroll {
   position: absolute; bottom: 40px; left: 48px;
   display: flex; align-items: center; gap: 12px;
@@ -169,7 +172,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 }
 .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
 
-/* ── SECTIONS ────────────────────────────────── */
+/* 鈹€鈹€ SECTIONS 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .section { padding: 100px 48px; width: 100%; box-sizing: border-box; }
 .section-sm { padding: 60px 48px; }
 .section-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 64px; }
@@ -177,7 +180,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .section-ja { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 24px; }
 
-/* ── NEWS ────────────────────────────────────── */
+/* 鈹€鈹€ NEWS 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .news-section { background: var(--white); }
 .news-list { display: flex; flex-direction: column; }
 .news-item { display: flex; align-items: baseline; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.2s; }
@@ -189,7 +192,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .news-arrow { font-size: 12px; color: var(--text-light); transition: transform 0.2s, color 0.2s; }
 .news-item:hover .news-arrow { transform: translateX(4px); color: var(--gold); }
 
-/* ── PRODUCTS GRID (homepage) ────────────────── */
+/* 鈹€鈹€ PRODUCTS GRID (homepage) 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .products-section { background: var(--off-white); }
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .product-card { position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--light); border-radius: 4px; }
@@ -203,7 +206,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .product-overlay-btn { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid var(--white); padding: 12px 28px; transition: background 0.2s; text-decoration: none; background: rgba(0,0,0,0.2); }
 .product-overlay-btn:hover { background: var(--white); color: var(--accent); }
 
-/* ── STATS ───────────────────────────────────── */
+/* 鈹€鈹€ STATS 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .stats-section { background: var(--white); padding: 80px 48px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
 .stat-item { background: var(--white); padding: 48px 40px; text-align: center; transition: transform 0.3s; }
@@ -212,7 +215,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .stat-num span { font-size: 24px; color: var(--gold); }
 .stat-label { font-size: 11px; color: var(--text-light); letter-spacing: 0.15em; }
 
-/* ── COMPANY STRIP ───────────────────────────── */
+/* 鈹€鈹€ COMPANY STRIP 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .company-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; width: 100%; }
 .company-strip-text { background: var(--accent); padding: 64px; display: flex; flex-direction: column; justify-content: center; }
 .company-strip-text .section-en { color: var(--white); }
@@ -220,15 +223,15 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .company-strip-text p { font-size: 14px; line-height: 2.2; color: rgba(255,255,255,0.7); margin: 24px 0 32px; max-width: 460px; }
 .btn-outline { display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,0.4); padding: 14px 28px; text-decoration: none; transition: background 0.2s, border-color 0.2s; width: fit-content; }
 .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
-.btn-outline::after { content: '→'; }
+.btn-outline::after { content: '鈫�'; }
 .btn-solid { display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s; width: fit-content; border: none; cursor: pointer; }
 .btn-solid:hover { background: var(--gold); }
-.btn-solid::after { content: '→'; }
+.btn-solid::after { content: '鈫�'; }
 .company-strip-img { position: relative; overflow: hidden; }
 .company-strip-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 
-/* ── PAGE HERO (inner pages) ─────────────────── */
-.page-hero { padding-top: var(--nav-h); background: var(--off-white); padding-bottom: 0; border-bottom: 1px solid var(--border); overflow: hidden; }
+/* 鈹€鈹€ PAGE HERO (inner pages) 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
+.page-hero { background: var(--off-white); padding-bottom: 0; border-bottom: 1px solid var(--border); overflow: hidden; }
 .page-hero-inner { padding: 64px 48px 48px; position: relative; }
 .page-hero-en { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 7vw, 96px); font-weight: 300; color: var(--accent); line-height: 1; opacity: 0.08; position: absolute; top: 32px; left: 32px; pointer-events: none; letter-spacing: -0.02em; }
 .page-hero-content { position: relative; z-index: 1; }
@@ -239,7 +242,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--accent); letter-spacing: -0.01em; }
 .page-subtitle { font-size: 12px; color: var(--text-light); letter-spacing: 0.15em; margin-top: 8px; }
 
-/* ── PRODUCTS PAGE ───────────────────────────── */
+/* 鈹€鈹€ PRODUCTS PAGE 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .products-full { padding: 80px 48px; background: var(--white); max-width: 1200px; margin: 0 auto; }
 .product-grid-full { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 40px; }
 .product-card-full { background: transparent; overflow: hidden; transition: transform 0.4s ease; }
@@ -251,7 +254,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .product-card-body .product-card-ja { font-size: 18px; font-weight: 500; color: var(--accent); margin-bottom: 10px; }
 .product-card-desc { font-size: 13px; line-height: 1.9; color: var(--text-mid); }
 
-/* ── ABOUT PAGE ──────────────────────────────── */
+/* 鈹€鈹€ ABOUT PAGE 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .about-section { padding: 80px 48px; background: var(--white); }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1000px; margin: 0 auto; padding: 80px 0; align-items: center; }
 .about-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
@@ -262,7 +265,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .company-table th { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-align: left; padding: 24px 0; width: 220px; vertical-align: top; }
 .company-table td { font-size: 14px; color: var(--text-dark); padding: 24px 20px; line-height: 1.8; }
 
-/* ── CONTACT PAGE ────────────────────────────── */
+/* 鈹€鈹€ CONTACT PAGE 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .contact-section { padding: 80px 48px; background: var(--white); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; }
 .contact-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--accent); margin-bottom: 20px; }
@@ -280,7 +283,7 @@ header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .form-textarea { resize: vertical; min-height: 140px; }
 .form-submit { align-self: flex-start; }
 
-/* ── FOOTER ──────────────────────────────────── */
+/* 鈹€鈹€ FOOTER 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 footer { background: var(--accent); padding: 80px 48px 40px; }
 .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
 .footer-brand .logo-text { color: var(--white); }
@@ -292,13 +295,13 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
 .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
 
-/* ── ANIMATIONS ──────────────────────────────── */
+/* 鈹€鈹€ ANIMATIONS 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* ── CART BUTTON & BADGE ─────────────────────── */
+/* 鈹€鈹€ CART BUTTON & BADGE 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 #cart-nav-btn {
   position: relative;
   background: none; border: none;
@@ -322,7 +325,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   align-items: center; justify-content: center;
 }
 
-/* ── CART DRAWER ─────────────────────────────── */
+/* 鈹€鈹€ CART DRAWER 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 #cart-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.45);
@@ -346,7 +349,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 }
 #cart-drawer.open { transform: translateX(0); }
 
-/* ── SHOP PAGE ───────────────────────────────── */
+/* 鈹€鈹€ SHOP PAGE 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .shop-wrap { padding-top: var(--nav-h); min-height: 100vh; }
 .shop-inner { max-width: 1240px; margin: 0 auto; padding: 56px 48px 80px; }
 .shop-heading { display: flex; align-items: baseline; gap: 20px; margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
@@ -376,7 +379,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 .atc-btn { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--accent); border: none; padding: 10px 16px; cursor: pointer; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
 .atc-btn:hover { background: var(--gold); }
 
-/* ── CHECKOUT PAGE ───────────────────────────── */
+/* 鈹€鈹€ CHECKOUT PAGE 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 .checkout-section { padding: 80px 48px; background: var(--white); }
 .checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: start; max-width: 1100px; margin: 0 auto; }
 .checkout-form-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--accent); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
@@ -390,7 +393,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 .summary-total span:last-child { font-family: 'Montserrat', sans-serif; color: var(--gold); }
 .stripe-note { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-light); margin-top: 16px; font-family: 'Montserrat', sans-serif; letter-spacing: 0.05em; }
 
-/* ── PC LARGE SCREEN ─────────────────────────── */
+/* 鈹€鈹€ PC LARGE SCREEN 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
 @media (min-width: 1024px) {
   header { max-width: 100%; padding: 0 calc((100vw - 1200px) / 2) !important; }
   .hero-content, .section, .stats-section { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
@@ -409,7 +412,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
 }
 
 /* ==========================================================================
-   📱 MOBILE ULTIMATE REBOOT (整个网站手机端终极美化打包，绝无括号漏洞)
+   馃摫 MOBILE ULTIMATE REBOOT (鏁翠釜缃戠珯鎵嬫満绔粓鏋佺編鍖栨墦鍖咃紝缁濇棤鎷彿婕忔礊)
    ========================================================================== */
 @media (max-width: 768px) {
   :root { --nav-h: 64px; }
@@ -448,7 +451,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .news-tag { padding: 2px 8px; font-size: 8px; }
   .news-title { font-size: 13px; line-height: 1.5; }
 
-  /* 📦 首页商品栏：手机端超丝滑磁吸横向滑轴 */
+  /* 馃摝 棣栭〉鍟嗗搧鏍忥細鎵嬫満绔秴涓濇粦纾佸惛妯悜婊戣酱 */
   .product-grid { 
     display: flex !important; 
     flex-direction: row !important; 
@@ -484,7 +487,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .product-card-ja { color: var(--white) !important; font-size: 16px !important; font-weight: 400 !important; display: block !important; }
   .product-overlay { display: none !important; } 
 
-  /* 📊 首页数据看板：轻奢无界交错排版 */
+  /* 馃搳 棣栭〉鏁版嵁鐪嬫澘锛氳交濂㈡棤鐣屼氦閿欐帓鐗� */
   .stats-section { padding: 48px 24px !important; background: #ffffff !important; }
   .stats-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 32px 20px !important; background: transparent !important; border: none !important; }
   .stat-item { background: transparent !important; padding: 0 !important; border: none !important; border-left: 2px solid var(--gold-light) !important; padding-left: 14px !important; text-align: left !important; box-shadow: none !important; transform: none !important; }
@@ -492,7 +495,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .stat-num span { font-size: 14px !important; color: var(--gold) !important; margin-left: 4px !important; font-weight: 400 !important; }
   .stat-label { font-size: 11px !important; color: var(--text-mid) !important; letter-spacing: 0.05em !important; font-weight: 400 !important; }
 
-  /* 🏢 首页 Company 区块：流线杂志型叠层设计 */
+  /* 馃彚 棣栭〉 Company 鍖哄潡锛氭祦绾挎潅蹇楀瀷鍙犲眰璁捐 */
   .company-strip { display: flex !important; flex-direction: column !important; min-height: auto !important; background: var(--accent) !important; margin: 0 !important; border-radius: 0 !important; }
   .company-strip-img { width: 100% !important; height: 240px !important; position: relative !important; order: 1 !important; }
   .company-strip-img img { position: relative !important; width: 100% !important; height: 100% !important; object-fit: cover !important; }
@@ -501,13 +504,13 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .company-strip-text p { font-size: 13.5px !important; line-height: 2.1 !important; color: rgba(255,255,255,0.75) !important; margin: 0 0 36px 0 !important; text-align: justify !important; }
   .company-strip-text .btn-outline { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; padding: 16px 0 !important; font-size: 11px !important; letter-spacing: 0.15em !important; background: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.3) !important; border-radius: 4px !important; }
 
-  /* 🏢 内页：会社概要——轻奢移动档案式排版 */
+  /* 馃彚 鍐呴〉锛氫細绀炬瑕佲€斺€旇交濂㈢Щ鍔ㄦ。妗堝紡鎺掔増 */
   .about-section { padding: 48px 24px !important; background: #ffffff !important; }
   .about-grid { display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 10px 0 !important; }
   .about-text h2 { font-size: 24px !important; line-height: 1.4 !important; padding-bottom: 16px !important; margin-bottom: 20px !important; border-bottom: 1px solid var(--gold-light) !important; }
   .about-text p { font-size: 14px !important; line-height: 2.2 !important; color: var(--text-dark) !important; text-align: justify !important; margin-bottom: 16px !important; }
 
-  /* 📋 会社概要内页的档案卡流 */
+  /* 馃搵 浼氱ぞ姒傝鍐呴〉鐨勬。妗堝崱娴� */
   .company-table { display: block !important; width: 100% !important; border-top: none !important; margin-top: 24px !important; }
   .company-table tbody, .company-table tr { display: block !important; width: 100% !important; }
   .company-table tr { background: #fcfcfc !important; border: 1px solid #f2f2f0 !important; border-radius: 6px !important; padding: 20px 20px !important; margin-bottom: 16px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important; }
@@ -516,7 +519,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .company-table td { display: block !important; width: 100% !important; font-size: 14px !important; line-height: 1.6 !important; color: var(--accent) !important; font-weight: 400 !important; padding: 0 !important; border: none !important; text-align: left !important; }
   .company-table td a { color: var(--accent) !important; text-decoration: underline !important; text-decoration-color: var(--gold-light) !important; }
 
-  /* ✉️ 内页：お問い合わせ——移动端极简高触感表单 */
+  /* 鉁夛笍 鍐呴〉锛氥亰鍟忋亜鍚堛倧銇涒€斺€旂Щ鍔ㄧ鏋佺畝楂樿Е鎰熻〃鍗� */
   .contact-section { padding: 48px 24px !important; background: #ffffff !important; }
   .contact-grid { display: flex !important; flex-direction: column !important; gap: 48px !important; }
   .contact-info h3 { font-size: 24px !important; line-height: 1.4 !important; margin-bottom: 16px !important; color: var(--accent) !important; }
@@ -534,7 +537,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold) !important; background: #ffffff !important; box-shadow: 0 0 0 3px rgba(184, 168, 130, 0.12) !important; }
   .contact-form .form-submit { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; padding: 18px 0 !important; font-size: 12px !important; font-weight: 600 !important; letter-spacing: 0.2em !important; background: var(--accent) !important; color: var(--white) !important; border-radius: 4px !important; box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important; margin-top: 8px !important; }
 
-  /* 其他基础移动端页面对齐 */
+  /* 鍏朵粬鍩虹绉诲姩绔〉闈㈠榻� */
   .footer-top { grid-template-columns: 1fr; gap: 36px; padding-bottom: 36px; }
   .footer-brand .footer-tagline { margin-top: 12px; font-size: 16px; }
   .footer-col h4 { margin-bottom: 12px; }
@@ -546,26 +549,26 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   .checkout-section { padding: 40px 20px; }
   .shop-inner { padding: 32px 20px 48px; }
   .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  #cart-drawer { width: 100vw; }/* 💳 【全新升级】手机版：ご注文手続き（结账页）——高奢绝对安全感重构 */
+  #cart-drawer { width: 100vw; }/* 馃挸 銆愬叏鏂板崌绾с€戞墜鏈虹増锛氥仈娉ㄦ枃鎵嬬稓銇嶏紙缁撹处椤碉級鈥斺€旈珮濂㈢粷瀵瑰畨鍏ㄦ劅閲嶆瀯 */
   .checkout-section { 
     padding: 32px 20px 56px 20px !important; 
     background: #ffffff !important;
   }
   .checkout-grid { 
     display: flex !important;
-    flex-direction: column !important; /* 强制垂直流，上方填信息，下方看账单 */
+    flex-direction: column !important; /* 寮哄埗鍨傜洿娴侊紝涓婃柟濉俊鎭紝涓嬫柟鐪嬭处鍗� */
     gap: 40px !important; 
   }
 
-  /* 🔒 核心增设：在结账页顶部注入绝对令人安心的 SSL 安全心智提示 */
+  /* 馃敀 鏍稿績澧炶锛氬湪缁撹处椤甸《閮ㄦ敞鍏ョ粷瀵逛护浜哄畨蹇冪殑 SSL 瀹夊叏蹇冩櫤鎻愮ず */
   .checkout-grid::before {
-    content: "🔒 SSL暗号化通信により、お客様の個人情報と決済内容は安全に保護されます。" !important;
+    content: "馃敀 SSL鏆楀彿鍖栭€氫俊銇倛銈娿€併亰瀹㈡銇€嬩汉鎯呭牨銇ㄦ焙娓堝唴瀹广伅瀹夊叏銇繚璀枫仌銈屻伨銇欍€�" !important;
     display: block !important;
     width: 100% !important;
     font-size: 11px !important;
     line-height: 1.6 !important;
-    color: var(--gold) !important; /* 核心香槟金 */
-    background: #fafaf8 !important; /* 极淡的优雅米灰底色 */
+    color: var(--gold) !important; /* 鏍稿績棣欐閲� */
+    background: #fafaf8 !important; /* 鏋佹贰鐨勪紭闆呯背鐏板簳鑹� */
     border: 1px dashed var(--gold-light) !important;
     padding: 14px 16px !important;
     border-radius: 4px !important;
@@ -574,7 +577,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     margin-bottom: -16px !important;
   }
 
-  /* 1. 结账表单输入域美化（对齐お問い合わせ的高级触感） */
+  /* 1. 缁撹处琛ㄥ崟杈撳叆鍩熺編鍖栵紙瀵归綈銇婂晱銇勫悎銈忋仜鐨勯珮绾цЕ鎰燂級 */
   .checkout-form {
     display: flex !important;
     flex-direction: column !important;
@@ -582,7 +585,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   }
   .checkout-form .form-input,
   .checkout-form .form-select {
-    font-size: 16px !important; /* 锁死黄金字号，防止手机打字缩放 */
+    font-size: 16px !important; /* 閿佹榛勯噾瀛楀彿锛岄槻姝㈡墜鏈烘墦瀛楃缉鏀� */
     padding: 16px !important;
     background: #fcfcfc !important;
     border: 1px solid var(--border) !important;
@@ -596,9 +599,9 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     box-shadow: 0 0 0 3px rgba(184, 168, 130, 0.12) !important;
   }
 
-  /* 2. 右侧“注文内容”重构为精细的“高奢账单卡” */
+  /* 2. 鍙充晶鈥滄敞鏂囧唴瀹光€濋噸鏋勪负绮剧粏鐨勨€滈珮濂㈣处鍗曞崱鈥� */
   .order-summary {
-    background: #fafafa !important; /* 优雅的无菌感微灰底色 */
+    background: #fafafa !important; /* 浼橀泤鐨勬棤鑿屾劅寰伆搴曡壊 */
     border: 1px solid #f0f0ed !important;
     border-radius: 6px !important;
     padding: 24px 20px !important;
@@ -614,7 +617,7 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     letter-spacing: 0.05em !important;
   }
 
-  /* 账单明细行对齐 */
+  /* 璐﹀崟鏄庣粏琛屽榻� */
   .summary-row {
     display: flex !important;
     justify-content: space-between !important;
@@ -633,20 +636,20 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
   }
   .summary-row.total .price {
     font-size: 20px !important;
-    color: #a41f1f !important; /* 总价采用沉稳且醒目的暗红金/微红调，提示付款金额 */
+    color: #a41f1f !important; /* 鎬讳环閲囩敤娌夌ǔ涓旈啋鐩殑鏆楃孩閲�/寰孩璋冿紝鎻愮ず浠樻閲戦 */
   }
 
-  /* 3. 终极确定按钮：化身为全面屏时代的安心重磅卡片 */
+  /* 3. 缁堟瀬纭畾鎸夐挳锛氬寲韬负鍏ㄩ潰灞忔椂浠ｇ殑瀹夊績閲嶇鍗＄墖 */
   .btn-submit-order {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
-    padding: 18px 0 !important; /* 厚实的纵向高度 */
+    padding: 18px 0 !important; /* 鍘氬疄鐨勭旱鍚戦珮搴� */
     font-size: 13px !important;
     font-weight: 600 !important;
     letter-spacing: 0.2em !important;
-    background: var(--accent) !important; /* 沉稳深黛色 */
+    background: var(--accent) !important; /* 娌夌ǔ娣遍粵鑹� */
     color: var(--white) !important;
     border: none !important;
     border-radius: 4px !important;
@@ -655,294 +658,10 @@ footer { background: var(--accent); padding: 80px 48px 40px; }
     text-transform: uppercase !important;
   }
   .btn-submit-order:active {
-    background: #000000 !important; /* 按下去时的深色反馈 */
+    background: #000000 !important; /* 鎸変笅鍘绘椂鐨勬繁鑹插弽棣� */
   }
 }
 
 @media (max-width: 480px) {
   .products-grid { grid-template-columns: 1fr; }
 }
-/* ────────────────────────────────────────────────────────
-   株式会社HINOKA - 购物主页焕新视觉系统
-   ──────────────────────────────────────────────────────── */
-
-/* 巨幕氛围区 */
-.hinoka-shop-hero {
-  position: relative;
-  width: 100%;
-  height: 45vh;
-  min-height: 320px;
-  background: #f5f2ed url('images/shop-hero-bg.jpg') center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
-}
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(42, 37, 32, 0.15); /* 极轻柔的暖咖色滤镜 */
-}
-.hero-content {
-  position: relative;
-  z-index: 2;
-  color: #ffffff;
-  padding: 0 20px;
-}
-.hero-subtitle {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  display: block;
-  margin-bottom: 12px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.hero-title {
-  font-size: 24px;
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  margin: 0;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-/* 分类传送门卡片 */
-.hinoka-category-nav-section {
-  max-width: 1200px;
-  margin: -40px auto 60px auto;
-  position: relative;
-  z-index: 10;
-  padding: 0 20px;
-}
-.category-nav-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-@media (max-width: 768px) {
-  .category-nav-grid { grid-template-columns: 1fr; }
-  .hinoka-category-nav-section { margin-top: 20px; }
-}
-.category-nav-card {
-  position: relative;
-  height: 160px;
-  background: #1a2530;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 2px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-}
-.category-nav-card .card-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.65;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.category-nav-card:hover .card-bg {
-  transform: scale(1.05);
-}
-.card-content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 30px;
-  color: #ffffff;
-}
-.card-content .en {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  opacity: 0.8;
-}
-.card-content .ja {
-  font-size: 16px;
-  font-weight: 400;
-  margin: 4px 0 12px 0;
-  letter-spacing: 0.03em;
-}
-.card-content .arrow {
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  opacity: 0;
-  transform: translateX(-5px);
-  transition: all 0.3s ease;
-}
-.category-nav-card:hover .arrow {
-  opacity: 1;
-  transform: translateX(0);
-}
-/* --- 布局优化 --- */
-.category-block-header {
-  max-width: 1200px;
-  margin: 0 auto 30px auto;
-  padding: 0 20px;
-  border-bottom: 1px solid #f0f2f4;
-  padding-bottom: 12px;
-}
-.category-block-header h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  font-weight: 300;
-  color: #1a2530;
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-
-/* --- 商品网格 (使用 .products-grid) --- */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-  padding: 40px 5%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-@media (max-width: 992px) {
-  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px 10px; }
-}
-
-/* --- 高奢卡片效果 --- */
-.hinoka-product-card {
-  background: #ffffff;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: pointer;
-}
-.hinoka-product-card:hover { transform: translateY(-5px); }
-
-.product-image-wrapper {
-  display: block;
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: #fcfaf8;
-}
-.prod-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-.hinoka-product-card:hover .prod-img { transform: scale(1.05); }
-
-/* --- 瞬间提示 (Toast) --- */
-.toast-msg {
-    position: fixed; 
-    top: 100px; 
-    right: 20px; 
-    background: #2c2520; 
-    color: #fff; 
-    padding: 15px 30px; 
-    z-index: 20000; 
-    border-radius: 4px; 
-    font-size: 14px;
-    animation: fadeOut 2.5s forwards;
-    pointer-events: none;
-}
-@keyframes fadeOut {
-    0% { opacity: 0; transform: translateY(-20px); }
-    10% { opacity: 1; transform: translateY(0); }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-}
-/* --- 商城页面专用布局样式 --- */
-
-/* Header 对齐 */
-header { 
-  height: 90px; padding: 0 5%; display: flex; align-items: center; 
-  border-bottom: 1px solid var(--border, rgba(0,0,0,0.05));
-  background: var(--white);
-}
-
-/* Logo 统一风格 */
-.logo-text { 
-  display: flex; flex-direction: column; text-decoration: none; 
-  color: var(--text-dark); cursor: pointer; line-height: 1; margin-right: 60px;
-}
-.logo-text { font-size: 26px; font-weight: 700; letter-spacing: 0.3em; }
-.logo-text span { 
-  font-size: 9px; font-weight: 300; letter-spacing: 0.4em; 
-  color: #888; margin-top: 6px; text-transform: uppercase;
-}
-
-/* 导航栏 */
-nav { display: flex; gap: 40px; align-items: center; }
-nav div { cursor: pointer; font-size: 13px; color: var(--text-dark); letter-spacing: 0.05em; }
-
-/* 购物车按钮 */
-.cart-trigger { 
-  margin-left: auto; cursor: pointer; font-size: 13px; 
-  color: var(--text-dark); border: 1px solid var(--text-dark); 
-  padding: 8px 20px; border-radius: 20px;
-}
-/* 简易提示样式 */
-.toast {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  background: #333; color: #fff; padding: 10px 20px;
-  border-radius: 5px; z-index: 99999; opacity: 0; transition: 0.5s;
-}
-.toast.show { opacity: 1; }
-.cart-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.3); z-index: 9999;
-  display: none; /* 默认隐藏 */
-}
-.cart-overlay.show { display: block; }
-.products-grid {
-  display: grid;
-  /* 平板及大屏幕：一行2个，卡片最大宽度 500px */
-  grid-template-columns: repeat(2, minmax(300px, 500px));
-  justify-content: center; 
-  gap: 80px; /* 宽大的留白是高级感的关键 */
-  max-width: 1200px;
-  margin: 0 auto 100px;
-  padding: 0 5%;
-}
-
-/* 小屏幕自动转为1列 */
-@media (max-width: 768px) {
-  .products-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-}
-/* 高级感字体设定 */
-.brand-story, .nav-links, .p-card {
-  font-family: 'Yu Mincho', '游明朝', serif; /* 衬线体，极具日本高级感 */
-  color: #2a2a2a;
-}
-.brand-story h2 {
-  letter-spacing: 0.4em; /* 增加字间距，提升呼吸感 */
-  font-weight: 300;
-}
-<style>
-  .brand-text {
-    font-family: "Yu Mincho", "游明朝", serif; /* 顶级衬线体 */
-    color: #1a1a1a;
-    line-height: 2.2;         /* 增加行高，文字不再紧凑 */
-    letter-spacing: 0.05em;   /* 增加字间距，显得更透气 */
-  }
-
-  .brand-title {
-    font-size: 18px;
-    font-weight: 300;
-    letter-spacing: 0.6em;    /* 大标题拉开字间距，极具仪式感 */
-    color: #444;
-    margin-bottom: 40px;
-    text-transform: uppercase;
-  }
-
-  .brand-desc {
-    font-size: 15px;
-    margin: 0 auto;
-    max-width: 500px;         /* 限制宽度，防止文字过长阅读疲劳 */
-  }
-</style>

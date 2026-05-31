@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>取扱商品 - 株式会社HINOKA</title>
+  <meta name="description" content="株式会社HINOKAの取扱商品一覧。ペット用品・ファッション＆アクセサリー・生活雑貨を厳選してご提供しています。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1a18'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23b8a882' font-family='serif' font-size='20' font-weight='600'>H</text></svg>">
   <link rel="stylesheet" href="style.css">
   <style>
     /* ── 隔離型商品リスト独立グリッド ── */
@@ -343,8 +345,16 @@
   <script>
     // 1. 基礎視効
     const header = document.getElementById('header');
+    let lastY = 0;
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
+      const y = window.scrollY;
+      header.classList.toggle('scrolled', y > 40);
+      if (y > lastY && y > 80) {
+        header.classList.add('nav-hidden');
+      } else {
+        header.classList.remove('nav-hidden');
+      }
+      lastY = y;
     });
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });

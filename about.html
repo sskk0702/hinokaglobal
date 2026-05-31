@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>会社概要 - 株式会社HINOKA</title>
+  <meta name="description" content="株式会社HINOKAの会社概要・経営理念。大阪市浪速区を拠点に、日中英3言語対応のグローバルEコマース・貿易ビジネスを展開しています。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1a18'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23b8a882' font-family='serif' font-size='20' font-weight='600'>H</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,6 +21,7 @@
       <a href="about.html" class="active">会社概要</a>
       <a href="contact.html" class="nav-contact">お問い合わせ</a>
     </nav>
+
   </header>
 
   <section class="page-hero">
@@ -61,7 +64,7 @@
         <tr><th>代表取締役</th><td>孫 華</td></tr>
         <tr><th>設立</th><td>2026年3月</td></tr>
         <tr><th>所在地</th><td>〒556-0014<br>大阪市浪速区大国2丁目12番3-201号</td></tr>
-        <tr><th>电话番号</th><td>携帯：080-8855-2114</td></tr>
+        <tr><th>電話番号</th><td>携帯：080-8855-2114</td></tr>
         <tr><th>メール</th><td><a href="mailto:sun_hua@hinokaglobal.com" style="color:var(--text-dark);text-decoration:none;">sun_hua@hinokaglobal.com</a></td></tr>
         <tr><th>ウェブサイト</th><td><a href="https://www.hinokaglobal.com" style="color:var(--text-dark);text-decoration:none;">www.hinokaglobal.com</a></td></tr>
         <tr><th>事業内容</th><td>ペットライフプロダクト事業<br>ファッション＆アクセサリー事業<br>ライフスタイル雑貨の輸出入・販売<br>国際貿易およびクロスボーダーEC展開<br>アパレル・ニット製品の受託製造（OEM/ODM）</td></tr>
@@ -133,8 +136,16 @@
 
   <script>
     const header = document.getElementById('header');
+    let lastY = 0;
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
+      const y = window.scrollY;
+      header.classList.toggle('scrolled', y > 40);
+      if (y > lastY && y > 80) {
+        header.classList.add('nav-hidden');
+      } else {
+        header.classList.remove('nav-hidden');
+      }
+      lastY = y;
     });
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });

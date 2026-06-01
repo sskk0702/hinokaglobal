@@ -1,4 +1,3 @@
-$ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,7 +11,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* detail panel reuse */
     .neco-main-row { display:flex; flex-direction:column; gap:40px; }
     @media (min-width:900px) { .neco-main-row { flex-direction:row; gap:64px; align-items:flex-start; } }
     .neco-gallery { flex:1.2; }
@@ -38,7 +36,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
 </head>
 <body>
 
-<!-- ====== GLOBAL HEADER ====== -->
 <header id="site-header">
   <div class="header-inner">
     <a href="index.html" class="site-logo">
@@ -66,7 +63,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
   </div>
 </header>
 
-<!-- ====== PAGE HERO ====== -->
 <div class="page-hero">
   <div class="page-hero-inner">
     <div class="page-hero-bg-en">PRODUCTS</div>
@@ -78,7 +74,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
   </div>
 </div>
 
-<!-- ====== カテゴリグリッド ====== -->
 <div class="products-content">
   <div class="biz-grid fade-in">
     <div class="biz-card" onclick="showDetail('pet')" style="cursor:pointer;">
@@ -93,7 +88,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
         <span class="biz-link">おすすめ商品を見る &nbsp;↓</span>
       </div>
     </div>
-
     <div class="biz-card" onclick="showDetail('fashion')" style="cursor:pointer;">
       <div class="biz-img-wrap">
         <img src="images/Photoroom_アパレル_162100.jpg" alt="ファッション・アクセサリー">
@@ -106,7 +100,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
         <span class="biz-link">おすすめ商品を見る &nbsp;↓</span>
       </div>
     </div>
-
     <div class="biz-card" onclick="showDetail('goods')" style="cursor:pointer;">
       <div class="biz-img-wrap">
         <img src="images/Photoroom_雑貨_162139.jpg" alt="生活雑貨">
@@ -121,8 +114,7 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
     </div>
   </div>
 
-  <!-- 商品詳細パネル -->
-  <section id="detail-section" style="display:none; margin-top:60px; padding-top:60px; border-top:1px solid var(--border);">
+  <section id="detail-section" style="display:none; margin-top:60px; padding-top:60px; border-top:1px solid #e2ddd7;">
     <div class="neco-main-row">
       <div class="neco-gallery">
         <div class="neco-main-img-wrap"><img id="neco-main-img" src="" alt="商品画像"></div>
@@ -132,7 +124,7 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
         <div class="neco-panel">
           <span id="neco-badge" class="neco-badge"></span>
           <h2 id="neco-title" class="neco-title"></h2>
-          <p><span id="neco-price" class="neco-price"></span> <span style="font-size:12px;color:var(--text-light);">(税込)</span></p>
+          <p><span id="neco-price" class="neco-price"></span> <span style="font-size:12px;color:#9a9490;">(税込)</span></p>
           <p class="neco-ship">発送元：大阪府 / 自社国内検品済</p>
           <button class="neco-btn" onclick="location.href='contact.html'">商品についてお問い合わせ</button>
         </div>
@@ -145,7 +137,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
   </section>
 </div>
 
-<!-- ====== お問い合わせCTA ====== -->
 <section class="sec-block sec-bg-light fade-in" style="text-align:center;">
   <div style="max-width:560px; margin:0 auto;">
     <p class="sec-label-en" style="font-size:32px;">Contact</p>
@@ -157,7 +148,6 @@ $ cat > /home/user/hinokaglobal/products.html << 'HTMLEOF'
   </div>
 </section>
 
-<!-- ====== GLOBAL FOOTER ====== -->
 <footer id="site-footer">
   <div class="footer-inner">
     <div class="footer-brand-col">
@@ -279,13 +269,9 @@ function showDetail(key) {
     };
     thumbsEl.appendChild(div);
   });
-  const offset = -100;
-  const y = sec.getBoundingClientRect().top + window.pageYOffset + offset;
+  const y = sec.getBoundingClientRect().top + window.pageYOffset - 100;
   window.scrollTo({ top: y, behavior: 'smooth' });
 }
 </script>
 </body>
 </html>
-HTMLEOF
-
-(Bash completed with no output)

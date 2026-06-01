@@ -1,154 +1,197 @@
+$ cat > /home/user/hinokaglobal/about.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>会社概要 - 株式会社HINOKA</title>
+  <title>会社情報 - 株式会社HINOKA</title>
   <meta name="description" content="株式会社HINOKAの会社概要・経営理念。大阪市浪速区を拠点に、日中英3言語対応のグローバルEコマース・貿易ビジネスを展開しています。">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1a18'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23b8a882' font-family='serif' font-size='20' font-weight='600'>H</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header id="header">
-    <a href="index.html" class="logo-text">
-      HINOKA
-      <span>株式会社 &middot; HINOKA Co., Ltd.</span>
+<!-- ====== GLOBAL HEADER ====== -->
+<header id="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">
+      <span class="logo-en">HINOKA</span>
+      <span class="logo-ja">株式会社 HINOKA Co., Ltd.</span>
     </a>
-    <nav class="main-nav">
-      <a href="index.html">ホーム</a>
-      <a href="shop.html">オンラインショップ</a>
-      <a href="about.html" class="active">会社概要</a>
-      <a href="contact.html" class="nav-contact">お問い合わせ</a>
+    <nav class="global-nav" id="global-nav">
+      <ul>
+        <li><a href="index.html#business">事業内容</a></li>
+        <li><a href="products.html">取扱商品</a></li>
+        <li><a href="about.html" class="active">会社情報</a></li>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener" class="nav-shop-btn">オンラインショップ</a></li>
+      </ul>
     </nav>
-  </header>
+    <div class="header-actions">
+      <a href="tel:0671669902" class="header-tel">
+        <span class="tel-label">TEL</span>
+        <span class="tel-num">06-7166-9902</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-  <section class="page-hero">
-    <div class="page-hero-inner">
-      <div class="page-hero-en">ABOUT US</div>
-      <div class="page-hero-content">
-        <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> About</div>
-        <h1 class="page-title">会社概要</h1>
-        <div class="page-subtitle">Company Profile</div>
+<!-- ====== PAGE HERO ====== -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-bg-en">ABOUT</div>
+    <div class="page-hero-content">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>会社情報</div>
+      <h1 class="page-title">会社情報</h1>
+      <p class="page-subtitle">Company Information</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 会社概要 ====== -->
+<div class="about-content">
+  <div class="about-grid fade-in">
+    <div>
+      <img src="images/公司大楼.PNG" alt="株式会社HINOKA">
+    </div>
+    <div class="about-text">
+      <h2>グローバルをつなぐ、<br>確かな信頼の絆へ</h2>
+      <p>大阪・浪速区に根ざし、国境を越えたEコマースと貿易ビジネスを展開する株式会社HINOKA。私たちは、ペット用品からファッション、生活雑貨に至るまで、現代のライフスタイルに寄り添う優れた商品を厳選してご提案しています。</p>
+      <p>日中双方のビジネス文化に精通した代表者が培った洞察力を礎に、一切の妥協を排した厳格な品質基準と確かな審美眼を徹底。作り手のこだわりと使い手の喜びが響き合うプロダクトだけを取り扱います。</p>
+      <p>「誠実・迅速・柔軟」の精神を重んじ、持続可能なパートナーシップを築きながら、日々の暮らしに新しい価値と彩りをお届けしてまいります。</p>
+    </div>
+  </div>
+
+  <div class="fade-in">
+    <div class="sec-head" style="text-align:left; margin-bottom:40px;">
+      <p class="sec-label-en" style="font-size:36px;">Overview</p>
+      <h2 class="sec-title-ja">会社概要</h2>
+      <div class="sec-rule" style="margin-left:0;"></div>
+    </div>
+    <table class="company-table">
+      <tr><th>会社名</th><td>株式会社HINOKA</td></tr>
+      <tr><th>英語表記</th><td>HINOKA Co., Ltd.</td></tr>
+      <tr><th>代表取締役</th><td>孫 華</td></tr>
+      <tr><th>設立</th><td>2026年3月</td></tr>
+      <tr><th>所在地</th><td>〒556-0014<br>大阪市浪速区大国2丁目12番3-201号</td></tr>
+      <tr><th>電話番号</th><td><a href="tel:0671669902" style="color:var(--text-dark);">06-7166-9902</a></td></tr>
+      <tr><th>メール</th><td><a href="mailto:sun_hua@hinokaglobal.com" style="color:var(--text-dark);">sun_hua@hinokaglobal.com</a></td></tr>
+      <tr><th>ウェブサイト</th><td><a href="https://www.hinokaglobal.com" style="color:var(--text-dark);">www.hinokaglobal.com</a></td></tr>
+      <tr><th>事業内容</th><td>ペットライフプロダクト事業<br>ファッション＆アクセサリー事業<br>ライフスタイル雑貨の輸出入・販売<br>国際貿易およびクロスボーダーEC展開<br>アパレル・ニット製品の受託製造（OEM/ODM）</td></tr>
+      <tr><th>対応言語</th><td>日本語・中国語・英語</td></tr>
+      <tr><th>販売チャネル</th><td>自社ウェブサイト・国内主要ECモール（出店準備中）</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ====== 経営理念 ====== -->
+<section class="philosophy-section" id="philosophy">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="sec-head fade-in">
+      <p class="sec-label-en">Philosophy</p>
+      <h2 class="sec-title-ja">経営理念</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="philosophy-grid fade-in">
+      <div class="phil-card">
+        <div class="phil-word">誠実</div>
+        <div class="phil-en">Integrity</div>
+        <p class="phil-desc">お客様との信頼関係を最優先に、商品の品質・説明・対応すべてにおいて誠実であり続けます。</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-word">品質</div>
+        <div class="phil-en">Quality</div>
+        <p class="phil-desc">自ら検品・確認した商品のみをお届けします。「これは良い」と思えるものだけを、自信を持って販売します。</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-word">共感</div>
+        <div class="phil-en">Empathy</div>
+        <p class="phil-desc">お客様の立場に立ち、本当に必要とされる商品・サービスを追求します。お客様の笑顔が私たちの原動力です。</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section about-section">
-    <div class="about-grid container fade-in">
-      <div>
-        <img src="images/公司大楼.PNG" alt="株式会社HINOKA">
-      </div>
-      <div class="about-text">
-        <h2>グローバルをつなぐ、<br>確かな信頼の絆へ</h2>
-        <p>大阪・浪速区に根ざし、国境を越えたEコマースと貿易ビジネスを展開する株式会社HINOKA。私たちは、ペット用品からファッション、生活雑貨に至るまで、現代のライフスタイルに寄り添う優れた商品を厳選してご提案しています。</p>
-        <p>日中双方のビジネス文化に精通した代表者が培った洞察力を礎に、一切の妥協を排した厳格な品質基準と、確かな審美眼を徹底。作り手のこだわりと、使い手の喜びが響き合うプロダクトだけを取り扱います。</p>
-        <p>「誠実・迅速・柔軟」の精神を重んじ、持続可能なパートナーシップを築きながら、日々の暮らしに新しい価値と彩りをお届けしてまいります。</p>
-      </div>
+<!-- ====== GLOBAL FOOTER ====== -->
+<footer id="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <a href="index.html" class="footer-logo">HINOKA</a>
+      <p class="footer-logo-sub">株式会社 HINOKA Co., Ltd.</p>
+      <p class="footer-tagline">暮らしに、ときめきを。</p>
+      <address class="footer-addr">〒556-0014 大阪市浪速区<br>大国2丁目12番3-201号</address>
+      <a href="tel:0671669902" class="footer-tel">TEL: 06-7166-9902</a>
+      <a href="mailto:sun_hua@hinokaglobal.com" class="footer-mail">sun_hua@hinokaglobal.com</a>
     </div>
-  </section>
-
-  <section class="section company-overview-section">
-    <div class="company-overview-wrapper container fade-in">
-      <div class="section-header">
-        <div>
-          <div class="section-en">Overview</div>
-          <div class="section-ja">会社概要</div>
-        </div>
-        <div class="section-line"></div>
+    <nav class="footer-nav-grid">
+      <div class="fnav-col">
+        <h4>事業内容</h4>
+        <a href="index.html#business">ペット用品事業</a>
+        <a href="index.html#business">ファッション・アクセサリー事業</a>
+        <a href="index.html#business">生活雑貨事業</a>
       </div>
-      <table class="company-table">
-        <tr><th>会社名</th><td>株式会社HINOKA</td></tr>
-        <tr><th>英語表記</th><td>HINOKA Co., Ltd.</td></tr>
-        <tr><th>代表取締役</th><td>孫 華</td></tr>
-        <tr><th>設立</th><td>2026年3月</td></tr>
-        <tr><th>所在地</th><td>〒556-0014<br>大阪市浪速区大国2丁目12番3-201号</td></tr>
-        <tr><th>電話番号</th><td>携帯：080-8855-2114</td></tr>
-        <tr><th>メール</th><td><a href="mailto:sun_hua@hinokaglobal.com" style="color:var(--text-dark);text-decoration:none;">sun_hua@hinokaglobal.com</a></td></tr>
-        <tr><th>ウェブサイト</th><td><a href="https://www.hinokaglobal.com" style="color:var(--text-dark);text-decoration:none;">www.hinokaglobal.com</a></td></tr>
-        <tr><th>事業内容</th><td>ペットライフプロダクト事業<br>ファッション＆アクセサリー事業<br>ライフスタイル雑貨の輸出入・販売<br>国際貿易およびクロスボーダーEC展開<br>アパレル・ニット製品の受託製造（OEM/ODM）</td></tr>
-        <tr><th>対応言語</th><td>日本語・中国語・英語</td></tr>
-        <tr><th>販売チャネル</th><td>自社ウェブサイト・国内主要ECモール（出店準備中）</td></tr>
-      </table>
-    </div>
-  </section>
-
-  <section class="section philosophy-section fade-in" style="background:var(--off-white); padding-top:80px; padding-bottom:80px;">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <div class="section-en">Philosophy</div>
-          <div class="section-ja">経営理念</div>
-        </div>
-        <div class="section-line"></div>
+      <div class="fnav-col">
+        <h4>取扱商品</h4>
+        <a href="products.html">ペット用品</a>
+        <a href="products.html">ファッション・アクセサリー</a>
+        <a href="products.html">生活雑貨</a>
       </div>
-      <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-        <div class="stat-item" style="text-align: left; padding: 48px 40px; background: var(--white);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--gold);margin-bottom:16px;">誠実</div>
-          <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--text-light);margin-bottom:16px;">INTEGRITY</div>
-          <p style="font-size:13px;line-height:2;color:var(--text-mid);">お客様との信頼関係を最優先に、商品の品質・説明・対応すべてにおいて誠実であり続けます。</p>
-        </div>
-        <div class="stat-item" style="text-align: left; padding: 48px 40px; background: var(--white);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--gold);margin-bottom:16px;">品質</div>
-          <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--text-light);margin-bottom:16px;">QUALITY</div>
-          <p style="font-size:13px;line-height:2;color:var(--text-mid);">自ら検品・確認した商品のみをお届けします。「これは良い」と思えるものだけを、自信を持って販売します。</p>
-        </div>
-        <div class="stat-item" style="text-align: left; padding: 48px 40px; background: var(--white);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--gold);margin-bottom:16px;">共感</div>
-          <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--text-light);margin-bottom:16px;">EMPATHY</div>
-          <p style="font-size:13px;line-height:2;color:var(--text-mid);">お客様の立場に立ち、本当に必要とされる商品・サービスを追求します。お客様の笑顔が私たちの原動力です。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo-text">HINOKA<span>株式会社 &middot; HINOKA Co., Ltd.</span></div>
-        <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
-      </div>
-      <div class="footer-col">
-        <h4>Products</h4>
-        <a href="shop.html">ペット用品</a>
-        <a href="shop.html">ファッション・アクセサリー</a>
-        <a href="shop.html">生活雑貨</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
+      <div class="fnav-col">
+        <h4>会社情報</h4>
         <a href="about.html">会社概要</a>
-        <a href="about.html">経営理念</a>
+        <a href="about.html#philosophy">経営理念</a>
         <a href="contact.html">お問い合わせ</a>
       </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <a href="mailto:sun_hua@hinokaglobal.com">sun_hua@hinokaglobal.com</a>
-        <a href="#">〒556-0014 大阪市浪速区</a>
-        <a href="tel:08088552114">080-8855-2114</a>
+      <div class="fnav-col">
+        <h4>ショップ・その他</h4>
+        <a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">オンラインショップ</a>
+        <a href="contact.html">仕入れ・ビジネスのご相談</a>
+        <a href="legal.html">サイトご利用にあたって</a>
+        <a href="privacy.html">個人情報保護方針</a>
       </div>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">
+      <a href="legal.html">サイトご利用にあたって</a>
+      <a href="privacy.html">個人情報保護方針</a>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2026 株式会社HINOKA All Rights Reserved.</div>
-    </div>
-  </footer>
+    <p class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</p>
+  </div>
+</footer>
 
-  <script>
-    const header = document.getElementById('header');
-    let lastY = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      header.classList.toggle('scrolled', y > 40);
-      if (y > lastY && y > 80) {
-        header.classList.add('nav-hidden');
-      } else {
-        header.classList.remove('nav-hidden');
-      }
-      lastY = y;
-    });
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  </script>
+<script>
+const hdr = document.getElementById('site-header');
+let lastY = 0;
+window.addEventListener('scroll', function() {
+  const y = window.scrollY;
+  hdr.classList.toggle('scrolled', y > 40);
+  hdr.classList.toggle('nav-hidden', y > lastY && y > 120);
+  lastY = y;
+}, { passive: true });
+const burger = document.getElementById('hamburger');
+const gnav   = document.getElementById('global-nav');
+burger.addEventListener('click', function(e) {
+  e.stopPropagation();
+  const open = gnav.classList.toggle('open');
+  burger.classList.toggle('open', open);
+});
+document.addEventListener('click', function(e) {
+  if (!hdr.contains(e.target)) { gnav.classList.remove('open'); burger.classList.remove('open'); }
+});
+const io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(function(el) { io.observe(el); });
+</script>
 </body>
 </html>
+HTMLEOF
+
+(Bash completed with no output)

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── VARIABLES ─────────────────────────────────── */
 :root {
@@ -84,7 +84,7 @@ address { font-style: normal; }
 .global-nav {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .global-nav ul {
   list-style: none;
@@ -121,24 +121,10 @@ address { font-style: normal; }
 .global-nav ul li a.active::after { transform: scaleX(1); }
 .global-nav ul li a.active      { color: var(--gold); font-weight: 500; }
 
-/* Shop button in nav */
-.nav-shop-item { margin-left: 8px; }
-.nav-shop-btn {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  color: var(--white) !important;
-  background: var(--accent);
-  padding: 9px 18px !important;
-  height: auto !important;
-  border-radius: 2px;
-  letter-spacing: 0.06em !important;
-  transition: background 0.2s !important;
-}
-.nav-shop-btn::after { display: none !important; }
-.nav-shop-btn:hover  { background: var(--gold) !important; color: var(--white) !important; }
+/* Shop button in nav - same style as other nav items */
+.nav-shop-item { margin-left: 0; }
 
-/* Header actions */
+/* Header actions (tel + hamburger) */
 .header-actions {
   display: flex;
   align-items: center;
@@ -285,7 +271,7 @@ address { font-style: normal; }
 }
 .hero-cta:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
 
-/* Slide UI */
+/* Slide UI (dots + progress) */
 .slide-ui {
   position: absolute;
   bottom: 28px;
@@ -736,7 +722,7 @@ address { font-style: normal; }
 }
 
 /* ═══════════════════════════════════════════════
-   INNER PAGE HERO
+   INNER PAGE HERO (about / contact / products)
 ═══════════════════════════════════════════════ */
 .page-hero {
   background: var(--off-white);
@@ -892,7 +878,9 @@ address { font-style: normal; }
   gap: 2px;
   background: var(--border);
 }
+/* (reuses .biz-card styles with slight override) */
 
+/* Neco detail section (products.html) */
 #detail-section {
   max-width: 1200px; margin: 40px auto 80px; padding: 80px 40px 40px;
   border-top: 1px solid var(--border);
@@ -916,15 +904,16 @@ address { font-style: normal; }
 }
 
 /* ═══════════════════════════════════════════════
-   MOBILE ≤ 768px
+   MOBILE  ≤ 768px
 ═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
   :root { --nav-h: 60px; }
 
-  .header-inner { padding: 0 20px; gap: 12px; }
+  .header-inner { padding: 0 20px; gap: 12px; justify-content: space-between; }
   .logo-en { font-size: 18px; }
   .logo-ja { display: none; }
 
+  /* Mobile nav dropdown */
   .global-nav {
     position: fixed;
     top: var(--nav-h);
@@ -951,28 +940,24 @@ address { font-style: normal; }
   }
   .global-nav ul li a::after { display: none; }
   .nav-shop-item { margin-left: 0; }
-  .nav-shop-btn {
-    background: var(--off-white) !important;
-    color: var(--accent) !important;
-    border-radius: 0 !important;
-    padding: 14px 24px !important;
-    width: 100% !important;
-    justify-content: flex-start;
-  }
 
   .hamburger { display: flex; }
   .header-actions { gap: 10px; }
 
+  /* Hero */
   .hero-copy { padding: 0 28px; }
   .hero-copy h1 { font-size: 44px; }
   .hero-sub { font-size: 12px; margin-bottom: 28px; }
   .hero-cta { font-size: 10px; padding: 11px 22px; }
 
+  /* Sections */
   .sec-block { padding: 64px 20px; }
   .sec-label-en { font-size: 36px; }
 
+  /* Business: stack on mobile */
   .biz-grid { grid-template-columns: 1fr; }
 
+  /* Stats band */
   .stats-band {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -984,29 +969,36 @@ address { font-style: normal; }
   .stat-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08); }
   .stat-num { font-size: 40px; }
 
+  /* Company band */
   .company-band { grid-template-columns: 1fr; }
   .cb-img { height: 260px; position: relative; }
   .cb-img img { position: absolute; }
   .cb-text { padding: 48px 24px; }
   .cb-text h2 { font-size: 26px; }
 
+  /* Footer */
   .footer-inner { padding: 60px 20px 40px; gap: 40px; }
   .footer-nav-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-bottom { padding: 20px 20px; flex-direction: column; align-items: flex-start; }
 
+  /* About */
   .about-content { padding: 0 20px 60px; }
   .about-grid { grid-template-columns: 1fr; gap: 32px; padding: 40px 0 60px; }
   .philosophy-section { padding: 64px 20px; }
   .philosophy-grid { grid-template-columns: 1fr; }
 
+  /* Contact */
   .contact-content { padding: 0 20px 60px; }
   .contact-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 0; }
 
+  /* Products */
   .products-content { padding: 40px 20px 60px; }
   .products-3col { grid-template-columns: 1fr; }
 
+  /* Page hero */
   .page-hero-inner { padding: 40px 20px 32px; }
 
+  /* News */
   .news-wrap { margin: 0; }
   .news-row { flex-wrap: wrap; gap: 8px; padding: 16px 0; }
   .news-txt { width: 100%; }
@@ -1018,9 +1010,8 @@ address { font-style: normal; }
 }
 
 /* ── LOGO IMAGE ── */
-.logo-img { height: 44px; width: auto; display: block; }
-@media (max-width: 768px) { .logo-img { height: 34px; } }
-.service-cols-2 { grid-template-columns: 1fr; }
+.logo-img { height: 48px; width: auto; display: block; object-fit: contain; }
+@media (max-width: 768px) { .logo-img { height: 36px; } }
 
 /* ── LINK CARDS BAND ── */
 .link-cards-band {
@@ -1063,9 +1054,15 @@ address { font-style: normal; }
 .ceo-inner { max-width: 800px; margin: 0 auto; }
 .ceo-body { margin-top: 52px; }
 .ceo-body p { font-size: 14px; line-height: 2.6; color: var(--text-mid); margin-bottom: 16px; letter-spacing: 0.03em; }
-.ceo-sig { display: flex; flex-direction: column; align-items: flex-end; border-top: 1px solid var(--border); padding-top: 32px; margin-top: 40px; }
-.ceo-sig-role { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; }
-.ceo-sig-name { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 400; color: var(--accent); letter-spacing: 0.08em; }
+.ceo-letter-wrap { max-width: 680px; margin: 0 auto; background: var(--white); border: 1px solid var(--border); padding: 56px 64px; position: relative; }
+.ceo-letter-wrap::before { content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border: 1px solid var(--border); pointer-events: none; }
+.ceo-letter-date { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: var(--text-light); margin-bottom: 32px; text-align: right; }
+.ceo-letter-body { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; line-height: 2.4; color: var(--text-mid); margin-bottom: 48px; }
+.ceo-letter-body p { margin-bottom: 0; }
+.ceo-sig { display: flex; flex-direction: column; align-items: flex-end; border-top: 1px solid var(--border); padding-top: 28px; }
+.ceo-sig-role { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-light); margin-bottom: 4px; }
+.ceo-sig-company { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 400; color: var(--text-mid); letter-spacing: 0.1em; margin-bottom: 12px; }
+.ceo-sig-name { font-family: 'Dancing Script', cursive; font-size: 48px; font-weight: 700; color: var(--accent); line-height: 1.2; }
 
 /* ── SERVICES OVERVIEW ── */
 .services-intro { max-width: 860px; margin: 0 auto 64px; text-align: center; }
@@ -1094,12 +1091,17 @@ address { font-style: normal; }
 .service-tagline { font-size: 17px; font-weight: 500; color: var(--accent); margin-bottom: 18px; letter-spacing: 0.02em; }
 .service-lead { font-size: 14px; line-height: 2.2; color: var(--text-mid); max-width: 620px; }
 .service-columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 48px; }
-.service-col-head { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--accent); display: block; }
+.service-col-head { display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--accent); }
+.col-head-ja { font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; }
+.col-head-en { font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
 .service-list { list-style: none; padding: 0; }
 .service-list li { font-size: 13px; color: var(--text-dark); line-height: 1.6; padding: 9px 0 9px 16px; border-bottom: 1px solid var(--off-white); position: relative; }
 .service-section.alt .service-list li { border-bottom-color: var(--border); }
 .service-list li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
 .service-cta { margin-top: 40px; }
+
+/* ── SERVICE COLS-2 (このようなお客様に + 期待される効果) ── */
+.service-cols-2 { grid-template-columns: 1fr 1fr; }
 
 /* ── WHY CHOOSE US ── */
 .why-section { padding: 96px 40px; background: var(--accent); }
@@ -1123,11 +1125,11 @@ address { font-style: normal; }
   .mv-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
+  .service-cols-2 { grid-template-columns: 1fr; }
   .link-cards-band { grid-template-columns: 1fr; }
   .link-card { padding: 40px 24px; min-height: auto; }
   .services-overview-grid { grid-template-columns: 1fr 1fr; }
   .service-columns { grid-template-columns: 1fr; gap: 32px; }
-  .service-cols-2 { grid-template-columns: 1fr 1fr; }
   .service-head { flex-direction: column; gap: 16px; }
   .service-head-num { font-size: 64px; }
   .service-ja-title { font-size: 28px; }
@@ -1142,37 +1144,4 @@ address { font-style: normal; }
 }
 @media (max-width: 480px) {
   .services-overview-grid { grid-template-columns: 1fr; }
-}
-/* ── GLOBAL NAV - 整体靠右 ── */
-.global-nav {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;   /* ← 改为 flex-end，导航整体靠右 */
-}
-
-/* Shop button in nav - 与其他导航项相同样式 */
-.nav-shop-item { margin-left: 0; }
-/* 删除了 .nav-shop-btn 的特殊黑色背景样式 */
-
-/* ── LOGO IMAGE ── */
-.logo-img { height: 48px; width: auto; display: block; object-fit: contain; }
-@media (max-width: 768px) { .logo-img { height: 36px; } }
-
-/* ── SERVICE BOTTOM (このようなお客様に + 期待される効果) ── */
-.service-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); margin-top: 48px; }
-.service-bottom-card { background: var(--white); padding: 40px 36px; }
-.service-section.alt .service-bottom-card { background: var(--light); }
-.service-bottom-head { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--accent); display: block; }
-.service-bottom-title { font-size: 14px; font-weight: 500; color: var(--accent); margin-bottom: 16px; letter-spacing: 0.03em; }
-.service-bottom-list { list-style: none; padding: 0; }
-.service-bottom-list li { font-size: 13px; color: var(--text-dark); line-height: 1.6; padding: 8px 0 8px 16px; border-bottom: 1px solid var(--off-white); position: relative; }
-.service-section.alt .service-bottom-list li { border-bottom-color: var(--border); }
-.service-bottom-list li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
-
-/* 手机版 hamburger 靠右 */
-@media (max-width: 768px) {
-  .header-inner { padding: 0 20px; gap: 12px; justify-content: space-between; }  /* ← 新增 */
-  .service-bottom { grid-template-columns: 1fr; }
-  .service-bottom-card { padding: 32px 24px; }
-  /* ... 其余 mobile 样式不变 ... */
 }

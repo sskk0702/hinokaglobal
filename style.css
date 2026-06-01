@@ -1020,6 +1020,7 @@ address { font-style: normal; }
 /* ── LOGO IMAGE ── */
 .logo-img { height: 44px; width: auto; display: block; }
 @media (max-width: 768px) { .logo-img { height: 34px; } }
+.service-cols-2 { grid-template-columns: 1fr; }
 
 /* ── LINK CARDS BAND ── */
 .link-cards-band {
@@ -1126,6 +1127,7 @@ address { font-style: normal; }
   .link-card { padding: 40px 24px; min-height: auto; }
   .services-overview-grid { grid-template-columns: 1fr 1fr; }
   .service-columns { grid-template-columns: 1fr; gap: 32px; }
+  .service-cols-2 { grid-template-columns: 1fr 1fr; }
   .service-head { flex-direction: column; gap: 16px; }
   .service-head-num { font-size: 64px; }
   .service-ja-title { font-size: 28px; }

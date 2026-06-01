@@ -13,26 +13,22 @@
 </head>
 <body>
 
+<!-- ====== GLOBAL HEADER ====== -->
 <header id="site-header">
   <div class="header-inner">
     <a href="index.html" class="site-logo">
-      <span class="logo-en">HINOKA</span>
-      <span class="logo-ja">株式会社 HINOKA Co., Ltd.</span>
+      <img src="images/logo.png" alt="HINOKA" class="logo-img">
     </a>
     <nav class="global-nav" id="global-nav">
       <ul>
         <li><a href="index.html#business">事業内容</a></li>
-        <li><a href="products.html">取扱商品</a></li>
-        <li><a href="about.html">会社情報</a></li>
-        <li><a href="contact.html" class="active">お問い合わせ</a></li>
+        <li><a href="about.html">会社概要</a></li>
+        <li><a href="services.html">サービス</a></li>
         <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener" class="nav-shop-btn">オンラインショップ</a></li>
+        <li><a href="contact.html" class="active">お問い合わせ</a></li>
       </ul>
     </nav>
     <div class="header-actions">
-      <a href="tel:0671669902" class="header-tel">
-        <span class="tel-label">TEL</span>
-        <span class="tel-num">06-7166-9902</span>
-      </a>
       <button class="hamburger" id="hamburger" aria-label="メニューを開く">
         <span></span><span></span><span></span>
       </button>
@@ -40,6 +36,7 @@
   </div>
 </header>
 
+<!-- ====== PAGE HERO ====== -->
 <div class="page-hero">
   <div class="page-hero-inner">
     <div class="page-hero-bg-en">CONTACT</div>
@@ -51,11 +48,12 @@
   </div>
 </div>
 
+<!-- ====== CONTACT FORM ====== -->
 <div class="contact-content">
   <div class="contact-grid">
     <div class="contact-info fade-in">
       <h3>お気軽に<br>ご連絡ください</h3>
-      <p>商品に関するご質問、仕入れ・ビジネスのご相談など、どのようなことでもお気軽にお問い合わせください。通常2営業日以内にご返信いたします。</p>
+      <p>調達支援・業務改善・DXソリューションに関するご相談、商品のご購入など、どのようなことでもお気軽にお問い合わせください。通常2営業日以内にご返信いたします。</p>
       <div class="contact-detail">
         <div class="contact-detail-item">
           <span class="contact-detail-label">会社名</span>
@@ -100,22 +98,21 @@
         <input type="tel" name="phone" class="form-input" placeholder="06-0000-0000">
       </div>
       <div class="form-group">
-        <label class="form-label">お問い合わせ種別 <span class="required">*</span></label>
-        <select name="type" class="form-select" required>
-          <option value="" disabled selected>選択してください</option>
-          <option>ペット用品について</option>
-          <option>ファッション・アクセサリーについて</option>
-          <option>生活雑貨について</option>
-          <option>仕入れ・ビジネスのご相談</option>
-          <option>その他</option>
-        </select>
+        <label class="form-label">お問い合わせ種別</label>
+        <div class="form-checkboxes">
+          <label class="form-check"><input type="checkbox" name="type" value="調達支援">調達支援</label>
+          <label class="form-check"><input type="checkbox" name="type" value="業務改善">業務改善</label>
+          <label class="form-check"><input type="checkbox" name="type" value="DX支援">DX支援</label>
+          <label class="form-check"><input type="checkbox" name="type" value="商品購入">商品購入</label>
+          <label class="form-check"><input type="checkbox" name="type" value="その他">その他</label>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">お問い合わせ内容 <span class="required">*</span></label>
         <textarea name="message" class="form-textarea" placeholder="ご質問・ご要望をご記入ください" required></textarea>
       </div>
       <div>
-        <button type="submit" id="submit-btn" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;color:#ffffff;background:#1a1a18;border:none;padding:14px 48px;cursor:pointer;transition:background 0.2s;letter-spacing:0.08em;">送信する</button>
+        <button type="submit" id="submit-btn" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;color:var(--white);background:var(--accent);border:none;padding:14px 48px;cursor:pointer;transition:background 0.2s;letter-spacing:0.08em;">送信する</button>
       </div>
       <div id="form-success" style="display:none;padding:16px;background:#eaf3de;color:#27500a;font-size:13px;line-height:1.7;border-left:3px solid #3ecf8e;margin-top:16px;">
         お問い合わせを受け付けました。2営業日以内にご返信いたします。
@@ -127,48 +124,50 @@
   </div>
 </div>
 
+<!-- ====== GLOBAL FOOTER ====== -->
 <footer id="site-footer">
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a href="index.html" class="footer-logo">HINOKA</a>
       <p class="footer-logo-sub">株式会社 HINOKA Co., Ltd.</p>
-      <p class="footer-tagline">暮らしに、ときめきを。</p>
-      <address class="footer-addr">〒556-0014 大阪市浪速区<br>大国2丁目12番3-201号</address>
+      <p class="footer-tagline">Bridging Insight and Action.<br>知見を、成果へ</p>
+      <address class="footer-addr">〒556-0014 大阪市浪速区<br>大国2丁目12番3</address>
       <a href="tel:0671669902" class="footer-tel">TEL: 06-7166-9902</a>
       <a href="mailto:sun_hua@hinokaglobal.com" class="footer-mail">sun_hua@hinokaglobal.com</a>
     </div>
     <nav class="footer-nav-grid">
       <div class="fnav-col">
         <h4>事業内容</h4>
-        <a href="index.html#business">ペット用品事業</a>
-        <a href="index.html#business">ファッション・アクセサリー事業</a>
-        <a href="index.html#business">生活雑貨事業</a>
+        <a href="services.html#procurement">調達支援</a>
+        <a href="services.html#improvement">業務改善</a>
+        <a href="services.html#dx">DXソリューション</a>
       </div>
       <div class="fnav-col">
-        <h4>取扱商品</h4>
-        <a href="products.html">ペット用品</a>
-        <a href="products.html">ファッション・アクセサリー</a>
-        <a href="products.html">生活雑貨</a>
+        <h4>サービス</h4>
+        <a href="services.html#research">市場調査</a>
+        <a href="services.html#translation">通訳・翻訳</a>
+        <a href="services.html">サービス一覧</a>
       </div>
       <div class="fnav-col">
         <h4>会社情報</h4>
         <a href="about.html">会社概要</a>
         <a href="about.html#philosophy">経営理念</a>
+        <a href="about.html#ceo">代表メッセージ</a>
         <a href="contact.html">お問い合わせ</a>
       </div>
       <div class="fnav-col">
-        <h4>ショップ・その他</h4>
+        <h4>その他</h4>
         <a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">オンラインショップ</a>
-        <a href="contact.html">仕入れ・ビジネスのご相談</a>
+        <a href="contact.html">ビジネスのご相談</a>
         <a href="legal.html">サイトご利用にあたって</a>
-        <a href="privacy.html">個人情報保護方針</a>
+        <a href="return-policy.html">Return Policy</a>
       </div>
     </nav>
   </div>
   <div class="footer-bottom">
     <div class="footer-legal">
       <a href="legal.html">サイトご利用にあたって</a>
-      <a href="privacy.html">個人情報保護方針</a>
+      <a href="return-policy.html">Return Policy</a>
     </div>
     <p class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</p>
   </div>
@@ -198,6 +197,7 @@ const io = new IntersectionObserver(function(entries) {
 }, { threshold: 0.08 });
 document.querySelectorAll('.fade-in').forEach(function(el) { io.observe(el); });
 
+// Form submit
 const form = document.getElementById('contact-form');
 form.addEventListener('submit', function(e) {
   e.preventDefault();

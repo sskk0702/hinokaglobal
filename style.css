@@ -1141,3 +1141,36 @@ address { font-style: normal; }
 @media (max-width: 480px) {
   .services-overview-grid { grid-template-columns: 1fr; }
 }
+/* ── GLOBAL NAV - 整体靠右 ── */
+.global-nav {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;   /* ← 改为 flex-end，导航整体靠右 */
+}
+
+/* Shop button in nav - 与其他导航项相同样式 */
+.nav-shop-item { margin-left: 0; }
+/* 删除了 .nav-shop-btn 的特殊黑色背景样式 */
+
+/* ── LOGO IMAGE ── */
+.logo-img { height: 48px; width: auto; display: block; object-fit: contain; }
+@media (max-width: 768px) { .logo-img { height: 36px; } }
+
+/* ── SERVICE BOTTOM (このようなお客様に + 期待される効果) ── */
+.service-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); margin-top: 48px; }
+.service-bottom-card { background: var(--white); padding: 40px 36px; }
+.service-section.alt .service-bottom-card { background: var(--light); }
+.service-bottom-head { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--accent); display: block; }
+.service-bottom-title { font-size: 14px; font-weight: 500; color: var(--accent); margin-bottom: 16px; letter-spacing: 0.03em; }
+.service-bottom-list { list-style: none; padding: 0; }
+.service-bottom-list li { font-size: 13px; color: var(--text-dark); line-height: 1.6; padding: 8px 0 8px 16px; border-bottom: 1px solid var(--off-white); position: relative; }
+.service-section.alt .service-bottom-list li { border-bottom-color: var(--border); }
+.service-bottom-list li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
+
+/* 手机版 hamburger 靠右 */
+@media (max-width: 768px) {
+  .header-inner { padding: 0 20px; gap: 12px; justify-content: space-between; }  /* ← 新增 */
+  .service-bottom { grid-template-columns: 1fr; }
+  .service-bottom-card { padding: 32px 24px; }
+  /* ... 其余 mobile 样式不变 ... */
+}

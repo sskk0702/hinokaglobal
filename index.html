@@ -1,3 +1,4 @@
+$ cat > /home/user/hinokaglobal/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -6,192 +7,306 @@
   <title>株式会社HINOKA | ペット用品・ファッション・生活雑貨</title>
   <meta name="description" content="大阪・浪速区を拠点に、ペット用品・ファッション・生活雑貨をグローバルネットワークで厳選してお届けする株式会社HINOKAの公式サイトです。">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1a18'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23b8a882' font-family='serif' font-size='20' font-weight='600'>H</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header id="header">
-    <a href="index.html" class="logo-text">
-      HINOKA
-      <span>株式会社 · HINOKA Co., Ltd.</span>
+<!-- ====== GLOBAL HEADER ====== -->
+<header id="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">
+      <span class="logo-en">HINOKA</span>
+      <span class="logo-ja">株式会社 HINOKA Co., Ltd.</span>
     </a>
-    <nav class="main-nav">
-      <a href="index.html" class="active">ホーム</a>
-      <a href="shop.html">オンラインショップ</a>
-      <a href="about.html">会社概要</a>
-      <a href="contact.html" class="nav-contact">お問い合わせ</a>
+
+    <nav class="global-nav" id="global-nav">
+      <ul>
+        <li><a href="#business">事業内容</a></li>
+        <li><a href="products.html">取扱商品</a></li>
+        <li><a href="about.html">会社情報</a></li>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener" class="nav-shop-btn">オンラインショップ</a></li>
+      </ul>
     </nav>
-  </header>
 
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-pattern"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Osaka, Naniwa · Est. 2026</div>
-      <h1>暮らしに、<br><em>ときめきを。</em></h1>
-      <p>大阪・浪速区を拠点に、ペット用品・ファッション・生活雑貨を厳選してお届けします。グローバルのネットワークを活かし、品質にこだわった商品を、手の届く価格でご提案します。</p>
-      <a href="shop.html" class="hero-cta">今すぐ購入する</a>
-    </div>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      Scroll
-    </div>
-  </section>
-
-  <section class="section news-section fade-in">
-    <div class="section-header">
-      <div>
-        <div class="section-en">News</div>
-        <div class="section-ja">お知らせ</div>
-      </div>
-      <div class="section-line"></div>
-    </div>
-    <div class="news-list">
-      <a href="javascript:void(0)" class="news-item">
-        <span class="news-date">2026.05.01</span>
-        <span class="news-tag">お知らせ</span>
-        <span class="news-title">株式会社HINOKAのウェブサイトを公開しました</span>
-        <span class="news-arrow">→</span>
+    <div class="header-actions">
+      <a href="tel:0671669902" class="header-tel">
+        <span class="tel-label">TEL</span>
+        <span class="tel-num">06-7166-9902</span>
       </a>
-      <a href="javascript:void(0)" class="news-item">
-        <span class="news-date">2026.04.15</span>
-        <span class="news-tag">新商品</span>
-        <span class="news-title">ペット用品カテゴリの取り扱いを開始いたしました</span>
-        <span class="news-arrow">→</span>
-      </a>
-      <a href="javascript:void(0)" class="news-item">
-        <span class="news-date">2026.03.01</span>
-        <span class="news-tag">新商品</span>
-        <span class="news-title">ファッション・アクセサリー・生活雑貨の販売を開始しました</span>
-        <span class="news-arrow">→</span>
-      </a>
-    </div>
-  </section>
-
-  <section class="section products-section fade-in">
-    <div class="section-header">
-      <div>
-        <div class="section-en">Products</div>
-        <div class="section-ja">取扱商品</div>
-      </div>
-      <div class="section-line"></div>
-    </div>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="images/IMG_5113ペット.PNG" alt="ペット用品">
-        <div class="product-card-label">
-          <div class="product-card-en">Pet Supplies</div>
-          <div class="product-card-ja">ペット用品</div>
-        </div>
-        <div class="product-overlay">
-          <a href="products.html" class="product-overlay-btn">詳しく見る</a>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="images/Photoroom_アパレル_162100.jpg" alt="ファッション・アクセサリー">
-        <div class="product-card-label">
-          <div class="product-card-en">Fashion &amp; Accessories</div>
-          <div class="product-card-ja">ファッション・アクセサリー</div>
-        </div>
-        <div class="product-overlay">
-          <a href="products.html" class="product-overlay-btn">詳しく見る</a>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="images/Photoroom_雑貨_162139.jpg" alt="生活雑貨">
-        <div class="product-card-label">
-          <div class="product-card-en">Daily Goods</div>
-          <div class="product-card-ja">生活雑貨</div>
-        </div>
-        <div class="product-overlay">
-          <a href="products.html" class="product-overlay-btn">詳しく見る</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="stats-section fade-in">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-num">5<span>年+</span></div>
-        <div class="stat-label">日本市場経験</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">3<span>カテゴリ</span></div>
-        <div class="stat-label">厳選取扱商品</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">2<span>日</span></div>
-        <div class="stat-label">お問い合わせ返信</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">3<span>言語</span></div>
-        <div class="stat-label">日・中・英 対応</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="company-strip fade-in">
-    <div class="company-strip-text">
-      <div>
-        <div class="section-en">Company</div>
-        <div class="section-ja">会社概要</div>
-      </div>
-      <p>株式会社HINOKAは、大阪・浪速区を拠点に、国境を越えたグローバルEコマースおよび貿易ビジネスを展開する企業です。世界各国に広がる強固なサプライチェーンと市場への深い洞察力を礎に、言語や文化の壁を越えた高い信頼性を構築。徹底した品質管理と確かな审美眼のもと、お客様の日常を豊かに彩る本物のクオリティだけを厳選して世界中へお届けしています。</p>
-      <a href="about.html" class="btn-outline">会社概要を見る</a>
-    </div>
-    <div class="company-strip-img">
-      <img src="images/20260522041113HINOKA.PNG" alt="株式会社HINOKA">
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+</header>
 
-  <footer>
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo-text">HINOKA<span>株式会社 · HINOKA Co., Ltd.</span></div>
-        <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
+<!-- ====== HERO SLIDESHOW ====== -->
+<section class="hero-slider" id="home">
+  <div class="slides-wrap">
+    <div class="slide active" style="background-image:url('images/20260522041113HINOKA.PNG')"></div>
+    <div class="slide" style="background-image:url('images/IMG_5113ペット.PNG')"></div>
+    <div class="slide" style="background-image:url('images/Photoroom_アパレル_162100.jpg')"></div>
+    <div class="slide" style="background-image:url('images/Photoroom_雑貨_162139.jpg')"></div>
+    <div class="slide" style="background-image:url('images/公司大楼.PNG')"></div>
+  </div>
+  <div class="hero-overlay">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">Osaka, Naniwa &nbsp;·&nbsp; Est. 2026</p>
+      <h1>暮らしに、<br><em>ときめきを。</em></h1>
+      <p class="hero-sub">ペット用品・ファッション・生活雑貨を厳選してお届けします</p>
+      <a href="#business" class="hero-cta">事業内容を見る</a>
+    </div>
+  </div>
+  <div class="slide-ui">
+    <div class="slide-dots" id="slide-dots"></div>
+    <div class="slide-progress-wrap"><div class="slide-bar" id="slide-bar"></div></div>
+  </div>
+</section>
+
+<!-- ====== 事業内容 ====== -->
+<section class="sec-block" id="business">
+  <div class="sec-head fade-in">
+    <p class="sec-label-en">Business</p>
+    <h2 class="sec-title-ja">事業内容</h2>
+    <div class="sec-rule"></div>
+  </div>
+
+  <div class="biz-grid fade-in">
+    <a href="products.html" class="biz-card">
+      <div class="biz-img-wrap">
+        <img src="images/IMG_5113ペット.PNG" alt="ペット用品">
+        <span class="biz-num">01</span>
       </div>
-      <div class="footer-col">
-        <h4>Products</h4>
+      <div class="biz-body">
+        <p class="biz-en">Pet Supplies</p>
+        <h3 class="biz-ja">ペット用品</h3>
+        <p class="biz-desc">猫・犬向けのおもちゃ、ベッド、爪とぎ、お洋服など日常ペット用品を幅広く取り扱っています。自ら検品した商品のみを厳選し、大切な家族に安心してお使いいただける商品をお届けします。</p>
+        <span class="biz-link">詳しく見る &nbsp;→</span>
+      </div>
+    </a>
+
+    <a href="products.html" class="biz-card">
+      <div class="biz-img-wrap">
+        <img src="images/Photoroom_アパレル_162100.jpg" alt="ファッション・アクセサリー">
+        <span class="biz-num">02</span>
+      </div>
+      <div class="biz-body">
+        <p class="biz-en">Fashion &amp; Accessories</p>
+        <h3 class="biz-ja">ファッション・アクセサリー</h3>
+        <p class="biz-desc">トレンド感のあるアクセサリー、ヘアアクセ、カジュアルウェアを取り揃えています。リーズナブルな価格で気軽にファッションを楽しんでいただけるアイテムをセレクトしています。</p>
+        <span class="biz-link">詳しく見る &nbsp;→</span>
+      </div>
+    </a>
+
+    <a href="products.html" class="biz-card">
+      <div class="biz-img-wrap">
+        <img src="images/Photoroom_雑貨_162139.jpg" alt="生活雑貨">
+        <span class="biz-num">03</span>
+      </div>
+      <div class="biz-body">
+        <p class="biz-en">Daily Goods</p>
+        <h3 class="biz-ja">生活雑貨</h3>
+        <p class="biz-desc">収納グッズ、キッチン小物、インテリア雑貨など毎日の暮らしをちょっと便利・おしゃれにするアイテムをセレクト。「使いやすい・かわいい・お手頃」の三拍子揃った商品をお届けします。</p>
+        <span class="biz-link">詳しく見る &nbsp;→</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ====== お知らせ ====== -->
+<section class="sec-block sec-bg-light" id="news">
+  <div class="sec-head fade-in">
+    <p class="sec-label-en">News</p>
+    <h2 class="sec-title-ja">お知らせ</h2>
+    <div class="sec-rule"></div>
+  </div>
+
+  <div class="news-wrap fade-in">
+    <div class="news-row">
+      <time class="news-date">2026.05.01</time>
+      <span class="news-tag tag-info">お知らせ</span>
+      <p class="news-txt">株式会社HINOKAのウェブサイトを公開しました</p>
+    </div>
+    <div class="news-row">
+      <time class="news-date">2026.04.15</time>
+      <span class="news-tag tag-new">新商品</span>
+      <p class="news-txt">ペット用品カテゴリの取り扱いを開始いたしました</p>
+    </div>
+    <div class="news-row">
+      <time class="news-date">2026.03.01</time>
+      <span class="news-tag tag-new">新商品</span>
+      <p class="news-txt">ファッション・アクセサリー・生活雑貨の販売を開始しました</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 数字ハイライト ====== -->
+<div class="stats-band fade-in">
+  <div class="stat-item">
+    <div class="stat-num">5<span>年+</span></div>
+    <div class="stat-lbl">日本市場経験</div>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <div class="stat-num">3<span>カテゴリ</span></div>
+    <div class="stat-lbl">厳選取扱商品</div>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <div class="stat-num">2<span>日</span></div>
+    <div class="stat-lbl">お問い合わせ返信</div>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <div class="stat-num">3<span>言語</span></div>
+    <div class="stat-lbl">日・中・英 対応</div>
+  </div>
+</div>
+
+<!-- ====== 会社紹介バンド ====== -->
+<section class="company-band fade-in">
+  <div class="cb-img">
+    <img src="images/20260522041113HINOKA.PNG" alt="株式会社HINOKA">
+  </div>
+  <div class="cb-text">
+    <p class="sec-label-en-inv">Company</p>
+    <h2>株式会社HINOKAについて</h2>
+    <p>大阪・浪速区を拠点に、国境を越えたグローバルEコマースおよび貿易ビジネスを展開する企業です。世界各国に広がる強固なサプライチェーンと市場への深い洞察力を礎に、言語や文化の壁を越えた高い信頼性を構築しています。</p>
+    <a href="about.html" class="btn-ghost">会社情報を見る →</a>
+  </div>
+</section>
+
+<!-- ====== GLOBAL FOOTER ====== -->
+<footer id="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <a href="index.html" class="footer-logo">HINOKA</a>
+      <p class="footer-logo-sub">株式会社 HINOKA Co., Ltd.</p>
+      <p class="footer-tagline">暮らしに、ときめきを。</p>
+      <address class="footer-addr">〒556-0014 大阪市浪速区<br>大国2丁目12番3-201号</address>
+      <a href="tel:0671669902" class="footer-tel">TEL: 06-7166-9902</a>
+      <a href="mailto:sun_hua@hinokaglobal.com" class="footer-mail">sun_hua@hinokaglobal.com</a>
+    </div>
+
+    <nav class="footer-nav-grid">
+      <div class="fnav-col">
+        <h4>事業内容</h4>
+        <a href="index.html#business">ペット用品事業</a>
+        <a href="index.html#business">ファッション・アクセサリー事業</a>
+        <a href="index.html#business">生活雑貨事業</a>
+      </div>
+      <div class="fnav-col">
+        <h4>取扱商品</h4>
         <a href="products.html">ペット用品</a>
         <a href="products.html">ファッション・アクセサリー</a>
         <a href="products.html">生活雑貨</a>
       </div>
-      <div class="footer-col">
-        <h4>Company</h4>
+      <div class="fnav-col">
+        <h4>会社情報</h4>
         <a href="about.html">会社概要</a>
-        <a href="about.html">経営理念</a>
+        <a href="about.html#philosophy">経営理念</a>
         <a href="contact.html">お問い合わせ</a>
       </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <a href="mailto:sun_hua@hinokaglobal.com">sun_hua@hinokaglobal.com</a>
-        <a href="#">〒556-0014 大阪市浪速区</a>
-        <a href="tel:08088552114">080-8855-2114</a>
+      <div class="fnav-col">
+        <h4>ショップ・その他</h4>
+        <a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">オンラインショップ</a>
+        <a href="contact.html">仕入れ・ビジネスのご相談</a>
+        <a href="legal.html">サイトご利用にあたって</a>
+        <a href="privacy.html">個人情報保護方針</a>
       </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</div>
-    </div>
-  </footer>
+    </nav>
+  </div>
 
-  <script>
-    const header = document.getElementById('header');
-    let lastY = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      header.classList.toggle('scrolled', y > 40);
-      if (y > lastY && y > 80) {
-        header.classList.add('nav-hidden');
-      } else {
-        header.classList.remove('nav-hidden');
-      }
-      lastY = y;
+  <div class="footer-bottom">
+    <div class="footer-legal">
+      <a href="legal.html">サイトご利用にあたって</a>
+      <a href="privacy.html">個人情報保護方針</a>
+    </div>
+    <p class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script>
+/* ── SLIDESHOW ── */
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const dotsWrap = document.getElementById('slide-dots');
+  const bar = document.getElementById('slide-bar');
+  let cur = 0, autoTimer;
+
+  slides.forEach(function(_, i) {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.setAttribute('aria-label', 'スライド ' + (i + 1));
+    btn.addEventListener('click', function() { goTo(i); });
+    dotsWrap.appendChild(btn);
+  });
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dotsWrap.children[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dotsWrap.children[cur].classList.add('active');
+    restartBar();
+    clearInterval(autoTimer);
+    autoTimer = setInterval(function() { goTo(cur + 1); }, 5000);
+  }
+
+  function restartBar() {
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        bar.style.transition = 'width 5s linear';
+        bar.style.width = '100%';
+      });
     });
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  </script>
+  }
+
+  restartBar();
+  autoTimer = setInterval(function() { goTo(cur + 1); }, 5000);
+})();
+
+/* ── HEADER SCROLL ── */
+const hdr = document.getElementById('site-header');
+let lastY = 0;
+window.addEventListener('scroll', function() {
+  const y = window.scrollY;
+  hdr.classList.toggle('scrolled', y > 40);
+  hdr.classList.toggle('nav-hidden', y > lastY && y > 120);
+  lastY = y;
+}, { passive: true });
+
+/* ── HAMBURGER ── */
+const burger = document.getElementById('hamburger');
+const gnav   = document.getElementById('global-nav');
+burger.addEventListener('click', function(e) {
+  e.stopPropagation();
+  const open = gnav.classList.toggle('open');
+  burger.classList.toggle('open', open);
+});
+document.addEventListener('click', function(e) {
+  if (!hdr.contains(e.target)) {
+    gnav.classList.remove('open');
+    burger.classList.remove('open');
+  }
+});
+
+/* ── FADE IN ── */
+const io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(function(el) { io.observe(el); });
+</script>
 </body>
 </html>
+HTMLEOF
+
+(Bash completed with no output)

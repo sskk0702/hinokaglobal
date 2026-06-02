@@ -1125,7 +1125,9 @@ address { font-style: normal; }
 .why-section { padding: 96px 40px; background: var(--accent); }
 .why-inner { max-width: 1280px; margin: 0 auto; }
 .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.08); margin-top: 64px; }
-.why-card { background: var(--accent); padding: 48px 36px; }
+.why-card { background: rgba(20,20,18,0.72);
+backdrop-filter: blur(18px);
+-webkit-backdrop-filter: blur(18px); padding: 48px 36px; }
 .why-num { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 20px; }
 .why-title { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; line-height: 1.5; }
 .why-desc { font-size: 12px; line-height: 2; color: rgba(255,255,255,0.55); }

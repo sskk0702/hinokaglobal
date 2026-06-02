@@ -42,7 +42,7 @@ address { font-style: normal; }
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  z-index: 1000;
+  z-index: 1002;
   transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
 }
 #site-header.scrolled  { box-shadow: 0 2px 24px rgba(0,0,0,0.07); }
@@ -913,34 +913,52 @@ address { font-style: normal; }
   .logo-en { font-size: 18px; }
   .logo-ja { display: none; }
 
-  /* Mobile nav dropdown */
+    /* Mobile nav — right slide drawer */
   .global-nav {
     position: fixed;
-    top: var(--nav-h);
-    left: 0; right: 0;
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-    z-index: 999;
+    top: 0; right: 0; bottom: 0;
+    left: auto;
+    width: 76vw;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--accent);
+    transform: translateX(100%);
+    transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+    z-index: 1001;
+    overflow-y: auto;
+    max-height: none;
+    border-bottom: none;
+    padding-top: 80px;
   }
-  .global-nav.open { max-height: 500px; }
+  .global-nav.open { transform: translateX(0); max-height: none; }
   .global-nav ul {
     flex-direction: column;
-    padding: 8px 0 16px;
+    padding: 0 0 40px;
   }
   .global-nav ul li { width: 100%; }
   .global-nav ul li a {
     height: auto;
-    padding: 14px 24px;
+    padding: 17px 32px;
     font-size: 14px;
-    border-bottom: 1px solid var(--off-white);
+    color: rgba(255,255,255,0.78);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
     justify-content: flex-start;
   }
+  .global-nav ul li a:hover,
+  .global-nav ul li a.active { color: var(--gold); }
   .global-nav ul li a::after { display: none; }
   .nav-shop-item { margin-left: 0; }
 
+  /* Overlay */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.52);
+    z-index: 1000;
+    cursor: pointer;
+  }
+  .nav-overlay.open { display: block; }
   .hamburger { display: flex; }
   .header-actions { gap: 10px; }
 

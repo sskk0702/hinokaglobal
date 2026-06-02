@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>取扱商品 - 株式会社HINOKA</title>
+  <meta name="description" content="株式会社HINOKAの取扱商品一覧。ペット用品・ファッション＆アクセサリー・生活雑貨を厳選してご提供しています。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1a18'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23b8a882' font-family='serif' font-size='20' font-weight='600'>H</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── 隔離型商品リスト独立グリッド ── */
+    .hinoka-products-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    
+    .hinoka-isolated-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    @media (min-width: 1024px) {
+      .hinoka-isolated-grid {
+        grid-template-columns: repeat(3, 1fr) !important; /* PC端完美3列 */
+        gap: 32px;
+      }
+    }
+
+    /* 商品カードのホバーエフェクト微調整 */
+    .product-card-full {
+      cursor: pointer;
+      background: var(--white);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .product-card-full img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    .product-card-body {
+      position: relative;
+      padding-top: 20px;
+    }
+    .product-card-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .product-card-ja {
+      font-size: 11px;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .product-card-desc {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-mid);
+      text-align: justify;
+      margin-bottom: 16px;
+    }
+    .product-card-full:hover {
+      transform: translateY(-8px);
+    }
+    .view-more-hint {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--hinoka-gold); 
+      font-weight: 500;
+      border-bottom: 1px solid var(--hinoka-gold);
+      padding-bottom: 2px;
+    }
+
+    /* ── 🛟 商品詳細エリア独立スタイル ── */
+    #detail-section {
+      max-width: 1200px;
+      margin: 40px auto 80px;
+      padding: 80px 24px 40px;
+      border-top: 1px solid var(--border);
+    }
+    .neco-main-row {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    @media (min-width: 1024px) {
+      .neco-main-row {
+        flex-direction: row !important;
+        gap: 64px;
+        align-items: flex-start;
+      }
+    }
+    
+    .neco-gallery-col {
+      flex: 1.2;
+      width: 100%;
+    }
+    .neco-main-image-wrap {
+      background-color: var(--off-white);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .neco-main-image-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .neco-thumb-list {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .neco-thumb-item {
+      width: 70px;
+      height: 70px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .neco-thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .neco-thumb-item.active {
+      border-color: var(--hinoka-gold);
+      border-width: 2px;
+    }
+
+    /* 右側注文パネルの吸着固定 */
+    .neco-order-col {
+      width: 100%;
+    }
+    @media (min-width: 1024px) {
+      .neco-order-col {
+        width: 380px !important;
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        top: 120px !important; /* 80pxナビ欄 + 40px余白でエレガントに固定 */
+      }
+    }
+    
+    .neco-order-panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .neco-badge {
+      background: var(--text-dark);
+      color: var(--white);
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 400;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+    .neco-title {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--accent);
+      margin: 0 0 16px 0;
+      line-height: 1.4;
+    }
+    .neco-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: var(--accent);
+    }
+    .neco-btn-cart {
+      width: 100%;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 16px;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: background 0.2s;
+    }
+    .neco-btn-cart:hover {
+      background: var(--hinoka-gold);
+    }
+
+    /* 商品仕様・詳細エリア */
+    .neco-description-row {
+      margin-top: 60px;
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
+    }
+    .neco-detail-images-grid img {
+      width: 100%;
+      max-width: 800px;
+      margin: 24px auto;
+      display: block;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <a href="index.html" class="logo-text">
+      HINOKA
+      <span>株式会社 &middot; HINOKA Co., Ltd.</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">ホーム</a>
+      <a href="shop.html" class="active">オンラインショップ</a>
+      <a href="about.html">会社概要</a>
+      <a href="contact.html" class="nav-contact">お問い合わせ</a>
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-en">Products</div>
+      <div class="page-hero-content">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a><span>/</span>取扱商品
+        </div>
+        <h1 class="page-title">取扱商品</h1>
+        <div class="page-subtitle">Our Products</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hinoka-products-section">
+    <div class="hinoka-isolated-grid">
+
+      <div class="product-card-full fade-in" onclick="selectCategory('pet')">
+        <img src="images/IMG_5113ペット.PNG" alt="ペット用品">
+        <div class="product-card-body">
+          <div class="product-card-en">Pet Supplies</div>
+          <div class="product-card-ja">ペット用品</div>
+          <p class="product-card-desc">猫・犬向けのおもちゃ、ベッド、爪とぎ、お洋服など、日常使いのペット用品を幅広く取り扱っています。自ら検品した商品のみを厳選し、大切な家族の一員であるペットに安心してお使いいただける商品をご提供します。</p>
+          <span class="view-more-hint">おすすめ商品を見る ↓</span>
+        </div>
+      </div>
+
+      <div class="product-card-full fade-in" onclick="selectCategory('fashion')">
+        <img src="images/Photoroom_アパレル_162100.jpg" alt="ファッション・アクセサリー">
+        <div class="product-card-body">
+          <div class="product-card-en">Fashion &amp; Accessories</div>
+          <div class="product-card-ja">ファッション・アクセサリー</div>
+          <p class="product-card-desc">トレンド感のあるアクセサリー、ヘアアクセ、カジュアルウェアを取り揃えています。毎日のコーディネートに取り入れやすく、リーズナブルな価格で気軽にファッションを楽しんでいただけるアイテムをセレクトしています。</p>
+          <span class="view-more-hint">おすすめ商品を見る ↓</span>
+        </div>
+      </div>
+
+      <div class="product-card-full fade-in" onclick="selectCategory('goods')">
+        <img src="images/Photoroom_雑貨_162139.jpg" alt="生活雑貨">
+        <div class="product-card-body">
+          <div class="product-card-en">Daily Goods</div>
+          <div class="product-card-ja">生活雑貨</div>
+          <p class="product-card-desc">収納グッズ、キッチン小物、インテリア雑貨など、毎日の暮らしをちょっと便利・おしゃれにするアイテムをセレクト。「使いやすい・かわいい・お手頃」の三拍子が揃った商品だけをお届けします。</p>
+          <span class="view-more-hint">おすすめ商品を見る ↓</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="detail-section" style="display: none;">
+    <div class="neco-main-row">
+      <div class="neco-gallery-col">
+        <div class="neco-main-image-wrap">
+          <img id="neco-main-img" src="" alt="商品画像">
+        </div>
+        <div id="neco-thumb-list" class="neco-thumb-list"></div>
+      </div>
+      <div class="neco-order-col">
+        <div class="neco-order-panel">
+          <span id="neco-badge" class="neco-badge">厳選商品</span>
+          <h2 id="neco-title" class="neco-title"></h2>
+          <p><span id="neco-price" class="neco-price"></span> <span style="font-size:13px;color:var(--text-light);"> (税込)</span></p>
+          <p style="font-size:13px; color:var(--text-mid); background:var(--off-white); padding:12px; border:1px solid var(--border); margin-top:15px;">
+            発送元：大阪府 / 自社国内検品済
+          </p>
+          <button class="neco-btn-cart" onclick="location.href='contact.html'">商品について問い合わせる</button>
+        </div>
+      </div>
+    </div>
+    <div class="neco-description-row">
+      <h3 style="font-size:16px; font-weight:500; margin-bottom:20px; border-left:3px solid var(--hinoka-gold); padding-left:10px; letter-spacing:0.05em;">商品仕様・詳細</h3>
+      <div id="neco-long-desc" style="line-height:2; color:var(--text-mid); font-size:14px; margin-bottom:30px; text-align:justify;"></div>
+      <div id="neco-detail-images" class="neco-detail-images-grid"></div>
+    </div>
+  </section>
+
+  <section class="section fade-in" style="background:var(--off-white); text-align:center; border-top:1px solid var(--border); padding-top:60px; padding-bottom:60px;">
+    <div style="max-width:560px; margin:0 auto; padding:0 16px;">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--accent); margin-bottom:16px;">
+        商品に関するお問い合わせ
+      </div>
+      <p style="font-size:14px; color:var(--text-mid); line-height:2; margin-bottom:32px;">
+        在庫・価格・仕入れのご相談など、お気軽にご連絡ください。日本語・中国語・英語で対応いたします。
+      </p>
+      <a href="contact.html" class="btn-outline" style="display:inline-block; padding:12px 32px;">お問い合わせはこちら</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-text">HINOKA<span>株式会社 &middot; HINOKA Co., Ltd.</span></div>
+        <div class="footer-tagline">暮らしに、<br>ときめきを。</div>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#" onclick="selectCategory('pet')">ペット用品</a>
+        <a href="#" onclick="selectCategory('fashion')">ファッション・アクセサリー</a>
+        <a href="#" onclick="selectCategory('goods')">生活雑貨</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">会社概要</a>
+        <a href="about.html">経営理念</a>
+        <a href="contact.html">お問い合わせ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:sun_hua@hinokaglobal.com">sun_hua@hinokaglobal.com</a>
+        <a href="#">〒556-0014 大阪市浪速区</a>
+        <a href="tel:08088552114">080-8855-2114</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 株式会社HINOKA All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // 1. 基礎視効
+    const header = document.getElementById('header');
+    let lastY = 0;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      header.classList.toggle('scrolled', y > 40);
+      if (y > lastY && y > 80) {
+        header.classList.add('nav-hidden');
+      } else {
+        header.classList.remove('nav-hidden');
+      }
+      lastY = y;
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // 2. 商品データベース
+    const MOCK_PRODUCTS = {
+      pet: {
+        badge: "おすすめ・自社検品済",
+        name: "プレミアム 猫用爪とぎベッド (抗菌仕様)",
+        price: 3480,
+        desc: "厳選された高密度ダンボールを使用した、ベッドとしても使える高品質な爪とぎです。自社で1点ずつ丁寧に検品し、目の詰まりや型崩れがないことを確認したものだけをお届けします。愛猫が安心してくつろげる空間を提供します。",
+        mainImage: "images/IMG_5113ペット.PNG",
+        images: ["images/IMG_5113ペット.PNG", "images/Photoroom_アパレル_162100.jpg"]
+      },
+      fashion: {
+        badge: "NEW・高品質直輸入",
+        name: "海陽厳選 ハイゲージ 高品質ニットセーター",
+        price: 5980,
+        desc: "私の故郷である中国海陽市の提携工場から直接買い付けた、肌触り抜群のプレミアムニットです。アパレル製品のプロとして仕立て・縫製を徹底チェック。リーズナブルでありながら、日本の市場でも十分通用する上質なクオリティを保証します。",
+        mainImage: "images/Photoroom_アパレル_162100.jpg",
+        images: ["images/Photoroom_アパレル_162100.jpg", "images/Photoroom_雑貨_162139.jpg"]
+      },
+      goods: {
+        badge: "人気商品",
+        name: "北欧風 多機能インテリア収納バスケット",
+        price: 2180,
+        desc: "「使いやすさ・かわいい・お手頃」を形にした、どんなお部屋にも馴染む収納グッズです。キッチン小物からリビングの雑貨整理までマルチに活躍。毎日の暮らしを少しだけ便利でおしゃれに変えるアイテムです。",
+        mainImage: "images/Photoroom_雑貨_162139.jpg",
+        images: ["images/Photoroom_雑貨_162139.jpg", "images/IMG_5113ペット.PNG"]
+      }
+    };
+
+    // 3. 动态渲染関数
+    function selectCategory(catKey) {
+      const data = MOCK_PRODUCTS[catKey];
+      if (!data) return;
+
+      const detailSection = document.getElementById('detail-section');
+      detailSection.style.display = 'block';
+
+      document.getElementById('neco-badge').innerText = data.badge;
+      document.getElementById('neco-title').innerText = data.name;
+      document.getElementById('neco-price').innerText = `¥${data.price.toLocaleString()}`;
+      document.getElementById('neco-long-desc').innerText = data.desc;
+
+      const mainImg = document.getElementById('neco-main-img');
+      mainImg.src = data.mainImage;
+
+      const thumbList = document.getElementById('neco-thumb-list');
+      thumbList.innerHTML = '';
+      data.images.forEach((imgUrl, index) => {
+        const thumbItem = document.createElement('div');
+        thumbItem.className = `neco-thumb-item ${index === 0 ? 'active' : ''}`;
+        thumbItem.innerHTML = `<img src="${imgUrl}" alt="サムネイル">`;
+        
+        thumbItem.addEventListener('click', () => {
+          mainImg.src = imgUrl;
+          document.querySelectorAll('.neco-thumb-item').forEach(el => el.classList.remove('active'));
+          thumbItem.classList.add('active');
+        });
+        thumbList.appendChild(thumbItem);
+      });
+
+      const imgGrid = document.getElementById('neco-detail-images');
+      imgGrid.innerHTML = '';
+      data.images.forEach(imgUrl => {
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        imgGrid.appendChild(img);
+      });
+
+      // 固定ナビゲーションの80pxを考慮したスムーズスクロール
+      const yOffset = -100; 
+      const y = detailSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

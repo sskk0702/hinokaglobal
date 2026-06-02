@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="nav-overlay" id="nav-overlay"></div>
 
 <!-- ====== GLOBAL HEADER ====== -->
 <header id="site-header">
@@ -182,13 +183,17 @@ window.addEventListener('scroll', function() {
 }, { passive: true });
 const burger = document.getElementById('hamburger');
 const gnav   = document.getElementById('global-nav');
+const overlay = document.getElementById('nav-overlay');
+function closeNav() { gnav.classList.remove('open'); burger.classList.remove('open'); overlay.classList.remove('open'); }
 burger.addEventListener('click', function(e) {
   e.stopPropagation();
   const open = gnav.classList.toggle('open');
   burger.classList.toggle('open', open);
+  overlay.classList.toggle('open', open);
 });
+overlay.addEventListener('click', closeNav);
 document.addEventListener('click', function(e) {
-  if (!hdr.contains(e.target)) { gnav.classList.remove('open'); burger.classList.remove('open'); }
+  if (!hdr.contains(e.target) && !gnav.contains(e.target)) { closeNav(); }
 });
 const io = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });

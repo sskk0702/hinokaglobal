@@ -1165,3 +1165,70 @@ backdrop-filter: blur(18px);
 @media (max-width: 480px) {
   .services-overview-grid { grid-template-columns: 1fr; }
 }
+  /* Mobile nav — staggered float from top-right */
+  .global-nav {
+    position: fixed;
+    top: var(--nav-h);
+    right: 0;
+    left: auto;
+    width: auto;
+    height: auto;
+    max-height: none;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transform: none;
+    transition: none;
+    z-index: 1001;
+    overflow: visible;
+    border-bottom: none;
+    padding: 12px 16px 0;
+    pointer-events: none;
+  }
+  .global-nav.open { transform: none; pointer-events: auto; }
+  .global-nav ul {
+    flex-direction: column;
+    padding: 0;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .global-nav ul li {
+    width: auto;
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+  }
+  .global-nav.open ul li:nth-child(1) { opacity:1; transform:none; transition-delay:0.04s; }
+  .global-nav.open ul li:nth-child(2) { opacity:1; transform:none; transition-delay:0.10s; }
+  .global-nav.open ul li:nth-child(3) { opacity:1; transform:none; transition-delay:0.16s; }
+  .global-nav.open ul li:nth-child(4) { opacity:1; transform:none; transition-delay:0.22s; }
+  .global-nav.open ul li:nth-child(5) { opacity:1; transform:none; transition-delay:0.28s; }
+  .global-nav ul li a {
+    height: auto;
+    display: inline-block;
+    padding: 11px 20px;
+    font-size: 13px;
+    color: var(--white);
+    background: rgba(20,20,18,0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: none;
+    justify-content: flex-end;
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+  }
+  .global-nav ul li a:hover,
+  .global-nav ul li a.active { color: var(--gold); background: rgba(20,20,18,0.92); }
+  .global-nav ul li a::after { display: none; }
+  .nav-shop-item { margin-left: 0; }
+
+  /* Overlay — invisible click catcher only */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 1000;
+    cursor: pointer;
+  }
+  .nav-overlay.open { display: block; }

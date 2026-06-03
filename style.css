@@ -116,10 +116,18 @@ address { font-style: normal; }
   transform-origin: left;
   transition: transform 0.3s ease;
 }
-.global-nav ul li a:hover       { color: var(--gold); }
+.global-nav ul li a:hover {
+  color: var(--gold);
+  animation: nav-flash 0.45s ease forwards;
+}
 .global-nav ul li a:hover::after,
 .global-nav ul li a.active::after { transform: scaleX(1); }
 .global-nav ul li a.active      { color: var(--gold); font-weight: 500; }
+@keyframes nav-flash {
+  0%   { color: var(--gold); letter-spacing: 0.04em; }
+  40%  { color: #f5e6b0; letter-spacing: 0.10em; }
+  100% { color: var(--gold); letter-spacing: 0.04em; }
+}
 
 /* Shop button in nav - same style as other nav items */
 .nav-shop-item { margin-left: 0; }

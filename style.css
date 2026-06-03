@@ -1232,3 +1232,24 @@ backdrop-filter: blur(18px);
     cursor: pointer;
   }
   .nav-overlay.open { display: block; }
+/* ── PC/TABLET: nav reset (prevent mobile styles leaking) ── */
+@media (min-width: 769px) {
+  .global-nav {
+    position: static;
+    width: auto;
+    height: auto;
+    background: none;
+    transform: none;
+    pointer-events: auto;
+    overflow: visible;
+    padding: 0;
+    z-index: auto;
+  }
+  .global-nav ul li {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    width: auto;
+  }
+  .nav-overlay { display: none !important; }
+}

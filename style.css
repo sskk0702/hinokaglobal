@@ -1277,3 +1277,8 @@ backdrop-filter: blur(18px);
   .hamburger { display: none !important; }
   .nav-overlay { display: none !important; }
 }
+@keyframes nav-flash {
+  0%   { color: var(--gold); letter-spacing: 0.04em; }
+  40%  { color: #f5e6b0; letter-spacing: 0.10em; }
+  100% { color: var(--gold); letter-spacing: 0.04em; }
+}

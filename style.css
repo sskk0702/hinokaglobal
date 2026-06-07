@@ -22,7 +22,7 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
   color: var(--text-dark);
   background-color: #f5f2ec;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 0 L56 16 L56 50 L28 66 L0 50 L0 16 Z' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3Cpath d='M28 34 L56 50 M28 34 L0 50 M28 34 L28 66' stroke='%23b8a882' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M28 100 L56 84 L56 50 L28 34 L0 50 L0 84 Z' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M24 3 L45 24 L24 45 L3 24 Z' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.25'/%3E%3C/svg%3E");
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -1101,8 +1101,8 @@ address { font-style: normal; }
 }
 
 /* ── LOGO IMAGE ── */
-.logo-img { height: 64px; width: auto; display: block; object-fit: contain; }
-@media (max-width: 768px) { .logo-img { height: 44px; } }
+.logo-img { height: 48px; width: auto; display: block; object-fit: contain; }
+@media (max-width: 768px) { .logo-img { height: 36px; } }
 
 /* ── LINK CARDS BAND ── */
 .link-cards-band {
@@ -1121,16 +1121,17 @@ address { font-style: normal; }
   transition: background 0.35s, box-shadow 0.3s;
   min-height: 300px;
 }
-.link-card:hover { background: var(--accent); box-shadow: 0 16px 48px rgba(0,0,0,0.15); position: relative; z-index: 1; }
+.link-card:hover { background: linear-gradient(145deg, #2e2a20 0%, #1a1a18 60%, #2a2318 100%); box-shadow: 0 16px 48px rgba(0,0,0,0.18), inset 0 1px 0 rgba(184,168,130,0.15); position: relative; z-index: 1; }
 .link-card-num { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; color: var(--border); line-height: 1; margin-bottom: 24px; transition: color 0.3s; }
-.link-card:hover .link-card-num { color: rgba(255,255,255,0.06); }
-.link-card-en { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.link-card:hover .link-card-num { color: rgba(184,168,130,0.1); }
+.link-card-en { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; transition: color 0.3s; }
+.link-card:hover .link-card-en { color: var(--gold-light); }
 .link-card-ja { font-size: 20px; font-weight: 500; color: var(--accent); margin-bottom: 14px; line-height: 1.4; flex: 1; transition: color 0.3s; }
-.link-card:hover .link-card-ja { color: var(--white); }
+.link-card:hover .link-card-ja { color: #f0ead8; }
 .link-card-desc { font-size: 13px; line-height: 2; color: var(--text-mid); margin-bottom: 32px; transition: color 0.3s; }
-.link-card:hover .link-card-desc { color: rgba(255,255,255,0.6); }
+.link-card:hover .link-card-desc { color: rgba(212,201,170,0.65); }
 .link-card-link { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 8px; transition: gap 0.3s, color 0.3s; }
-.link-card:hover .link-card-link { gap: 14px; color: var(--gold-light); }
+.link-card:hover .link-card-link { gap: 14px; color: var(--gold); }
 
 /* ── MISSION / VISION ── */
 .mv-section { background: var(--accent); padding: 80px 40px; }

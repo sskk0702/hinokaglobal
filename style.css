@@ -1100,8 +1100,8 @@ address { font-style: normal; }
 }
 
 /* ── LOGO IMAGE ── */
-.logo-img { height: 48px; width: auto; display: block; object-fit: contain; }
-@media (max-width: 768px) { .logo-img { height: 36px; } }
+.logo-img { height: 64px; width: auto; display: block; object-fit: contain; }
+@media (max-width: 768px) { .logo-img { height: 44px; } }
 
 /* ── LINK CARDS BAND ── */
 .link-cards-band {

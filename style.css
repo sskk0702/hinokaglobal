@@ -92,12 +92,17 @@ address { font-style: normal; }
   align-items: center;
   gap: 0;
 }
+@keyframes nav-flash {
+  0%   { color: var(--gold); letter-spacing: 0.04em; }
+  40%  { color: #f5e6b0; letter-spacing: 0.10em; }
+  100% { color: var(--gold); letter-spacing: 0.04em; }
+}
 .global-nav ul li a {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: var(--text-dark);
+  color: var(--gold);
   padding: 0 18px;
   height: var(--nav-h);
   display: flex;
@@ -116,7 +121,7 @@ address { font-style: normal; }
   transform-origin: left;
   transition: transform 0.3s ease;
 }
-.global-nav ul li a:hover       { color: var(--gold); }
+.global-nav ul li a:hover { color: var(--gold); animation: nav-flash 0.45s ease forwards; }
 .global-nav ul li a:hover::after,
 .global-nav ul li a.active::after { transform: scaleX(1); }
 .global-nav ul li a.active      { color: var(--gold); font-weight: 500; }
@@ -927,7 +932,7 @@ address { font-style: normal; }
     height: var(--nav-h) !important;
     padding: 0 18px !important;
     background: none !important;
-    color: var(--text-dark) !important;
+    color: var(--gold) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border-bottom: none !important;

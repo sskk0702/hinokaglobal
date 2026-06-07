@@ -22,7 +22,7 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
   color: var(--text-dark);
   background-color: #f5f2ec;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Cellipse cx='40' cy='40' rx='38' ry='20' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3Cellipse cx='40' cy='40' rx='26' ry='13' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3Cellipse cx='40' cy='40' rx='14' ry='7' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3Cellipse cx='0' cy='0' rx='38' ry='20' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3Cellipse cx='80' cy='0' rx='38' ry='20' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 0 L56 16 L56 50 L28 66 L0 50 L0 16 Z' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3Cpath d='M28 34 L56 50 M28 34 L0 50 M28 34 L28 66' stroke='%23b8a882' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M28 100 L56 84 L56 50 L28 34 L0 50 L0 84 Z' fill='none' stroke='%23b8a882' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E");
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;

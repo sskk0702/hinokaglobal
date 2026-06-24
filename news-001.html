@@ -15,6 +15,8 @@
   <meta property="og:url" content="https://www.hinokaglobal.com/news-001.html">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://www.hinokaglobal.com/images/og-image.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <link rel="canonical" href="https://www.hinokaglobal.com/news-001.html">
   <style>
     .article-wrap { max-width: 800px; margin: 0 auto; padding: 64px 40px 96px; }
     .article-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
@@ -45,14 +47,14 @@
 <header id="site-header">
   <div class="header-inner">
     <a href="index.html" class="site-logo">
-      <img src="images/images:logo.svg" alt="HINOKA" class="logo-img">
+      <img src="images/logo.svg" alt="HINOKA" class="logo-img">
     </a>
     <nav class="global-nav" id="global-nav">
       <ul>
         <li><a href="index.html#business">事業内容</a></li>
         <li><a href="about.html">会社概要</a></li>
         <li><a href="services.html">サービス</a></li>
-        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品</a></li>
+        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品（PRODUCTS）</a></li>
         <li><a href="contact.html">お問い合わせ</a></li>
       </ul>
     </nav>
@@ -64,13 +66,14 @@
   </div>
 </header>
 
+<main>
 <!-- ====== PAGE HERO ====== -->
 <div class="page-hero">
   <div class="page-hero-inner">
     <div class="page-hero-bg-en">NEWS</div>
     <div class="page-hero-content">
       <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="index.html#news">お知らせ</a><span>/</span>記事</div>
-      <h1 class="page-title">お知らせ</h1>
+      <h2 class="page-title">お知らせ</h2>
       <p class="page-subtitle">News &amp; Insights</p>
     </div>
   </div>
@@ -79,7 +82,7 @@
 <!-- ====== ARTICLE ====== -->
 <div class="article-wrap">
   <div class="article-meta">
-    <time class="article-date">2026.03.01</time>
+    <time class="article-date">2026.05.01</time>
     <span class="article-tag">業務改善</span>
   </div>
 
@@ -149,6 +152,8 @@
   </div>
 </div>
 
+</main>
+
 <!-- ====== GLOBAL FOOTER ====== -->
 <footer id="site-footer">
   <div class="footer-inner">
@@ -162,7 +167,7 @@
         <h4>事業内容</h4>
         <a href="services.html#procurement">調達・サプライチェーン支援</a>
         <a href="services.html#improvement">業務改善・DX支援</a>
-        <a href="services.html#dx">ビジネス支援・グローバルサービス</a>
+        <a href="services.html#research">ビジネス支援・グローバルサービス</a>
       </div>
       <div class="fnav-col">
         <h4>サービス</h4>
@@ -179,7 +184,7 @@
       </div>
       <div class="fnav-col">
         <h4>その他</h4>
-        <a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品</a>
+        <a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品（PRODUCTS）</a>
         <a href="contact.html">ビジネスのご相談</a>
         <a href="legal.html">サイトご利用にあたって</a>
         <a href="privacy.html">プライバシーポリシー</a>
@@ -195,29 +200,6 @@
   </div>
 </footer>
 
-<script>
-const hdr = document.getElementById('site-header');
-let lastY = 0;
-window.addEventListener('scroll', function() {
-  const y = window.scrollY;
-  hdr.classList.toggle('scrolled', y > 40);
-  hdr.classList.toggle('nav-hidden', y > lastY && y > 120);
-  lastY = y;
-}, { passive: true });
-const burger = document.getElementById('hamburger');
-const gnav   = document.getElementById('global-nav');
-const overlay = document.getElementById('nav-overlay');
-function closeNav() { gnav.classList.remove('open'); burger.classList.remove('open'); overlay.classList.remove('open'); }
-burger.addEventListener('click', function(e) {
-  e.stopPropagation();
-  const open = gnav.classList.toggle('open');
-  burger.classList.toggle('open', open);
-  overlay.classList.toggle('open', open);
-});
-overlay.addEventListener('click', closeNav);
-document.addEventListener('click', function(e) {
-  if (!hdr.contains(e.target) && !gnav.contains(e.target)) { closeNav(); }
-});
-</script>
+<script src="common.js"></script>
 </body>
 </html>

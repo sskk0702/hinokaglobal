@@ -3,1022 +3,221 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HINOKA | マイアカウント</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/global.css">
-  <style>
-    body { padding-top: var(--nav-height); background: #f8f8f6; }
-
-    .account-wrap {
-      max-width: 500px; margin: 56px auto;
-      padding: 0 20px 80px;
-    }
-
-    /* ローディング */
-    .auth-loading {
-      text-align: center; padding: 80px 0;
-      font-size: 13px; color: var(--gray-dark);
-      letter-spacing: 0.1em;
-    }
-    .spinner {
-      width: 32px; height: 32px; margin: 0 auto 20px;
-      border: 2px solid var(--gray-light);
-      border-top-color: var(--black);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* タイトル */
-    .account-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px; font-weight: 400;
-      letter-spacing: 0.15em; text-align: center; margin-bottom: 6px;
-    }
-    .account-sub {
-      text-align: center; font-size: 12px;
-      color: var(--gray-dark); letter-spacing: 0.05em; margin-bottom: 36px;
-    }
-
-    /* タブ */
-    .auth-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--gray-mid); margin-bottom: 28px;
-    }
-    .auth-tab {
-      flex: 1; padding: 12px; text-align: center;
-      font-size: 12px; letter-spacing: 0.1em;
-      cursor: pointer; background: none; border: none;
-      color: var(--gray-dark); font-family: inherit;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .auth-tab.active { color: var(--black); border-bottom-color: var(--black); }
-
-    .auth-panel { display: none; }
-    .auth-panel.active { display: block; }
-
-    /* カード */
-    .auth-card { background: var(--white); padding: 32px; }
-
-    /* フォーム */
-    .form-group { margin-bottom: 18px; }
-    .form-label {
-      display: block; font-size: 11px;
-      letter-spacing: 0.12em; color: var(--gray-dark); margin-bottom: 6px;
-    }
-    .form-input {
-      width: 100%; border: 1px solid var(--gray-mid);
-      padding: 12px 14px; font-size: 13px;
-      font-family: inherit; outline: none;
-      transition: border-color 0.2s; background: var(--white);
-      box-sizing: border-box;
-    }
-    .form-input:focus { border-color: var(--black); }
-
-    /* パスワード入力ラッパー */
-    .pw-wrap { position: relative; }
-    .pw-wrap .form-input { padding-right: 42px; }
-    .pw-toggle {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; padding: 4px;
-      color: var(--gray-dark); line-height: 1;
-    }
-    .pw-toggle:hover { color: var(--black); }
-
-    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-    /* 同意チェックボックス */
-    .consent-box {
-      background: #fafaf8; border: 1px solid #e8e4df;
-      padding: 16px; margin-bottom: 18px; font-size: 11px;
-      color: var(--gray-dark); line-height: 1.9;
-    }
-    .consent-box label {
-      display: flex; align-items: flex-start; gap: 10px; cursor: pointer;
-    }
-    .consent-box input[type="checkbox"] {
-      margin-top: 2px; flex-shrink: 0;
-      accent-color: var(--black);
-      width: 14px; height: 14px;
-    }
-    .consent-box a { color: var(--black); text-decoration: underline; }
-
-    /* ボタン */
-    .auth-btn {
-      width: 100%; padding: 15px;
-      background: var(--black); color: var(--white);
-      font-size: 12px; letter-spacing: 0.2em;
-      border: none; cursor: pointer; font-family: inherit;
-      transition: background var(--transition);
-    }
-    .auth-btn:hover:not(:disabled) { background: #222; }
-    .auth-btn:disabled { background: #aaa; cursor: not-allowed; }
-
-    /* ソーシャルログイン */
-    .social-divider {
-      display: flex; align-items: center; gap: 12px;
-      margin: 20px 0; font-size: 11px; color: var(--gray-dark);
-    }
-    .social-divider::before,
-    .social-divider::after {
-      content: ''; flex: 1; border-top: 1px solid var(--gray-light);
-    }
-
-    .social-btns { display: flex; flex-direction: column; gap: 10px; }
-
-    .social-btn {
-      width: 100%; padding: 13px;
-      font-size: 13px; font-family: inherit;
-      cursor: pointer; display: flex;
-      align-items: center; justify-content: center; gap: 10px;
-      transition: background var(--transition), border-color var(--transition);
-      border: 1px solid var(--gray-mid);
-    }
-
-    /* Google */
-    .google-btn {
-      background: var(--white); color: #444;
-    }
-    .google-btn:hover { background: #f5f5f5; border-color: #aaa; }
-
-    /* LINE */
-    .line-btn {
-      background: #06c755; color: var(--white);
-      border-color: #06c755;
-    }
-    .line-btn:hover { background: #05b34c; border-color: #05b34c; }
-
-    /* パスワード強度 */
-    .pw-strength {
-      display: flex; gap: 4px; margin-top: 6px;
-    }
-    .pw-bar {
-      height: 3px; flex: 1; background: var(--gray-light);
-      transition: background 0.3s;
-    }
-    .pw-bar.weak   { background: #e53e3e; }
-    .pw-bar.medium { background: #f6c90e; }
-    .pw-bar.strong { background: #38a169; }
-    .pw-strength-label {
-      font-size: 10px; color: var(--gray-dark); margin-top: 4px;
-    }
-
-    /* メッセージ */
-    .msg-error {
-      background: #fff0f0; border: 1px solid #ffcccc;
-      color: #cc0000; font-size: 12px;
-      padding: 12px 14px; margin-bottom: 16px; display: none;
-      line-height: 1.7;
-    }
-    .msg-success {
-      background: #f0fff4; border: 1px solid #9ae6b4;
-      color: #276749; font-size: 12px;
-      padding: 12px 14px; margin-bottom: 16px; display: none;
-      line-height: 1.7;
-    }
-    .auth-note {
-      text-align: center; font-size: 11px;
-      color: var(--gray-dark); margin-top: 14px; line-height: 1.9;
-    }
-    .auth-note a { color: var(--black); text-decoration: underline; cursor: pointer; }
-
-    /* ══ ダッシュボード ══ */
-    .dashboard { display: none; }
-
-    .dash-header {
-      background: var(--white); padding: 24px 28px;
-      margin-bottom: 12px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .dash-avatar {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--black); color: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; font-weight: 400; flex-shrink: 0;
-      overflow: hidden;
-    }
-    .dash-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .dash-name-wrap { margin-left: 14px; flex: 1; }
-    .dash-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; letter-spacing: 0.08em;
-    }
-    .dash-email { font-size: 11px; color: var(--gray-dark); margin-top: 2px; }
-
-    .logout-btn {
-      font-size: 11px; letter-spacing: 0.1em;
-      color: var(--gray-dark); cursor: pointer;
-      border: 1px solid var(--gray-mid); padding: 8px 14px;
-      background: none; font-family: inherit;
-      transition: border-color var(--transition), color var(--transition);
-      white-space: nowrap;
-    }
-    .logout-btn:hover { border-color: var(--black); color: var(--black); }
-
-    /* ステータスカード */
-    .dash-cards {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px; margin-bottom: 12px;
-    }
-    .dash-card {
-      background: var(--white); padding: 20px;
-      text-align: center; cursor: pointer;
-      transition: box-shadow var(--transition);
-    }
-    .dash-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
-    .dash-card-icon  { font-size: 26px; margin-bottom: 8px; }
-    .dash-card-label { font-size: 11px; color: var(--gray-dark); letter-spacing: 0.08em; }
-    .dash-card-count {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px; margin-top: 4px;
-    }
-
-    /* 情報セクション */
-    .dash-section {
-      background: var(--white); padding: 24px 28px; margin-bottom: 10px;
-    }
-    .dash-section h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px; letter-spacing: 0.1em; margin-bottom: 16px;
-      padding-bottom: 10px; border-bottom: 1px solid var(--gray-light);
-    }
-    .info-row {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 12px; padding: 10px 0;
-      border-bottom: 1px solid var(--gray-light); letter-spacing: 0.03em;
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-row span:first-child { color: var(--gray-dark); }
-
-    /* パスワード変更 */
-    .change-pw-btn {
-      font-size: 11px; letter-spacing: 0.1em;
-      color: var(--gray-dark); cursor: pointer;
-      text-decoration: underline; background: none;
-      border: none; font-family: inherit; padding: 0;
-      transition: color var(--transition);
-    }
-    .change-pw-btn:hover { color: var(--black); }
-
-    /* メール確認バナー */
-    .verify-banner {
-      background: #fff8e1; border: 1px solid #ffe082;
-      color: #f57c00; padding: 12px 16px;
-      font-size: 12px; line-height: 1.8;
-      margin-bottom: 12px; display: none;
-      align-items: center; gap: 10px;
-    }
-    .verify-banner.show { display: flex; }
-    .verify-banner button {
-      margin-left: auto; white-space: nowrap;
-      font-size: 11px; padding: 6px 12px;
-      border: 1px solid #f57c00; background: none;
-      color: #f57c00; cursor: pointer; font-family: inherit;
-    }
-
-    /* ダッシュボード内トースト通知 */
-    .dash-toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--black); color: var(--white);
-      font-size: 12px; padding: 12px 24px; letter-spacing: 0.05em;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s; z-index: 9999; white-space: nowrap;
-    }
-    .dash-toast.show { opacity: 1; pointer-events: auto; }
-
-    @media (max-width: 480px) {
-      .account-wrap { padding: 0 12px 60px; margin-top: 36px; }
-      .auth-card { padding: 24px 18px; }
-      .dash-header { padding: 18px 16px; }
-      .dash-section { padding: 18px; }
-      .form-row-2 { grid-template-columns: 1fr; }
-    }
-  </style>
+  <title>会社概要 - 株式会社HINOKA</title>
+  <meta name="description" content="株式会社HINOKAの会社概要・経営理念・代表メッセージ。大阪を拠点に、調達支援・業務改善・DXソリューションを通じて企業の成長を支援します。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1a18'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23b8a882' font-family='serif' font-size='20' font-weight='600'>H</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Montserrat:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <meta property="og:title" content="会社概要 - 株式会社HINOKA">
+  <meta property="og:description" content="株式会社HINOKAの会社概要・経営理念・代表メッセージ。大阪を拠点に企業の成長を支援します。">
+  <meta property="og:url" content="https://www.hinokaglobal.com/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.hinokaglobal.com/images/og-image.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <link rel="canonical" href="https://www.hinokaglobal.com/about.html">
 </head>
 <body>
+<div class="nav-overlay" id="nav-overlay"></div>
 
-  <!-- ローディング -->
-  <div class="account-wrap" id="loadingSection">
-    <div class="auth-loading">
-      <div class="spinner"></div>
-      読み込み中...
+<!-- ====== GLOBAL HEADER ====== -->
+<header id="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">
+      <img src="images/logo.svg" alt="HINOKA" class="logo-img">
+    </a>
+    <nav class="global-nav" id="global-nav">
+      <ul>
+        <li><a href="index.html#business">事業内容</a></li>
+        <li><a href="about.html" class="active">会社概要</a></li>
+        <li><a href="services.html">サービス</a></li>
+        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品（PRODUCTS）</a></li>
+        <li><a href="contact.html">お問い合わせ</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ====== PAGE HERO ====== -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-bg-en">ABOUT</div>
+    <div class="page-hero-content">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>会社概要</div>
+      <h1 class="page-title">会社概要</h1>
+      <p class="page-subtitle">Company Information</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 会社概要 ====== -->
+<div class="about-content">
+  <div class="about-grid fade-in">
+    <div>
+      <img src="images/公司大楼.PNG" alt="株式会社HINOKA" width="1536" height="1024" loading="lazy">
+    </div>
+    <div class="about-text">
+      <h2>洞察を、確かな<br>行動へとつなぐ</h2>
+      <p>大阪を拠点とする株式会社HINOKAは、調達支援・業務改善・DXソリューションを軸に、企業の持続的な成長と価値創造を支援するビジネスパートナーです。</p>
+      <p>製造業の現場で培った実務経験と、日中英3言語に対応するグローバルな視点を礎に、単なる提案にとどまらず、現場に寄り添いながら実行可能なソリューションを提供します。</p>
+      <p>「誠実・品質・実行」の精神を重んじ、お客様の課題に正面から向き合い、洞察を確かな行動へと変えてまいります。</p>
     </div>
   </div>
 
-  <!-- 未ログイン：認証フォーム -->
-  <div class="account-wrap" id="authSection" style="display:none;">
-    <h1 class="account-title">マイアカウント</h1>
-    <p class="account-sub">ログインまたは新規登録してください</p>
-
-    <div class="auth-tabs">
-      <button class="auth-tab active" data-tab="login">ログイン</button>
-      <button class="auth-tab" data-tab="register">新規登録</button>
+  <div class="fade-in">
+    <div class="sec-head" style="text-align:left; margin-bottom:40px;">
+      <p class="sec-label-en" style="font-size:36px;">Overview</p>
+      <h2 class="sec-title-ja">会社概要</h2>
+      <div class="sec-rule" style="margin-left:0;"></div>
     </div>
+    <table class="company-table">
+      <tr><th>会社名</th><td>株式会社HINOKA</td></tr>
+      <tr><th>英語表記</th><td>HINOKA Co., Ltd.</td></tr>
+      <tr><th>代表取締役</th><td>孫 華</td></tr>
+      <tr><th>設立</th><td>2026年3月</td></tr>
+      <tr><th>所在地</th><td>〒556-0014<br>大阪市浪速区大国2丁目12番3号</td></tr>
+      <tr><th>電話番号</th><td><a href="tel:0671669902" style="color:var(--text-dark);">06-7166-9902</a></td></tr>
+      <tr><th>メール</th><td><a href="mailto:info@hinokaglobal.com" style="color:var(--text-dark);">info@hinokaglobal.com</a></td></tr>
+      <tr><th>ウェブサイト</th><td><a href="https://www.hinokaglobal.com" style="color:var(--text-dark);">www.hinokaglobal.com</a><br><a href="https://store.hinokaglobal.com" style="color:var(--text-dark);">store.hinokaglobal.com</a></td></tr>
+      <tr><th>事業内容</th><td>調達支援<br>業務改善コンサルティング<br>DXソリューション<br>市場調査<br>通訳・翻訳およびビジネスサポート</td></tr>
+      <tr><th>対応言語</th><td>日本語・中国語・英語</td></tr>
+    </table>
+  </div>
+</div>
 
-    <!-- ログイン -->
-    <div class="auth-panel active" id="panel-login">
-      <div class="auth-card">
-        <div class="msg-error" id="login-error"></div>
-        <div class="msg-success" id="login-success"></div>
-
-        <!-- ソーシャルログイン -->
-        <div class="social-btns">
-          <button class="social-btn google-btn" id="googleLoginBtn">
-            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9L37.5 9C34 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-4z"/>
-              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16.1 18.9 13 24 13c3 0 5.7 1.1 7.8 2.9L37.5 9C34 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-              <path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.7-3.5-11.3-8.2l-6.5 5C9.9 39.7 16.4 44 24 44z"/>
-              <path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.2 4.2-4.2 5.5l6.2 5.2C41.4 35.3 44 30 44 24c0-1.3-.1-2.7-.4-4z"/>
-            </svg>
-            Googleでログイン
-          </button>
-          <button class="social-btn line-btn" id="lineLoginBtn">
-            <svg width="20" height="20" viewBox="0 0 40 40" aria-hidden="true" fill="currentColor">
-              <path d="M20 4C11.163 4 4 10.028 4 17.46c0 6.627 5.88 12.183 13.815 13.27.538.116 1.271.355 1.457.816.166.418.109 1.073.053 1.496l-.235 1.41c-.072.418-.33 1.638 1.434.892 1.763-.746 9.508-5.597 12.972-9.578C35.752 23.258 36 20.432 36 17.46 36 10.028 28.837 4 20 4z"/>
-            </svg>
-            LINEでログイン
-          </button>
-        </div>
-
-        <div class="social-divider">または</div>
-
-        <div class="form-group">
-          <label class="form-label" for="login-email">メールアドレス</label>
-          <input type="email" class="form-input" id="login-email" placeholder="example@email.com" autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="login-pass">パスワード</label>
-          <div class="pw-wrap">
-            <input type="password" class="form-input" id="login-pass" placeholder="パスワードを入力" autocomplete="current-password">
-            <button type="button" class="pw-toggle" data-target="login-pass" aria-label="パスワードを表示">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-        </div>
-        <button class="auth-btn" id="loginBtn">ログイン</button>
-        <p class="auth-note">
-          パスワードをお忘れの方は
-          <a id="forgotPwLink">こちら</a>
-        </p>
+<!-- ====== MISSION / VISION ====== -->
+<section class="mv-section fade-in">
+  <div class="mv-inner">
+    <div class="sec-head" style="text-align:left">
+      <p class="sec-label-en" style="color:var(--white)">Mission &amp; Vision</p>
+      <h2 class="sec-title-ja" style="color:var(--gold-light)">私たちの使命と展望</h2>
+      <div class="sec-rule" style="margin-left:0"></div>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card">
+        <span class="mv-label">Mission</span>
+        <h3>企業の成長を支える<br>価値を創造する</h3>
       </div>
-    </div>
-
-    <!-- 新規登録 -->
-    <div class="auth-panel" id="panel-register">
-      <div class="auth-card">
-        <div class="msg-error"   id="reg-error"></div>
-        <div class="msg-success" id="reg-success"></div>
-
-        <!-- ソーシャル登録 -->
-        <div class="social-btns">
-          <button class="social-btn google-btn" id="googleRegisterBtn">
-            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9L37.5 9C34 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-4z"/>
-              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16.1 18.9 13 24 13c3 0 5.7 1.1 7.8 2.9L37.5 9C34 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-              <path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.7-3.5-11.3-8.2l-6.5 5C9.9 39.7 16.4 44 24 44z"/>
-              <path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.2 4.2-4.2 5.5l6.2 5.2C41.4 35.3 44 30 44 24c0-1.3-.1-2.7-.4-4z"/>
-            </svg>
-            Googleで登録
-          </button>
-          <button class="social-btn line-btn" id="lineRegisterBtn">
-            <svg width="20" height="20" viewBox="0 0 40 40" aria-hidden="true" fill="currentColor">
-              <path d="M20 4C11.163 4 4 10.028 4 17.46c0 6.627 5.88 12.183 13.815 13.27.538.116 1.271.355 1.457.816.166.418.109 1.073.053 1.496l-.235 1.41c-.072.418-.33 1.638 1.434.892 1.763-.746 9.508-5.597 12.972-9.578C35.752 23.258 36 20.432 36 17.46 36 10.028 28.837 4 20 4z"/>
-            </svg>
-            LINEで登録
-          </button>
-        </div>
-
-        <div class="social-divider">または</div>
-
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label" for="reg-last">姓</label>
-            <input type="text" class="form-input" id="reg-last" placeholder="山田" autocomplete="family-name">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="reg-first">名</label>
-            <input type="text" class="form-input" id="reg-first" placeholder="花子" autocomplete="given-name">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="reg-email">メールアドレス</label>
-          <input type="email" class="form-input" id="reg-email" placeholder="example@email.com" autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="reg-pass">パスワード（8文字以上）</label>
-          <div class="pw-wrap">
-            <input type="password" class="form-input" id="reg-pass" placeholder="パスワードを設定" autocomplete="new-password">
-            <button type="button" class="pw-toggle" data-target="reg-pass" aria-label="パスワードを表示">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-          <div class="pw-strength">
-            <div class="pw-bar" id="pwBar1"></div>
-            <div class="pw-bar" id="pwBar2"></div>
-            <div class="pw-bar" id="pwBar3"></div>
-          </div>
-          <p class="pw-strength-label" id="pwLabel"></p>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="reg-pass2">パスワード（確認）</label>
-          <div class="pw-wrap">
-            <input type="password" class="form-input" id="reg-pass2" placeholder="パスワードを再入力" autocomplete="new-password">
-            <button type="button" class="pw-toggle" data-target="reg-pass2" aria-label="パスワードを表示">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 特定電子メール法・個人情報保護法対応 -->
-        <div class="consent-box">
-          <label>
-            <input type="checkbox" id="consentMarketing">
-            <span>HINOKAからのメールマガジン（新商品・セール情報等）の受信に同意します。
-            いつでも配信停止できます。</span>
-          </label>
-        </div>
-        <div class="consent-box" style="margin-top:-12px;">
-          <label>
-            <input type="checkbox" id="consentPrivacy" required>
-            <span><a href="legal.html#privacy" target="_blank">プライバシーノーティス</a>および
-            <a href="legal.html#terms" target="_blank">利用規約</a>に同意します。<span style="color:#cc0000;">*</span></span>
-          </label>
-        </div>
-
-        <button class="auth-btn" id="registerBtn">アカウントを作成</button>
+      <div class="mv-card">
+        <span class="mv-label">Vision</span>
+        <h3>信頼されるビジネスパートナーへ</h3>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ログイン済み：ダッシュボード -->
-  <div class="account-wrap dashboard" id="dashSection">
-
-    <!-- メール未確認バナー -->
-    <div class="verify-banner" id="verifyBanner">
-      ⚠️ メールアドレスが未確認です。確認メールをご確認ください。
-      <button id="resendVerifyBtn">再送信</button>
+<!-- ====== CEO MESSAGE ====== -->
+<section class="ceo-section fade-in" id="ceo">
+  <div class="ceo-inner">
+    <div class="sec-head" style="text-align:left">
+      <p class="sec-label-en" style="font-size:36px;">Message</p>
+      <h2 class="sec-title-ja">代表メッセージ</h2>
+      <div class="sec-rule" style="margin-left:0"></div>
     </div>
-
-    <div class="dash-header">
-      <div style="display:flex;align-items:center;gap:0;">
-        <div class="dash-avatar" id="dashAvatar">H</div>
-        <div class="dash-name-wrap">
-          <div class="dash-name" id="dashName">お名前</div>
-          <div class="dash-email" id="dashEmail"></div>
-        </div>
+    <div class="ceo-letter-wrap">
+      <div class="ceo-letter-date">2026年3月　大阪</div>
+      <div class="ceo-letter-body">
+        <p>企業を取り巻く環境は日々変化しています。</p>
+        <p>調達環境の変化、コスト上昇、人材不足、DXへの対応など、多くの企業が様々な課題に直面しています。</p>
+        <p>私たちは、現場で培った経験をもとに、実務に根ざした支援を提供したいという想いから事業をスタートしました。</p>
+        <p>課題を分析するだけではなく、改善策を実行し、成果につなげる。</p>
+        <p>それが私たちの考える支援のあり方です。</p>
+        <p>調達、業務改善、DX。</p>
+        <p>これらを通じて、お客様の持続的な成長と価値創造に貢献できるパートナーでありたいと考えています。</p>
+        <p>今後ともどうぞよろしくお願い申し上げます。</p>
       </div>
-      <button class="logout-btn" id="logoutBtn">ログアウト</button>
-    </div>
-
-    <div class="dash-cards">
-      <div class="dash-card" onclick="location.href='wishlist.html'">
-        <div class="dash-card-icon">❤️</div>
-        <div class="dash-card-label">ウィッシュリスト</div>
-        <div class="dash-card-count" id="dashWishCount">—</div>
+      <div class="ceo-sig">
+        <span class="ceo-sig-role">REPRESENTATIVE DIRECTOR</span>
+        <span class="ceo-sig-company">株式会社HINOKA</span>
+        <span class="ceo-sig-name">Sun Hua</span>
       </div>
-      <div class="dash-card" onclick="location.href='cart.html'">
-        <div class="dash-card-icon">🛒</div>
-        <div class="dash-card-label">カート</div>
-        <div class="dash-card-count" id="dashCartCount">—</div>
-      </div>
-    </div>
-
-    <div class="dash-section">
-      <h4>アカウント情報</h4>
-      <div class="info-row"><span>お名前</span><span id="infoName">—</span></div>
-      <div class="info-row"><span>メールアドレス</span><span id="infoEmail">—</span></div>
-      <div class="info-row"><span>登録日</span><span id="infoDate">—</span></div>
-      <div class="info-row"><span>ログイン方法</span><span id="infoProvider">—</span></div>
-      <div class="info-row"><span>メール確認</span><span id="infoVerified">—</span></div>
-      <div class="info-row" id="changePwRow">
-        <span>パスワード</span>
-        <button class="change-pw-btn" id="changePwBtn">変更メールを送信</button>
-      </div>
-    </div>
-
-    <div class="dash-section">
-      <h4>メール設定</h4>
-      <div class="info-row">
-        <span>マーケティングメール</span>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-          <input type="checkbox" id="marketingToggle" style="accent-color:var(--black);">
-          <span style="font-size:12px;" id="marketingLabel">受信する</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="dash-section">
-      <h4>リンク</h4>
-      <div class="info-row"><span></span><a href="legal.html#terms"    style="font-size:12px;color:var(--gray-dark);text-decoration:underline;">利用規約</a></div>
-      <div class="info-row"><span></span><a href="legal.html#privacy"  style="font-size:12px;color:var(--gray-dark);text-decoration:underline;">プライバシーノーティス</a></div>
-      <div class="info-row"><span></span><a href="../index.html"        style="font-size:12px;color:var(--gray-dark);text-decoration:underline;">← 会社サイトへ戻る</a></div>
     </div>
   </div>
+</section>
 
-  <!-- トースト通知 -->
-  <div class="dash-toast" id="dashToast"></div>
-
-  <footer class="store-footer">
-    <div class="store-footer-grid">
-      <div>
-        <div class="footer-brand-logo">HINOKA</div>
-        <div class="footer-brand-sub">株式会社 · HINOKA Co., Ltd.</div>
-        <div class="footer-tagline">暮らしに、ときめきを。</div>
+<!-- ====== 経営理念 ====== -->
+<section class="philosophy-section" id="philosophy">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="sec-head fade-in">
+      <p class="sec-label-en">Philosophy</p>
+      <h2 class="sec-title-ja">経営理念</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="philosophy-grid fade-in">
+      <div class="phil-card">
+        <div class="phil-word">誠実</div>
+        <div class="phil-en">Integrity</div>
+        <p class="phil-desc">お客様との信頼を築くことを最優先に、対話・提案・対応のすべてにおいて誠実であり続けます。信頼を築く——それが私たちの出発点です。</p>
       </div>
-      <div class="footer-col">
-        <h4>Shop</h4>
-        <a href="store.html">ホーム</a>
-        <a href="product-list.html?category=pet">ペット用品</a>
-        <a href="product-list.html?category=fashion">ファッション</a>
-        <a href="product-list.html?category=daily">生活雑貨</a>
+      <div class="phil-card">
+        <div class="phil-word">品質</div>
+        <div class="phil-en">Excellence</div>
+        <p class="phil-desc">妥協のない品質基準で、お客様に提供する価値を高め続けます。期待を超える成果こそが、私たちの存在意義です。</p>
       </div>
-      <div class="footer-col">
-        <h4>Account</h4>
-        <a href="account.html">マイアカウント</a>
-        <a href="wishlist.html">ウィッシュリスト</a>
-        <a href="cart.html">カート</a>
-      </div>
-      <div class="footer-col">
-        <h4>Info</h4>
-        <a href="legal.html#terms">利用規約</a>
-        <a href="legal.html#privacy">プライバシーノーティス</a>
-        <a href="legal.html#cookie">Cookieポリシー</a>
-        <a href="../index.html">← 会社サイトへ</a>
+      <div class="phil-card">
+        <div class="phil-word">実行</div>
+        <div class="phil-en">Execution</div>
+        <p class="phil-desc">提案で終わらせず、現場に寄り添い実行までやり抜きます。確かな成果につなげる——それが私たちの責任です。</p>
       </div>
     </div>
-    <div class="store-footer-bottom">
-      <span class="footer-copy">© 2026 株式会社HINOKA All Rights Reserved.</span>
+  </div>
+</section>
+
+</main>
+
+<!-- ====== GLOBAL FOOTER ====== -->
+<footer id="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <a href="index.html" class="footer-logo">HINOKA</a>
+      <p class="footer-logo-sub">株式会社 HINOKA Co., Ltd.</p>
+      <p class="footer-tagline">Bridging Insight and Action.<br>洞察から、行動へ</p>
     </div>
-  </footer>
+    <nav class="footer-nav-grid">
+      <div class="fnav-col">
+        <h4>事業内容</h4>
+        <a href="services.html#procurement">調達・サプライチェーン支援</a>
+        <a href="services.html#improvement">業務改善・DX支援</a>
+        <a href="services.html#research">ビジネス支援・グローバルサービス</a>
+      </div>
+      <div class="fnav-col">
+        <h4>サービス</h4>
+        <a href="services.html#research">市場調査</a>
+        <a href="services.html#translation">通訳・翻訳</a>
+        <a href="services.html">サービス一覧</a>
+      </div>
+      <div class="fnav-col">
+        <h4>会社情報</h4>
+        <a href="about.html">会社概要</a>
+        <a href="about.html#philosophy">経営理念</a>
+        <a href="about.html#ceo">代表メッセージ</a>
+        <a href="contact.html">お問い合わせ</a>
+      </div>
+      <div class="fnav-col">
+        <h4>その他</h4>
+        <a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品（PRODUCTS）</a>
+        <a href="contact.html">ビジネスのご相談</a>
+        <a href="legal.html">サイトご利用にあたって</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+      </div>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">
+      <a href="legal.html">サイトご利用にあたって</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </div>
+    <p class="footer-copy">COPYRIGHT © HINOKA Co., Ltd. ALL RIGHTS RESERVED.</p>
+  </div>
+</footer>
 
-  <script src="js/nav.js"></script>
-
-  <!-- Firebase + account ロジック（ES Modules） -->
-  <script type="module">
-    import { auth, db }           from './js/firebase-config.js';
-    import { sendWelcomeEmail }   from './js/brevo-mail.js';
-    import {
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut,
-      sendEmailVerification,
-      sendPasswordResetEmail,
-      GoogleAuthProvider,
-      signInWithPopup,
-      onAuthStateChanged,
-      updateProfile
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import {
-      doc, setDoc, getDoc, updateDoc, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    // ── ログイン後のリダイレクト先 ────────────────────────
-    // 例: account.html?redirect=checkout.html でログイン後に checkout へ戻る
-    const redirectAfterLogin = new URLSearchParams(location.search).get('redirect');
-
-    // ── Firebaseエラー日本語変換 ──────────────────────────────────
-    const ERROR_MAP = {
-      'auth/email-already-in-use':    'このメールアドレスはすでに登録されています。',
-      'auth/invalid-email':           'メールアドレスの形式が正しくありません。',
-      'auth/weak-password':           'パスワードは8文字以上で設定してください。',
-      'auth/wrong-password':          'パスワードが正しくありません。',
-      'auth/user-not-found':          'このメールアドレスは登録されていません。',
-      'auth/invalid-credential':      'メールアドレスまたはパスワードが正しくありません。',
-      'auth/too-many-requests':       'ログイン試行が多すぎます。しばらく経ってからお試しください。',
-      'auth/network-request-failed':  'ネットワークエラーが発生しました。',
-      'auth/popup-closed-by-user':    'ログインがキャンセルされました。',
-      'auth/popup-blocked':           'ポップアップがブロックされました。ブラウザの設定をご確認ください。',
-      'auth/cancelled-popup-request': 'ログインがキャンセルされました。',
-      'auth/account-exists-with-different-credential':
-        'このメールアドレスは別の方法で登録済みです。他のログイン方法をお試しください。',
-    };
-    function toJpError(code) {
-      return ERROR_MAP[code] || `エラーが発生しました。(${code})`;
-    }
-
-    // ── UIヘルパー ────────────────────────────────────────────
-    function showError(id, msg)   { const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; }
-    function hideError(id)        { const el = document.getElementById(id); if (el) el.style.display = 'none'; }
-    function showSuccess(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; }
-
-    function setLoading(btnId, loading) {
-      const btn = document.getElementById(btnId);
-      btn.disabled = loading;
-      const labels = {
-        loginBtn:    ['処理中...', 'ログイン'],
-        registerBtn: ['処理中...', 'アカウントを作成'],
-      };
-      btn.textContent = loading ? labels[btnId][0] : labels[btnId][1];
-    }
-
-    // トースト通知（ダッシュボード用）
-    function showToast(msg, duration = 3000) {
-      const el = document.getElementById('dashToast');
-      el.textContent = msg;
-      el.classList.add('show');
-      setTimeout(() => el.classList.remove('show'), duration);
-    }
-
-    // ── パスワード表示/非表示トグル ──────────────────────
-    document.querySelectorAll('.pw-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const input = document.getElementById(btn.dataset.target);
-        input.type = input.type === 'password' ? 'text' : 'password';
-      });
-    });
-
-    // ── タブ切替 ──────────────────────────────────────────────
-    document.querySelectorAll('.auth-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(`panel-${tab.dataset.tab}`).classList.add('active');
-      });
-    });
-
-    // ── パスワード強度チェック ────────────────────────────────
-    document.getElementById('reg-pass').addEventListener('input', function() {
-      const v = this.value;
-      const bars  = [1,2,3].map(i => document.getElementById(`pwBar${i}`));
-      const label = document.getElementById('pwLabel');
-      bars.forEach(b => b.className = 'pw-bar');
-      if (!v) { label.textContent = ''; return; }
-      const strong = v.length >= 10 && /[A-Z]/.test(v) && /[0-9]/.test(v) && /[^A-Za-z0-9]/.test(v);
-      const medium = v.length >= 8;
-      if (strong) {
-        bars.forEach(b => b.classList.add('strong'));
-        label.textContent = '強い';
-      } else if (medium) {
-        bars[0].classList.add('medium'); bars[1].classList.add('medium');
-        label.textContent = '普通';
-      } else {
-        bars[0].classList.add('weak');
-        label.textContent = '弱い';
-      }
-    });
-
-    // ── Firestoreユーザードキュメント作成 ────────────────────
-    async function createUserDoc(user, extra = {}) {
-      const ref  = doc(db, 'users', user.uid);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) {
-        await setDoc(ref, {
-          uid:              user.uid,
-          email:            user.email,
-          displayName:      user.displayName || '',
-          lastName:         extra.lastName   || '',
-          firstName:        extra.firstName  || '',
-          createdAt:        serverTimestamp(),
-          emailVerified:    user.emailVerified,
-          marketingConsent: extra.marketingConsent ?? false,
-          provider:         extra.provider || 'email'
-        });
-      }
-      return snap;
-    }
-
-    // ── ログイン後リダイレクト ────────────────────────────────
-    function doPostLoginRedirect() {
-      if (redirectAfterLogin) {
-        location.href = redirectAfterLogin;
-      }
-      // リダイレクトなしの場合はダッシュボードをそのまま表示
-    }
-
-    // ── Google認証 ────────────────────────────────────────────
-    async function handleGoogleAuth(errorDivId) {
-      const provider = new GoogleAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user   = result.user;
-        const isNew  = result._tokenResponse?.isNewUser;
-        await createUserDoc(user, { provider: 'google', marketingConsent: false });
-        if (isNew) {
-          await sendWelcomeEmail({
-            email:     user.email,
-            firstName: user.displayName?.split(' ')[0] || '',
-            lastName:  user.displayName?.split(' ')[1] || ''
-          });
-        }
-        doPostLoginRedirect();
-      } catch (err) {
-        if (err.code !== 'auth/popup-closed-by-user' &&
-            err.code !== 'auth/cancelled-popup-request') {
-          showError(errorDivId, toJpError(err.code));
-        }
-      }
-    }
-
-    // ── LINE認証 ──────────────────────────────────────────────
-    // LINE Login には Firebase Cloud Function（サーバーサイド）が必要です。
-    // 下記の手順で有効化できます:
-    //
-    // 1. LINE Developersコンソール → チャネル作成 → LINE Loginを選択
-    //    https://developers.line.biz/ja/
-    //
-    // 2. Firebase Cloud Functions に以下のような関数をデプロイ:
-    //    exports.lineCallback = functions.https.onRequest(async (req, res) => {
-    //      const { code } = req.query;
-    //      const tokenRes = await fetch('https://api.line.me/oauth2/v2.1/token', {
-    //        method: 'POST',
-    //        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //        body: new URLSearchParams({
-    //          grant_type: 'authorization_code',
-    //          code,
-    //          redirect_uri: REDIRECT_URI,
-    //          client_id: LINE_CHANNEL_ID,
-    //          client_secret: LINE_CHANNEL_SECRET
-    //        })
-    //      });
-    //      const { id_token } = await tokenRes.json();
-    //      // id_tokenを検証してFirebaseカスタムトークンを発行
-    //      const customToken = await admin.auth().createCustomToken(lineUserId);
-    //      res.json({ customToken });
-    //    });
-    //
-    // 3. フロントエンドのhandleLINEAuth内の LINE_CLOUD_FUNCTION_URL を
-    //    デプロイしたCloud FunctionのURLに置き換えてください。
-    //
-    // Cloud Function未設定の間は「準備中」として案内します。
-    const LINE_CHANNEL_ID       = '';           // ← LINE ChannelID を入力
-    const LINE_CLOUD_FUNCTION_URL = '';         // ← Cloud Function URL を入力
-
-    async function handleLINEAuth(errorDivId) {
-      if (!LINE_CHANNEL_ID || !LINE_CLOUD_FUNCTION_URL) {
-        showError(errorDivId, 'LINEログインは現在準備中です。他の方法でログインしてください。');
-        return;
-      }
-
-      // LINE OAuth 2.0 PKCE フロー
-      const state    = crypto.randomUUID();
-      const nonce    = crypto.randomUUID();
-      const redirect = encodeURIComponent(`${location.origin}${location.pathname}`);
-      sessionStorage.setItem('line_oauth_state', state);
-      sessionStorage.setItem('line_oauth_nonce', nonce);
-
-      const lineAuthUrl =
-        `https://access.line.me/oauth2/v2.1/authorize` +
-        `?response_type=code` +
-        `&client_id=${LINE_CHANNEL_ID}` +
-        `&redirect_uri=${redirect}` +
-        `&state=${state}` +
-        `&scope=profile%20openid%20email` +
-        `&nonce=${nonce}`;
-
-      location.href = lineAuthUrl;
-    }
-
-    // LINE コールバック処理（ページロード時にURLパラメータを確認）
-    async function handleLINECallback() {
-      const params = new URLSearchParams(location.search);
-      const code   = params.get('code');
-      const state  = params.get('state');
-      if (!code || !state) return;
-
-      const savedState = sessionStorage.getItem('line_oauth_state');
-      sessionStorage.removeItem('line_oauth_state');
-      sessionStorage.removeItem('line_oauth_nonce');
-      if (state !== savedState) return;
-
-      // URLからcodeを除去
-      history.replaceState({}, '', location.pathname);
-
-      try {
-        const res = await fetch(
-          `${LINE_CLOUD_FUNCTION_URL}?code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(location.origin + location.pathname)}`
-        );
-        const { customToken, error } = await res.json();
-        if (error) throw new Error(error);
-
-        const { signInWithCustomToken } = await import(
-          "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"
-        );
-        const result = await signInWithCustomToken(auth, customToken);
-        await createUserDoc(result.user, { provider: 'line', marketingConsent: false });
-        doPostLoginRedirect();
-      } catch (err) {
-        document.getElementById('loadingSection').style.display = 'none';
-        document.getElementById('authSection').style.display    = 'block';
-        showError('login-error', 'LINEログインに失敗しました。もう一度お試しください。');
-      }
-    }
-
-    // イベントバインド：ソーシャルボタン
-    document.getElementById('googleLoginBtn').addEventListener('click',    () => handleGoogleAuth('login-error'));
-    document.getElementById('googleRegisterBtn').addEventListener('click', () => handleGoogleAuth('reg-error'));
-    document.getElementById('lineLoginBtn').addEventListener('click',      () => handleLINEAuth('login-error'));
-    document.getElementById('lineRegisterBtn').addEventListener('click',   () => handleLINEAuth('reg-error'));
-
-    // ── メール・パスワードログイン ─────────────────────────────
-    document.getElementById('loginBtn').addEventListener('click', async () => {
-      hideError('login-error');
-      hideError('login-success');
-      const email = document.getElementById('login-email').value.trim();
-      const pass  = document.getElementById('login-pass').value;
-      if (!email || !pass) { showError('login-error', 'メールアドレスとパスワードを入力してください。'); return; }
-
-      setLoading('loginBtn', true);
-      try {
-        await signInWithEmailAndPassword(auth, email, pass);
-        doPostLoginRedirect();
-      } catch (err) {
-        showError('login-error', toJpError(err.code));
-      } finally {
-        setLoading('loginBtn', false);
-      }
-    });
-
-    // Enterキーでログイン
-    ['login-email', 'login-pass'].forEach(id => {
-      document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') document.getElementById('loginBtn').click();
-      });
-    });
-
-    // ── 新規登録 ──────────────────────────────────────────────
-    document.getElementById('registerBtn').addEventListener('click', async () => {
-      hideError('reg-error');
-      hideError('reg-success');
-      const last     = document.getElementById('reg-last').value.trim();
-      const first    = document.getElementById('reg-first').value.trim();
-      const email    = document.getElementById('reg-email').value.trim();
-      const pass     = document.getElementById('reg-pass').value;
-      const pass2    = document.getElementById('reg-pass2').value;
-      const consPriv = document.getElementById('consentPrivacy').checked;
-      const consMkt  = document.getElementById('consentMarketing').checked;
-
-      if (!last || !first)   { showError('reg-error', '氏名を入力してください。'); return; }
-      if (!email)            { showError('reg-error', 'メールアドレスを入力してください。'); return; }
-      if (pass.length < 8)   { showError('reg-error', 'パスワードは8文字以上で設定してください。'); return; }
-      if (pass !== pass2)    { showError('reg-error', 'パスワードが一致しません。'); return; }
-      if (!consPriv)         { showError('reg-error', 'プライバシーノーティスと利用規約への同意が必要です。'); return; }
-
-      setLoading('registerBtn', true);
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        const user = cred.user;
-
-        await updateProfile(user, { displayName: `${last} ${first}` });
-        await createUserDoc(user, { lastName: last, firstName: first, marketingConsent: consMkt, provider: 'email' });
-        await sendEmailVerification(user);
-
-        if (consMkt) {
-          await sendWelcomeEmail({ email, firstName: first, lastName: last });
-        }
-
-        showSuccess('reg-success', `✅ 登録が完了しました！確認メールを ${email} にお送りしました。`);
-        doPostLoginRedirect();
-
-      } catch (err) {
-        showError('reg-error', toJpError(err.code));
-      } finally {
-        setLoading('registerBtn', false);
-      }
-    });
-
-    // ── パスワードリセット ────────────────────────────────────
-    document.getElementById('forgotPwLink').addEventListener('click', async () => {
-      hideError('login-error');
-      hideError('login-success');
-      const email = document.getElementById('login-email').value.trim();
-      if (!email) { showError('login-error', 'パスワードリセット用のメールアドレスを入力してください。'); return; }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        // ★ 修正: success div を使用（error div の inline style 上書きを廃止）
-        showSuccess('login-success', `✅ ${email} にパスワードリセットメールを送信しました。`);
-      } catch (err) {
-        showError('login-error', toJpError(err.code));
-      }
-    });
-
-    // ── ダッシュボード更新 ────────────────────────────────────
-    async function showDashboard(user) {
-      document.getElementById('loadingSection').style.display = 'none';
-      document.getElementById('authSection').style.display    = 'none';
-      document.getElementById('dashSection').style.display    = 'block';
-
-      // アバター（Googleはプロフィール画像を表示）
-      const avatarEl = document.getElementById('dashAvatar');
-      if (user.photoURL) {
-        avatarEl.innerHTML = `<img src="${user.photoURL}" alt="">`;
-      } else {
-        avatarEl.textContent = (user.displayName || user.email || 'H')[0].toUpperCase();
-      }
-
-      document.getElementById('dashName').textContent   = user.displayName || 'ゲスト';
-      document.getElementById('dashEmail').textContent  = user.email || '';
-      document.getElementById('infoName').textContent   = user.displayName || '—';
-      document.getElementById('infoEmail').textContent  = user.email || '—';
-      document.getElementById('infoVerified').textContent = user.emailVerified ? '✅ 確認済み' : '⚠️ 未確認';
-
-      // ログイン方法の表示
-      const providerLabel = {
-        'google.com': 'Google',
-        'line':       'LINE',
-        'password':   'メール / パスワード'
-      };
-      const providerIds = user.providerData.map(p => p.providerId);
-      document.getElementById('infoProvider').textContent =
-        providerIds.map(id => providerLabel[id] || id).join(', ') || '—';
-
-      // パスワード変更ボタンはメール認証のみ表示
-      const isEmailUser = providerIds.includes('password');
-      document.getElementById('changePwRow').style.display = isEmailUser ? '' : 'none';
-
-      if (!user.emailVerified && isEmailUser) {
-        document.getElementById('verifyBanner').classList.add('show');
-      }
-
-      // Firestore からユーザーデータ取得
-      try {
-        const snap = await getDoc(doc(db, 'users', user.uid));
-        if (snap.exists()) {
-          const data = snap.data();
-          const date = data.createdAt?.toDate?.()?.toLocaleDateString('ja-JP') || '—';
-          document.getElementById('infoDate').textContent = date;
-
-          const mktToggle = document.getElementById('marketingToggle');
-          mktToggle.checked = data.marketingConsent ?? false;
-          document.getElementById('marketingLabel').textContent = mktToggle.checked ? '受信する' : '受信しない';
-        }
-      } catch(e) { console.warn('Firestore読み込みエラー:', e); }
-
-      // カウント（ローカルストレージから）
-      const wishCount = (JSON.parse(localStorage.getItem('hinoka_wishlist') || '[]')).length;
-      const cartCount = (JSON.parse(localStorage.getItem('cartItems') || '[]')).reduce((s,i) => s + (i.qty || 0), 0);
-      document.getElementById('dashWishCount').textContent = wishCount;
-      document.getElementById('dashCartCount').textContent = cartCount;
-    }
-
-    // ── マーケティングメール設定変更 ─────────────────────────
-    document.getElementById('marketingToggle').addEventListener('change', async function() {
-      const user = auth.currentUser;
-      if (!user) return;
-      document.getElementById('marketingLabel').textContent = this.checked ? '受信する' : '受信しない';
-      try {
-        await updateDoc(doc(db, 'users', user.uid), { marketingConsent: this.checked });
-        if (this.checked) {
-          const snap = await getDoc(doc(db, 'users', user.uid));
-          const data = snap.data();
-          await sendWelcomeEmail({
-            email:     user.email,
-            firstName: data.firstName || '',
-            lastName:  data.lastName  || ''
-          });
-        }
-        showToast('設定を保存しました');
-      } catch(e) { showToast('設定の保存に失敗しました'); }
-    });
-
-    // ── パスワード変更 ────────────────────────────────────────
-    document.getElementById('changePwBtn').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user?.email) return;
-      try {
-        await sendPasswordResetEmail(auth, user.email);
-        showToast(`${user.email} にパスワード変更メールを送信しました`);
-      } catch(e) { showToast('送信に失敗しました。しばらく経ってからお試しください。'); }
-    });
-
-    // ── 確認メール再送信 ──────────────────────────────────────
-    document.getElementById('resendVerifyBtn').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      try {
-        await sendEmailVerification(user);
-        showToast('確認メールを再送信しました');
-      } catch(e) { showToast('再送信に失敗しました。しばらく経ってからお試しください。'); }
-    });
-
-    // ── ログアウト ────────────────────────────────────────────
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await signOut(auth);
-      window.dispatchEvent(new Event('hinoka_auth_logout'));
-    });
-
-    // ── 認証状態監視（メイン） ────────────────────────────────
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.dispatchEvent(new Event('hinoka_auth_login'));
-        showDashboard(user);
-      } else {
-        document.getElementById('loadingSection').style.display = 'none';
-        document.getElementById('authSection').style.display    = 'block';
-        document.getElementById('dashSection').style.display    = 'none';
-      }
-    });
-
-<script>
-    // LINE コールバックの処理（ページロード時）
-    handleLINECallback();
-// ★ 在这里加入 LINE 登录跳转代码
-document.getElementById("loginBtn").onclick = function () {
-  window.location.href = 
-"https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2010269245&redirect_uri=https%3A%2F%2Fus-central1-hinoka-0304.cloudfunctions.net%2FlineLoginCallback&state=hinoka123&scope=openid%20profile";
-};
-  </script>
+<script src="common.js"></script>
 </body>
 </html>

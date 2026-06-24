@@ -15,6 +15,8 @@
   <meta property="og:url" content="https://www.hinokaglobal.com/privacy.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.hinokaglobal.com/images/og-image.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <link rel="canonical" href="https://www.hinokaglobal.com/privacy.html">
 </head>
 <body>
 <div class="nav-overlay" id="nav-overlay"></div>
@@ -23,14 +25,14 @@
 <header id="site-header">
   <div class="header-inner">
     <a href="index.html" class="site-logo">
-      <img src="images/images:logo.svg" alt="HINOKA" class="logo-img">
+      <img src="images/logo.svg" alt="HINOKA" class="logo-img">
     </a>
     <nav class="global-nav" id="global-nav">
       <ul>
         <li><a href="index.html#business">事業内容</a></li>
         <li><a href="about.html">会社概要</a></li>
         <li><a href="services.html">サービス</a></li>
-        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品</a></li>
+        <li class="nav-shop-item"><a href="https://store.hinokaglobal.com" target="_blank" rel="noopener">取扱商品（PRODUCTS）</a></li>
         <li><a href="contact.html">お問い合わせ</a></li>
       </ul>
     </nav>
@@ -42,6 +44,7 @@
   </div>
 </header>
 
+<main>
 <!-- ====== PAGE HERO ====== -->
 <div class="page-hero">
   <div class="page-hero-inner">
@@ -115,6 +118,8 @@
   </div>
 </div>
 
+</main>
+
 <!-- ====== GLOBAL FOOTER ====== -->
 <footer id="site-footer">
   <div class="footer-inner">
@@ -128,7 +133,7 @@
         <h4>事業内容</h4>
         <a href="services.html#procurement">調達・サプライチェーン支援</a>
         <a href="services.html#improvement">業務改善・DX支援</a>
-        <a href="services.html#dx">ビジネス支援・グローバルサービス</a>
+        <a href="services.html#research">ビジネス支援・グローバルサービス</a>
       </div>
       <div class="fnav-col">
         <h4>サービス</h4>
@@ -161,29 +166,6 @@
   </div>
 </footer>
 
-<script>
-const hdr = document.getElementById('site-header');
-let lastY = 0;
-window.addEventListener('scroll', function() {
-  const y = window.scrollY;
-  hdr.classList.toggle('scrolled', y > 40);
-  hdr.classList.toggle('nav-hidden', y > lastY && y > 120);
-  lastY = y;
-}, { passive: true });
-const burger = document.getElementById('hamburger');
-const gnav   = document.getElementById('global-nav');
-const overlay = document.getElementById('nav-overlay');
-function closeNav() { gnav.classList.remove('open'); burger.classList.remove('open'); overlay.classList.remove('open'); }
-burger.addEventListener('click', function(e) {
-  e.stopPropagation();
-  const open = gnav.classList.toggle('open');
-  burger.classList.toggle('open', open);
-  overlay.classList.toggle('open', open);
-});
-overlay.addEventListener('click', closeNav);
-document.addEventListener('click', function(e) {
-  if (!hdr.contains(e.target) && !gnav.contains(e.target)) { closeNav(); }
-});
-</script>
+<script src="common.js"></script>
 </body>
 </html>

@@ -742,9 +742,9 @@ address { font-style: normal; }
 .form-checkboxes { display: flex; flex-wrap: wrap; gap: 12px; }
 .form-check { font-size: 13px; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; gap: 6px; }
 .submit-btn {
-  font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 500;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 500;
   color: var(--white); background: var(--accent); border: none;
-  padding: 14px 48px; cursor: pointer; letter-spacing: 0.08em;
+  padding: 18px 0; width: 100%; cursor: pointer; letter-spacing: 0.12em;
   transition: background 0.2s, transform 0.15s;
 }
 .submit-btn:hover { background: #2e2a20; transform: translateY(-1px); }
